@@ -1,0 +1,49 @@
+Sensors: You just have many different sensors on the player (dagger distance sensor, spear distance sensors, Up, Down, Left, and Right sensors. It's just that they are not all activated at once. The 'dagger distance sensor left' is only activated when the player is facing to the left with a dagger for example.)
+
+GameState.js
+
+--> 2 different kinds of weapons. (Different colors on same weapon). Different base damages for each weapon
+
+--> Change all the health/mana/experience/stamina bars into parent 'Bars' class.
+
+--> Will need minimum two bears and two ents to mess with enemy respawn and stuff.
+
+--> Diagonal movement
+
+
+Bank: Need chest in game to click on and bank stuff.
+
+Load/Save: Need all that stuff in place to save/load the gamestate and make sure that works (Invy/Bank/Monsters/Location/etc.).
+You can only save at the inn?
+
+Sprites: May need tons (Left/Right = Mirror, Down = separate, Up = separate). How to contend with wearing armor and weapon sprites?
+
+
+
+Have an overall 'MainScene' and then sub scenes that take from that, but use different maps? (Basically many MainScene's basically)
+
+Layers: Scenary you can walk on, Scenary you can't walk on, Scenary you can interact with (Chests, Bank, Cave Entrances, Edges of Map, Teleporter, etc.), Enemies, Player.
+
+For example, you could use Tiled to define spawn points or areas for enemies, and then in your Phaser code, create, manage, and respawn enemies at these locations as necessary.
+
+Animations
+
+Armor and Gear:
+As you mentioned, changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. One method is to have separate sprite sheets for each armor set, with all the necessary animations (walk, run, attack, etc). This is quite labor-intensive but gives the most visually impressive results.
+
+Weapons:
+For weapons, you can have separate animations for each weapon type, such as swinging a sword versus swinging an axe. Another way to simplify this is by using "paper dolling" techniques. In this method, you separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation.
+
+Facing Directions:
+In many games, left and right directions are mirrored versions of the same animation, while up (backwards) and down (forwards) animations are unique. If you want to add more depth, you can add diagonal animations as well, but it will require additional artwork.
+
+In this method, each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
+
+To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
+
+
+Monsters:
+
+If you're finding that managing dynamic enemy behavior is becoming difficult when starting from a Tiled object layer, it might be worth considering a more code-driven approach for these aspects of your game. For example, you could use Tiled to define spawn points or areas for enemies, and then in your Phaser code, create, manage, and respawn enemies at these locations as necessary.
+
+In terms of managing enemy attributes like health, attack strength, loot tables, etc., these could be defined in code (possibly externalized in a JSON or similar data file for easier editing), or potentially as custom properties on the Tiled objects if you find that more convenient.

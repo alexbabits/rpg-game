@@ -1,0 +1,99 @@
+{
+    "frames": [
+        {
+            "filename": "ogre-attack-00",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "ogre-attack-01",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 0,
+                "y": 42
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "ogre-attack-02",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 58,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "ogre-attack-03",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 58,
+                "y": 42
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "ogre-attack-04",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 0,
+                "y": 84
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "ogre-attack-05",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 58,
+                "y": 84
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "ogre-attack-06",
+            "frame": {
+                "w": 58,
+                "h": 42,
+                "x": 116,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

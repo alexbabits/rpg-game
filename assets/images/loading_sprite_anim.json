@@ -1,0 +1,40 @@
+{
+    "anims": [
+        {
+            "key": "loading",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-00"
+                },
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-01"
+                },
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-02"
+                },
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-03"
+                },
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-04"
+                },
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-05"
+                },
+                {
+                    "key": "loading_sprite",
+                    "frame": "ogre-attack-06"
+                }
+            ]
+        }
+    ]
+}
