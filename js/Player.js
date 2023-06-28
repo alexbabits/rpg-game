@@ -1,5 +1,5 @@
 import UserInput from './UserInput.js';
-import { PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState } from './PlayerState.js';
+import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState} from './PlayerState.js';
 
 export default class Player {
   constructor(scene, x, y) {

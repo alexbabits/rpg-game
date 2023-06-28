@@ -15,7 +15,10 @@ export class PlayerState {
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
     
-      if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
+      if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
+        console.log("Switching to special attack state");
+        this.player.goto(this.player.specialAttackingState);
+      } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to attack state");
         this.player.goto(this.player.attackingState);
       } else if (isPlayerMoving && this.player.userInput.cursors.shift.isDown) {
@@ -29,6 +32,7 @@ export class PlayerState {
   export class PlayerWalkState extends PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_walk', true);
+      console.log("Entered walking state");
     }
   
     update() {
@@ -47,6 +51,7 @@ export class PlayerState {
   export class PlayerRunState extends PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_run', true);
+      console.log("Entered running state");
     }
   
     update() {
@@ -65,22 +70,14 @@ export class PlayerState {
   export class PlayerAttackState extends PlayerState {
     enter() {
       this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
-      if (this.player.userInput.cursors.ctrl.isDown) {
-        console.log("Entered special attack state");
-        this.player.sprite.anims.play('hero_crit', true);
-      } else {
-        console.log("Entered attack state");
-        this.player.sprite.anims.play('hero_attack', true);
-      }
+      console.log("Entered attack state");
+      this.player.sprite.anims.play('hero_attack', true);
     }
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-  
-      if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
-        // Stay in this state
-      } else {
-        // Transition back to idle state if the attack key is not pressed
+      
+      if(!this.player.userInput.cursors.space.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
         this.player.goto(this.player.idleState);
       }
     }
@@ -89,28 +86,29 @@ export class PlayerState {
       this.player.goto(this.player.idleState);
     }
   }
-  
+
+
   export class PlayerSpecialAttackState extends PlayerState {
     enter() {
+      this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
+      console.log("Entered special attack state");
       this.player.sprite.anims.play('hero_crit', true);
     }
-    
+  
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-  
-      if(this.player.sprite.anims.getCurrentKey() === 'hero_crit' && this.player.sprite.anims.currentFrame.index === 7) {
-        this.player.goto(this.player.idleState);
-      } else if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
-        // Stay in this state
-      } else {
-        // Transition back to idle state if the attack key is not pressed
+      
+      if(!this.player.userInput.cursors.space.isDown || !this.player.userInput.cursors.ctrl.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
         this.player.goto(this.player.idleState);
       }
     }
+  
+    handleAnimationComplete() {
+      this.player.goto(this.player.idleState);
+    }
   }
 
+
   //PlayerDeathState
-  //PlayerAttackingState
-  //PlayerSpecialAttackState
   //PlayerLootingState
   //PlayerGettingHitState
