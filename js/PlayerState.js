@@ -11,13 +11,16 @@ export class PlayerState {
   
     update() {
       const {x, y} = this.player.getMovement();
-  
-      if (x !== 0 || y !== 0) {
-        if (this.player.userInput.cursors.shift.isDown) {
-          this.player.goto(this.player.runningState);
-        } else {
-          this.player.goto(this.player.walkingState);
-        }
+      const playerVelocity = this.player.sprite.body.velocity;
+      const isPlayerMoving = x !== 0 || y !== 0;
+    
+      if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
+        console.log("Switching to attack state");
+        this.player.goto(this.player.attackingState);
+      } else if (isPlayerMoving && this.player.userInput.cursors.shift.isDown) {
+        this.player.goto(this.player.runningState);
+      } else if (isPlayerMoving) {
+        this.player.goto(this.player.walkingState);
       }
     }
   }
