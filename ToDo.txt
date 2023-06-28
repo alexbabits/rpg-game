@@ -1,4 +1,5 @@
 Sensors: You just have many different sensors on the player (dagger distance sensor, spear distance sensors, Up, Down, Left, and Right sensors. It's just that they are not all activated at once. The 'dagger distance sensor left' is only activated when the player is facing to the left with a dagger for example.)
+(For now we just always have sword = true or whatever, so it always has it working.)
 
 GameState.js
 

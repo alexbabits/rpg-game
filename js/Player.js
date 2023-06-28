@@ -1,4 +1,5 @@
 import UserInput from './UserInput.js';
+import { PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState } from './PlayerState.js';
 
 export default class Player {
   constructor(scene, x, y) {
@@ -20,8 +21,13 @@ export default class Player {
     this.sprite.setFixedRotation();
 
     this.sprite.anims.play('hero_idle');
-
     this.userInput = new UserInput(this.scene);
+    this.idleState = new PlayerIdleState(this);
+    this.walkingState = new PlayerWalkState(this);
+    this.runningState = new PlayerRunState(this);
+    this.attackingState = new PlayerAttackState(this);
+    this.specialAttackingState = new PlayerSpecialAttackState(this);
+    this.currentState = this.idleState;
   }
 
   static preload(scene) {
@@ -29,42 +35,52 @@ export default class Player {
     scene.load.animation('hero_anims', 'assets/images/hero_anims.json');
   }
 
-update() {
-    const cursors = this.userInput.cursors;
-    let velocity = new Phaser.Math.Vector2();
-
-    if (cursors.left.isDown) {
-      velocity.x -= 1;
+  getMovement() {
+    let x = 0;
+    let y = 0;
+  
+    if (this.userInput.cursors.left.isDown) {
+      x = -1;
+    } else if (this.userInput.cursors.right.isDown) {
+      x = 1;
     }
-
-    if (cursors.right.isDown) {
-      velocity.x += 1;
+  
+    if (this.userInput.cursors.up.isDown) {
+      y = -1;
+    } else if (this.userInput.cursors.down.isDown) {
+      y = 1;
     }
+  
+    return {x, y};
+  }
+  
+setMovement(isRunning = false) {
+  const speed = isRunning ? this.runSpeed : this.walkSpeed;
+  let {x, y} = this.getMovement();
+  
+  if(x !== 0 || y !== 0) {
+    let direction = new Phaser.Math.Vector2(x, y);
+    direction.normalize();
+    x = direction.x;
+    y = direction.y;
+  }
+  
+  this.sprite.setVelocity(x * speed, y * speed);
 
-    if (cursors.up.isDown) {
-      velocity.y -= 1;
-    }
+  if (x < 0) {
+    this.sprite.setFlipX(true);
+  } else if (x > 0) {
+    this.sprite.setFlipX(false);
+  }
+}
 
-    if (cursors.down.isDown) {
-      velocity.y += 1;
-    }
+  goto(state) {
+    this.currentState = state;
+    this.currentState.enter();
+  }
 
-    if (velocity.length() > 0.1) {
-      velocity.normalize().scale(cursors.shift.isDown ? this.runSpeed : this.walkSpeed);
-
-      this.sprite.setVelocity(velocity.x, velocity.y);
-      
-      if (velocity.x < 0) {
-        this.sprite.setFlipX(true);
-      } else if (velocity.x > 0) {
-        this.sprite.setFlipX(false);
-      }
-      
-      this.sprite.anims.play(cursors.shift.isDown ? 'hero_run' : 'hero_walk', true);
-    } else {
-      this.sprite.setVelocity(0, 0);
-      this.sprite.anims.play('hero_idle', true);
-    }
+  update() {
+    this.currentState.update();
   }
 
 }
