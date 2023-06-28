@@ -6,6 +6,7 @@ export class PlayerState {
   
   export class PlayerIdleState extends PlayerState {
     enter() {
+      console.log("Entered idle state");
       this.player.sprite.anims.play('hero_idle', true);
     }
   
@@ -63,14 +64,19 @@ export class PlayerState {
 
   export class PlayerAttackState extends PlayerState {
     enter() {
-      console.log("Entered attack state");
       this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
-      this.player.sprite.anims.play('hero_attack', true);
+      if (this.player.userInput.cursors.ctrl.isDown) {
+        console.log("Entered special attack state");
+        this.player.sprite.anims.play('hero_crit', true);
+      } else {
+        console.log("Entered attack state");
+        this.player.sprite.anims.play('hero_attack', true);
+      }
     }
-    
+  
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      
+  
       if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         // Stay in this state
       } else {
