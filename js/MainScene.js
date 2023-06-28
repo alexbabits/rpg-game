@@ -1,4 +1,5 @@
 import Player from "./Player.js";
+import {Monster, Bear, Ent} from "./Monsters.js";
 
 export default class MainScene extends Phaser.Scene {
     constructor() {
@@ -10,6 +11,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('map','assets/images/map.json');
 
         Player.preload(this);
+        Monster.preload(this);
     }
 
     create() {
@@ -25,7 +27,11 @@ export default class MainScene extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
+        this.anims.fromJSON(this.cache.json.get('enemies_anims'));
+        
         this.player = new Player(this, 320, 320);
+        this.bear = new Bear(this, 320, 220);
+        this.ent = new Ent(this, 320, 120);
         console.log(this.player);
         let camera = this.cameras.main;
         camera.zoom = 1.4;
@@ -36,6 +42,8 @@ export default class MainScene extends Phaser.Scene {
 
     update() {
         this.player.update();
+        this.bear.update();
+        this.ent.update();
     }
 }
 
