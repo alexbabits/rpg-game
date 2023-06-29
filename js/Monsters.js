@@ -16,10 +16,55 @@ export class Monster {
         
         this.sprite.setExistingBody(compoundBody);
         this.sprite.setFixedRotation();
+
+        this.speed = 1; // Default speed
+        this.target = null; // Target to move towards
+
+        scene.monsters = scene.monsters || []; // Initialize the array if it doesn't exist
+        scene.monsters.push(this); // Add this monster to the array
     }
 
     update() {
+        if (this.target) {
+            this.moveTo(this.target.x, this.target.y);
+            if (Phaser.Physics.Matter.Matter.Vector.magnitude(
+                Phaser.Physics.Matter.Matter.Vector.sub(
+                    this.target, 
+                    {x: this.sprite.x, y: this.sprite.y})) < 10) {
+                this.target = null;
+            }
+        }
+        this.updateAnimation();
     }
+
+    setTarget(x, y) {
+        if (x === null && y === null) {
+            this.sprite.setVelocity(0, 0); // Stop moving
+            this.target = null;
+        } else {
+            this.target = {x, y};
+        }
+    }
+    
+    moveTo(x, y) {
+        if (this.target) {
+            let dirVec = Phaser.Physics.Matter.Matter.Vector.sub({x, y}, {x: this.sprite.x, y: this.sprite.y});
+            let dirVecNormalized = Phaser.Physics.Matter.Matter.Vector.normalise(dirVec);
+            let velocity = Phaser.Physics.Matter.Matter.Vector.mult(dirVecNormalized, this.speed);
+            this.sprite.setVelocity(velocity.x, velocity.y);
+        } else {
+            this.sprite.setVelocity(0, 0); // Stop moving
+        }
+    }
+
+    updateAnimation() {
+        if (this.sprite.body.velocity.x !== 0 || this.sprite.body.velocity.y !== 0) {
+            this.sprite.anims.play(`bear_walk`, true);
+        } else {
+            this.sprite.anims.play(`bear_idle`, true);
+        }
+    }
+
 }
 
 
@@ -27,6 +72,7 @@ export class Bear extends Monster {
     constructor(scene, x, y, key = 'enemies', frame) {
         super(scene, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 0.75); 
         this.sprite.play('bear_idle'); 
+        this.speed = 1;
     }
 
     update() {
@@ -37,7 +83,8 @@ export class Bear extends Monster {
 export class Ent extends Monster {
     constructor(scene, x, y, key = 'enemies', frame) {
         super(scene, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 0.85);  
-        this.sprite.play('ent_idle'); 
+        this.sprite.play('ent_idle');
+        this.speed = 1; 
     }
 
     update() {
