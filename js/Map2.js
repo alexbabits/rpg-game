@@ -1,21 +1,21 @@
 import Player from "./Player.js";
 import {Monster, Bear, Ent} from "./Monsters.js";
 
-export default class MainScene extends Phaser.Scene {
+export default class Map2 extends Phaser.Scene {
     constructor() {
-        super("mainScene");
+        super("Map2");
     }
 
     preload() {
         this.load.image('tiles', 'assets/images/RPG Nature Tileset.png');
-        this.load.tilemapTiledJSON('map','assets/images/map.json');
+        this.load.tilemapTiledJSON('map2','assets/images/map2.json');
 
         Player.preload(this);
         Monster.preload(this);
     }
 
     create() {
-        const map = this.make.tilemap({key: 'map'});
+        const map = this.make.tilemap({key: 'map2'});
         const tileset = map.addTilesetImage('RPG Nature Tileset', 'tiles', 32, 32, 0, 2);
         const background = map.createStaticLayer('background', tileset, 0, 0);
         const environment = map.createStaticLayer('environment', tileset, 0, 0);
@@ -27,12 +27,10 @@ export default class MainScene extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
-        this.anims.fromJSON(this.cache.json.get('enemies_anims'));
+        this.player = new Player(this, 160, 160);
+        this.bear = new Bear(this, 200, 280);
+        this.ent = new Ent(this, 360, 120);
         
-        this.player = new Player(this, 320, 320);
-        this.bear = new Bear(this, 320, 220);
-        this.ent = new Ent(this, 320, 120);
-        console.log(this.player);
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
@@ -44,6 +42,9 @@ export default class MainScene extends Phaser.Scene {
         this.player.update();
         this.bear.update();
         this.ent.update();
+
+        if (this.player.sprite.x < 0) {
+            this.scene.start('Map1');
+        }
     }
 }
-

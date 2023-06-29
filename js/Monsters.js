@@ -15,7 +15,7 @@ export class Monster {
 
         this.collider = Bodies.rectangle(x, y, colliderWidth, colliderHeight, {chamfer: chamfer, isSensor: false, label:'monsterCollider'});
         this.sensor = Bodies.circle(x, y, sensorRadius, {isSensor: true, label:'monsterSensor'});
-        const compoundBody = Body.create({parts:[this.collider, this.sensor], frictionAir: .4});
+        const compoundBody = Body.create({parts:[this.collider, this.sensor], frictionAir: .35});
         
         this.sprite.setExistingBody(compoundBody);
         this.sprite.setFixedRotation();
@@ -29,7 +29,7 @@ export class Monster {
 
 export class Bear extends Monster {
     constructor(scene, x, y, key = 'enemies', frame) {
-        super(scene, x, y, key, frame, 50, 35, {radius: [15, 15, 15, 15]}, 75, 0.75); 
+        super(scene, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 0.75); 
         this.sprite.play('bear_idle'); 
         // Add bear-specific properties here, such as attack strength, etc.
         // this.attackStrength = 20;
@@ -43,7 +43,7 @@ export class Bear extends Monster {
 
 export class Ent extends Monster {
     constructor(scene, x, y, key = 'enemies', frame) {
-        super(scene, x, y, key, frame, 20, 50, {radius: [5, 5, 5, 5]}, 60, 0.85);  
+        super(scene, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 0.85);  
         this.sprite.play('ent_idle'); 
         // Add ent-specific properties here, such as attack strength, etc.
         // this.attackStrength = 15;

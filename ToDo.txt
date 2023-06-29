@@ -1,3 +1,12 @@
+We could start adding player's status bars (health, mana, stamina, experience.) and monsters status bars (health).
+
+We could try to add multiple enemies, and work on getting them functional moving, attacking, and respawning.
+
+We could focus on transition scenes, moving from Map1 to Map2 for example, and perhaps having an overall 'Maps.js' parent class for all the maps.
+
+
+Bears should have like 500 health.
+
 Sensors: You just have many different sensors on the player (dagger distance sensor, spear distance sensors, Up, Down, Left, and Right sensors. It's just that they are not all activated at once. The 'dagger distance sensor left' is only activated when the player is facing to the left with a dagger for example.)
 (For now we just always have sword = true or whatever, so it always has it working.)
 
