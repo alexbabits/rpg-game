@@ -5,8 +5,9 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(scene, x, y, key, frame, colliderWidth, colliderHeight, chamfer, sensorRadius, scale) {
+    constructor(scene, x, y, key, frame, colliderWidth, colliderHeight, chamfer, sensorRadius, scale, speed) {
         this.scene = scene;
+        this.speed = speed;
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(1).setScale(scale);
         
         const {Body,Bodies} = Phaser.Physics.Matter.Matter;
@@ -22,7 +23,6 @@ export class Monster {
     }
 
     update(player) {
-        console.log(`Monster is aggressive: ${this.isAggressive}`);
         if(this.isAggressive) {
             if(Phaser.Math.Distance.Between(this.sprite.x, this.sprite.y, player.sprite.x, player.sprite.y) > 200) {
                 this.isAggressive = false;
@@ -30,7 +30,7 @@ export class Monster {
             } else {
                 let velocity = Phaser.Physics.Matter.Matter.Vector.sub(player.sprite.body.position, this.sprite.body.position);
                 velocity = Phaser.Physics.Matter.Matter.Vector.normalise(velocity);
-                velocity = Phaser.Physics.Matter.Matter.Vector.mult(velocity, 1);
+                velocity = Phaser.Physics.Matter.Matter.Vector.mult(velocity, this.speed);
                 this.sprite.setVelocity(velocity.x, velocity.y);
             }
         }
@@ -40,7 +40,7 @@ export class Monster {
 
 export class Bear extends Monster {
     constructor(scene, x, y, key = 'enemies', frame) {
-        super(scene, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 0.75); 
+        super(scene, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 0.75, 1); 
         this.sprite.play('bear_idle'); 
     }
 
@@ -51,7 +51,7 @@ export class Bear extends Monster {
 
 export class Ent extends Monster {
     constructor(scene, x, y, key = 'enemies', frame) {
-        super(scene, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 0.85);  
+        super(scene, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 0.85, 0.5);  
         this.sprite.play('ent_idle');
     }
 
