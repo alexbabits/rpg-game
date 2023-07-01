@@ -1,6 +1,5 @@
 import Player from "./Player.js";
 import {Monster, Bear, Ent} from "./Monsters.js";
-import { MonsterState, MonsterIdleState, MonsterAggressiveState, MonsterAttackingState } from "./MonsterState.js";
 
 export default class Map1 extends Phaser.Scene {
     constructor() {
@@ -29,42 +28,14 @@ export default class Map1 extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(environment);
         this.player = new Player(this, 320, 320);
         this.monsters = [];
-        this.monsters.push(new Bear(this, 320, 220));
-        this.monsters.push(new Ent(this, 320, 120));
+        this.monsters.push(new Bear(this, this.player, 320, 220));
+        this.monsters.push(new Ent(this, this.player, 320, 120));
         
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
         camera.setLerp(0.1,0.1);
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-
-        this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
-            if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterAggressionSensor') {
-                this.monsters.forEach((monster) => {
-                    if (monster.sprite.body.id === bodyB.parent.id) {
-                        monster.transition(new MonsterAggressiveState(monster));
-                    }
-                });
-            }
-        
-            if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterAttackingSensor') {
-                this.monsters.forEach((monster) => {
-                    if (monster.sprite.body.id === bodyB.parent.id) {
-                        monster.transition(new MonsterAttackingState(monster));
-                    }
-                });
-            }
-        });
-        
-        this.matter.world.on('collisionend', (event, bodyA, bodyB) => {
-            if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterAttackingSensor') {
-                this.monsters.forEach((monster) => {
-                    if (monster.sprite.body.id === bodyB.parent.id) {
-                        monster.transition(new MonsterAggressiveState(monster));
-                    }
-                });
-            }
-        });
 
     }
 

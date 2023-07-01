@@ -15,7 +15,7 @@ export class MonsterIdleState extends MonsterState {
 
 export class MonsterAggressiveState extends MonsterState {
     enter() {
-        this.monster.sprite.play(this.monster.moveAnim);
+        this.monster.sprite.play(this.monster.walkAnim);
     }
 
     execute(player) {

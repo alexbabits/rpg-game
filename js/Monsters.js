@@ -7,12 +7,31 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(scene, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, speed, idleAnim, moveAnim) {
+    constructor(scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, speed, idleAnim, walkAnim) {
         this.scene = scene;
+        this.player = player;
+        this.scene.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
+            if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
+                if(bodyB.label === 'monsterAggressionSensor') {
+                    this.transition(new MonsterAggressiveState(this));
+                } else if(bodyB.label === 'monsterAttackingSensor') {
+                    this.transition(new MonsterAttackingState(this));
+                }
+            }
+        });
+
+        this.scene.matter.world.on('collisionend', (event, bodyA, bodyB) => {
+            if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
+                if(bodyB.label === 'monsterAttackingSensor') {
+                    this.transition(new MonsterAggressiveState(this));
+                }
+            }
+        });
+
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(1).setScale(scale);
 
         this.idleAnim = idleAnim;
-        this.moveAnim = moveAnim;
+        this.walkAnim = walkAnim;
 
         const {Body,Bodies} = Phaser.Physics.Matter.Matter;
 
@@ -41,15 +60,15 @@ export class Monster {
 
 
 export class Bear extends Monster {
-    constructor(scene, x, y, key = 'enemies', frame) {
-        super(scene, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 1, 'bear_idle', 'bear_walk'); 
+    constructor(scene, player, x, y, key = 'enemies', frame) {
+        super(scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 1, 'bear_idle', 'bear_walk'); 
         this.sprite.play('bear_idle'); 
     }
 }
 
 export class Ent extends Monster {
-    constructor(scene, x, y, key = 'enemies', frame) {
-        super(scene, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 0.5, 'ent_idle', 'ent_walk');  
+    constructor(scene, player, x, y, key = 'enemies', frame) {
+        super(scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 0.5, 'ent_idle', 'ent_walk');  
         this.sprite.play('ent_idle');
     }
 }
