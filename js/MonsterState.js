@@ -27,6 +27,11 @@ export class MonsterAggressiveState extends MonsterState {
             velocity = Phaser.Physics.Matter.Matter.Vector.normalise(velocity);
             velocity = Phaser.Physics.Matter.Matter.Vector.mult(velocity, this.monster.speed);
             this.monster.sprite.setVelocity(velocity.x, velocity.y);
+            if (velocity.x < 0) {
+                this.monster.sprite.setFlipX(true);
+            } else if (velocity.x > 0) {
+                this.monster.sprite.setFlipX(false);
+            }
         }
     }
 }
