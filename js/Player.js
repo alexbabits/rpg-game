@@ -1,5 +1,5 @@
 import UserInput from './UserInput.js';
-import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState} from './PlayerState.js';
+import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerDamageState} from './PlayerState.js';
 
 export default class Player {
   constructor(scene, x, y) {
@@ -29,6 +29,8 @@ export default class Player {
     this.runningState = new PlayerRunState(this);
     this.attackingState = new PlayerAttackState(this);
     this.specialAttackingState = new PlayerSpecialAttackState(this);
+    this.damageState = new PlayerDamageState(this);
+    this.scene.events.on('playerHit', this.handleHit, this);
     this.currentState = this.idleState;
   }
 
@@ -56,31 +58,37 @@ export default class Player {
     return {x, y};
   }
   
-setMovement(isRunning = false) {
-  const speed = isRunning ? this.runSpeed : this.walkSpeed;
-  let {x, y} = this.getMovement();
-  
-  if(x !== 0 || y !== 0) {
-    let direction = new Phaser.Math.Vector2(x, y);
-    direction.normalize();
-    x = direction.x;
-    y = direction.y;
-  }
-  
-  this.sprite.setVelocity(x * speed, y * speed);
+  setMovement(isRunning = false) {
+    const speed = isRunning ? this.runSpeed : this.walkSpeed;
+    let {x, y} = this.getMovement();
+    
+    if(x !== 0 || y !== 0) {
+      let direction = new Phaser.Math.Vector2(x, y);
+      direction.normalize();
+      x = direction.x;
+      y = direction.y;
+    }
+    
+    this.sprite.setVelocity(x * speed, y * speed);
 
-  if (x < 0) {
-    this.sprite.setFlipX(true);
-  } else if (x > 0) {
-    this.sprite.setFlipX(false);
+    if (x < 0) {
+      this.sprite.setFlipX(true);
+    } else if (x > 0) {
+      this.sprite.setFlipX(false);
+    }
   }
-}
 
   transitionStates(newState) {
     this.currentState = newState;
     this.currentState.enter();
   }
 
+  handleHit(player) {
+    if(player === this) {
+        this.transitionStates(this.damageState);
+    }
+  }
+  
   update() {
     this.currentState.update();
   }

@@ -1,4 +1,4 @@
---> Player 'freeze' and/or tint red for 400ms or something when he gets damaged, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
+--> Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
 
 --> Player Attack Damage on Enemies, Player Death via Enemy, Player Respawn/Reload.
 

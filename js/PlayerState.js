@@ -108,6 +108,23 @@ export class PlayerState {
     }
   }
 
+  export class PlayerDamageState extends PlayerState {
+    enter() {
+        console.log("Player entered damage state");
+        this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
+        this.player.sprite.anims.play('hero_damage', true);
+        this.player.sprite.setTint(0xff0000);
+    }
+  
+    update() {
+    }
+  
+    handleAnimationComplete() {
+      this.player.transitionStates(this.player.idleState);
+      this.player.sprite.clearTint();
+    }
+}
+
 
   //PlayerDeathState
   //PlayerLootingState

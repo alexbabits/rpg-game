@@ -50,6 +50,7 @@ export class MonsterAttackingState extends MonsterState {
             player.HP -= this.monster.damage;
             console.log(`${this.monster.name} attacked the player for ${this.monster.damage} damage. Player health: ${player.HP}`);
             this.attackTimer = this.monster.scene.time.now;
+            this.monster.scene.events.emit('playerHit', player);
         }
     }
     exit() {
