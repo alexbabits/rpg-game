@@ -1,4 +1,5 @@
 --> Enemy Movement Anims (walk), Enemy Stop 10 pixels away for attacking, Enemy Attacking, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
+---> (Also consider having monster states as well, like player states.)
 
 --> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
 
