@@ -26,10 +26,10 @@ export default class Map1 extends Phaser.Scene {
 
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
-
         this.player = new Player(this, 320, 320);
-        this.bear = new Bear(this, 320, 220);
-        this.ent = new Ent(this, 320, 120);
+        this.monsters = [];
+        this.monsters.push(new Bear(this, 320, 220));
+        this.monsters.push(new Ent(this, 320, 120));
         
         let camera = this.cameras.main;
         camera.zoom = 1.4;
@@ -37,28 +37,22 @@ export default class Map1 extends Phaser.Scene {
         camera.setLerp(0.1,0.1);
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
-        this.matter.world.on('collisionactive', (event) => {
-            for (let pair of event.pairs) {
-                // Check if the player is involved in the collision
-                if (pair.bodyA === this.player.playerCollider || pair.bodyB === this.player.playerCollider) {
-                    // If the player is colliding with a monster's sensor
-                    if (pair.bodyA.label === 'monsterSensor' || pair.bodyB.label === 'monsterSensor') {
-                        // Find the monster that owns this sensor
-                        let monster = this.monsters.find(m => m.sensor === pair.bodyA || m.sensor === pair.bodyB);
-                        if (monster) {
-                            let distance = Phaser.Physics.Matter.Matter.Vector.magnitude(
-                                Phaser.Physics.Matter.Matter.Vector.sub(
-                                    {x: this.player.sprite.x, y: this.player.sprite.y},
-                                    {x: monster.sprite.x, y: monster.sprite.y}));
-        
-                            if (distance <= 200) { // If the player is within 200 pixels of the monster
-                                monster.setTarget(this.player.sprite.x, this.player.sprite.y); // Continuously update the target's position
-                            } else { // If the player is more than 200 pixels away from the monster
-                                monster.setTarget(null); // Lose the target
-                            }
-                        }
+        this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
+            if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterSensor') {
+                console.log('Player collided with monster sensor');
+                this.monsters.forEach((monster) => {
+                    if (monster.sprite.body.id === bodyB.parent.id) {
+                        monster.isAggressive = true;
                     }
-                }
+                });
+            }
+            if(bodyB.label === 'playerCollider' && bodyA.label === 'monsterSensor') {
+                console.log('Player collided with monster sensor');
+                this.monsters.forEach((monster) => {
+                    if (monster.sprite.body.id === bodyA.parent.id) {
+                        monster.isAggressive = true;
+                    }
+                });
             }
         });
 
@@ -66,8 +60,7 @@ export default class Map1 extends Phaser.Scene {
 
     update() {
         this.player.update();
-        this.bear.update();
-        this.ent.update();
+        this.monsters.forEach((monster) => monster.update(this.player));
 
         if (this.player.sprite.x > this.sys.game.config.width) {
             this.scene.start('Map2');

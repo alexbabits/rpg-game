@@ -1,4 +1,4 @@
---> Enemy Movement, Enemy Attacking, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
+--> Enemy Movement Anims (walk), Enemy Stop 10 pixels away for attacking, Enemy Attacking, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
 
 --> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
 
@@ -45,3 +45,11 @@ In many games, left and right directions are mirrored versions of the same anima
 In this method, each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
 
 To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
+
+
+
+
+
+
+
+Monster Movement: Monsters and the player are compound bodies made with Matter.js, with a sensor part and a collider part. The sensors on the monsters are circular. This sensor should act as sort of an 'agression trigger'. When the player's collider touches/comes within a Monster's sensor, the monster should become 'aggressive' and follow the current player's location around indefinitely, unless the player moves more than 200 pixels away, in which case the monster's aggression should subside and they would go back to idling. And then if the player's collider ever goes within/touches a monster's sensor, that monster would become aggressive again, following the player around.
