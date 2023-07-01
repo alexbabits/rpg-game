@@ -6,7 +6,9 @@ export default class Player {
     this.scene = scene;
     this.walkSpeed = 2;
     this.runSpeed = 4;
-
+    this.maxHP = 20;
+    this.HP = 20;
+    
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
     this.playerSensor = {

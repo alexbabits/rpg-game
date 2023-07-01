@@ -43,7 +43,17 @@ export class MonsterAttackingState extends MonsterState {
         console.log(`${this.monster.name} is attacking the player with idle animation`);
         this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
+        this.attackTimer = this.monster.scene.time.now;
     }
 
-    execute(player) {}
+    execute(player) {
+        if (this.monster.scene.time.now - this.attackTimer > 1000) {
+            console.log(`${this.monster.name} attacked the player for ${this.monster.damage} damage. Player health: ${player.HP}`);
+            player.HP -= this.monster.damage;
+            this.attackTimer = this.monster.scene.time.now;
+        }
+    }
+    exit() {
+        this.attackTimer = null;
+    }
 }

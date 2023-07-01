@@ -1,5 +1,5 @@
---> Enemy Attacking (Player 'freeze' and/or tint red for 200ms or smth), Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
-
+--> Player 'freeze' and/or tint red for 400ms or something when he gets damaged, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
+(Bonus: Monster attackSpeed and then change 'speed' to 'movementSpeed' for monsters, for custom attack and movement speeds. Multiply the attack timer of 1000ms by the attackSpeed basically.)
 --> Player Attack Damage on Enemies, Player Death via Enemy, Player Respawn/Reload.
 
 --> Player Status Bars & Leveling. Monster Status Bars. (Change all the health/mana/experience/stamina bars into parent 'Bars' class?)
