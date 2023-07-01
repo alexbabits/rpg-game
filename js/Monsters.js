@@ -54,7 +54,7 @@ export class Monster {
     }
 
     update(player) {
-        this.currentState.execute(player);
+        this.currentState.update(player);
     }
 }
 
