@@ -23,11 +23,11 @@ export class MonsterAggressiveState extends MonsterState {
     execute(player) {
         let distance = Phaser.Math.Distance.Between(this.monster.sprite.x, this.monster.sprite.y, player.sprite.x, player.sprite.y);
         if(distance > 200) {
-            this.monster.transition(new MonsterIdleState(this.monster));
+            this.monster.transitionStates(new MonsterIdleState(this.monster));
         } else {
             let velocity = Phaser.Physics.Matter.Matter.Vector.sub(player.sprite.body.position, this.monster.sprite.body.position);
             velocity = Phaser.Physics.Matter.Matter.Vector.normalise(velocity);
-            velocity = Phaser.Physics.Matter.Matter.Vector.mult(velocity, this.monster.speed);
+            velocity = Phaser.Physics.Matter.Matter.Vector.mult(velocity, this.monster.movementSpeed);
             this.monster.sprite.setVelocity(velocity.x, velocity.y);
             if (velocity.x < 0) {
                 this.monster.sprite.setFlipX(true);
@@ -47,9 +47,9 @@ export class MonsterAttackingState extends MonsterState {
     }
 
     execute(player) {
-        if (this.monster.scene.time.now - this.attackTimer > 1000) {
-            console.log(`${this.monster.name} attacked the player for ${this.monster.damage} damage. Player health: ${player.HP}`);
+        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed)) {
             player.HP -= this.monster.damage;
+            console.log(`${this.monster.name} attacked the player for ${this.monster.damage} damage. Player health: ${player.HP}`);
             this.attackTimer = this.monster.scene.time.now;
         }
     }

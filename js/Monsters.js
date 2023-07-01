@@ -7,12 +7,13 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(name, damage, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, speed, idleAnim, walkAnim) {
+    constructor(name, damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
         this.name = name;
         this.damage = damage;
         this.scene = scene;
         this.player = player;
-        this.speed = speed;
+        this.movementSpeed = movementSpeed;
+        this.attackSpeed = attackSpeed;
         this.idleAnim = idleAnim;
         this.walkAnim = walkAnim;
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(1).setScale(scale);
@@ -28,9 +29,9 @@ export class Monster {
         this.scene.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
             if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
                 if(bodyB.label === 'monsterAggressionSensor') {
-                    this.transition(new MonsterAggressiveState(this));
+                    this.transitionStates(new MonsterAggressiveState(this));
                 } else if(bodyB.label === 'monsterAttackingSensor') {
-                    this.transition(new MonsterAttackingState(this));
+                    this.transitionStates(new MonsterAttackingState(this));
                 }
             }
         });
@@ -38,7 +39,7 @@ export class Monster {
         this.scene.matter.world.on('collisionend', (event, bodyA, bodyB) => {
             if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
                 if(bodyB.label === 'monsterAttackingSensor') {
-                    this.transition(new MonsterAggressiveState(this));
+                    this.transitionStates(new MonsterAggressiveState(this));
                 }
             }
         });
@@ -46,7 +47,7 @@ export class Monster {
         this.currentState = new MonsterIdleState(this);
     }
 
-    transition(newState) {
+    transitionStates(newState) {
         this.currentState.exit();
         this.currentState = newState;
         this.currentState.enter();
@@ -60,14 +61,14 @@ export class Monster {
 
 export class Bear extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
-        super('bear', 5, scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 1, 'bear_idle', 'bear_walk'); 
+        super('bear', 5, 1, 2, scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 'bear_idle', 'bear_walk'); 
         this.sprite.play('bear_idle'); 
     }
 }
 
 export class Ent extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
-        super('ent', 3, scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 0.5, 'ent_idle', 'ent_walk');  
+        super('ent', 3, 0.5, 0.5, scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 'ent_idle', 'ent_walk');  
         this.sprite.play('ent_idle');
     }
 }

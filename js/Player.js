@@ -76,8 +76,8 @@ setMovement(isRunning = false) {
   }
 }
 
-  goto(state) {
-    this.currentState = state;
+  transitionStates(newState) {
+    this.currentState = newState;
     this.currentState.enter();
   }
 

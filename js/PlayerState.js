@@ -17,14 +17,14 @@ export class PlayerState {
     
       if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to special attack state");
-        this.player.goto(this.player.specialAttackingState);
+        this.player.transitionStates(this.player.specialAttackingState);
       } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to attack state");
-        this.player.goto(this.player.attackingState);
+        this.player.transitionStates(this.player.attackingState);
       } else if (isPlayerMoving && this.player.userInput.cursors.shift.isDown) {
-        this.player.goto(this.player.runningState);
+        this.player.transitionStates(this.player.runningState);
       } else if (isPlayerMoving) {
-        this.player.goto(this.player.walkingState);
+        this.player.transitionStates(this.player.walkingState);
       }
     }
   }
@@ -39,9 +39,9 @@ export class PlayerState {
       const {x, y} = this.player.getMovement();
   
       if (x === 0 && y === 0) {
-        this.player.goto(this.player.idleState);
+        this.player.transitionStates(this.player.idleState);
       } else if (this.player.userInput.cursors.shift.isDown) {
-        this.player.goto(this.player.runningState);
+        this.player.transitionStates(this.player.runningState);
       }
   
       this.player.setMovement();
@@ -58,9 +58,9 @@ export class PlayerState {
       const {x, y} = this.player.getMovement();
   
       if (x === 0 && y === 0) {
-        this.player.goto(this.player.idleState);
+        this.player.transitionStates(this.player.idleState);
       } else if (!this.player.userInput.cursors.shift.isDown) {
-        this.player.goto(this.player.walkingState);
+        this.player.transitionStates(this.player.walkingState);
       }
   
       this.player.setMovement(true);
@@ -78,12 +78,12 @@ export class PlayerState {
       const playerVelocity = this.player.sprite.body.velocity;
       
       if(!this.player.userInput.cursors.space.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
-        this.player.goto(this.player.idleState);
+        this.player.transitionStates(this.player.idleState);
       }
     }
   
     handleAnimationComplete() {
-      this.player.goto(this.player.idleState);
+      this.player.transitionStates(this.player.idleState);
     }
   }
 
@@ -99,12 +99,12 @@ export class PlayerState {
       const playerVelocity = this.player.sprite.body.velocity;
       
       if(!this.player.userInput.cursors.space.isDown || !this.player.userInput.cursors.ctrl.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
-        this.player.goto(this.player.idleState);
+        this.player.transitionStates(this.player.idleState);
       }
     }
   
     handleAnimationComplete() {
-      this.player.goto(this.player.idleState);
+      this.player.transitionStates(this.player.idleState);
     }
   }
 
