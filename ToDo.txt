@@ -1,7 +1,4 @@
----> (Also consider having monster states as well, like player states. (Idle, Walk, Attack, Maybe Death))
---> Enemy Anims (Idle, Walk, Attack (idle anim for attack) properly). Enemy Attacking, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
-
---> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
+--> Enemy Attacking (Player 'freeze' and/or tint red for 200ms or smth), Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
 
 --> Player Attack Damage on Enemies, Player Death via Enemy, Player Respawn/Reload.
 
@@ -9,7 +6,10 @@
 
 --> Bank/Store/Inventory/Pause Menu/(Load/Save).
 
+--> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
+
 --> Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
+
 
 (Will need minimum two bears and two ents to mess with enemy respawn and stuff. (Bears should have like 500 health.))
 
@@ -37,20 +37,8 @@ Animations/Sprites: May need tons (Left/Right = Mirror, Down = separate, Up = se
 Armor and Gear:
 As you mentioned, changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. One method is to have separate sprite sheets for each armor set, with all the necessary animations (walk, run, attack, etc). This is quite labor-intensive but gives the most visually impressive results.
 
-Weapons:
 For weapons, you can have separate animations for each weapon type, such as swinging a sword versus swinging an axe. Another way to simplify this is by using "paper dolling" techniques. In this method, you separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation.
 
-Facing Directions:
-In many games, left and right directions are mirrored versions of the same animation, while up (backwards) and down (forwards) animations are unique. If you want to add more depth, you can add diagonal animations as well, but it will require additional artwork.
-
-In this method, each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
+Each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
 
 To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
-
-
-
-
-
-
-
-Monster Movement: Monsters and the player are compound bodies made with Matter.js, with a sensor part and a collider part. The sensors on the monsters are circular. This sensor should act as sort of an 'agression trigger'. When the player's collider touches/comes within a Monster's sensor, the monster should become 'aggressive' and follow the current player's location around indefinitely, unless the player moves more than 200 pixels away, in which case the monster's aggression should subside and they would go back to idling. And then if the player's collider ever goes within/touches a monster's sensor, that monster would become aggressive again, following the player around.

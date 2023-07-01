@@ -7,6 +7,7 @@ export class MonsterState {
 
 export class MonsterIdleState extends MonsterState {
     enter() {
+        console.log(`${this.monster.name} is passively idling`);
         this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
     }
@@ -15,6 +16,7 @@ export class MonsterIdleState extends MonsterState {
 
 export class MonsterAggressiveState extends MonsterState {
     enter() {
+        console.log(`${this.monster.name} is aggressive and walking towards the player`);
         this.monster.sprite.play(this.monster.walkAnim);
     }
 
@@ -38,6 +40,7 @@ export class MonsterAggressiveState extends MonsterState {
 
 export class MonsterAttackingState extends MonsterState {
     enter() {
+        console.log(`${this.monster.name} is attacking the player with idle animation`);
         this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
     }

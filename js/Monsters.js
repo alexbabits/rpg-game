@@ -7,9 +7,23 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, speed, idleAnim, walkAnim) {
+    constructor(name, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, speed, idleAnim, walkAnim) {
+        this.name = name;
         this.scene = scene;
         this.player = player;
+        this.speed = speed;
+        this.idleAnim = idleAnim;
+        this.walkAnim = walkAnim;
+        this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(1).setScale(scale);
+        const {Body,Bodies} = Phaser.Physics.Matter.Matter;
+        this.collider = Bodies.rectangle(x, y, colliderWidth, colliderHeight, {chamfer: chamfer, isSensor: false, label:'monsterCollider', parent: this});
+        this.aggressionSensor = Bodies.circle(x, y, aggressionSensorRadius, {isSensor: true, label:'monsterAggressionSensor', parent: this});
+        this.attackingSensor = Bodies.circle(x, y, attackingSensorRadius, {isSensor: true, label:'monsterAttackingSensor', parent: this});
+        const compoundBody = Body.create({parts:[this.collider, this.aggressionSensor, this.attackingSensor], frictionAir: .35}); 
+        this.sprite.setExistingBody(compoundBody);
+        this.sprite.setFixedRotation();
+
+
         this.scene.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
             if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
                 if(bodyB.label === 'monsterAggressionSensor') {
@@ -28,22 +42,6 @@ export class Monster {
             }
         });
 
-        this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(1).setScale(scale);
-
-        this.idleAnim = idleAnim;
-        this.walkAnim = walkAnim;
-
-        const {Body,Bodies} = Phaser.Physics.Matter.Matter;
-
-        this.collider = Bodies.rectangle(x, y, colliderWidth, colliderHeight, {chamfer: chamfer, isSensor: false, label:'monsterCollider', parent: this});
-        this.aggressionSensor = Bodies.circle(x, y, aggressionSensorRadius, {isSensor: true, label:'monsterAggressionSensor', parent: this});
-        this.attackingSensor = Bodies.circle(x, y, attackingSensorRadius, {isSensor: true, label:'monsterAttackingSensor', parent: this});
-        const compoundBody = Body.create({parts:[this.collider, this.aggressionSensor, this.attackingSensor], frictionAir: .35});
-        
-        this.sprite.setExistingBody(compoundBody);
-        this.sprite.setFixedRotation();
-
-        this.speed = speed;
         this.currentState = new MonsterIdleState(this);
     }
 
@@ -61,14 +59,14 @@ export class Monster {
 
 export class Bear extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
-        super(scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 1, 'bear_idle', 'bear_walk'); 
+        super('bear', scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 1, 'bear_idle', 'bear_walk'); 
         this.sprite.play('bear_idle'); 
     }
 }
 
 export class Ent extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
-        super(scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 0.5, 'ent_idle', 'ent_walk');  
+        super('ent', scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 0.5, 'ent_idle', 'ent_walk');  
         this.sprite.play('ent_idle');
     }
 }
