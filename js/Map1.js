@@ -1,5 +1,6 @@
 import Player from "./Player.js";
 import {Monster, Bear, Ent} from "./Monsters.js";
+import { MonsterState, MonsterIdleState, MonsterAggressiveState, MonsterAttackingState } from "./MonsterState.js";
 
 export default class Map1 extends Phaser.Scene {
     constructor() {
@@ -38,64 +39,32 @@ export default class Map1 extends Phaser.Scene {
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
-            // First handle aggression
             if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterAggressionSensor') {
-                console.log('Player within aggression zone');
                 this.monsters.forEach((monster) => {
                     if (monster.sprite.body.id === bodyB.parent.id) {
-                        monster.isAggressive = true;
-                    }
-                });
-            }
-            if(bodyB.label === 'playerCollider' && bodyA.label === 'monsterAggressionSensor') {
-                console.log('Player within aggression zone');
-                this.monsters.forEach((monster) => {
-                    if (monster.sprite.body.id === bodyA.parent.id) {
-                        monster.isAggressive = true;
+                        monster.transition(new MonsterAggressiveState(monster));
                     }
                 });
             }
         
-        // Then handle stopping
-        if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterStoppingSensor') {
-            console.log('Player within stopping zone');
-            this.monsters.forEach((monster) => {
-                if (monster.sprite.body.id === bodyB.parent.id) {
-                    monster.sprite.setVelocity(0);
-                    monster.isStopping = true; // add this line
-                }
-            });
-        }
-        if(bodyB.label === 'playerCollider' && bodyA.label === 'monsterStoppingSensor') {
-            console.log('Player within stopping zone');
-            this.monsters.forEach((monster) => {
-                if (monster.sprite.body.id === bodyA.parent.id) {
-                    monster.sprite.setVelocity(0);
-                    monster.isStopping = true; // add this line
-                }
-            });
-        }
+            if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterAttackingSensor') {
+                this.monsters.forEach((monster) => {
+                    if (monster.sprite.body.id === bodyB.parent.id) {
+                        monster.transition(new MonsterAttackingState(monster));
+                    }
+                });
+            }
         });
-
+        
         this.matter.world.on('collisionend', (event, bodyA, bodyB) => {
-        // Handle stopping end
-        if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterStoppingSensor') {
-            console.log('Player left stopping zone');
-            this.monsters.forEach((monster) => {
-                if (monster.sprite.body.id === bodyB.parent.id) {
-                    monster.isStopping = false; // add this line
-                }
-            });
-        }
-        if(bodyB.label === 'playerCollider' && bodyA.label === 'monsterStoppingSensor') {
-            console.log('Player left stopping zone');
-            this.monsters.forEach((monster) => {
-                if (monster.sprite.body.id === bodyA.parent.id) {
-                    monster.isStopping = false; // add this line
-                }
-            });
-        }
-    });
+            if(bodyA.label === 'playerCollider' && bodyB.label === 'monsterAttackingSensor') {
+                this.monsters.forEach((monster) => {
+                    if (monster.sprite.body.id === bodyB.parent.id) {
+                        monster.transition(new MonsterAggressiveState(monster));
+                    }
+                });
+            }
+        });
 
     }
 
