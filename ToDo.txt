@@ -21,7 +21,7 @@
 --> (Bonus): Defense stat on monsters & player
 --> (Bonus): Debuffs and buffs.
 --> (Bonus): Random % Chance for 'hero_crit' critical with that anim. And then a separate animation and stuff for 'hero_special' for special attacks. 
-
+--> (Bonus): Combine PlayerAttackState and PlayerSpecialAttackState.
 
 Bank: Need chest in game to click on and bank stuff.
 Store: Need NPC or chest in game to click on and view store menu.

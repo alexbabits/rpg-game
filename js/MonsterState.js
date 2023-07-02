@@ -78,3 +78,16 @@ export class MonsterAttackingState extends MonsterState {
         this.attackTimer = null;
     }
 }
+
+/*
+export class MonsterDeathState extends MonsterState {
+    enter() {
+        console.log(`${this.monster.name} died.`);
+    }
+  
+    update() {
+        //this.player.sprite.setActive(false);
+        //this.player.sprite.setVisible(false);
+    }
+  }
+*/

@@ -1,11 +1,7 @@
 export class PlayerState {
     constructor(player) {this.player = player;}
     enter() {}
-    update() {
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      }
-    }
+    update() {}
     exit() {}
   }
   
@@ -19,9 +15,6 @@ export class PlayerState {
       const {x, y} = this.player.getMovement();
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      }
       if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to special attack state");
         this.player.transitionToNewState(this.player.specialAttackingState);
@@ -34,6 +27,7 @@ export class PlayerState {
         this.player.transitionToNewState(this.player.walkingState);
       }
     }
+    exit() {}
   }
   
   export class PlayerWalkState extends PlayerState {
@@ -44,9 +38,6 @@ export class PlayerState {
   
     update() {
       const {x, y} = this.player.getMovement();
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      }
       if (x === 0 && y === 0) {
         this.player.transitionToNewState(this.player.idleState);
       } else if (this.player.userInput.cursors.shift.isDown) {
@@ -55,6 +46,7 @@ export class PlayerState {
   
       this.player.setMovement();
     }
+    exit() {}
   }
   
   export class PlayerRunState extends PlayerState {
@@ -65,9 +57,6 @@ export class PlayerState {
   
     update() {
       const {x, y} = this.player.getMovement();
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      }
       if (x === 0 && y === 0) {
         this.player.transitionToNewState(this.player.idleState);
       } else if (!this.player.userInput.cursors.shift.isDown) {
@@ -76,6 +65,7 @@ export class PlayerState {
   
       this.player.setMovement(true);
     }
+    exit() {}
   }
 
   export class PlayerAttackState extends PlayerState {
@@ -95,9 +85,7 @@ export class PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_attack_5' && !this.damageApplied) {
+      if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_attack_5' && !this.damageApplied) {
         this.handleAttack();
         this.damageApplied = true;
       }
@@ -112,6 +100,8 @@ export class PlayerState {
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
           monster.HP -= this.player.playerDamage;
+          monster.sprite.setTint(0xff0000);
+          setTimeout(() => monster.sprite.clearTint(), 200);
           console.log(`Player attacked ${monster.name} for ${this.player.playerDamage} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
@@ -146,9 +136,7 @@ export class PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_crit_4' && !this.damageApplied) {
+      if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_crit_4' && !this.damageApplied) {
         this.handleAttack();
         this.damageApplied = true;
       }
@@ -163,6 +151,8 @@ export class PlayerState {
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
           monster.HP -= this.player.playerSpecialDamage;
+          monster.sprite.setTint(0xff0000);
+          setTimeout(() => monster.sprite.clearTint(), 200);
           console.log(`Player special attacked ${monster.name} for ${this.player.playerDamage} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
@@ -181,18 +171,13 @@ export class PlayerState {
 
   export class PlayerGotHitState extends PlayerState {
     enter() {
-        //console.log("Player entered damage state");
+        //console.log("Player entered GotHitState");
         this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
         this.player.sprite.anims.play('hero_damage', true);
         this.player.sprite.setTint(0xff0000);
     }
-  
-    update() {
-      if (this.player.HP <= 0) {
-        this.player.transitionToNewState(this.player.deathState);
-      }
-    }
-  
+    update() {}
+    exit() {}
     handleAnimationComplete() {
       this.player.transitionToNewState(this.player.idleState);
       this.player.sprite.clearTint();
@@ -207,7 +192,7 @@ export class PlayerDeathState extends PlayerState {
   }
 
   update() {}
-
+  exit() {}
   handleAnimationComplete() {
     this.player.sprite.setActive(false);
     this.player.sprite.setVisible(false);

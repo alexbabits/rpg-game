@@ -13,7 +13,7 @@ export default class Player {
     this.walkSpeed = 2;
     this.runSpeed = 4;
     this.maxHP = 20;
-    this.HP = 200000;
+    this.HP = 10;
     this.playerDamage = 100;
     this.playerSpecialDamage = this.playerDamage*2;
     this.direction = 'Right';
