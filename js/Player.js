@@ -85,10 +85,10 @@ export default class Player {
     this.currentState.enter();
   }
 
-  playerGotHit(player) {
-    if(player === this && this.HP > 0) {
+  playerGotHit() {
+    if(this.HP > 0) {
         this.transitionToNewState(this.damageState);
-    } else if ( player === this && this.HP < 0) {
+    } else {
         this.transitionToNewState(this.deathState);
     }
   }
