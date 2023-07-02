@@ -1,8 +1,4 @@
---> Enemy Death
-
 --> Player Status Bars & Leveling. Monster Status Bars. (Change all the health/mana/experience/stamina bars into parent 'Bars' class?)
-
---> Enemy Respawn
 
 --> Looting Scene pop-up window (with enemy item drops)
 

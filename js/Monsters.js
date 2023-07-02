@@ -23,6 +23,7 @@ export class Monster {
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(2).setScale(scale);
         this.sprite.monsterInstance = this;
         const {Body,Bodies} = Phaser.Physics.Matter.Matter;
+        this.originalChamfer = { radius: [...chamfer.radius] };  // Save the original chamfer
         this.collider = Bodies.rectangle(x, y, colliderWidth, colliderHeight, {chamfer: chamfer, isSensor: false, label:'monsterCollider', parent: this});
         this.aggressionSensor = Bodies.circle(x, y, aggressionSensorRadius, {isSensor: true, label:'monsterAggressionSensor', parent: this});
         this.attackingSensor = Bodies.circle(x, y, attackingSensorRadius, {isSensor: true, label:'monsterAttackingSensor', parent: this});
@@ -81,5 +82,27 @@ export class Ent extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
         super('ent', 200, 200, 3, 0.5, 1, scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');  
         this.sprite.play('ent_idle');
+    }
+}
+
+export class MonsterManager {
+    constructor(scene, player) {
+        this.scene = scene;
+        this.player = player;
+        this.monsters = [];
+        this.scene.events.on('monsterDeath', this.spawnNewMonster, this);
+    }
+
+    spawnMonster(name, maxHP, monsterDamage, movementSpeed, attackSpeed, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
+        let monster = new Monster(name, maxHP, maxHP, monsterDamage, movementSpeed, attackSpeed, this.scene, this.player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim);
+        this.monsters.push(monster);
+        monster.sprite.play(`${name}_idle`);
+        return monster;
+    }
+
+    spawnNewMonster(deadMonster) {
+        let x = 500;
+        let y = 500;
+        this.spawnMonster(deadMonster.name, deadMonster.maxHP, deadMonster.monsterDamage, deadMonster.movementSpeed, deadMonster.attackSpeed, x, y, deadMonster.sprite.texture.key, deadMonster.sprite.frame.name, deadMonster.collider.bounds.max.x - deadMonster.collider.bounds.min.x, deadMonster.collider.bounds.max.y - deadMonster.collider.bounds.min.y, deadMonster.originalChamfer, deadMonster.aggressionSensorRadius, deadMonster.attackingSensorRadius, deadMonster.sprite.scale, deadMonster.idleAnim, deadMonster.walkAnim);
     }
 }

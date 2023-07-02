@@ -1,5 +1,5 @@
 import Player from "./Player.js";
-import {Monster, Bear, Ent} from "./Monsters.js";
+import {Monster, Bear, Ent, MonsterManager} from "./Monsters.js";
 
 export default class Map1 extends Phaser.Scene {
     constructor() {
@@ -27,11 +27,13 @@ export default class Map1 extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
         this.player = new Player(this, 320, 320);
-        this.monsters = [];
-        this.monsters.push(new Bear(this, this.player, 320, 220));
-        this.monsters.push(new Bear(this, this.player, 420, 220));
-        this.monsters.push(new Ent(this, this.player, 320, 120));
-        this.monsters.push(new Ent(this, this.player, 120, 120));
+
+        this.monsterManager = new MonsterManager(this, this.player);
+        this.monsterManager.spawnMonster('bear', 500, 5, 1, 2, 320, 220, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
+        this.monsterManager.spawnMonster('bear', 500, 5, 1, 2, 420, 220, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
+        this.monsterManager.spawnMonster('ent', 200, 3, 0.5, 1, 320, 120, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+        this.monsterManager.spawnMonster('ent', 200, 3, 0.5, 1, 120, 120, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+
         
         let camera = this.cameras.main;
         camera.zoom = 1.4;
@@ -43,11 +45,9 @@ export default class Map1 extends Phaser.Scene {
 
     update() {
         this.player.update();
-        this.monsters.forEach((monster) => monster.update(this.player));
-
+        this.monsterManager.monsters.forEach((monster) => monster.update(this.player));
         if (this.player.sprite.x > this.sys.game.config.width) {
             this.scene.start('Map2');
         }
     }
-
 }
