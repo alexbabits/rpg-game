@@ -57,13 +57,23 @@ export class MonsterAttackingState extends MonsterState {
 
         let distance = Phaser.Math.Distance.Between(this.monster.sprite.x, this.monster.sprite.y, player.sprite.x, player.sprite.y);
 
-        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed) && distance < this.monster.attackingSensorRadius+20) {
+        if (distance > this.monster.attackingSensorRadius+20) {
+            if(distance > this.monster.aggressionSensorRadius+20){
+                this.monster.transitionToNewState(new MonsterIdleState(this.monster));
+            } else {
+                this.monster.transitionToNewState(new MonsterAggressiveState(this.monster));
+            }
+            return;
+        }
+
+        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed)) {
             player.HP -= this.monster.monsterDamage;
             console.log(`${this.monster.name} attacked the player for ${this.monster.monsterDamage} Damage. Player health: ${player.HP}`);
             this.attackTimer = this.monster.scene.time.now;
             this.monster.scene.events.emit('playerGotHit', player);
         }
     }
+
     exit() {
         this.attackTimer = null;
     }
