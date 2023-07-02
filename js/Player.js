@@ -15,6 +15,7 @@ export default class Player {
     this.maxHP = 20;
     this.HP = 200000;
     this.playerDamage = 100;
+    this.playerSpecialDamage = this.playerDamage*2;
     this.direction = 'Right';
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;

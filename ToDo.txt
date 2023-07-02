@@ -1,12 +1,4 @@
-Player Attacking Monsters:
-
-Attack Processing: During the update of the PlayerAttackState, check if the player's animation is at the 'hero_attack_5' frame. If it is, iterate over the "monstersToHit" list and call a hit method on each monster (which you'd need to implement in the Monster class), decrementing their HP by the player's damage. It's crucial to set some flag (e.g., attackProcessed) to ensure the hit is processed only once per attack animation.
-
-Resetting: At the start of each new attack animation, you should clear the attackProcessed flag to prepare for the next round of hit detection and processing.
-
-Now let's write some code for just the collision part of this process. Then after that, decrement the HP of monsters that are in that collision array once per 'hero_attack_5' frame.
-
---> Player Attack Damage on Enemies, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops. 
+--> Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops. 
 
 --> "Grim Reaper picture on Game Over Scene, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
 
