@@ -1,3 +1,5 @@
+//import MonsterDeathState from "./MonsterState.js";
+
 export class PlayerState {
     constructor(player) {this.player = player;}
     enter() {}
@@ -107,7 +109,7 @@ export class PlayerState {
         if (monster.HP <= 0) {
           console.log(`${monster.name} is defeated.`);
           this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
-          // Do other cleanups here like removing the monster from the scene
+          monster.handleMonsterDeath();
         }
       }
     }
@@ -158,7 +160,7 @@ export class PlayerState {
         if (monster.HP <= 0) {
           console.log(`${monster.name} is defeated.`);
           this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
-          // Do other cleanups here like removing the monster from the scene
+          monster.handleMonsterDeath();
         }
       }
     }

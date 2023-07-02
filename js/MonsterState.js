@@ -79,15 +79,13 @@ export class MonsterAttackingState extends MonsterState {
     }
 }
 
-/*
 export class MonsterDeathState extends MonsterState {
     enter() {
         console.log(`${this.monster.name} died.`);
+        this.monster.scene.matter.world.remove(this.monster.sprite.body);
+        this.monster.sprite.destroy();
     }
-  
     update() {
-        //this.player.sprite.setActive(false);
-        //this.player.sprite.setVisible(false);
+        return;
     }
-  }
-*/
+}

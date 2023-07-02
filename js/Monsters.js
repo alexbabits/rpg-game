@@ -1,4 +1,4 @@
-import {MonsterIdleState, MonsterAggressiveState, MonsterAttackingState} from "./MonsterState.js";
+import {MonsterIdleState, MonsterAggressiveState, MonsterAttackingState, MonsterDeathState} from "./MonsterState.js";
 
 export class Monster {
 
@@ -56,6 +56,12 @@ export class Monster {
         this.currentState.exit();
         this.currentState = newState;
         this.currentState.enter();
+    }
+
+    handleMonsterDeath() {
+        if(this.HP <= 0) {
+            this.transitionToNewState(new MonsterDeathState(this));
+        }
     }
 
     update(player) {
