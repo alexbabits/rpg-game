@@ -18,6 +18,8 @@ export class Monster {
         this.attackSpeed = attackSpeed;
         this.idleAnim = idleAnim;
         this.walkAnim = walkAnim;
+        this.aggressionSensorRadius = aggressionSensorRadius;
+        this.attackingSensorRadius = attackingSensorRadius;
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(2).setScale(scale);
         this.sprite.monsterInstance = this;
         const {Body,Bodies} = Phaser.Physics.Matter.Matter;

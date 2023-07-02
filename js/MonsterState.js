@@ -7,7 +7,7 @@ export class MonsterState {
 
 export class MonsterIdleState extends MonsterState {
     enter() {
-        //console.log(`${this.monster.name} entered idle state`);
+        console.log(`${this.monster.name} entered idle state`);
         this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
     }
@@ -15,7 +15,7 @@ export class MonsterIdleState extends MonsterState {
 
 export class MonsterAggressiveState extends MonsterState {
     enter() {
-        //console.log(`${this.monster.name} entered aggressive state`);
+        console.log(`${this.monster.name} entered aggressive state`);
         this.monster.sprite.play(this.monster.walkAnim);
     }
 
@@ -43,7 +43,7 @@ export class MonsterAggressiveState extends MonsterState {
 
 export class MonsterAttackingState extends MonsterState {
     enter() {
-        //console.log(`${this.monster.name} entered attacking state (idle anim atm)`);
+        console.log(`${this.monster.name} entered attacking state (idle anim atm)`);
         this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
         this.attackTimer = this.monster.scene.time.now;
@@ -54,7 +54,10 @@ export class MonsterAttackingState extends MonsterState {
             this.monster.transitionToNewState(new MonsterIdleState(this.monster));
             return;
         }
-        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed)) {
+
+        let distance = Phaser.Math.Distance.Between(this.monster.sprite.x, this.monster.sprite.y, player.sprite.x, player.sprite.y);
+
+        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed) && distance < this.monster.attackingSensorRadius+20) {
             player.HP -= this.monster.monsterDamage;
             console.log(`${this.monster.name} attacked the player for ${this.monster.monsterDamage} Damage. Player health: ${player.HP}`);
             this.attackTimer = this.monster.scene.time.now;
