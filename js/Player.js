@@ -1,5 +1,5 @@
 import UserInput from './UserInput.js';
-import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerDamageState, PlayerDeathState} from './PlayerState.js';
+import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
 
 export default class Player {
   constructor(scene, x, y) {
@@ -30,7 +30,7 @@ export default class Player {
     this.runningState = new PlayerRunState(this);
     this.attackingState = new PlayerAttackState(this);
     this.specialAttackingState = new PlayerSpecialAttackState(this);
-    this.damageState = new PlayerDamageState(this);
+    this.gotHitState = new PlayerGotHitState(this);
     this.deathState = new PlayerDeathState(this);
     this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.currentState = this.idleState;
@@ -87,7 +87,7 @@ export default class Player {
 
   playerGotHit() {
     if(this.HP > 0) {
-        this.transitionToNewState(this.damageState);
+        this.transitionToNewState(this.gotHitState);
     } else {
         this.transitionToNewState(this.deathState);
     }

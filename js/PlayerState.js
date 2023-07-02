@@ -122,7 +122,7 @@ export class PlayerState {
     }
   }
 
-  export class PlayerDamageState extends PlayerState {
+  export class PlayerGotHitState extends PlayerState {
     enter() {
         console.log("Player entered damage state");
         this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
@@ -145,7 +145,6 @@ export class PlayerState {
 export class PlayerDeathState extends PlayerState {
   enter() {
       console.log("Player entered death state");
-      this.player.sprite.clearTint();
       this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
       this.player.sprite.anims.play('hero_death', true);
   }
