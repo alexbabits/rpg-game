@@ -1,6 +1,6 @@
---> Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops.
+--> Player Attack Damage on Enemies, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops. 
 
---> Player Attack Damage on Enemies, Player Death via Enemy, Player Respawn/Reload.
+--> "Grim Reaper picture on Game Over Scene, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
 
 --> Player Status Bars & Leveling. Monster Status Bars. (Change all the health/mana/experience/stamina bars into parent 'Bars' class?)
 
@@ -8,11 +8,14 @@
 
 --> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
 
---> Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
+--> (Bonus) Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
 
+--> For equipment, have an enlarged idling animation of the palyer on the equip screen, like runescape, and gear slots, and stats on the right.
 
 (Will need minimum two bears and two ents to mess with enemy respawn and stuff. (Bears should have like 500 health.))
 
+--> (Bonus: For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer.)
+--> (Bug: If in contact with multiple enemies, one of the enemies will continue to hit even though player is outside its sensors, seems like if I tag multiple attack sensors very quickly. If I tag a bear and an ent quickly then the bear attack stays on me even outside).
 
 Bank: Need chest in game to click on and bank stuff.
 Store: Need NPC or chest in game to click on and view store menu.

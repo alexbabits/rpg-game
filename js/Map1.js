@@ -20,7 +20,7 @@ export default class Map1 extends Phaser.Scene {
         const background = map.createStaticLayer('background', tileset, 0, 0);
         const environment = map.createStaticLayer('environment', tileset, 0, 0);
         background.setDepth(0);
-        environment.setDepth(2);
+        environment.setDepth(10);
         background.setCollisionByProperty({collides:true});
         environment.setCollisionByProperty({collides:true});
 
@@ -29,7 +29,9 @@ export default class Map1 extends Phaser.Scene {
         this.player = new Player(this, 320, 320);
         this.monsters = [];
         this.monsters.push(new Bear(this, this.player, 320, 220));
+        this.monsters.push(new Bear(this, this.player, 420, 220));
         this.monsters.push(new Ent(this, this.player, 320, 120));
+        this.monsters.push(new Ent(this, this.player, 120, 120));
         
         let camera = this.cameras.main;
         camera.zoom = 1.4;

@@ -18,7 +18,7 @@ export default class Player {
     const compoundBody = Body.create({parts:[this.playerCollider, this.playerSensor.right, this.playerSensor.left], frictionAir: .4});
 
     this.sprite = this.scene.matter.add.sprite(x, y, 'hero');
-    this.sprite.setDepth(1);
+    this.sprite.setDepth(5);
     this.sprite.setExistingBody(compoundBody);
     this.sprite.setFixedRotation();
 
