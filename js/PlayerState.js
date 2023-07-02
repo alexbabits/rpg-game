@@ -1,7 +1,11 @@
 export class PlayerState {
     constructor(player) {this.player = player;}
     enter() {}
-    update() {}
+    update() {
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
+    }
   }
   
   export class PlayerIdleState extends PlayerState {
@@ -14,7 +18,9 @@ export class PlayerState {
       const {x, y} = this.player.getMovement();
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
-    
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
       if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to special attack state");
         this.player.transitionStates(this.player.specialAttackingState);
@@ -37,7 +43,9 @@ export class PlayerState {
   
     update() {
       const {x, y} = this.player.getMovement();
-  
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
       if (x === 0 && y === 0) {
         this.player.transitionStates(this.player.idleState);
       } else if (this.player.userInput.cursors.shift.isDown) {
@@ -56,7 +64,9 @@ export class PlayerState {
   
     update() {
       const {x, y} = this.player.getMovement();
-  
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
       if (x === 0 && y === 0) {
         this.player.transitionStates(this.player.idleState);
       } else if (!this.player.userInput.cursors.shift.isDown) {
@@ -76,7 +86,9 @@ export class PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
       if(!this.player.userInput.cursors.space.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
         this.player.transitionStates(this.player.idleState);
       }
@@ -97,7 +109,9 @@ export class PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
       if(!this.player.userInput.cursors.space.isDown || !this.player.userInput.cursors.ctrl.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
         this.player.transitionStates(this.player.idleState);
       }
@@ -117,6 +131,9 @@ export class PlayerState {
     }
   
     update() {
+      if (this.player.HP <= 0) {
+        this.player.transitionStates(this.player.deathState);
+      }
     }
   
     handleAnimationComplete() {
@@ -125,7 +142,21 @@ export class PlayerState {
     }
 }
 
+export class PlayerDeathState extends PlayerState {
+  enter() {
+      console.log("Player entered death state");
+      this.player.sprite.clearTint();
+      this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
+      this.player.sprite.anims.play('hero_death', true);
+  }
 
-  //PlayerDeathState
-  //PlayerLootingState
-  //PlayerGettingHitState
+  update() {}
+
+  handleAnimationComplete() {
+    this.player.sprite.setActive(false);
+    this.player.sprite.setVisible(false);
+  }
+}
+
+
+//PlayerLootingState
