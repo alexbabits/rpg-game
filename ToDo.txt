@@ -8,13 +8,12 @@
 
 --> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
 
---> (Bonus) Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
-
 --> For equipment, have an enlarged idling animation of the palyer on the equip screen, like runescape, and gear slots, and stats on the right.
 
-(Will need minimum two bears and two ents to mess with enemy respawn and stuff. (Bears should have like 500 health.))
-
---> (Bonus: For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer.)
+--> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer.
+--> (Bonus) Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
+--> (Bonus) Defense stat on monsters & player
+--> (Bonus) Debuffs and buffs.
 --> (Bug: If in contact with multiple enemies, one of the enemies will continue to hit even though player is outside its sensors, seems like if I tag multiple attack sensors very quickly. If I tag a bear and an ent quickly then the bear attack stays on me even outside).
 
 Bank: Need chest in game to click on and bank stuff.

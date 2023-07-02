@@ -7,11 +7,11 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(name, maxHP, HP, damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
+    constructor(name, maxHP, HP, monsterDamage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
         this.name = name;
         this.maxHP = maxHP;
         this.HP = HP;
-        this.damage = damage;
+        this.monsterDamage = monsterDamage;
         this.scene = scene;
         this.player = player;
         this.movementSpeed = movementSpeed;
@@ -31,9 +31,9 @@ export class Monster {
         this.scene.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
             if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
                 if(bodyB.label === 'monsterAggressionSensor') {
-                    this.transitionStates(new MonsterAggressiveState(this));
+                    this.transitionToNewState(new MonsterAggressiveState(this));
                 } else if(bodyB.label === 'monsterAttackingSensor') {
-                    this.transitionStates(new MonsterAttackingState(this));
+                    this.transitionToNewState(new MonsterAttackingState(this));
                 }
             }
         });
@@ -41,7 +41,7 @@ export class Monster {
         this.scene.matter.world.on('collisionend', (event, bodyA, bodyB) => {
             if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
                 if(bodyB.label === 'monsterAttackingSensor') {
-                    this.transitionStates(new MonsterAggressiveState(this));
+                    this.transitionToNewState(new MonsterAggressiveState(this));
                 }
             }
         });
@@ -49,7 +49,7 @@ export class Monster {
         this.currentState = new MonsterIdleState(this);
     }
 
-    transitionStates(newState) {
+    transitionToNewState(newState) {
         this.currentState.exit();
         this.currentState = newState;
         this.currentState.enter();

@@ -3,7 +3,7 @@ export class PlayerState {
     enter() {}
     update() {
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
     }
   }
@@ -19,18 +19,18 @@ export class PlayerState {
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
       if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to special attack state");
-        this.player.transitionStates(this.player.specialAttackingState);
+        this.player.transitionToNewState(this.player.specialAttackingState);
       } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
         console.log("Switching to attack state");
-        this.player.transitionStates(this.player.attackingState);
+        this.player.transitionToNewState(this.player.attackingState);
       } else if (isPlayerMoving && this.player.userInput.cursors.shift.isDown) {
-        this.player.transitionStates(this.player.runningState);
+        this.player.transitionToNewState(this.player.runningState);
       } else if (isPlayerMoving) {
-        this.player.transitionStates(this.player.walkingState);
+        this.player.transitionToNewState(this.player.walkingState);
       }
     }
   }
@@ -44,12 +44,12 @@ export class PlayerState {
     update() {
       const {x, y} = this.player.getMovement();
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
       if (x === 0 && y === 0) {
-        this.player.transitionStates(this.player.idleState);
+        this.player.transitionToNewState(this.player.idleState);
       } else if (this.player.userInput.cursors.shift.isDown) {
-        this.player.transitionStates(this.player.runningState);
+        this.player.transitionToNewState(this.player.runningState);
       }
   
       this.player.setMovement();
@@ -65,12 +65,12 @@ export class PlayerState {
     update() {
       const {x, y} = this.player.getMovement();
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
       if (x === 0 && y === 0) {
-        this.player.transitionStates(this.player.idleState);
+        this.player.transitionToNewState(this.player.idleState);
       } else if (!this.player.userInput.cursors.shift.isDown) {
-        this.player.transitionStates(this.player.walkingState);
+        this.player.transitionToNewState(this.player.walkingState);
       }
   
       this.player.setMovement(true);
@@ -87,15 +87,15 @@ export class PlayerState {
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
       if(!this.player.userInput.cursors.space.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
-        this.player.transitionStates(this.player.idleState);
+        this.player.transitionToNewState(this.player.idleState);
       }
     }
   
     handleAnimationComplete() {
-      this.player.transitionStates(this.player.idleState);
+      this.player.transitionToNewState(this.player.idleState);
     }
   }
 
@@ -110,15 +110,15 @@ export class PlayerState {
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
       if(!this.player.userInput.cursors.space.isDown || !this.player.userInput.cursors.ctrl.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
-        this.player.transitionStates(this.player.idleState);
+        this.player.transitionToNewState(this.player.idleState);
       }
     }
   
     handleAnimationComplete() {
-      this.player.transitionStates(this.player.idleState);
+      this.player.transitionToNewState(this.player.idleState);
     }
   }
 
@@ -132,12 +132,12 @@ export class PlayerState {
   
     update() {
       if (this.player.HP <= 0) {
-        this.player.transitionStates(this.player.deathState);
+        this.player.transitionToNewState(this.player.deathState);
       }
     }
   
     handleAnimationComplete() {
-      this.player.transitionStates(this.player.idleState);
+      this.player.transitionToNewState(this.player.idleState);
       this.player.sprite.clearTint();
     }
 }

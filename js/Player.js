@@ -8,7 +8,7 @@ export default class Player {
     this.runSpeed = 4;
     this.maxHP = 20;
     this.HP = 20;
-    this.damage = 150;
+    this.playerDamage = 150;
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
@@ -31,8 +31,8 @@ export default class Player {
     this.attackingState = new PlayerAttackState(this);
     this.specialAttackingState = new PlayerSpecialAttackState(this);
     this.damageState = new PlayerDamageState(this);
-    this.scene.events.on('playerHit', this.handleHit, this);
     this.deathState = new PlayerDeathState(this);
+    this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.currentState = this.idleState;
   }
 
@@ -80,16 +80,16 @@ export default class Player {
     }
   }
 
-  transitionStates(newState) {
+  transitionToNewState(newState) {
     this.currentState = newState;
     this.currentState.enter();
   }
 
-  handleHit(player) {
+  playerGotHit(player) {
     if(player === this && this.HP > 0) {
-        this.transitionStates(this.damageState);
+        this.transitionToNewState(this.damageState);
     } else if ( player === this && this.HP < 0) {
-        this.transitionStates(this.deathState);
+        this.transitionToNewState(this.deathState);
     }
   }
 
