@@ -82,13 +82,31 @@ export class PlayerState {
       this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
       console.log("Player entered attack state");
       this.player.sprite.anims.play('hero_attack', true);
+      this.damageApplied = false;  // Add a flag to track if damage has been applied
     }
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
       if (this.player.HP <= 0) {
         this.player.transitionToNewState(this.player.deathState);
+      } 
+      // Add a condition to check the current frame and the damageApplied flag
+      else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_attack_5' && !this.damageApplied) {
+        for(let monsterSprite of this.player.monstersTouching){
+          let monster = monsterSprite.monsterInstance;
+          if (monster.HP > 0) {
+            monster.HP -= this.player.playerDamage;
+            console.log(`Player attacked ${monster.name} for ${this.player.playerDamage} damage. Monster health: ${monster.HP}`);
+          }
+          if (monster.HP <= 0) {
+            console.log(`${monster.name} is defeated.`);
+            this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
+            // Do other cleanups here like removing the monster from the scene
+          }
+        }
+        this.damageApplied = true;  // Set the flag to true after applying damage
       }
+  
       if(!this.player.userInput.cursors.space.isDown || playerVelocity.x !== 0 || playerVelocity.y !== 0) {
         this.player.transitionToNewState(this.player.idleState);
       }

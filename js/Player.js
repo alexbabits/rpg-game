@@ -14,7 +14,7 @@ export default class Player {
     this.runSpeed = 4;
     this.maxHP = 20;
     this.HP = 200000;
-    this.playerDamage = 150;
+    this.playerDamage = 100;
     this.direction = 'Right';
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
@@ -112,7 +112,7 @@ export default class Player {
 
   update() {
     this.currentState.update();
-    console.log(`${this.monstersTouching.length}`);
+    //console.log(`${this.monstersTouching.length}`);
   }
 
 }

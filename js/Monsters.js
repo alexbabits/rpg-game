@@ -19,6 +19,7 @@ export class Monster {
         this.idleAnim = idleAnim;
         this.walkAnim = walkAnim;
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(2).setScale(scale);
+        this.sprite.monsterInstance = this;
         const {Body,Bodies} = Phaser.Physics.Matter.Matter;
         this.collider = Bodies.rectangle(x, y, colliderWidth, colliderHeight, {chamfer: chamfer, isSensor: false, label:'monsterCollider', parent: this});
         this.aggressionSensor = Bodies.circle(x, y, aggressionSensorRadius, {isSensor: true, label:'monsterAggressionSensor', parent: this});
