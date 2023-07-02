@@ -71,7 +71,7 @@ export class Bear extends Monster {
 
 export class Ent extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
-        super('ent', 200, 200, 3, 0.5, 0.5, scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 35, 0.85, 'ent_idle', 'ent_walk');  
+        super('ent', 200, 200, 3, 0.5, 1, scene, player, x, y, key, frame, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');  
         this.sprite.play('ent_idle');
     }
 }
