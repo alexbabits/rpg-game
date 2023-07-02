@@ -27,28 +27,28 @@ export class Monster {
         const compoundBody = Body.create({parts:[this.collider, this.aggressionSensor, this.attackingSensor], frictionAir: .35}); 
         this.sprite.setExistingBody(compoundBody);
         this.sprite.setFixedRotation();
-
-
-        this.scene.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
-            if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
-                if(bodyB.label === 'monsterAggressionSensor') {
-                    this.transitionToNewState(new MonsterAggressiveState(this));
-                } else if(bodyB.label === 'monsterAttackingSensor') {
-                    this.transitionToNewState(new MonsterAttackingState(this));
-                }
-            }
-        });
-
-        this.scene.matter.world.on('collisionend', (event, bodyA, bodyB) => {
-            if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
-                if(bodyB.label === 'monsterAttackingSensor') {
-                    this.transitionToNewState(new MonsterAggressiveState(this));
-                }
-            }
-        });
-
+        this.scene.matter.world.on('collisionstart', this.handleCollisionStart.bind(this));
+        this.scene.matter.world.on('collisionend', this.handleCollisionEnd.bind(this));
         this.currentState = new MonsterIdleState(this);
     }
+
+    handleCollisionStart(event, bodyA, bodyB) {
+        if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
+            if(bodyB.label === 'monsterAggressionSensor') {
+                this.transitionToNewState(new MonsterAggressiveState(this));
+            } else if(bodyB.label === 'monsterAttackingSensor') {
+                this.transitionToNewState(new MonsterAttackingState(this));
+            }
+        }
+      }
+    
+    handleCollisionEnd(event, bodyA, bodyB) {
+        if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
+            if(bodyB.label === 'monsterAttackingSensor') {
+                this.transitionToNewState(new MonsterAggressiveState(this));
+            }
+        }
+      }
 
     transitionToNewState(newState) {
         this.currentState.exit();

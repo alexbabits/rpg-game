@@ -1,4 +1,6 @@
---> Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops. 
+--> Enemy Death, Enemy Respawn, Looting Scene, Enemy item drops, 
+
+--> (Bug): Sometimes enemies, one or many, bug out, and attack even when you leave attack radius. They seem to not properly switch from attacking state to running towards you with aggressive state somethings. They just idle (attack) as if you are still there, even if you are far away. So perhaps a more rigorous check to make sure the player is within range of their attack sensor radius, or make the logic simpler with the 'collisionactive' rather than a collisionend/collisionstart if that is the case.
 
 --> "Grim Reaper picture on Game Over Scene, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
 
@@ -11,9 +13,9 @@
 --> For equipment, have an enlarged idling animation of the palyer on the equip screen, like runescape, and gear slots, and stats on the right.
 
 
---> (Bug): Sometimes enemies, one or many, bug out, and attack even when you leave attack radius. They seem to not properly switch from attacking state to running towards you with aggressive state somethings. They just idle (attack) as if you are still there, even if you are far away. So perhaps a more rigorous check to make sure the player is within range of their attack sensor radius, or make the logic simpler with the 'collisionactive' rather than a collisionend/collisionstart if that is the case.
 
---> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer.
+
+--> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
 --> (Bonus): Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
 --> (Bonus): Defense stat on monsters & player
 --> (Bonus): Debuffs and buffs.
