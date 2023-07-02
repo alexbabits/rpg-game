@@ -1,3 +1,11 @@
+Player Attacking Monsters:
+
+Attack Processing: During the update of the PlayerAttackState, check if the player's animation is at the 'hero_attack_5' frame. If it is, iterate over the "monstersToHit" list and call a hit method on each monster (which you'd need to implement in the Monster class), decrementing their HP by the player's damage. It's crucial to set some flag (e.g., attackProcessed) to ensure the hit is processed only once per attack animation.
+
+Resetting: At the start of each new attack animation, you should clear the attackProcessed flag to prepare for the next round of hit detection and processing.
+
+Now let's write some code for just the collision part of this process. Then after that, decrement the HP of monsters that are in that collision array once per 'hero_attack_5' frame.
+
 --> Player Attack Damage on Enemies, Enemy Death, Enemy Respawn, Multiple Enemies, Enemy item drops. 
 
 --> "Grim Reaper picture on Game Over Scene, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
@@ -10,12 +18,15 @@
 
 --> For equipment, have an enlarged idling animation of the palyer on the equip screen, like runescape, and gear slots, and stats on the right.
 
+
+--> (Bug): Sometimes enemies, one or many, bug out, and attack even when you leave attack radius. They seem to not properly switch from attacking state to running towards you with aggressive state somethings. They just idle (attack) as if you are still there, even if you are far away. So perhaps a more rigorous check to make sure the player is within range of their attack sensor radius, or make the logic simpler with the 'collisionactive' rather than a collisionend/collisionstart if that is the case.
+
 --> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer.
 --> (Bonus): Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
 --> (Bonus): Defense stat on monsters & player
 --> (Bonus): Debuffs and buffs.
 --> (Bonus): Random % Chance for 'hero_crit' critical with that anim. And then a separate animation and stuff for 'hero_special' for special attacks. 
---> (Bug: If in contact with multiple enemies, one of the enemies will continue to hit even though player is outside its sensors, seems like if I tag multiple attack sensors very quickly. If I tag a bear and an ent quickly then the bear attack stays on me even outside).
+
 
 Bank: Need chest in game to click on and bank stuff.
 Store: Need NPC or chest in game to click on and view store menu.

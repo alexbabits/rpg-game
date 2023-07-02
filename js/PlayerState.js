@@ -10,7 +10,7 @@ export class PlayerState {
   
   export class PlayerIdleState extends PlayerState {
     enter() {
-      console.log("Player entered idle state");
+      //console.log("Player entered idle state");
       this.player.sprite.anims.play('hero_idle', true);
     }
   
@@ -38,7 +38,7 @@ export class PlayerState {
   export class PlayerWalkState extends PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_walk', true);
-      console.log("Player entered walking state");
+      //console.log("Player entered walking state");
     }
   
     update() {
@@ -59,7 +59,7 @@ export class PlayerState {
   export class PlayerRunState extends PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_run', true);
-      console.log("Player entered running state");
+      //console.log("Player entered running state");
     }
   
     update() {
@@ -124,7 +124,7 @@ export class PlayerState {
 
   export class PlayerGotHitState extends PlayerState {
     enter() {
-        console.log("Player entered damage state");
+        //console.log("Player entered damage state");
         this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
         this.player.sprite.anims.play('hero_damage', true);
         this.player.sprite.setTint(0xff0000);
@@ -144,7 +144,7 @@ export class PlayerState {
 
 export class PlayerDeathState extends PlayerState {
   enter() {
-      console.log("Player entered death state");
+      //console.log("Player entered death state");
       this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
       this.player.sprite.anims.play('hero_death', true);
   }

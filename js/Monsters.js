@@ -1,4 +1,4 @@
-import { MonsterState, MonsterIdleState, MonsterAggressiveState, MonsterAttackingState } from "./MonsterState.js";
+import {MonsterIdleState, MonsterAggressiveState, MonsterAttackingState} from "./MonsterState.js";
 
 export class Monster {
 
@@ -63,7 +63,7 @@ export class Monster {
 
 export class Bear extends Monster {
     constructor(scene, player, x, y, key = 'enemies', frame) {
-        super('bear', 500, 500, 5, 1, 2, scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 40, 0.75, 'bear_idle', 'bear_walk'); 
+        super('bear', 500, 500, 5, 1, 2, scene, player, x, y, key, frame, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk'); 
         this.sprite.play('bear_idle'); 
     }
 }
