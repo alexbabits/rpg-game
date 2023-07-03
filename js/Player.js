@@ -17,6 +17,7 @@ export default class Player {
     this.HP = 200;
     this.maxStamina = 100;
     this.stamina = 100;
+    this.canRun = true;
     this.playerDamage = 100;
     this.playerSpecialDamage = this.playerDamage*2;
     this.direction = 'Right';
@@ -52,6 +53,9 @@ export default class Player {
 
   get HP() {return this._HP;}
   set HP(value) {this._HP = Math.max(0, Math.min(value, this.maxHP));}
+
+  get stamina() {return this._stamina;}
+  set stamina(value) {this._stamina = Math.max(0, Math.min(value, this.maxStamina));}
 
   handleCollision(event) {
     this.monstersTouching = [];

@@ -36,37 +36,72 @@ export class PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_walk', true);
       console.log("Player entered walking state");
+
+      if (!this.staminaDecrementTimer) {
+        this.staminaDecrementTimer = this.player.scene.time.addEvent({
+            delay: 200,
+            callback: () => {
+              this.player.stamina++;
+              this.player.staminaBar.draw();
+              console.log(`${this.player.stamina}`)
+            },
+            loop: true
+        });
+      }
     }
-  
+
     update() {
       const {x, y} = this.player.getMovement();
       if (x === 0 && y === 0) {
         this.player.transitionToNewState(this.player.idleState);
       } else if (this.player.userInput.cursors.shift.isDown) {
         this.player.transitionToNewState(this.player.runningState);
-      } 
+      }
       this.player.setMovement();
     }
-    exit() {}
-  }
-  
-  export class PlayerRunState extends PlayerState {
-    enter() {
-      this.player.sprite.anims.play('hero_run', true);
-      console.log("Player entered running state");
-    }
-  
-    update() {
-      const {x, y} = this.player.getMovement();
-      if (x === 0 && y === 0) {
-        this.player.transitionToNewState(this.player.idleState);
-      } else if (!this.player.userInput.cursors.shift.isDown) {
-        this.player.transitionToNewState(this.player.walkingState);
+
+    exit() {
+      if (this.staminaDecrementTimer) {
+        this.staminaDecrementTimer.destroy();
+        this.staminaDecrementTimer = null;
       }
-      this.player.setMovement(true);
     }
-    exit() {}
+}
+  
+export class PlayerRunState extends PlayerState {
+  enter() {
+    this.player.sprite.anims.play('hero_run', true);
+    console.log("Player entered running state");
+
+    if (!this.staminaDecrementTimer) {
+      this.staminaDecrementTimer = this.player.scene.time.addEvent({
+          delay: 100,
+          callback: () => {
+            this.player.stamina--;
+            this.player.staminaBar.draw();
+          },
+          loop: true
+      });
+    }
   }
+
+  update() {
+    const {x, y} = this.player.getMovement();
+    if (x === 0 && y === 0) {
+      this.player.transitionToNewState(this.player.idleState);
+    } else if (!this.player.userInput.cursors.shift.isDown || this.player.stamina === 0) {
+      this.player.transitionToNewState(this.player.walkingState);
+    }
+    this.player.setMovement(true);
+  }
+
+  exit() {
+    if (this.staminaDecrementTimer) {
+      this.staminaDecrementTimer.destroy();
+      this.staminaDecrementTimer = null;
+    }
+  }
+}
 
   export class PlayerAttackState extends PlayerState {
     enter() {
