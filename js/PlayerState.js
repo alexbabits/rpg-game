@@ -183,7 +183,9 @@ export class PlayerRunState extends PlayerState {
 
 
   export class PlayerSpecialAttackState extends PlayerState {
+    static stateName = 'specialAttacking';
     enter() {
+      this.name = PlayerSpecialAttackState.stateName;
       this.player.sprite.on('animationstart', this.handleAnimationReset, this);
       this.player.sprite.on('animationrepeat', this.handleAnimationReset, this);
       console.log("Player entered special attack state");

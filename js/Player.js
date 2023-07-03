@@ -69,7 +69,7 @@ export default class Player {
     this.scene.time.addEvent({
       delay: 2000,
       callback: () => {
-        if (this.mana < this.maxMana) {
+        if (this.mana < this.maxMana && this.currentState.name !== PlayerSpecialAttackState.stateName) {
           this.mana++;
           this.manaBar.draw();
         }
