@@ -11,6 +11,17 @@ export class PlayerState {
     enter() {
       console.log("Player entered idle state");
       this.player.sprite.anims.play('hero_idle', true);
+
+      if (!this.staminaIncrementTimer) {
+        this.staminaIncrementTimer = this.player.scene.time.addEvent({
+          delay: 100,
+          callback: () => {
+              this.player.stamina++;
+              this.player.staminaBar.draw();
+          },
+          loop: true
+        });
+      }
     }
   
     update() {
@@ -27,7 +38,12 @@ export class PlayerState {
         this.player.transitionToNewState(this.player.walkingState);
       }
     }
-    exit() {}
+    exit() {
+      if (this.staminaIncrementTimer) {
+        this.staminaIncrementTimer.destroy();
+        this.staminaIncrementTimer = null;
+      }
+    }
   }
   
   export class PlayerWalkState extends PlayerState {
@@ -35,20 +51,13 @@ export class PlayerState {
       this.player.sprite.anims.play('hero_walk', true);
       console.log("Player entered walking state");
   
-      if (!this.staminaDecrementTimer) {
-        this.staminaDecrementTimer = this.player.scene.time.addEvent({
+      if (!this.staminaIncrementTimer) {
+        this.staminaIncrementTimer = this.player.scene.time.addEvent({
           delay: 600,
           callback: () => {
             if (this.player.stamina < this.player.maxStamina) {
               this.player.stamina++;
               this.player.staminaBar.draw();
-            }
-
-            if (this.player.stamina === 1 && !this.player.runCooldownTimer) {
-              this.player.runCooldownTimer = this.player.scene.time.delayedCall(600, () => {
-                this.player.canRun = true;
-                this.player.runCooldownTimer = null;
-              }, [], this);
             }
           },
           loop: true
@@ -68,9 +77,9 @@ export class PlayerState {
     }
   
     exit() {
-      if (this.staminaDecrementTimer) {
-        this.staminaDecrementTimer.destroy();
-        this.staminaDecrementTimer = null;
+      if (this.staminaIncrementTimer) {
+        this.staminaIncrementTimer.destroy();
+        this.staminaIncrementTimer = null;
       }
       if (this.runCooldownTimer) {
         this.runCooldownTimer.remove();

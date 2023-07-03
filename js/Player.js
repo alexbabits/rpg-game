@@ -114,6 +114,14 @@ export default class Player {
       this.sprite.setFlipX(false);
       this.direction = 'Right';
     }
+  
+    if (this.stamina === 0 && !this.runCooldownTimer) {
+      this.canRun = false;
+      this.runCooldownTimer = this.scene.time.delayedCall(1200, () => {
+        this.canRun = true;
+        this.runCooldownTimer = null;
+      }, [], this);
+    }
   }
 
   transitionToNewState(newState) {
