@@ -1,6 +1,6 @@
 import UserInput from './UserInput.js';
 import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
-import {HPBar, StaminaBar} from './PlayerBars.js'
+import {HPBar, StaminaBar, ManaBar} from './PlayerBars.js'
 
 export default class Player {
 
@@ -15,12 +15,14 @@ export default class Player {
     this.runSpeed = 4;
     this.maxHP = 200;
     this.HP = 200;
+    this.maxMana = 20;
+    this.mana = 20;
     this.maxStamina = 100;
     this.stamina = 100;
     this.canRun = true;
     this.runCooldownTimer = null;
     this.playerDamage = 100;
-    this.playerSpecialDamage = this.playerDamage*2;
+    this.playerSpecialDamage = this.playerDamage*2.5;
     this.direction = 'Right';
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
@@ -37,6 +39,7 @@ export default class Player {
 
     this.hpBar = new HPBar(this.scene, 112, 110, this);
     this.staminaBar = new StaminaBar(this.scene, 212, 210, this);
+    this.manaBar = new ManaBar(this.scene, 312, 310, this);
 
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
@@ -57,6 +60,9 @@ export default class Player {
 
   get stamina() {return this._stamina;}
   set stamina(value) {this._stamina = Math.max(0, Math.min(value, this.maxStamina));}
+
+  get mana() {return this._mana;}
+  set mana(value) {this._mana = Math.max(0, Math.min(value, this.maxMana));}
 
   // For when the player object is removed from the game (level ends, player dies, exiting game)
   destroy() {
