@@ -17,6 +17,7 @@ export default class Player {
     this.HP = 200;
     this.maxMana = 20;
     this.mana = 20;
+    this.manaRegeneration();
     this.maxStamina = 100;
     this.stamina = 100;
     this.canRun = true;
@@ -64,6 +65,18 @@ export default class Player {
   get mana() {return this._mana;}
   set mana(value) {this._mana = Math.max(0, Math.min(value, this.maxMana));}
 
+  manaRegeneration() {
+    this.scene.time.addEvent({
+      delay: 2000,
+      callback: () => {
+        if (this.mana < this.maxMana) {
+          this.mana++;
+          this.manaBar.draw();
+        }
+      },
+      loop: true
+    });
+  }
   // For when the player object is removed from the game (level ends, player dies, exiting game)
   destroy() {
     if (this.runCooldownTimer) {
