@@ -30,9 +30,7 @@
 --> (Bonus): You can only save at the inn when you go to sleep.
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
-
-
-
+--> (Small Bonus): Can load in the monsters in a more streamlined manner with MonsterManager probably.
 
 
 ***Future Stuff*** Weapons/Sensors/Animations/Sprites:
