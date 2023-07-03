@@ -43,7 +43,7 @@ export class StaminaBar {
         this.scene = scene;
         this.player = player;
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, 230, 208, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
+        this.text = new Phaser.GameObjects.Text(scene, 130, 208, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
         this.bar.setDepth(50);
         this.text.setDepth(51);
         this.bar.setScrollFactor(0, 0);
@@ -65,12 +65,8 @@ export class StaminaBar {
         const staminaWidth = this.player.stamina * this.pixelPerStamina;
         this.bar.fillStyle(0xFFFFFF);
         this.bar.fillRect(this.x, this.y, width, height);
+        this.bar.fillStyle(0xe6e600);
 
-        if (staminaWidth <= this.size.width / 4) {
-            this.bar.fillStyle(0xFF0000);
-        } else {
-            this.bar.fillStyle(0xe6e600);
-        }
         if (staminaWidth > 0) {
             this.bar.fillRect(this.x, this.y, staminaWidth, height);
         }
@@ -83,7 +79,7 @@ export class ManaBar {
         this.scene = scene;
         this.player = player;
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, 330, 308, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
+        this.text = new Phaser.GameObjects.Text(scene, 130, 308, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
         this.bar.setDepth(50);
         this.text.setDepth(51);
         this.bar.setScrollFactor(0, 0);
@@ -105,12 +101,8 @@ export class ManaBar {
         const manaWidth = this.player.mana * this.pixelPerMana;
         this.bar.fillStyle(0xFFFFFF);
         this.bar.fillRect(this.x, this.y, width, height);
+        this.bar.fillStyle(0x0073e6);
 
-        if (manaWidth <= this.size.width / 4) {
-            this.bar.fillStyle(0xFF0000);
-        } else {
-            this.bar.fillStyle(0x0073e6);
-        }
         if (manaWidth > 0) {
             this.bar.fillRect(this.x, this.y, manaWidth, height);
         }

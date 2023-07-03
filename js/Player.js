@@ -38,8 +38,8 @@ export default class Player {
     this.sprite.anims.play('hero_idle');
 
     this.hpBar = new HPBar(this.scene, 112, 110, this);
-    this.staminaBar = new StaminaBar(this.scene, 212, 210, this);
-    this.manaBar = new ManaBar(this.scene, 312, 310, this);
+    this.staminaBar = new StaminaBar(this.scene, 112, 210, this);
+    this.manaBar = new ManaBar(this.scene, 112, 310, this);
 
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);

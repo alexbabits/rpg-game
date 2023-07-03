@@ -26,7 +26,7 @@ export class PlayerState {
       const {x, y} = this.player.getMovement();
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
-      if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.stamina >= 25) {
+      if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.stamina >= 25 && this.player.mana >= 5) {
         this.player.transitionToNewState(this.player.specialAttackingState);
       } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.stamina >= 10) {
         this.player.transitionToNewState(this.player.attackingState);
@@ -199,9 +199,9 @@ export class PlayerRunState extends PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      if (this.player.stamina < 25){
+      if (this.player.stamina < 25 || this.player.mana < 5){
         this.player.transitionToNewState(this.player.idleState);
-      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_crit_4' && !this.damageApplied && this.player.stamina >= 25) {
+      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_crit_4' && !this.damageApplied && this.player.stamina >= 25 && this.player.mana >= 5) {
         this.handleAttack();
         this.damageApplied = true;
       }
@@ -212,6 +212,8 @@ export class PlayerRunState extends PlayerState {
     }
   
     handleAttack() {
+      this.player.mana -= 5;
+      this.player.manaBar.draw();
       this.player.stamina -= 25;
       this.player.staminaBar.draw();
       for(let monsterSprite of this.player.monstersTouching){
