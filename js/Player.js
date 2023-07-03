@@ -1,5 +1,6 @@
 import UserInput from './UserInput.js';
 import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
+import HPBar from './PlayerBars.js'
 
 export default class Player {
 
@@ -13,7 +14,7 @@ export default class Player {
     this.walkSpeed = 2;
     this.runSpeed = 4;
     this.maxHP = 20;
-    this.HP = 5;
+    this.HP = 20;
     this.playerDamage = 100;
     this.playerSpecialDamage = this.playerDamage*2;
     this.direction = 'Right';
@@ -30,6 +31,8 @@ export default class Player {
     this.sprite.setFixedRotation();
     this.sprite.anims.play('hero_idle');
 
+    this.hpBar = new HPBar(this.scene, 112, 110, this);
+
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -40,7 +43,6 @@ export default class Player {
     this.deathState = new PlayerDeathState(this);
     this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.currentState = this.idleState;
-
     this.monstersTouching = [];
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
   }
@@ -103,6 +105,7 @@ export default class Player {
   }
 
   playerGotHit() {
+    this.hpBar.modifyHPBar();
     if(this.HP > 0) {
         this.transitionToNewState(this.gotHitState);
     } else {
