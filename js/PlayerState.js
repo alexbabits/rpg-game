@@ -9,7 +9,7 @@ export class PlayerState {
   
   export class PlayerIdleState extends PlayerState {
     enter() {
-      //console.log("Player entered idle state");
+      console.log("Player entered idle state");
       this.player.sprite.anims.play('hero_idle', true);
     }
   
@@ -35,7 +35,7 @@ export class PlayerState {
   export class PlayerWalkState extends PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_walk', true);
-      //console.log("Player entered walking state");
+      console.log("Player entered walking state");
     }
   
     update() {
@@ -44,8 +44,7 @@ export class PlayerState {
         this.player.transitionToNewState(this.player.idleState);
       } else if (this.player.userInput.cursors.shift.isDown) {
         this.player.transitionToNewState(this.player.runningState);
-      }
-  
+      } 
       this.player.setMovement();
     }
     exit() {}
@@ -54,7 +53,7 @@ export class PlayerState {
   export class PlayerRunState extends PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_run', true);
-      //console.log("Player entered running state");
+      console.log("Player entered running state");
     }
   
     update() {
@@ -64,7 +63,6 @@ export class PlayerState {
       } else if (!this.player.userInput.cursors.shift.isDown) {
         this.player.transitionToNewState(this.player.walkingState);
       }
-  
       this.player.setMovement(true);
     }
     exit() {}
@@ -107,7 +105,6 @@ export class PlayerState {
           console.log(`Player attacked ${monster.name} for ${this.player.playerDamage} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
-          console.log(`${monster.name} is defeated.`);
           this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
           monster.handleMonsterDeath();
         }
@@ -155,10 +152,9 @@ export class PlayerState {
           monster.HP -= this.player.playerSpecialDamage;
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player special attacked ${monster.name} for ${this.player.playerDamage} damage. Monster health: ${monster.HP}`);
+          console.log(`Player special attacked ${monster.name} for ${this.player.playerSpecialDamage} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
-          console.log(`${monster.name} is defeated.`);
           this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
           monster.handleMonsterDeath();
         }
@@ -173,7 +169,7 @@ export class PlayerState {
 
   export class PlayerGotHitState extends PlayerState {
     enter() {
-        //console.log("Player entered GotHitState");
+        console.log("Player entered GotHitState");
         this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
         this.player.sprite.anims.play('hero_damage', true);
         this.player.sprite.setTint(0xff0000);
@@ -188,7 +184,7 @@ export class PlayerState {
 
 export class PlayerDeathState extends PlayerState {
   enter() {
-      //console.log("Player entered death state");
+      console.log("Player entered death state");
       this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);
       this.player.sprite.anims.play('hero_death', true);
   }
@@ -200,6 +196,3 @@ export class PlayerDeathState extends PlayerState {
     this.player.sprite.setVisible(false);
   }
 }
-
-
-//PlayerLootingState

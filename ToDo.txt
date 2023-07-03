@@ -1,36 +1,41 @@
 --> Player Status Bars & Leveling. Monster Status Bars. (Change all the health/mana/experience/stamina bars into parent 'Bars' class?)
+--> (First, display all the monster HP bars, and then say in the monster aggressive or attack state, then only show relevant ones then)
 
 --> Looting Scene pop-up window (with enemy item drops)
 
---> Bank/Store/Inventory/Pause Menu/(Load/Save).
+--> Inventory (Slots, and then brown bag background to make it look nice)
+
+--> Bank (Need chest in game to click on and bank stuff). Store (Need NPC or chest in game to click on and view store menu.)
+
+--> Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
+
+--> (Load/Save) Need all proper things in GameState, and make sure that works (Invy/Bank/Monsters/Location/etc.)
 
 --> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
 
---> For equipment, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right.
+--> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
+
+--> Teleporter: =-D
 
 --> "Grim Reaper picture on Game Over Scene, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
 
---> (Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
+--> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 
 --> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
---> (Bonus): Click to move, also arrow keys to move, also zoom scroll with mouse wheel.
+--> (Bonus): Click to move/arrow keys to move, also zoom scroll with mouse wheel.
 --> (Bonus): Defense stat on monsters & player
 --> (Bonus): Debuffs and buffs.
 --> (Bonus): Random % Chance for 'hero_crit' critical with that anim. And then a separate animation and stuff for 'hero_special' for special attacks. 
 --> (Bonus): Combine PlayerAttackState and PlayerSpecialAttackState.
-
-Bank: Need chest in game to click on and bank stuff.
-Store: Need NPC or chest in game to click on and view store menu.
-Pause Menu: Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.)
-Load/Save: Need all that stuff in place to save/load the gamestate and make sure that works (Invy/Bank/Monsters/Location/etc.). You can only save at the inn?
-
-
-Layers: Scenary you can walk on, Scenary you can't walk on, Scenary you can interact with (Chests, Bank, Stores, NPCs, Cave Entrances, Teleporter, etc.).
+--> (Bonus): You can only save at the inn when you go to sleep.
+--> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
+--> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
 
 
 
 
-Weapons/Sensors/Animations/Sprites:
+
+***Future Stuff*** Weapons/Sensors/Animations/Sprites:
 
 --> 2 different kinds of weapons. (Different colors on same weapon). Different base damages for each weapon
 

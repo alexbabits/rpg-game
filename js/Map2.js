@@ -1,5 +1,5 @@
 import Player from "./Player.js";
-import {Monster, Bear, Ent} from "./Monsters.js";
+import {Monster, MonsterManager} from "./Monsters.js";
 
 export default class Map2 extends Phaser.Scene {
     constructor() {
