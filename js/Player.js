@@ -18,6 +18,7 @@ export default class Player {
     this.maxStamina = 100;
     this.stamina = 100;
     this.canRun = true;
+    this.runCooldownTimer = null;
     this.playerDamage = 100;
     this.playerSpecialDamage = this.playerDamage*2;
     this.direction = 'Right';
@@ -56,6 +57,14 @@ export default class Player {
 
   get stamina() {return this._stamina;}
   set stamina(value) {this._stamina = Math.max(0, Math.min(value, this.maxStamina));}
+
+  // For when the player object is removed from the game (level ends, player dies, exiting game)
+  destroy() {
+    if (this.runCooldownTimer) {
+      this.runCooldownTimer.remove();
+      this.runCooldownTimer = null;
+    }
+  }
 
   handleCollision(event) {
     this.monstersTouching = [];

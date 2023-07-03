@@ -18,10 +18,8 @@ export class PlayerState {
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
       if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
-        console.log("Switching to special attack state");
         this.player.transitionToNewState(this.player.specialAttackingState);
       } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0) {
-        console.log("Switching to attack state");
         this.player.transitionToNewState(this.player.attackingState);
       } else if (isPlayerMoving && this.player.userInput.cursors.shift.isDown) {
         this.player.transitionToNewState(this.player.runningState);
@@ -36,37 +34,50 @@ export class PlayerState {
     enter() {
       this.player.sprite.anims.play('hero_walk', true);
       console.log("Player entered walking state");
-
+  
       if (!this.staminaDecrementTimer) {
         this.staminaDecrementTimer = this.player.scene.time.addEvent({
-            delay: 200,
-            callback: () => {
+          delay: 600,
+          callback: () => {
+            if (this.player.stamina < this.player.maxStamina) {
               this.player.stamina++;
               this.player.staminaBar.draw();
-              console.log(`${this.player.stamina}`)
-            },
-            loop: true
+            }
+
+            if (this.player.stamina === 1 && !this.player.runCooldownTimer) {
+              this.player.runCooldownTimer = this.player.scene.time.delayedCall(600, () => {
+                this.player.canRun = true;
+                this.player.runCooldownTimer = null;
+              }, [], this);
+            }
+          },
+          loop: true
         });
       }
     }
-
+  
     update() {
       const {x, y} = this.player.getMovement();
+      
       if (x === 0 && y === 0) {
         this.player.transitionToNewState(this.player.idleState);
-      } else if (this.player.userInput.cursors.shift.isDown) {
+      } else if (this.player.userInput.cursors.shift.isDown && this.player.canRun) {
         this.player.transitionToNewState(this.player.runningState);
       }
       this.player.setMovement();
     }
-
+  
     exit() {
       if (this.staminaDecrementTimer) {
         this.staminaDecrementTimer.destroy();
         this.staminaDecrementTimer = null;
       }
+      if (this.runCooldownTimer) {
+        this.runCooldownTimer.remove();
+        this.runCooldownTimer = null;
+      }
     }
-}
+  }
   
 export class PlayerRunState extends PlayerState {
   enter() {
@@ -75,21 +86,28 @@ export class PlayerRunState extends PlayerState {
 
     if (!this.staminaDecrementTimer) {
       this.staminaDecrementTimer = this.player.scene.time.addEvent({
-          delay: 100,
-          callback: () => {
+        delay: 200,
+        callback: () => {
+          if (this.player.stamina > 0) {
             this.player.stamina--;
             this.player.staminaBar.draw();
-          },
-          loop: true
+          }
+        },
+        loop: true
       });
     }
   }
 
   update() {
     const {x, y} = this.player.getMovement();
+
+    if (this.player.stamina === 0) {
+      this.player.canRun = false;
+    }
+
     if (x === 0 && y === 0) {
       this.player.transitionToNewState(this.player.idleState);
-    } else if (!this.player.userInput.cursors.shift.isDown || this.player.stamina === 0) {
+    } else if (!this.player.userInput.cursors.shift.isDown || !this.player.canRun) {
       this.player.transitionToNewState(this.player.walkingState);
     }
     this.player.setMovement(true);
