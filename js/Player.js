@@ -13,8 +13,8 @@ export default class Player {
     this.scene = scene;
     this.XP = 0;
     this.maxXP = 50;
-    //this.level = 1;
-    //this.totalXP = 0;
+    this.level = 1;
+    this.totalXP = 0;
     this.walkSpeed = 2;
     this.runSpeed = 4;
     this.maxHP = 200;
@@ -65,8 +65,22 @@ export default class Player {
 
   gainXP(monster) {
     this.XP += monster.XP;
-    // You can add a check here if player XP exceeded maxXP, and handle level up.
-    console.log(`Player gained ${monster.XP} XP. Total XP: ${this.XP}`);
+    this.totalXP += monster.XP;
+    console.log(`Player gained ${monster.XP} XP. Total XP: ${this.totalXP}. XP to next level: ${this.xpToNextLevel()}`);
+    if (this.XP >= this.maxXP) {
+      this.levelUp();
+    }
+  }
+  
+  levelUp() {
+    this.level++;
+    this.XP = 0;
+    this.maxXP = Math.ceil(this.maxXP * 1.5);
+    console.log(`Player leveled up! Current level: ${this.level}. XP needed for next level: ${this.maxXP}. XP to next level: ${this.xpToNextLevel()}`);
+  }
+
+  xpToNextLevel() {
+    return this.maxXP - this.XP;
   }
 
   get HP() {return this._HP;}

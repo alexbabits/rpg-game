@@ -1,4 +1,4 @@
---> Player Status Bars & Leveling. Monster Status Bars. (Change all the health/mana/experience/stamina bars into parent 'Bars' class?)
+--> Player XP Bars. Monster Status Bars. (For monsters, their health still goes negative, need getter/setter like in player class to fix.)
 --> (First, display all the monster HP bars, and then say in the monster aggressive or attack state, then only show relevant ones then)
 
 --> Looting Scene pop-up window (with enemy item drops)
@@ -34,6 +34,7 @@
 --> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
 --> (Small Bonus): Can load in the monsters in a more streamlined manner with MonsterManager probably.
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
+--> (Small Bonus): Change all Bars into parent class.
 
 ***Future Stuff*** Weapons/Sensors/Animations/Sprites:
 
