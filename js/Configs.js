@@ -1,5 +1,4 @@
-import Map1 from "./Map1.js";
-import Map2 from "./Map2.js";
+import { Map1, Map2 } from "./Maps.js";
 import HomeScene from "./HomeScene.js";
 import GameOverScene from "./GameOverScene.js";
 

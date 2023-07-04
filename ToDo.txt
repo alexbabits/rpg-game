@@ -22,6 +22,11 @@
 
 --> Monster Attack Anims
 
+*** ---> Refactor monster spawning
+*** ---> Refactor Player attack and special attack into one? (Variables for stamina used, mana used too).
+*** ---> Refactor 'playerstats' into a separate file? Player class is getting a bit messy with its methods.
+
+
 --> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
 --> (Bonus): Click to move/arrow keys to move, also zoom scroll with mouse wheel.
 --> (Bonus): Defense stat on monsters & player
