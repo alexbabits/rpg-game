@@ -266,5 +266,10 @@ export class PlayerDeathState extends PlayerState {
   handleAnimationComplete() {
     this.player.sprite.setActive(false);
     this.player.sprite.setVisible(false);
+    //this.player.sprite.removeAllListeners();
+    this.player.scene.time.delayedCall(2000, () => {
+      this.player.scene.scene.stop(this.player.scene.scene.key);
+      this.player.scene.scene.start('GameOverScene');
+    });
   }
 }

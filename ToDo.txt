@@ -58,5 +58,6 @@ Each piece of gear or equipment (head, chest, legs, etc.) would be its own separ
 To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
 
 
+The error you're seeing is "Cannot read properties of undefined (reading 'play')", and it occurs in the PlayerGotHitState class. This means that the PlayerGotHitState class is trying to call the play method on an undefined object.
 
-So I guess the next step would be to find a good place to transition to the game over scene? And I suppose this logic should happen in the playerdeathstate, or update of the Map1/Map2 or player class? PLEASE NO CODE, EXPLAIN ONLY
+In your PlayerGotHitState, it's likely that you're trying to play an animation on this.player.sprite. If this.player.sprite is undefined, you will see this error. Here's the likely problem: after you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters. However, the old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.

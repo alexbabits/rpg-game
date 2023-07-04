@@ -1,6 +1,7 @@
 import Map1 from "./Map1.js";
 import Map2 from "./Map2.js";
 import HomeScene from "./HomeScene.js";
+import GameOverScene from "./GameOverScene.js";
 
 const config = {
   width:640,
@@ -8,7 +9,7 @@ const config = {
   backgroundColor: '#70491d',
   type: Phaser.AUTO,
   parent: 'configs',
-  scene:[HomeScene, Map1, Map2],
+  scene:[HomeScene, Map1, Map2, GameOverScene],
   scale: {zoom:1.4},
   physics: {default: 'matter', matter: {debug:true, gravity:{y:0}}},
   plugins: {scene:[{plugin: PhaserMatterCollisionPlugin.default, key: 'matterCollision', mapping: 'matterCollision'}]}
