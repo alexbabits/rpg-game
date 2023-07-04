@@ -95,8 +95,14 @@ export class MonsterManager {
         return monster;
     }
     spawnNewMonster(deadMonster) {
-        let x = 500;
-        let y = 500;
-        this.spawnMonster(deadMonster.name, deadMonster.XP, deadMonster.maxHP, deadMonster.monsterDamage, deadMonster.movementSpeed, deadMonster.attackSpeed, x, y, deadMonster.sprite.texture.key, deadMonster.sprite.frame.name, deadMonster.colliderWidth, deadMonster.colliderHeight, deadMonster.originalChamfer, deadMonster.aggressionSensorRadius, deadMonster.attackingSensorRadius, deadMonster.sprite.scale, deadMonster.idleAnim, deadMonster.walkAnim);
+        this.scene.time.addEvent({
+            delay: 5000,
+            callback: () => {
+                let x = Phaser.Math.Between(100, 500);
+                let y = Phaser.Math.Between(100, 300);
+                this.spawnMonster(deadMonster.name, deadMonster.XP, deadMonster.maxHP, deadMonster.monsterDamage, deadMonster.movementSpeed, deadMonster.attackSpeed, x, y, deadMonster.sprite.texture.key, deadMonster.sprite.frame.name, deadMonster.colliderWidth, deadMonster.colliderHeight, deadMonster.originalChamfer, deadMonster.aggressionSensorRadius, deadMonster.attackingSensorRadius, deadMonster.sprite.scale, deadMonster.idleAnim, deadMonster.walkAnim);
+            },
+            callbackScope: this
+        });
     }
 }

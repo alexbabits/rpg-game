@@ -5,7 +5,7 @@ import GameOverScene from "./GameOverScene.js";
 const config = {
   width:640,
   height:640,
-  backgroundColor: '#70491d',
+  backgroundColor: '#000000',
   type: Phaser.AUTO,
   parent: 'configs',
   scene:[HomeScene, Map1, Map2, GameOverScene],
