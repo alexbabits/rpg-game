@@ -3,43 +3,35 @@
 ************************************************************************************************************************************************************
 
 --> Inventory (Slots, and then brown bag background to make it look nice)
-
 --> Looting Scene pop-up window (with enemy item drops)
-
 --> Bank (Need chest in game to click on and bank stuff). Store (Need NPC or chest in game to click on and view store menu.)
-
 --> Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
-
---> Overall 'Maps.js' parent class for all the maps. 
-
 --> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
-
 --> Teleporter: =-D
-
 --> Chatbox for console messages.
-
 --> Loading Bar scene after the homescene that loads in assets.
 
---> Monster Attack Anims
 
-*** ---> Refactor monster spawning
-*** ---> Refactor Player attack and special attack into one? (Variables for stamina used, mana used too).
-*** ---> Refactor 'playerstats' into a separate file? Player class is getting a bit messy with its methods.
-
-
---> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
+--> (Bonus): Monster Attack Anims
 --> (Bonus): Click to move/arrow keys to move, also zoom scroll with mouse wheel.
---> (Bonus): Defense stat on monsters & player
+--> (Bonus): Monster Spawn zones instead of just random points.
+--> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
+--> (Bonus): Defense stat on monsters & player.
 --> (Bonus): Debuffs and buffs.
 --> (Bonus): Random % Chance for 'hero_crit' critical with that anim. And then a separate animation and stuff for 'hero_special' for special attacks. 
---> (Bonus): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Bonus): You can only save at the inn when you go to sleep.
---> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
---> (Small Bonus): Change all Bars into parent class.
---> (Small Bonus): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
+
+
+--> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState. (Variables for stamina used, mana used too).
+--> (Small Refactor): Change all Bars into parent class.
+--> (Small Refactor): Refactor 'playerstats' into a separate file? Player class is getting a bit messy with its methods.
+--> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
+
+
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
+--> (Small Bug): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
 --> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
 
 
@@ -62,6 +54,7 @@ Each piece of gear or equipment (head, chest, legs, etc.) would be its own separ
 To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
 
 
+--> Talking about game state
 The error you're seeing is "Cannot read properties of undefined (reading 'play')", and it occurs in the PlayerGotHitState class. This means that the PlayerGotHitState class is trying to call the play method on an undefined object.
 
 In your PlayerGotHitState, it's likely that you're trying to play an animation on this.player.sprite. If this.player.sprite is undefined, you will see this error. Here's the likely problem: after you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters. However, the old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
