@@ -1,3 +1,5 @@
+// Old weather code that I may implement in the future
+
 this.rainSound = this.sound.add('rain', {volume: 0.2}, {loop: true})
 //try to base pan and volume off location of particle relative to the player.
 this.lightningSound = this.sound.add('lightning', {volume: 0.2}, {pan: 0})

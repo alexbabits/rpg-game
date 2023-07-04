@@ -1,3 +1,5 @@
+// Just a skeleton and some ideas for now
+
 class GameState {
     constructor() {
         this.player = null;

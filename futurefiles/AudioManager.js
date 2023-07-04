@@ -1,4 +1,4 @@
-// Might even want to import UserInput here eventually.
+// Might even want to import UserInput here eventually. Skeleton code for audio for now.
 
 export default class AudioManager {
     constructor(scene) {

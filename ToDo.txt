@@ -18,12 +18,12 @@
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Bonus): Defense stat on monsters & player.
 --> (Bonus): Debuffs and buffs.
---> (Bonus): Random % Chance for 'hero_crit' critical with that anim. And then a separate animation and stuff for 'hero_special' for special attacks. 
+--> (Bonus): Random % Chance for critical, would work with both attack and special attack.
 --> (Bonus): You can only save at the inn when you go to sleep.
 
 
 --> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState.
---> (Small Refactor): Refactor 'playerstats'/methods into a separate file? Player class is getting a bit messy with its stats and methods.
+--> (Small Refactor): Refactor playerstats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
 --> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
 
 --> (Small Bug): Fix status bar positions during camera zooming.
