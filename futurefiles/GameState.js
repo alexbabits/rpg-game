@@ -1,22 +1,31 @@
-export default class GameState {
-    constructor(scene) {
-        this.scene = scene;
-        
-        // Initialize with default state
-        this.state = {
-            player: {
-                health: 100,
-                position: {x: 0, y: 0},
-                inventory: []
-            },
-            gameProgress: {
-                levelsCompleted: 0,
-                bossesDefeated: 0,
-                questsCompleted: 0,
-            }
-            // any other state you need to track...
-        }
+class GameState {
+    constructor() {
+        this.player = null;
+        this.monsters = [];
     }
+
+    setPlayer(player) {
+        this.player = player;
+    }
+
+    addMonster(monster) {
+        this.monsters.push(monster);
+    }
+
+    reset() {
+        this.player = null;
+        this.monsters = [];
+    }
+
+    update() {
+        this.player.update();
+        this.monsters.forEach(monster => monster.update());
+    }
+}
+
+
+
+/* 
 
     setState(newState) {
         this.state = {...this.state, ...newState};
@@ -40,11 +49,8 @@ export default class GameState {
             // This might involve moving the player to a saved position, updating their health and inventory, etc.
         }
     }
-}
 
 
-
-/* 
 To use this class, you'd instantiate it in your main game scene:
 
 this.gameState = new GameState(this);

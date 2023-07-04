@@ -6,9 +6,9 @@
 
 --> Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
 
---> (Load/Save) Need all proper things in GameState, and make sure that works (Invy/Bank/Monsters/Location/etc.)
+--> Overall 'Maps.js' parent class for all the maps. 
 
---> Overall 'Maps.js' parent class for all the maps. (And perhaps a GameState.js which houses common 'states' of the player and game progress we want.)
+--> GameState.js which houses games current state, allows for loading/saving, and has current state of player/monsters/npcs/items/etc.
 
 --> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
 
@@ -16,9 +16,7 @@
 
 --> Chatbox for console messages.
 
---> Home Scene before the game loads (New/Load/Continue/Options/etc.). 
---> Loading Bar scene after the home scene that loads in assets.
---> Game Over Scene: "Grim Reaper picture, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
+--> Loading Bar scene after the homescene that loads in assets.
 
 
 --> Monster Attack Anims
@@ -61,3 +59,5 @@ To make this work, the artist needs to ensure that all the gear sprites align co
 The error you're seeing is "Cannot read properties of undefined (reading 'play')", and it occurs in the PlayerGotHitState class. This means that the PlayerGotHitState class is trying to call the play method on an undefined object.
 
 In your PlayerGotHitState, it's likely that you're trying to play an animation on this.player.sprite. If this.player.sprite is undefined, you will see this error. Here's the likely problem: after you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters. However, the old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
+
+well-structured game state can make it much easier to manage complex elements of a game such as inventories, shops, monster states, and other elements that need to be tracked and maintained consistently across different scenes and states. So, the sooner you can start implementing and integrating a game state handling system, the smoother the development process will likely be. However, the exact timing is ultimately up to you and depends on your specific needs and circumstances.

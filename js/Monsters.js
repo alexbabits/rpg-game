@@ -38,9 +38,11 @@ export class Monster {
 
         this.scene.matter.world.on('collisionstart', this.handleCollisionStart.bind(this));
         this.scene.matter.world.on('collisionend', this.handleCollisionEnd.bind(this));
+        
         this.currentState = new MonsterIdleState(this);
         this.hpBar = new MonsterHPBar(this.scene, this);
     }
+
 
     handleCollisionStart(event, bodyA, bodyB) {
         if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
