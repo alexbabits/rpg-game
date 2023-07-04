@@ -23,7 +23,6 @@
 
 
 --> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState. (Variables for stamina used, mana used too).
---> (Small Refactor): Change all Bars into parent class.
 --> (Small Refactor): Refactor 'playerstats' into a separate file? Player class is getting a bit messy with its methods.
 --> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
 
@@ -35,28 +34,19 @@
 --> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
 
 
-***Future Stuff*** Weapons/Sensors/Animations/Sprites:
+Weapon/Armor Sprite and Animation:
 
---> 2 different kinds of weapons. (Different colors on same weapon). Different base damages for each weapon
-
-Sensors: You just have many different sensors on the player (dagger distance sensor, spear distance sensors, Up, Down, Left, and Right sensors. It's just that they are not all activated at once. The 'dagger distance sensor left' is only activated when the player is facing to the left with a dagger for example.)
-(For now we just always have sword = true or whatever, so it always has it working.)
-
-Animations/Sprites: May need tons (Left/Right = Mirror, Down = separate, Up = separate). How to contend with wearing armor and weapon sprites?
-
-Armor and Gear:
-As you mentioned, changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. One method is to have separate sprite sheets for each armor set, with all the necessary animations (walk, run, attack, etc). This is quite labor-intensive but gives the most visually impressive results.
-
-For weapons, you can have separate animations for each weapon type, such as swinging a sword versus swinging an axe. Another way to simplify this is by using "paper dolling" techniques. In this method, you separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation.
-
-Each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
-
-To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
+--> Different sprites and animations for different weapons. Start with sword and axe, and two colors of each. Different base damages for each weapon.
+--> Weapon range distance can be dealt by by turning off and on sensors like you have done for the 'Direction'. It is possible to combine many sensors onto the player and only turn on the ones you want. Also up/down/left/right sensors rather than just left/right. You would have up/down/left/right sensors, and then also a specific weapon sensor which is basically a rectangle, or other shape, with a specific length for that weapon range.
+--> Contend with armor wearing using the paper dolling technique. Changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. Each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
+--> Contend with weapon wielding sprites by having separate animations for each weapon type.
+--> Paper dolling: Separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation. To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
 
 
---> Talking about game state
-The error you're seeing is "Cannot read properties of undefined (reading 'play')", and it occurs in the PlayerGotHitState class. This means that the PlayerGotHitState class is trying to call the play method on an undefined object.
 
-In your PlayerGotHitState, it's likely that you're trying to play an animation on this.player.sprite. If this.player.sprite is undefined, you will see this error. Here's the likely problem: after you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters. However, the old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
 
-well-structured game state can make it much easier to manage complex elements of a game such as inventories, shops, monster states, and other elements that need to be tracked and maintained consistently across different scenes and states. So, the sooner you can start implementing and integrating a game state handling system, the smoother the development process will likely be. However, the exact timing is ultimately up to you and depends on your specific needs and circumstances.
+GameState Thoughts:
+
+After you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters. However, the old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
+
+Well-structured game state can make it much easier to manage complex elements of a game such as inventories, shops, monster states, and other elements that need to be tracked and maintained consistently across different scenes and states. So, the sooner you can start implementing and integrating a game state handling system, the smoother the development process will likely be. However, the exact timing is ultimately up to you and depends on your specific needs and circumstances.

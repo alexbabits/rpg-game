@@ -46,6 +46,7 @@ export default class Player {
     this.staminaBar = new StaminaBar(this.scene, 112, 125, this);
     this.manaBar = new ManaBar(this.scene, 112, 140, this);
     this.xpBar = new XPBar(this.scene, 332, 110, this);
+    this.drawBars();
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -54,11 +55,19 @@ export default class Player {
     this.specialAttackingState = new PlayerSpecialAttackState(this);
     this.gotHitState = new PlayerGotHitState(this);
     this.deathState = new PlayerDeathState(this);
-    this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.currentState = this.idleState;
+    
     this.monstersTouching = [];
-    this.scene.matter.world.on('collisionactive', this.handleCollision, this);
+    this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.scene.events.on('monsterDeath', this.gainXP, this);
+    this.scene.matter.world.on('collisionactive', this.handleCollision, this);
+  }
+
+  drawBars() {
+    this.hpBar.draw();
+    this.staminaBar.draw();
+    this.manaBar.draw();
+    this.xpBar.draw();
   }
 
   gainXP(monster) {
