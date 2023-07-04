@@ -1,4 +1,5 @@
 import {MonsterIdleState, MonsterAggressiveState, MonsterAttackingState, MonsterDeathState} from "./MonsterState.js";
+import { MonsterHPBar } from './MonsterBars.js';
 
 export class Monster {
 
@@ -38,6 +39,7 @@ export class Monster {
         this.scene.matter.world.on('collisionstart', this.handleCollisionStart.bind(this));
         this.scene.matter.world.on('collisionend', this.handleCollisionEnd.bind(this));
         this.currentState = new MonsterIdleState(this);
+        this.hpBar = new MonsterHPBar(this.scene, this);
     }
 
     handleCollisionStart(event, bodyA, bodyB) {
@@ -72,6 +74,7 @@ export class Monster {
 
     update(player) {
         this.currentState.update(player);
+        this.hpBar.update();
     }
 }
 
