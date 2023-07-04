@@ -13,7 +13,7 @@
 
 
 --> (Bonus): Monster Attack Anims
---> (Bonus): Click to move/arrow keys to move, also zoom scroll with mouse wheel.
+--> (Bonus): Click to move/Click to initiate attack?
 --> (Bonus): Monster Spawn zones instead of just random points.
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Bonus): Defense stat on monsters & player.
@@ -22,11 +22,11 @@
 --> (Bonus): You can only save at the inn when you go to sleep.
 
 
---> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState. (Variables for stamina used, mana used too).
---> (Small Refactor): Refactor 'playerstats' into a separate file? Player class is getting a bit messy with its methods.
+--> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState.
+--> (Small Refactor): Refactor 'playerstats'/methods into a separate file? Player class is getting a bit messy with its stats and methods.
 --> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
 
-
+--> (Small Bug): Fix status bar positions during camera zooming.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).

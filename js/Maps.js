@@ -37,6 +37,14 @@ export default class Map extends Phaser.Scene {
         camera.startFollow(this.player.sprite);
         camera.setLerp(0.1,0.1);
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+            const zoomChange = 0.1;
+            if (deltaY > 0) {
+                this.cameras.main.zoom = Math.max(this.cameras.main.zoom - zoomChange, 1);
+            } else {
+                this.cameras.main.zoom = Math.min(this.cameras.main.zoom + zoomChange, 3.0);
+            }
+        });
     }
     
     spawnMonsters() {}

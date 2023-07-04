@@ -149,18 +149,18 @@ export default class Player {
     let x = 0;
     let y = 0;
   
-    if (this.userInput.cursors.left.isDown) {
+    if (this.userInput.cursors.left.isDown || this.userInput.cursors.arrowLeft.isDown) {
       x = -1;
-    } else if (this.userInput.cursors.right.isDown) {
+    } else if (this.userInput.cursors.right.isDown || this.userInput.cursors.arrowRight.isDown) {
       x = 1;
     }
-    if (this.userInput.cursors.up.isDown) {
+    if (this.userInput.cursors.up.isDown || this.userInput.cursors.arrowUp.isDown) {
       y = -1;
-    } else if (this.userInput.cursors.down.isDown) {
+    } else if (this.userInput.cursors.down.isDown || this.userInput.cursors.arrowDown.isDown) {
       y = 1;
     }
     return {x, y};
-  }
+}
   
   setMovement(isRunning = false) {
     const speed = isRunning ? this.runSpeed : this.walkSpeed;
