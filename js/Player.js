@@ -24,6 +24,9 @@ export default class Player {
     this.manaRegeneration();
     this.maxStamina = 100;
     this.stamina = 100;
+    this.attStaminaCost = 10;
+    this.spAttStaminaCost = 25;
+    this.spAttManaCost = 5;
     this.canRun = true;
     this.runCooldownTimer = null;
     this.playerDamage = 100;
@@ -56,7 +59,7 @@ export default class Player {
     this.gotHitState = new PlayerGotHitState(this);
     this.deathState = new PlayerDeathState(this);
     this.currentState = this.idleState;
-    
+
     this.monstersTouching = [];
     this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.scene.events.on('monsterDeath', this.gainXP, this);
