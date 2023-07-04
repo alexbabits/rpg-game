@@ -1,9 +1,6 @@
---> Monster Status Bars. (For monsters, their health still goes negative, need getter/setter like in player class to fix.)
---> (First, display all the monster HP bars, and then say in the monster aggressive or attack state, then only show relevant ones then)
+--> Inventory (Slots, and then brown bag background to make it look nice)
 
 --> Looting Scene pop-up window (with enemy item drops)
-
---> Inventory (Slots, and then brown bag background to make it look nice)
 
 --> Bank (Need chest in game to click on and bank stuff). Store (Need NPC or chest in game to click on and view store menu.)
 
@@ -19,9 +16,12 @@
 
 --> Chatbox for console messages.
 
---> "Grim Reaper picture on Game Over Scene, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
+--> Home Scene before the game loads (New/Load/Continue/Options/etc.). 
+--> Loading Bar scene after the home scene that loads in assets.
+--> Game Over Scene: "Grim Reaper picture, Press any button to continue" New scene when player dies. If button is pressed, takes back to home screen of 'New/Load/Save/Exit'.
 
---> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
+
+--> Monster Attack Anims
 
 --> (Bonus): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
 --> (Bonus): Click to move/arrow keys to move, also zoom scroll with mouse wheel.
@@ -33,7 +33,9 @@
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Small Bonus): Change all Bars into parent class.
 --> (Small Bonus): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
+--> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
+--> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
 
 
@@ -57,18 +59,4 @@ To make this work, the artist needs to ensure that all the gear sprites align co
 
 
 
-
-
-
-
-Creation of Bars: Each bar (HealthBar, ManaBar, etc.) can indeed inherit from a parent class Bars. The Bars class should contain methods and properties that are common to all types of bars, such as the width, height, position, and perhaps some method for updating the display. This can include creating the visual element (like a rectangle or sprite), updating its size, color or other properties, and adding it to the scene.
-
-PlayerBars and MonsterBars: As you said, it does make sense to separate the logic for PlayerBars and MonsterBars as their behavior might be different. For instance, MonsterBars might only include health, while PlayerBars could have health, mana, stamina and experience. Each of these classes (PlayerBars and MonsterBars) could have methods for creating, updating and destroying the individual bars. They would then instantiate the individual bar classes (HealthBar, ManaBar, etc.) as needed.
-
-Updating Bars: You'll need to have methods in your individual bar classes (HealthBar, ManaBar, etc.) to update the visual representation of the bar based on the current value of the corresponding attribute (like health or mana). This might involve scaling the width of the bar, changing its color, etc.
-
-Integration with Player and Monster Classes: You'll also need a way to integrate these bars with your Player and Monster classes. The Player and Monster classes should have a reference to their corresponding PlayerBars and MonsterBars instance, and should update these whenever relevant attributes (like health or mana) change.
-
-Visibility of Bars: For a better user experience, you might want to only show the Monster's HealthBar when the monster is being attacked or is in the player's field of vision. Similarly, the Player's bars could become semi-transparent or change in some way when they're full to not distract from the gameplay.
-
-I think you have a good plan. Once you begin implementing, you'll be able to refine this structure based on the specifics of your game.
+So I guess the next step would be to find a good place to transition to the game over scene? And I suppose this logic should happen in the playerdeathstate, or update of the Map1/Map2 or player class? PLEASE NO CODE, EXPLAIN ONLY
