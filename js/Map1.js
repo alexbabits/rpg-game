@@ -28,10 +28,10 @@ export default class Map1 extends Phaser.Scene {
 
         this.player = new Player(this, 320, 320);
         this.monsterManager = new MonsterManager(this, this.player);
-        this.monsterManager.spawnMonster('bear', 500, 50, 1, 2, 320, 220, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('bear', 500, 50, 1, 2, 420, 220, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('ent', 200, 30, 0.5, 1, 320, 120, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
-        this.monsterManager.spawnMonster('ent', 200, 30, 0.5, 1, 120, 120, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, 320, 220, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
+        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, 420, 220, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
+        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, 320, 120, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, 120, 120, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
         
         let camera = this.cameras.main;
         camera.zoom = 1.4;

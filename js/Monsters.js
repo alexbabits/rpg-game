@@ -7,8 +7,9 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(name, maxHP, HP, monsterDamage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
+    constructor(name, XP, maxHP, HP, monsterDamage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
         this.name = name;
+        this.XP = XP;
         this.maxHP = maxHP;
         this.HP = HP;
         this.monsterDamage = monsterDamage;
@@ -82,8 +83,8 @@ export class MonsterManager {
         this.scene.events.on('monsterDeath', this.spawnNewMonster, this);
     }
 
-    spawnMonster(name, maxHP, monsterDamage, movementSpeed, attackSpeed, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
-        let monster = new Monster(name, maxHP, maxHP, monsterDamage, movementSpeed, attackSpeed, this.scene, this.player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim);
+    spawnMonster(name, XP, maxHP, monsterDamage, movementSpeed, attackSpeed, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
+        let monster = new Monster(name, XP, maxHP, maxHP, monsterDamage, movementSpeed, attackSpeed, this.scene, this.player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim);
         this.monsters.push(monster);
         monster.sprite.play(`${name}_idle`);
         return monster;
@@ -91,6 +92,6 @@ export class MonsterManager {
     spawnNewMonster(deadMonster) {
         let x = 500;
         let y = 500;
-        this.spawnMonster(deadMonster.name, deadMonster.maxHP, deadMonster.monsterDamage, deadMonster.movementSpeed, deadMonster.attackSpeed, x, y, deadMonster.sprite.texture.key, deadMonster.sprite.frame.name, deadMonster.colliderWidth, deadMonster.colliderHeight, deadMonster.originalChamfer, deadMonster.aggressionSensorRadius, deadMonster.attackingSensorRadius, deadMonster.sprite.scale, deadMonster.idleAnim, deadMonster.walkAnim);
+        this.spawnMonster(deadMonster.name, deadMonster.XP, deadMonster.maxHP, deadMonster.monsterDamage, deadMonster.movementSpeed, deadMonster.attackSpeed, x, y, deadMonster.sprite.texture.key, deadMonster.sprite.frame.name, deadMonster.colliderWidth, deadMonster.colliderHeight, deadMonster.originalChamfer, deadMonster.aggressionSensorRadius, deadMonster.attackingSensorRadius, deadMonster.sprite.scale, deadMonster.idleAnim, deadMonster.walkAnim);
     }
 }

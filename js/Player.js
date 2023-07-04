@@ -11,6 +11,10 @@ export default class Player {
 
   constructor(scene, x, y) {
     this.scene = scene;
+    this.XP = 0;
+    this.maxXP = 50;
+    //this.level = 1;
+    //this.totalXP = 0;
     this.walkSpeed = 2;
     this.runSpeed = 4;
     this.maxHP = 200;
@@ -54,6 +58,15 @@ export default class Player {
     this.currentState = this.idleState;
     this.monstersTouching = [];
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
+
+
+    this.scene.events.on('monsterDeath', this.gainXP, this);
+  }
+
+  gainXP(monster) {
+    this.XP += monster.XP;
+    // You can add a check here if player XP exceeded maxXP, and handle level up.
+    console.log(`Player gained ${monster.XP} XP. Total XP: ${this.XP}`);
   }
 
   get HP() {return this._HP;}
