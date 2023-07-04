@@ -108,3 +108,38 @@ export class ManaBar {
         }
     };
 }
+
+/*export class XPBar {
+    constructor(scene, x, y, player) {
+        this.scene = scene;
+        this.player = player;
+        this.bar = new Phaser.GameObjects.Graphics(scene);
+        this.text = new Phaser.GameObjects.Text(scene, 130, 308, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
+        this.bar.setDepth(50);
+        this.text.setDepth(51);
+        this.bar.setScrollFactor(0, 0);
+        this.text.setScrollFactor(0, 0);
+        this.x = x;
+        this.y = y;
+        this.size = {width: 77, height: 10};
+        scene.add.existing(this.bar);
+        scene.add.existing(this.text);
+        this.draw();
+    };
+
+    draw() {
+        this.bar.clear();
+        this.pixelPerMana = this.size.width / this.player.maxMana;
+        this.text.setText(`${this.player.mana}/${this.player.maxMana}`);
+
+        const { width, height } = this.size;
+        const manaWidth = this.player.mana * this.pixelPerMana;
+        this.bar.fillStyle(0xFFFFFF);
+        this.bar.fillRect(this.x, this.y, width, height);
+        this.bar.fillStyle(0x0073e6);
+
+        if (manaWidth > 0) {
+            this.bar.fillRect(this.x, this.y, manaWidth, height);
+        }
+    };
+}*/

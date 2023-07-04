@@ -45,7 +45,6 @@ export default class Player {
     this.hpBar = new HPBar(this.scene, 112, 110, this);
     this.staminaBar = new StaminaBar(this.scene, 112, 210, this);
     this.manaBar = new ManaBar(this.scene, 112, 310, this);
-
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -58,29 +57,35 @@ export default class Player {
     this.currentState = this.idleState;
     this.monstersTouching = [];
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
-
-
     this.scene.events.on('monsterDeath', this.gainXP, this);
   }
 
   gainXP(monster) {
-    this.XP += monster.XP;
-    this.totalXP += monster.XP;
-    console.log(`Player gained ${monster.XP} XP. Total XP: ${this.totalXP}. XP to next level: ${this.xpToNextLevel()}`);
-    if (this.XP >= this.maxXP) {
-      this.levelUp();
+    if (this.XP + monster.XP > this.maxXP) {
+        this.totalXP += this.maxXP - this.XP;
+    } else {
+        this.totalXP += monster.XP;
     }
-  }
+    this.XP += monster.XP;
+    console.log(`Player gained ${monster.XP} XP. XP to next level: ${this.xpToNextLevel()}. Total XP: ${this.totalXP}.`);
+    if (this.XP >= this.maxXP) {
+        this.levelUp();
+    }
+}
   
   levelUp() {
     this.level++;
     this.XP = 0;
     this.maxXP = Math.ceil(this.maxXP * 1.5);
-    console.log(`Player leveled up! Current level: ${this.level}. XP needed for next level: ${this.maxXP}. XP to next level: ${this.xpToNextLevel()}`);
+    console.log(`Player leveled up! Current level: ${this.level}. maxXP should now be: ${this.maxXP}. XP to next level: ${this.xpToNextLevel()}`);
   }
 
   xpToNextLevel() {
-    return this.maxXP - this.XP;
+    if (this.maxXP - this.XP < 0) {
+      return 0;
+    } else { 
+      return this.maxXP - this.XP;
+    }
   }
 
   get HP() {return this._HP;}
