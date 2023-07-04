@@ -43,7 +43,7 @@ export class StaminaBar {
         this.scene = scene;
         this.player = player;
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, 130, 208, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
+        this.text = new Phaser.GameObjects.Text(scene, 130, 123, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
         this.bar.setDepth(50);
         this.text.setDepth(51);
         this.bar.setScrollFactor(0, 0);
@@ -79,7 +79,7 @@ export class ManaBar {
         this.scene = scene;
         this.player = player;
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, 130, 308, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
+        this.text = new Phaser.GameObjects.Text(scene, 130, 138, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
         this.bar.setDepth(50);
         this.text.setDepth(51);
         this.bar.setScrollFactor(0, 0);
@@ -109,19 +109,22 @@ export class ManaBar {
     };
 }
 
-/*export class XPBar {
+
+export class XPBar {
     constructor(scene, x, y, player) {
         this.scene = scene;
         this.player = player;
+        scene.events.on('xpChange', this.draw, this);
+        scene.events.on('levelUp', this.draw, this);
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, 130, 308, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
+        this.text = new Phaser.GameObjects.Text(scene, 420, 108, '', { fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2 });
         this.bar.setDepth(50);
         this.text.setDepth(51);
         this.bar.setScrollFactor(0, 0);
         this.text.setScrollFactor(0, 0);
         this.x = x;
         this.y = y;
-        this.size = {width: 77, height: 10};
+        this.size = {width: 200, height: 10};
         scene.add.existing(this.bar);
         scene.add.existing(this.text);
         this.draw();
@@ -129,17 +132,17 @@ export class ManaBar {
 
     draw() {
         this.bar.clear();
-        this.pixelPerMana = this.size.width / this.player.maxMana;
-        this.text.setText(`${this.player.mana}/${this.player.maxMana}`);
+        this.pixelPerXP = this.size.width / this.player.maxXP;
+        this.text.setText(`${this.player.XP}/${this.player.maxXP}`);
 
         const { width, height } = this.size;
-        const manaWidth = this.player.mana * this.pixelPerMana;
+        const XPWidth = this.player.XP * this.pixelPerXP;
         this.bar.fillStyle(0xFFFFFF);
         this.bar.fillRect(this.x, this.y, width, height);
-        this.bar.fillStyle(0x0073e6);
+        this.bar.fillStyle(0x7300e6);
 
-        if (manaWidth > 0) {
-            this.bar.fillRect(this.x, this.y, manaWidth, height);
+        if (XPWidth > 0) {
+            this.bar.fillRect(this.x, this.y, XPWidth, height);
         }
     };
-}*/
+}

@@ -1,6 +1,6 @@
 import UserInput from './UserInput.js';
 import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
-import {HPBar, StaminaBar, ManaBar} from './PlayerBars.js'
+import {HPBar, StaminaBar, ManaBar, XPBar} from './PlayerBars.js'
 
 export default class Player {
 
@@ -43,8 +43,9 @@ export default class Player {
     this.sprite.anims.play('hero_idle');
 
     this.hpBar = new HPBar(this.scene, 112, 110, this);
-    this.staminaBar = new StaminaBar(this.scene, 112, 210, this);
-    this.manaBar = new ManaBar(this.scene, 112, 310, this);
+    this.staminaBar = new StaminaBar(this.scene, 112, 125, this);
+    this.manaBar = new ManaBar(this.scene, 112, 140, this);
+    this.xpBar = new XPBar(this.scene, 332, 110, this);
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -67,7 +68,10 @@ export default class Player {
         this.totalXP += monster.XP;
     }
     this.XP += monster.XP;
+
     console.log(`Player gained ${monster.XP} XP. XP to next level: ${this.xpToNextLevel()}. Total XP: ${this.totalXP}.`);
+    this.scene.events.emit('xpChange', this);
+
     if (this.XP >= this.maxXP) {
         this.levelUp();
     }
@@ -77,7 +81,8 @@ export default class Player {
     this.level++;
     this.XP = 0;
     this.maxXP = Math.ceil(this.maxXP * 1.5);
-    console.log(`Player leveled up! Current level: ${this.level}. maxXP should now be: ${this.maxXP}. XP to next level: ${this.xpToNextLevel()}`);
+    console.log(`Player leveled up! Current level: ${this.level}. XP to next level: ${this.xpToNextLevel()}`);
+    this.scene.events.emit('levelUp', this);
   }
 
   xpToNextLevel() {

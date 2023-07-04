@@ -1,4 +1,4 @@
---> Player XP Bars. Monster Status Bars. (For monsters, their health still goes negative, need getter/setter like in player class to fix.)
+--> Monster Status Bars. (For monsters, their health still goes negative, need getter/setter like in player class to fix.)
 --> (First, display all the monster HP bars, and then say in the monster aggressive or attack state, then only show relevant ones then)
 
 --> Looting Scene pop-up window (with enemy item drops)
@@ -31,10 +31,11 @@
 --> (Bonus): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Bonus): You can only save at the inn when you go to sleep.
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
---> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
---> (Small Bonus): Can load in the monsters in a more streamlined manner with MonsterManager probably.
---> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bonus): Change all Bars into parent class.
+--> (Small Bonus): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
+--> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
+--> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
+
 
 ***Future Stuff*** Weapons/Sensors/Animations/Sprites:
 
