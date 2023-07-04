@@ -23,7 +23,6 @@ export default class Map2 extends Phaser.Scene {
         environment.setDepth(10);
         background.setCollisionByProperty({collides:true});
         environment.setCollisionByProperty({collides:true});
-
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 

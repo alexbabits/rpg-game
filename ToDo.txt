@@ -1,3 +1,7 @@
+--> GameState.js which houses games current state, allows for loading/saving, and has current state of player/monsters/npcs/items/etc.
+
+************************************************************************************************************************************************************
+
 --> Inventory (Slots, and then brown bag background to make it look nice)
 
 --> Looting Scene pop-up window (with enemy item drops)
@@ -8,8 +12,6 @@
 
 --> Overall 'Maps.js' parent class for all the maps. 
 
---> GameState.js which houses games current state, allows for loading/saving, and has current state of player/monsters/npcs/items/etc.
-
 --> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
 
 --> Teleporter: =-D
@@ -17,7 +19,6 @@
 --> Chatbox for console messages.
 
 --> Loading Bar scene after the homescene that loads in assets.
-
 
 --> Monster Attack Anims
 

@@ -38,7 +38,7 @@ export class Monster {
 
         this.scene.matter.world.on('collisionstart', this.handleCollisionStart.bind(this));
         this.scene.matter.world.on('collisionend', this.handleCollisionEnd.bind(this));
-        
+
         this.currentState = new MonsterIdleState(this);
         this.hpBar = new MonsterHPBar(this.scene, this);
     }
@@ -52,7 +52,7 @@ export class Monster {
                 this.transitionToNewState(new MonsterAttackingState(this));
             }
         }
-      }
+    }
     
     handleCollisionEnd(event, bodyA, bodyB) {
         if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
@@ -60,7 +60,7 @@ export class Monster {
                 this.transitionToNewState(new MonsterAggressiveState(this));
             }
         }
-      }
+    }
 
     transitionToNewState(newState) {
         this.currentState.exit();

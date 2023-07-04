@@ -43,6 +43,7 @@ export default class Map1 extends Phaser.Scene {
     update() {
         this.player.update();
         this.monsterManager.monsters.forEach((monster) => monster.update(this.player));
+        
         if (this.player.sprite.x > this.sys.game.config.width) {
             this.scene.start('Map2');
         }
