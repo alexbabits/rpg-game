@@ -18,7 +18,7 @@
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Bonus): Defense stat on monsters & player.
 --> (Bonus): Debuffs and buffs.
---> (Bonus): Random % Chance for critical, would work with both attack and special attack.
+--> (Bonus): Random % Chance for critical, would work with both attack and special attack. Along with crit efficiency (150% for example)
 --> (Bonus): You can only save at the inn when you go to sleep.
 
 
@@ -31,7 +31,7 @@
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
---> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1.
+--> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1. (May have to do with not destroying the previous scene or something, or the gamestate)
 
 
 Weapon/Armor Sprite and Animation:
@@ -47,6 +47,35 @@ Weapon/Armor Sprite and Animation:
 
 GameState Thoughts:
 
-After you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters. However, the old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
+After you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters.
+The old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
 
-Well-structured game state can make it much easier to manage complex elements of a game such as inventories, shops, monster states, and other elements that need to be tracked and maintained consistently across different scenes and states. So, the sooner you can start implementing and integrating a game state handling system, the smoother the development process will likely be. However, the exact timing is ultimately up to you and depends on your specific needs and circumstances.
+Listeners and Emitters can usually be left alone. Typically tied to specific game objects or scenes, so they can be kept in current location.
+
+If the listeners and emitters are related to the game state, like a listener for players HP to update the HP bar, may want to move that listener to the gamestate since the gamestate will be managing the player's hp.
+
+if a timer or interval is related to the game state (for example, a timer that regenerates the player's HP), you might want to move it to the GameState.
+
+Separation of Concerns:
+
+1.	Player
+    a. attributes
+        i. hp
+        ii. stamina
+        iii. mana
+        iv.	xp
+    b. listeners/emitters/timers/intervals (probably don't need to worry about)
+        i. levelUp?
+        ii.	xpChange?
+        iii. playerGotHit?
+        iv. timers/intervals?
+    c. general interaction with monsters?
+        i. monsters often take in the player’s current state in various places.
+
+2.	Monster
+    a. attributes
+        i. hp
+    b. listeners/emitters
+        i. playerGotHit
+    c. general interaction with player
+        i. monsers often take in the player's current state in various places.
