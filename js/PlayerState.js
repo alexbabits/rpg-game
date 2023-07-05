@@ -69,7 +69,7 @@ export class PlayerWalkState extends PlayerState {
     
     if (x === 0 && y === 0) {
       this.player.transitionToNewState(this.player.idleState);
-    } else if (this.player.userInput.cursors.shift.isDown && this.player.canRun) {
+    } else if (this.player.userInput.cursors.shift.isDown && this.player.gameState.getPlayerCanRun()) {
       this.player.transitionToNewState(this.player.runningState);
     }
     this.player.setMovement();
@@ -109,13 +109,13 @@ export class PlayerRunState extends PlayerState {
   update() {
     const {x, y} = this.player.getMovement();
 
-    if (this.player.stamina === 0) {
-      this.player.canRun = false;
+    if (this.player.gameState.getPlayerStamina() === 0) {
+      this.player.gameState.setPlayerCanRun(false);
     }
 
     if (x === 0 && y === 0) {
       this.player.transitionToNewState(this.player.idleState);
-    } else if (!this.player.userInput.cursors.shift.isDown || !this.player.canRun) {
+    } else if (!this.player.userInput.cursors.shift.isDown || !this.player.gameState.getPlayerCanRun()) {
       this.player.transitionToNewState(this.player.walkingState);
     }
     this.player.setMovement(true);

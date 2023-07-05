@@ -20,6 +20,7 @@
 --> (Bonus): Debuffs and buffs.
 --> (Bonus): Random % Chance for critical, would work with both attack and special attack. Along with crit efficiency (150% for example)
 --> (Bonus): You can only save at the inn when you go to sleep.
+--> (Bonus): Player and/or monster damage is random (from 0 to maxDamage basically)
 
 --> (Small Refactor): Similar to HP/Mana/Stamina, refactor the XP limiters to be right in the GameState, rather than the Player class.
 --> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState.
@@ -59,7 +60,6 @@ Listeners and Emitters can usually be left alone. Typically tied to specific gam
 
 Player GameState Bugs:
 
-Player cannot run with shift anymore.
 PlayerRunState may need a '>=' sign now instead of just '>' due to how the code was refactored. Check it when you get Running State up and running.
 Player's attrbiutes don't seem to be saving between scenes. (Perhaps because I'm 'recreating' the player?).
 
