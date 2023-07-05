@@ -2,9 +2,10 @@ import Player from "./Player.js";
 import {Monster, MonsterManager} from "./Monsters.js";
 
 export default class Map extends Phaser.Scene {
-    constructor(mapKey) {
+    constructor(mapKey, gameState) {
         super(mapKey);
         this.mapKey = mapKey;
+        this.gameState = gameState;
     }
 
     preload() {
@@ -27,7 +28,7 @@ export default class Map extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
-        this.player = new Player(this, 320, 320);
+        this.player = new Player(this, 320, 320, this.gameState);
         this.monsterManager = new MonsterManager(this, this.player);
 
         this.spawnMonsters();
@@ -57,8 +58,8 @@ export default class Map extends Phaser.Scene {
 
 
 export class Map1 extends Map {
-    constructor() {
-        super("Map1");
+    constructor(gameState) {
+        super("Map1", gameState);
     }
 
     spawnMonsters() {
@@ -77,8 +78,8 @@ export class Map1 extends Map {
 }
 
 export class Map2 extends Map {
-    constructor() {
-        super("Map2");
+    constructor(gameState) {
+        super("Map2", gameState);
     }
 
     spawnMonsters() {

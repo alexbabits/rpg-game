@@ -11,7 +11,7 @@
 --> Chatbox for console messages.
 --> Loading Bar scene after the homescene that loads in assets.
 
-
+--> (Bonus): Instead of spattackcost and spmanacost stuff in player, do that in playerstate, and define it there in the constructor.
 --> (Bonus): Monster Attack Anims
 --> (Bonus): Click to move/Click to initiate attack?
 --> (Bonus): Monster Spawn zones instead of just random points.
@@ -47,14 +47,15 @@ Weapon/Armor Sprite and Animation:
 
 GameState Thoughts:
 
-After you stop the Map1 or Map2 scene and then restart it, you are recreating the Player and the Monsters.
-The old Monsters might still have references to the old Player. So when the old Monsters try to hit the Player, they are calling methods on an old Player instance that has been destroyed.
+The next step is to update the Player class to use these methods instead of directly accessing the player's attributes. This will involve replacing assignments to this.HP, this.maxHP, etc. with calls to setPlayerHP, setPlayerMaxHP, etc., and replacing accesses to this.HP, this.maxHP, etc. with calls to getPlayerHP, getPlayerMaxHP, etc.
 
-Listeners and Emitters can usually be left alone. Typically tied to specific game objects or scenes, so they can be kept in current location.
+The general concept is to go through all the files and see what needs to be changed. This will likely involve updating other classes that interact with the player's attributes, such as the PlayerState classes and the Monster class.
 
-If the listeners and emitters are related to the game state, like a listener for players HP to update the HP bar, may want to move that listener to the gamestate since the gamestate will be managing the player's hp.
+You'll need to import GameState.js into any file where you want to create a new GameState instance or where you want to pass an existing GameState instance to a constructor.
 
-if a timer or interval is related to the game state (for example, a timer that regenerates the player's HP), you might want to move it to the GameState.
+In your case, you'll likely need to import GameState.js in your Maps.js file, create a new GameState instance there, and then pass that instance to the Player's constructor when you create a new Player. You won't need to import GameState.js in your Player.js file because the GameState instance is being passed to the Player's constructor, so the Player class can access it without needing to import the GameState class.
+
+Listeners and Emitters can usually be left alone. Typically tied to specific game objects or scenes, so they can be kept in current location. If the listeners and emitters are related to the game state, like a listener for players HP to update the HP bar, may want to move that listener to the gamestate since the gamestate will be managing the player's hp. If a timer or interval is related to the game state (for example, a timer that regenerates the player's HP), you might want to move it to the GameState.
 
 Separation of Concerns:
 

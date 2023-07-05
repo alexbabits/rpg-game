@@ -22,7 +22,7 @@ export class MonsterAggressiveState extends MonsterState {
     }
 
     update(player) {
-        if(player.HP <= 0) {
+        if(player.gameState.getPlayerHP() <= 0) {
             this.monster.transitionToNewState(new MonsterIdleState(this.monster));
             return;
         }
@@ -53,7 +53,7 @@ export class MonsterAttackingState extends MonsterState {
     }
 
     update(player) {
-        if(player.HP <= 0) {
+        if(player.gameState.getPlayerHP() <= 0) {
             this.monster.transitionToNewState(new MonsterIdleState(this.monster));
             return;
         }
@@ -70,8 +70,8 @@ export class MonsterAttackingState extends MonsterState {
         }
 
         if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed)) {
-            player.HP -= this.monster.monsterDamage;
-            console.log(`${this.monster.name} attacked the player for ${this.monster.monsterDamage} Damage. Player health: ${player.HP}`);
+            player.gameState.setPlayerHP(player.gameState.getPlayerHP() - this.monster.monsterDamage);
+            console.log(`${this.monster.name} attacked the player for ${this.monster.monsterDamage} Damage. Player health: ${player.gameState.getPlayerHP()}`);
             this.attackTimer = this.monster.scene.time.now;
             this.monster.scene.events.emit('playerGotHit', player);
         }

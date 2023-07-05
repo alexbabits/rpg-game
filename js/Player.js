@@ -9,29 +9,28 @@ export default class Player {
     scene.load.animation('hero_anims', 'assets/images/hero_anims.json');
   }
 
-  constructor(scene, x, y) {
+  constructor(scene, x, y, gameState) {
     this.scene = scene;
-    this.XP = 0;
-    this.maxXP = 50;
-    this.level = 1;
-    this.totalXP = 0;
-    this.walkSpeed = 2;
-    this.runSpeed = 4;
-    this.maxHP = 200;
-    this.HP = 200;
-    this.maxMana = 20;
-    this.mana = 20;
-    this.manaRegeneration();
-    this.maxStamina = 100;
-    this.stamina = 100;
-    this.attStaminaCost = 10;
-    this.spAttStaminaCost = 25;
-    this.spAttManaCost = 5;
-    this.canRun = true;
-    this.runCooldownTimer = null;
-    this.playerDamage = 100;
-    this.playerSpecialDamage = this.playerDamage*2.5;
-    this.direction = 'Right';
+    this.gameState = gameState;
+    this.gameState.setPlayerXP(0);
+    this.gameState.setPlayerMaxXP(50);
+    this.gameState.setPlayerLevel(1);
+    this.gameState.setPlayerTotalXP(0);
+    this.gameState.setPlayerWalkSpeed(2);
+    this.gameState.setPlayerRunSpeed(4);
+    this.gameState.setPlayerMaxHP(200);
+    this.gameState.setPlayerHP(200);
+    this.gameState.setPlayerMaxMana(20);
+    this.gameState.setPlayerMana(20);
+    this.gameState.setPlayerMaxStamina(100);
+    this.gameState.setPlayerStamina(100);
+    this.gameState.setPlayerAttStaminaCost(10);
+    this.gameState.setPlayerSpAttStaminaCost(25);
+    this.gameState.setPlayerSpAttManaCost(5);
+    this.gameState.setPlayerCanRun(true);
+    this.gameState.setPlayerDamage(100);
+    this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
+    this.gameState.setPlayerDirection('Right');
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
@@ -74,52 +73,54 @@ export default class Player {
   }
 
   gainXP(monster) {
-    if (this.XP + monster.XP > this.maxXP) {
-        this.totalXP += this.maxXP - this.XP;
-    } else {
-        this.totalXP += monster.XP;
-    }
-    this.XP += monster.XP;
+    const currentXP = this.gameState.getPlayerXP();
+    const maxXP = this.gameState.getPlayerMaxXP();
+    const totalXP = this.gameState.getPlayerTotalXP();
 
-    console.log(`Player gained ${monster.XP} XP. XP to next level: ${this.xpToNextLevel()}. Total XP: ${this.totalXP}.`);
+    if (currentXP + monster.XP > maxXP) {
+        this.gameState.setPlayerTotalXP(totalXP + maxXP - currentXP);
+    } else {
+        this.gameState.setPlayerTotalXP(totalXP + monster.XP);
+    }
+    this.gameState.setPlayerXP(currentXP + monster.XP);
+
+    console.log(`Player gained ${monster.XP} XP. XP to next level: ${this.xpToNextLevel()}. Total XP: ${this.gameState.getPlayerTotalXP()}.`);
     this.scene.events.emit('xpChange', this);
 
-    if (this.XP >= this.maxXP) {
+    if (this.gameState.getPlayerXP() >= this.gameState.getPlayerMaxXP()) {
         this.levelUp();
     }
-}
+  }
   
   levelUp() {
-    this.level++;
-    this.XP = 0;
-    this.maxXP = Math.ceil(this.maxXP * 1.5);
-    console.log(`Player leveled up! Current level: ${this.level}. XP to next level: ${this.xpToNextLevel()}`);
+    const currentLevel = this.gameState.getPlayerLevel();
+    this.gameState.setPlayerLevel(currentLevel + 1);
+    this.gameState.setPlayerXP(0);
+    this.gameState.setPlayerMaxXP(Math.ceil(this.gameState.getPlayerMaxXP() * 1.5));
+    console.log(`Player leveled up! Current level: ${this.gameState.getPlayerLevel()}. XP to next level: ${this.xpToNextLevel()}`);
     this.scene.events.emit('levelUp', this);
   }
 
   xpToNextLevel() {
-    if (this.maxXP - this.XP < 0) {
-      return 0;
-    } else { 
-      return this.maxXP - this.XP;
-    }
+    const remainingXP = this.gameState.getPlayerMaxXP() - this.gameState.getPlayerXP();
+    return remainingXP < 0 ? 0 : remainingXP;
   }
 
-  get HP() {return this._HP;}
-  set HP(value) {this._HP = Math.max(0, Math.min(value, this.maxHP));}
+  set HP(value) {this.gameState.setPlayerHP(Math.max(0, Math.min(value, this.gameState.getPlayerMaxHP())));}
+  get HP() {return this.gameState.getPlayerHP();}
 
-  get stamina() {return this._stamina;}
-  set stamina(value) {this._stamina = Math.max(0, Math.min(value, this.maxStamina));}
+  set stamina(value) {this.gameState.setPlayerStamina(Math.max(0, Math.min(value, this.gameState.getPlayerMaxStamina())));}
+  get stamina() {return this.gameState.getPlayerStamina();}
 
-  get mana() {return this._mana;}
-  set mana(value) {this._mana = Math.max(0, Math.min(value, this.maxMana));}
+  set mana(value) {this.gameState.setPlayerMana(Math.max(0, Math.min(value, this.gameState.getPlayerMaxMana())));}
+  get mana() {return this.gameState.getPlayerMana();}
 
   manaRegeneration() {
     this.scene.time.addEvent({
       delay: 2000,
       callback: () => {
-        if (this.mana < this.maxMana && this.currentState.name !== PlayerSpecialAttackState.stateName) {
-          this.mana++;
+        if (this.gameState.getPlayerMana() < this.gameState.getPlayerMaxMana() && this.currentState.name !== PlayerSpecialAttackState.stateName) {
+          this.gameState.setPlayerMana(this.gameState.getPlayerMana() + 1);
           this.manaBar.draw();
         }
       },
@@ -137,8 +138,8 @@ export default class Player {
   handleCollision(event) {
     this.monstersTouching = [];
     for (let pair of event.pairs) {
-      if ((pair.bodyA.label.includes(`playerAttackSensor${this.direction}`) && pair.bodyB.label === 'monsterCollider')
-          || (pair.bodyB.label.includes(`playerAttackSensor${this.direction}`) && pair.bodyA.label === 'monsterCollider')) {
+      if ((pair.bodyA.label.includes(`playerAttackSensor${this.gameState.getPlayerDirection()}`) && pair.bodyB.label === 'monsterCollider')
+          || (pair.bodyB.label.includes(`playerAttackSensor${this.gameState.getPlayerDirection()}`) && pair.bodyA.label === 'monsterCollider')) {
           let monsterBody = pair.bodyA.label === 'monsterCollider' ? pair.bodyA : pair.bodyB;
           this.monstersTouching.push(monsterBody.gameObject);
       }
@@ -163,30 +164,30 @@ export default class Player {
 }
   
   setMovement(isRunning = false) {
-    const speed = isRunning ? this.runSpeed : this.walkSpeed;
+    const speed = isRunning ? this.gameState.getPlayerRunSpeed() : this.gameState.getPlayerWalkSpeed();
     let {x, y} = this.getMovement();
-  
+
     if(x !== 0 || y !== 0) {
       let direction = new Phaser.Math.Vector2(x, y);
       direction.normalize();
       x = direction.x;
       y = direction.y;
     }
-  
+
     this.sprite.setVelocity(x * speed, y * speed);
-  
+
     if (x < 0) {
       this.sprite.setFlipX(true);
-      this.direction = 'Left';
+      this.gameState.setPlayerDirection('Left');
     } else if (x > 0) {
       this.sprite.setFlipX(false);
-      this.direction = 'Right';
+      this.gameState.setPlayerDirection('Right');
     }
-  
-    if (this.stamina === 0 && !this.runCooldownTimer) {
-      this.canRun = false;
+
+    if (this.gameState.getPlayerStamina() === 0 && !this.runCooldownTimer) {
+      this.gameState.setPlayerCanRun(false);
       this.runCooldownTimer = this.scene.time.delayedCall(1200, () => {
-        this.canRun = true;
+        this.gameState.setPlayerCanRun(true);
         this.runCooldownTimer = null;
       }, [], this);
     }
@@ -200,7 +201,7 @@ export default class Player {
 
   playerGotHit() {
     this.hpBar.draw()
-    if(this.HP > 0) {
+    if(this.gameState.getPlayerHP() > 0) {
         this.transitionToNewState(this.gotHitState);
     } else {
         this.transitionToNewState(this.deathState);

@@ -40,10 +40,10 @@ export class HPBar extends Bar {
 
     draw() {
         let color = this.color;
-        if (this.player.HP <= this.player.maxHP / 4) {
+        if (this.player.gameState.getPlayerHP() <= this.player.gameState.getPlayerMaxHP() / 4) {
             color = 0xFF0000;
         }
-        super.draw(this.player.HP, this.player.maxHP, color);
+        super.draw(this.player.gameState.getPlayerHP(), this.player.gameState.getPlayerMaxHP(), color);
     }
 }
 
@@ -53,15 +53,15 @@ export class XPBar extends Bar {
         scene.events.on('xpChange', this.draw, this);
         scene.events.on('levelUp', this.draw, this);
     }
-    draw() {super.draw(this.player.XP, this.player.maxXP, this.color)}
+    draw() {super.draw(this.player.gameState.getPlayerXP(), this.player.gameState.getPlayerMaxXP(), this.color)}
 }
 
 export class StaminaBar extends Bar {
     constructor(scene, x, y, player) {super(scene, x, y, player, 77, 10, 130, 123, 0xe6e600)}
-    draw() {super.draw(this.player.stamina, this.player.maxStamina, this.color)}
+    draw() {super.draw(this.player.gameState.getPlayerStamina(), this.player.gameState.getPlayerMaxStamina(), this.color)}
 }
 
 export class ManaBar extends Bar {
     constructor(scene, x, y, player) {super(scene, x, y, player, 77, 10, 130, 138, 0x0073e6)}
-    draw() {super.draw(this.player.mana, this.player.maxMana, this.color)}
+    draw() {super.draw(this.player.gameState.getPlayerMana(), this.player.gameState.getPlayerMaxMana(), this.color)}
 }
