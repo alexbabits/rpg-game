@@ -48,7 +48,7 @@ export default class Player {
     this.staminaBar = new StaminaBar(this.scene, 112, 125, this);
     this.manaBar = new ManaBar(this.scene, 112, 140, this);
     this.xpBar = new XPBar(this.scene, 332, 110, this);
-    this.drawBars();
+
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -63,6 +63,9 @@ export default class Player {
     this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.scene.events.on('monsterDeath', this.gainXP, this);
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
+
+    this.drawBars();
+    this.manaRegeneration();
   }
 
   drawBars() {
@@ -105,15 +108,6 @@ export default class Player {
     const remainingXP = this.gameState.getPlayerMaxXP() - this.gameState.getPlayerXP();
     return remainingXP < 0 ? 0 : remainingXP;
   }
-
-  set HP(value) {this.gameState.setPlayerHP(Math.max(0, Math.min(value, this.gameState.getPlayerMaxHP())));}
-  get HP() {return this.gameState.getPlayerHP();}
-
-  set stamina(value) {this.gameState.setPlayerStamina(Math.max(0, Math.min(value, this.gameState.getPlayerMaxStamina())));}
-  get stamina() {return this.gameState.getPlayerStamina();}
-
-  set mana(value) {this.gameState.setPlayerMana(Math.max(0, Math.min(value, this.gameState.getPlayerMaxMana())));}
-  get mana() {return this.gameState.getPlayerMana();}
 
   manaRegeneration() {
     this.scene.time.addEvent({

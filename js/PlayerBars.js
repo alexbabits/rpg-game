@@ -16,17 +16,17 @@ export class Bar {
         scene.add.existing(this.text);
     }
 
-    draw(value, maxValue, textColor) {
+    draw(value, maxValue, color) {
         this.bar.clear();
         this.pixelPerValue = this.size.width / maxValue;
         this.text.setText(`${value}/${maxValue}`);
-
+    
         const { width, height } = this.size;
         const valueWidth = value * this.pixelPerValue;
         this.bar.fillStyle(0xFFFFFF);
         this.bar.fillRect(this.x, this.y, width, height);
-        this.bar.fillStyle(this.color);
-
+        this.bar.fillStyle(color || this.color);
+    
         if (valueWidth > 0) {
             this.bar.fillRect(this.x, this.y, valueWidth, height);
         }

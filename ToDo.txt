@@ -11,7 +11,7 @@
 --> Chatbox for console messages.
 --> Loading Bar scene after the homescene that loads in assets.
 
---> (Bonus): Instead of spattackcost and spmanacost stuff in player, do that in playerstate, and define it there in the constructor.
+--> (Bonus): Instead of spattackcost and spmanacost stuff in player, do that in playerstate, and define it there in the constructor. (Also the delay timers could be variables in that construcotr maybe)
 --> (Bonus): Monster Attack Anims
 --> (Bonus): Click to move/Click to initiate attack?
 --> (Bonus): Monster Spawn zones instead of just random points.
@@ -21,7 +21,7 @@
 --> (Bonus): Random % Chance for critical, would work with both attack and special attack. Along with crit efficiency (150% for example)
 --> (Bonus): You can only save at the inn when you go to sleep.
 
-
+--> (Small Refactor): Similar to HP/Mana/Stamina, refactor the XP limiters to be right in the GameState, rather than the Player class.
 --> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Small Refactor): Refactor playerstats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
 --> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
@@ -57,26 +57,15 @@ In your case, you'll likely need to import GameState.js in your Maps.js file, cr
 
 Listeners and Emitters can usually be left alone. Typically tied to specific game objects or scenes, so they can be kept in current location. If the listeners and emitters are related to the game state, like a listener for players HP to update the HP bar, may want to move that listener to the gamestate since the gamestate will be managing the player's hp. If a timer or interval is related to the game state (for example, a timer that regenerates the player's HP), you might want to move it to the GameState.
 
-Separation of Concerns:
+Player GameState Bugs:
 
-1.	Player
-    a. attributes
-        i. hp
-        ii. stamina
-        iii. mana
-        iv.	xp
-    b. listeners/emitters/timers/intervals (probably don't need to worry about)
-        i. levelUp?
-        ii.	xpChange?
-        iii. playerGotHit?
-        iv. timers/intervals?
-    c. general interaction with monsters?
-        i. monsters often take in the player’s current state in various places.
+Player cannot run with shift anymore.
+PlayerRunState may need a '>=' sign now instead of just '>' due to how the code was refactored. Check it when you get Running State up and running.
+Player's attrbiutes don't seem to be saving between scenes. (Perhaps because I'm 'recreating' the player?).
 
-2.	Monster
-    a. attributes
-        i. hp
-    b. listeners/emitters
-        i. playerGotHit
-    c. general interaction with player
-        i. monsers often take in the player's current state in various places.
+
+Monster GameState Thoughts:
+
+Refactoring the monsters will be similar to the process for refactoring the player, but there will be some differences. Since there are multiple monsters, you'll need to store their state in an array or some other data structure that can hold multiple objects. Each monster will have its own state, which includes its HP, position, and other attributes. When a monster dies and is respawned, you'll need to create a new state object for it.
+
+It makes sense to save the state of the monsters in each scene. This will allow you to maintain the monsters' HP and position when the player leaves a scene and comes back. You can do this by storing the state of the monsters in the GameState object, similar to how you're storing the state of the player. You'll need to add a method to the GameState object to get and set the state of the monsters in each scene. When the player leaves a scene, you'll call the method to save the state of the monsters. When the player comes back to the scene, you'll call the method to restore the state of the monsters.

@@ -1,4 +1,4 @@
-class GameState {
+export default class GameState {
   constructor() {
     this.playerState = null;
     this.playerXP = 0;
@@ -31,7 +31,7 @@ class GameState {
   setPlayerMaxXP(maxXP) {this.playerMaxXP = maxXP}
   getPlayerMaxXP() {return this.playerMaxXP}
 
-  setPlayerHP(hp) {this.playerHP = hp}
+  setPlayerHP(hp) {this.playerHP = Math.max(0, Math.min(hp, this.playerMaxHP));}
   getPlayerHP() {return this.playerHP}
 
   setPlayerMaxHP(maxHP) {this.playerMaxHP = maxHP}
@@ -52,13 +52,13 @@ class GameState {
   setPlayerMaxMana(maxMana) {this.playerMaxMana = maxMana}
   getPlayerMaxMana() {return this.playerMaxMana}
 
-  setPlayerMana(mana) {this.playerMana = mana}
+  setPlayerMana(mana) {this.playerMana = Math.max(0, Math.min(mana, this.playerMaxMana));}
   getPlayerMana() {return this.playerMana}
 
   setPlayerMaxStamina(maxStamina) {this.playerMaxStamina = maxStamina}
   getPlayerMaxStamina() {return this.playerMaxStamina}
 
-  setPlayerStamina(stamina) {this.playerStamina = stamina}
+  setPlayerStamina(stamina) {this.playerStamina = Math.max(0, Math.min(stamina, this.playerMaxStamina));}
   getPlayerStamina() {return this.playerStamina}
 
   setPlayerAttStaminaCost(attStaminaCost) {this.playerAttStaminaCost = attStaminaCost}

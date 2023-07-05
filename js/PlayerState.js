@@ -54,7 +54,7 @@ export class PlayerWalkState extends PlayerState {
       this.staminaIncrementTimer = this.player.scene.time.addEvent({
         delay: 600,
         callback: () => {
-          if (this.player.gameState.getPlayerStamina() < this.player.gameState.getPlayerMaxStamina()) {
+          if (this.player.gameState.getPlayerStamina() <= this.player.gameState.getPlayerMaxStamina()) {
             this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 1);
             this.player.staminaBar.draw();
           }
