@@ -44,11 +44,6 @@ export default class Player {
     this.sprite.setFixedRotation();
     this.sprite.anims.play('hero_idle');
 
-    this.hpBar = new HPBar(this.scene, 112, 110, this);
-    this.staminaBar = new StaminaBar(this.scene, 112, 125, this);
-    this.manaBar = new ManaBar(this.scene, 112, 140, this);
-    this.xpBar = new XPBar(this.scene, 332, 110, this);
-
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -60,19 +55,16 @@ export default class Player {
     this.currentState = this.idleState;
 
     this.monstersTouching = [];
-    this.scene.events.on('playerGotHit', this.playerGotHit, this);
     this.scene.events.on('monsterDeath', this.gainXP, this);
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
-
-    this.drawBars();
     this.manaRegeneration();
   }
 
-  drawBars() {
-    this.hpBar.draw();
-    this.staminaBar.draw();
-    this.manaBar.draw();
-    this.xpBar.draw();
+  createBars() {
+    this.hpBar = new HPBar(this.scene, 112, 110, this);
+    this.staminaBar = new StaminaBar(this.scene, 112, 125, this);
+    this.manaBar = new ManaBar(this.scene, 112, 140, this);
+    this.xpBar = new XPBar(this.scene, 332, 110, this);
   }
   updateBars() {
     this.hpBar.player = this;
@@ -94,7 +86,6 @@ export default class Player {
     this.gameState.setPlayerXP(currentXP + monster.XP);
 
     console.log(`Player gained ${monster.XP} XP. XP to next level: ${this.xpToNextLevel()}. Total XP: ${this.gameState.getPlayerTotalXP()}.`);
-    this.scene.events.emit('xpChange', this);
 
     if (this.gameState.getPlayerXP() >= this.gameState.getPlayerMaxXP()) {
         this.levelUp();
@@ -107,7 +98,6 @@ export default class Player {
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(Math.ceil(this.gameState.getPlayerMaxXP() * 1.5));
     console.log(`Player leveled up! Current level: ${this.gameState.getPlayerLevel()}. XP to next level: ${this.xpToNextLevel()}`);
-    this.scene.events.emit('levelUp', this);
   }
 
   xpToNextLevel() {
@@ -199,17 +189,12 @@ export default class Player {
     this.currentState.enter();
   }
 
-  playerGotHit() {
-    this.hpBar.draw()
-    if(this.gameState.getPlayerHP() > 0) {
-        this.transitionToNewState(this.gotHitState);
-    } else {
-        this.transitionToNewState(this.deathState);
-    }
-  }
-
   update() {
     this.currentState.update();
+    this.hpBar.draw(this.gameState.getPlayerHP(), this.gameState.getPlayerMaxHP());
+    this.xpBar.draw(this.gameState.getPlayerXP(), this.gameState.getPlayerMaxXP());
+    this.manaBar.draw(this.gameState.getPlayerMana(), this.gameState.getPlayerMaxMana());
+    this.staminaBar.draw(this.gameState.getPlayerStamina(), this.gameState.getPlayerMaxStamina());
   }
 
 }

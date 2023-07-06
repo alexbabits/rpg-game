@@ -34,10 +34,7 @@ export class Bar {
 }
 
 export class HPBar extends Bar {
-    constructor(scene, x, y, player) {
-        super(scene, x, y, player, 77, 10, 130, 108, 0x73e600);
-    }
-
+    constructor(scene, x, y, player) {super(scene, x, y, player, 77, 10, 130, 108, 0x73e600)}
     draw() {
         let color = this.color;
         if (this.player.gameState.getPlayerHP() <= this.player.gameState.getPlayerMaxHP() / 4) {
@@ -48,20 +45,16 @@ export class HPBar extends Bar {
 }
 
 export class XPBar extends Bar {
-    constructor(scene, x, y, player) {
-        super(scene, x, y, player, 200, 10, 420, 108, 0x7300e6);
-        scene.events.on('xpChange', this.draw, this);
-        scene.events.on('levelUp', this.draw, this);
-    }
-    draw() {super.draw(this.player.gameState.getPlayerXP(), this.player.gameState.getPlayerMaxXP(), this.color)}
+    constructor(scene, x, y, player) {super(scene, x, y, player, 200, 10, 420, 108, 0x7300e6)}
+    draw() {super.draw(this.player.gameState.getPlayerXP(), this.player.gameState.getPlayerMaxXP(), this.color);}
 }
 
 export class StaminaBar extends Bar {
     constructor(scene, x, y, player) {super(scene, x, y, player, 77, 10, 130, 123, 0xe6e600)}
-    draw() {super.draw(this.player.gameState.getPlayerStamina(), this.player.gameState.getPlayerMaxStamina(), this.color)}
+    draw() {super.draw(this.player.gameState.getPlayerStamina(), this.player.gameState.getPlayerMaxStamina(), this.color);}
 }
 
 export class ManaBar extends Bar {
     constructor(scene, x, y, player) {super(scene, x, y, player, 77, 10, 130, 138, 0x0073e6)}
-    draw() {super.draw(this.player.gameState.getPlayerMana(), this.player.gameState.getPlayerMaxMana(), this.color)}
+    draw() {super.draw(this.player.gameState.getPlayerMana(), this.player.gameState.getPlayerMaxMana(), this.color);}
 }

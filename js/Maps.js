@@ -31,10 +31,13 @@ export default class Map extends Phaser.Scene {
         this.player = new Player(this, 320, 320, this.gameState);
         this.gameState.loadPlayerState(this.player);
 
+        this.player.createBars();
+        this.player.updateBars();
+
         this.monsterManager = new MonsterManager(this, this.player);
 
         this.spawnMonsters();
-        this.player.updateBars();
+
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
@@ -54,7 +57,6 @@ export default class Map extends Phaser.Scene {
 
     update() {
         this.player.update();
-        this.player.drawBars();
         this.monsterManager.monsters.forEach((monster) => monster.update(this.player));
     }
 }
@@ -101,5 +103,5 @@ export class Map2 extends Map {
           this.gameState.playerPosition.x = this.sys.game.config.width;
           this.scene.start('Map1');
         }
-      }
+    }
 }

@@ -15,7 +15,6 @@ export class PlayerIdleState extends PlayerState {
           delay: 100,
           callback: () => {
               this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 1);
-              this.player.staminaBar.draw();
           },
           loop: true
         });
@@ -56,7 +55,6 @@ export class PlayerWalkState extends PlayerState {
         callback: () => {
           if (this.player.gameState.getPlayerStamina() <= this.player.gameState.getPlayerMaxStamina()) {
             this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 1);
-            this.player.staminaBar.draw();
           }
         },
         loop: true
@@ -98,7 +96,6 @@ export class PlayerRunState extends PlayerState {
         callback: () => {
           if (this.player.gameState.getPlayerStamina() > 0) {
             this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - 1);
-            this.player.staminaBar.draw();
           }
         },
         loop: true
@@ -160,7 +157,6 @@ export class PlayerAttackState extends PlayerState {
   
     handleAttack() {
       this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - this.player.gameState.getPlayerAttStaminaCost());
-      this.player.staminaBar.draw();
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
@@ -216,9 +212,7 @@ export class PlayerSpecialAttackState extends PlayerState {
   
     handleAttack() {
       this.player.gameState.setPlayerMana(this.player.gameState.getPlayerMana() - this.player.gameState.getPlayerSpAttManaCost());
-      this.player.manaBar.draw();
       this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - this.player.gameState.getPlayerSpAttStaminaCost());
-      this.player.staminaBar.draw();
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
