@@ -3,9 +3,9 @@ import {Monster, MonsterManager} from "./Monsters.js";
 
 export default class Map extends Phaser.Scene {
     constructor(mapKey, gameState) {
-        super(mapKey);
-        this.mapKey = mapKey;
-        this.gameState = gameState;
+      super(mapKey);
+      this.mapKey = mapKey;
+      this.gameState = gameState;
     }
 
     preload() {
@@ -29,6 +29,8 @@ export default class Map extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(environment);
 
         this.player = new Player(this, 320, 320, this.gameState);
+        this.gameState.loadPlayerState(this.player);
+
         this.monsterManager = new MonsterManager(this, this.player);
 
         this.spawnMonsters();
@@ -72,9 +74,11 @@ export class Map1 extends Map {
     update() {
         super.update();
         if (this.player.sprite.x > this.sys.game.config.width) {
-            this.scene.start('Map2');
+          this.gameState.savePlayerState(this.player);
+          this.gameState.playerPosition.x = 0;
+          this.scene.start('Map2');
         }
-    }
+      }
 }
 
 export class Map2 extends Map {
@@ -92,7 +96,9 @@ export class Map2 extends Map {
     update() {
         super.update();
         if (this.player.sprite.x < 0) {
-            this.scene.start('Map1');
+          this.gameState.savePlayerState(this.player);
+          this.gameState.playerPosition.x = this.sys.game.config.width;
+          this.scene.start('Map1');
         }
-    }
+      }
 }

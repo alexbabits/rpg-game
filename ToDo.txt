@@ -27,12 +27,13 @@
 --> (Small Refactor): Refactor playerstats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
 --> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
 
+--> (Small Bug): Determine if 'destroy' method in player class is necessary.
 --> (Small Bug): Fix status bar positions during camera zooming.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
---> (Future Bug): Multiple mosnters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1. (May have to do with not destroying the previous scene or something, or the gamestate)
+--> (Future Bug): Multiple monsters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1. (May have to do with not destroying the previous scene or something, or the gamestate)
 
 
 Weapon/Armor Sprite and Animation:
@@ -48,10 +49,6 @@ Weapon/Armor Sprite and Animation:
 
 GameState Thoughts:
 
-The next step is to update the Player class to use these methods instead of directly accessing the player's attributes. This will involve replacing assignments to this.HP, this.maxHP, etc. with calls to setPlayerHP, setPlayerMaxHP, etc., and replacing accesses to this.HP, this.maxHP, etc. with calls to getPlayerHP, getPlayerMaxHP, etc.
-
-The general concept is to go through all the files and see what needs to be changed. This will likely involve updating other classes that interact with the player's attributes, such as the PlayerState classes and the Monster class.
-
 You'll need to import GameState.js into any file where you want to create a new GameState instance or where you want to pass an existing GameState instance to a constructor.
 
 In your case, you'll likely need to import GameState.js in your Maps.js file, create a new GameState instance there, and then pass that instance to the Player's constructor when you create a new Player. You won't need to import GameState.js in your Player.js file because the GameState instance is being passed to the Player's constructor, so the Player class can access it without needing to import the GameState class.
@@ -60,8 +57,8 @@ Listeners and Emitters can usually be left alone. Typically tied to specific gam
 
 Player GameState Bugs:
 
-PlayerRunState may need a '>=' sign now instead of just '>' due to how the code was refactored. Check it when you get Running State up and running.
-Player's attrbiutes don't seem to be saving between scenes. (Perhaps because I'm 'recreating' the player?).
+Player's attributes are saving between scenes when going from Map1 to Map2 they save properly. And from Map2 to Map1 they save properly.
+The status bars don't get drawn/updated unless a change happens that effects them basically. So that is a minor bug, let us not focus on that right now. So his attributes seem to be saving between scenes correctly, and the bars draw correctly but only after an attribute has been altered. 
 
 
 Monster GameState Thoughts:
@@ -69,3 +66,53 @@ Monster GameState Thoughts:
 Refactoring the monsters will be similar to the process for refactoring the player, but there will be some differences. Since there are multiple monsters, you'll need to store their state in an array or some other data structure that can hold multiple objects. Each monster will have its own state, which includes its HP, position, and other attributes. When a monster dies and is respawned, you'll need to create a new state object for it.
 
 It makes sense to save the state of the monsters in each scene. This will allow you to maintain the monsters' HP and position when the player leaves a scene and comes back. You can do this by storing the state of the monsters in the GameState object, similar to how you're storing the state of the player. You'll need to add a method to the GameState object to get and set the state of the monsters in each scene. When the player leaves a scene, you'll call the method to save the state of the monsters. When the player comes back to the scene, you'll call the method to restore the state of the monsters.
+
+
+
+
+3. The only real major current problem will take a bit to explain, I'll try my best. The player initially spawns into the game in Map1 at 320,320. All interactions with monsters are perfect. The monsters can attack the player and the player can attack the monsters with no issue. And the same for the first time he goes from Map1 to Map2. All the interactions with the monsters in Map2 are perfect. However, the trouble arises if he visits Map1 for the second or more times, or visits Map2 for the second or more times. It should be noted that the game doesn't break immediately, he can freely move between Map1 and Map2 as many times as you want, but the errors start to occur when he interacts with a monster when it isn't his first time visiting a map. In either map, if it is not his first time visiting it, there are two different errors that can occur. The first error freezes the game when the monster attacks the player. Here is the error:
+
+"phaser.js:59494 Uncaught TypeError: Cannot read properties of null (reading 'glTexture')
+    at Text.updateText (phaser.js:59494:99)
+    at Text.setText (phaser.js:58824:18)
+    at HPBar.draw (PlayerBars.js:22:19)
+    at HPBar.draw (PlayerBars.js:46:15)
+    at Player.playerGotHit (Player.js:197:16)
+    at EventEmitter.emit (phaser.js:1927:33)
+    at MonsterAttackingState.update (MonsterState.js:76:39)
+    at Monster.update (Monsters.js:78:27)
+    at Maps.js:57:67
+    at Array.forEach (<anonymous>)"
+
+It seems like there might be an issue with getting or setting the players HP due to a monster hit?
+
+And here is the 2nd error, which occurs on the final blow of the monster. Oddly enough, the player can land a few hits on the monster, its only when the monster is about to transition to it's death state that the game freezes and gives this error:
+
+"phaser.js:26816 Uncaught TypeError: Cannot read properties of null (reading 'cut')
+    at Frame.setSize (phaser.js:26816:24)
+    at Text.updateText (phaser.js:59388:24)
+    at Text.setText (phaser.js:58824:18)
+    at XPBar.draw (PlayerBars.js:22:19)
+    at XPBar.draw (PlayerBars.js:56:19)
+    at EventEmitter.emit (phaser.js:1927:33)
+    at Player.gainXP (Player.js:91:23)
+    at EventEmitter.emit (phaser.js:1927:33)
+    at MonsterDeathState.enter (MonsterState.js:88:35)
+    at Monster.transitionToNewState (Monsters.js:68:27)"
+
+Perhaps this isn't even an issue with the player, but more so now, an issue with how the monsters are handling the player's data? Or perhaps how the player is handling the monster's data? Remember, I have only refactored my code to include gamestate for attributes for the player, I have not yet refactored my code to include gamestate things for the monsters, so perhaps the issue could be solved by creating that gamestate for my monsters and loading them in differently.
+
+
+Thanks for the detailed explanation. It seems like the issue is related to the player's and monster's state when transitioning between scenes. When you switch scenes, Phaser destroys the current scene and all its game objects, including the player and monsters. However, the player's and monster's state is saved in the GameState object, which is not destroyed. This can cause issues if the player or monsters are trying to access their old, destroyed game objects.
+
+The error messages suggest that the game is trying to update the text of a destroyed game object. In the first error, it's trying to update the player's HP bar, and in the second error, it's trying to update the player's XP bar. These bars are probably part of the player or monster game objects, which are destroyed when you switch scenes.
+
+One solution could be to make sure that the player's and monster's state does not reference any game objects directly. Instead, the state should only contain simple data types like numbers and strings, which can be used to recreate the game objects when you switch scenes.
+
+For example, instead of saving a reference to the player's HP bar in the GameState, you could save the player's current and maximum HP. Then, in the create() method of each scene, you can recreate the HP bar and set its value based on the player's current and maximum HP.
+
+The same applies to the monsters. Instead of saving a reference to the monster game objects in the GameState, you could save the monsters' data (like their type, position, current and maximum HP, etc.) in a simple data structure like an array of objects. Then, in the create() method of each scene, you can recreate the monsters based on this data.
+
+This way, all game objects are created fresh in each scene, and there's no risk of trying to access a destroyed game object.
+
+If you want to refactor your monsters to use a game state like the player, that could be a good idea. It would make your code more consistent and might make it easier to manage the game state. However, it's not strictly necessary to solve this issue. The key is to avoid saving references to game objects in the game state.

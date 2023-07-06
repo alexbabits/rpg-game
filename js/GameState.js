@@ -1,25 +1,64 @@
 export default class GameState {
   constructor() {
     this.playerState = null;
-    this.playerXP = 0;
-    this.playerMaxXP = 0;
-    this.playerHP = 0;
-    this.playerMaxHP = 0;
-    this.playerLevel = 0;
-    this.playerTotalXP = 0;
-    this.playerWalkSpeed = 0;
-    this.playerRunSpeed = 0;
-    this.playerMaxMana = 0;
-    this.playerMana = 0;
-    this.playerMaxStamina = 0;
-    this.playerStamina = 0;
-    this.playerAttStaminaCost = 0;
-    this.playerSpAttStaminaCost = 0;
-    this.playerSpAttManaCost = 0;
-    this.playerCanRun = false;
-    this.playerDamage = 0;
-    this.playerSpecialDamage = 0;
-    this.playerDirection = '';
+  }
+
+  savePlayerState(player) {
+    this.playerState = {
+      xp: player.gameState.getPlayerXP(),
+      maxXP: player.gameState.getPlayerMaxXP(),
+      hp: player.gameState.getPlayerHP(),
+      maxHP: player.gameState.getPlayerMaxHP(),
+      level: player.gameState.getPlayerLevel(),
+      totalXP: player.gameState.getPlayerTotalXP(),
+      walkSpeed: player.gameState.getPlayerWalkSpeed(),
+      runSpeed: player.gameState.getPlayerRunSpeed(),
+      maxMana: player.gameState.getPlayerMaxMana(),
+      mana: player.gameState.getPlayerMana(),
+      maxStamina: player.gameState.getPlayerMaxStamina(),
+      stamina: player.gameState.getPlayerStamina(),
+      attStaminaCost: player.gameState.getPlayerAttStaminaCost(),
+      spAttStaminaCost: player.gameState.getPlayerSpAttStaminaCost(),
+      spAttManaCost: player.gameState.getPlayerSpAttManaCost(),
+      canRun: player.gameState.getPlayerCanRun(),
+      damage: player.gameState.getPlayerDamage(),
+      specialDamage: player.gameState.getPlayerSpecialDamage(),
+      direction: player.gameState.getPlayerDirection(),
+    };
+    
+    this.playerPosition = {
+      x: player.sprite.x,
+      y: player.sprite.y
+    };
+  }
+
+  loadPlayerState(player) {
+    if (this.playerState) {
+      player.gameState.setPlayerXP(this.playerState.xp);
+      player.gameState.setPlayerMaxXP(this.playerState.maxXP);
+      player.gameState.setPlayerHP(this.playerState.hp);
+      player.gameState.setPlayerMaxHP(this.playerState.maxHP);
+      player.gameState.setPlayerLevel(this.playerState.level);
+      player.gameState.setPlayerTotalXP(this.playerState.totalXP);
+      player.gameState.setPlayerWalkSpeed(this.playerState.walkSpeed);
+      player.gameState.setPlayerRunSpeed(this.playerState.runSpeed);
+      player.gameState.setPlayerMaxMana(this.playerState.maxMana);
+      player.gameState.setPlayerMana(this.playerState.mana);
+      player.gameState.setPlayerMaxStamina(this.playerState.maxStamina);
+      player.gameState.setPlayerStamina(this.playerState.stamina);
+      player.gameState.setPlayerAttStaminaCost(this.playerState.attStaminaCost);
+      player.gameState.setPlayerSpAttStaminaCost(this.playerState.spAttStaminaCost);
+      player.gameState.setPlayerSpAttManaCost(this.playerState.spAttManaCost);
+      player.gameState.setPlayerCanRun(this.playerState.canRun);
+      player.gameState.setPlayerDamage(this.playerState.damage);
+      player.gameState.setPlayerSpecialDamage(this.playerState.specialDamage);
+      player.gameState.setPlayerDirection(this.playerState.direction);
+    };
+
+    if (this.playerPosition) {
+      player.sprite.x = this.playerPosition.x;
+      player.sprite.y = this.playerPosition.y;
+    };
   }
 
   setPlayerState(state) {this.playerState = state}
@@ -86,11 +125,6 @@ export default class GameState {
 
 
 /*
-
-To use this class, you'd instantiate it in your map scenes like any other class:
---> "this.gameState = new GameState(this);"
---> "this.gameState.setState()" and "this.gameState.getState()" to update and retrieve the game state. 
---> Save and load the game by calling "this.gameState.saveGame()" and "this.gameState.loadGame()".
 
 This saves game state to the user's local storage. Local Storage limits are 5-10MB. May need to use IndexedDB or a server-side database or the cloud. 
 
