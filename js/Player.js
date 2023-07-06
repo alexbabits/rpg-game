@@ -74,6 +74,12 @@ export default class Player {
     this.manaBar.draw();
     this.xpBar.draw();
   }
+  updateBars() {
+    this.hpBar.player = this;
+    this.staminaBar.player = this;
+    this.manaBar.player = this;
+    this.xpBar.player = this;
+  }
 
   gainXP(monster) {
     const currentXP = this.gameState.getPlayerXP();

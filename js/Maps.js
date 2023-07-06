@@ -34,7 +34,7 @@ export default class Map extends Phaser.Scene {
         this.monsterManager = new MonsterManager(this, this.player);
 
         this.spawnMonsters();
-        
+        this.player.updateBars();
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
@@ -54,6 +54,7 @@ export default class Map extends Phaser.Scene {
 
     update() {
         this.player.update();
+        this.player.drawBars();
         this.monsterManager.monsters.forEach((monster) => monster.update(this.player));
     }
 }
