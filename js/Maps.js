@@ -30,13 +30,11 @@ export default class Map extends Phaser.Scene {
 
         this.player = new Player(this, 320, 320, this.gameState);
         this.gameState.loadPlayerState(this.player);
-
         this.player.createBars();
         this.player.updateBars();
 
         this.monsterManager = new MonsterManager(this, this.player);
-
-        this.spawnMonsters();
+        this.spawnMonster();
 
         let camera = this.cameras.main;
         camera.zoom = 1.4;
@@ -53,7 +51,7 @@ export default class Map extends Phaser.Scene {
         });
     }
     
-    spawnMonsters() {}
+    spawnMonster() {}
 
     update() {
         this.player.update();
@@ -67,11 +65,11 @@ export class Map1 extends Map {
         super("Map1", gameState);
     }
 
-    spawnMonsters() {
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+    spawnMonster() {
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('ent');
+        this.monsterManager.spawnMonster('ent');
     }
 
     update() {
@@ -89,11 +87,11 @@ export class Map2 extends Map {
         super("Map2", gameState);
     }
 
-    spawnMonsters() {
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+    spawnMonster() {
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('ent');
+        this.monsterManager.spawnMonster('ent');
     }
 
     update() {

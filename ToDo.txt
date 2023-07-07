@@ -22,10 +22,9 @@
 --> (Bonus): You can only save at the inn when you go to sleep.
 --> (Bonus): Player and/or monster damage is random (from 0 to maxDamage basically)
 
---> (Small Refactor): Similar to HP/Mana/Stamina, refactor the XP limiters to be right in the GameState, rather than the Player class.
 --> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState.
---> (Small Refactor): Refactor playerstats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
---> (Small Refactor): Can load in the monsters in a more streamlined manner with MonsterManager probably. (Currently adding them in 1 by 1 with all their stats)
+--> (Small Refactor): Refactor player stats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
+--> (Small Refactor): This line in the playestates for the monster might be useless: "this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);". Since the object gets completely destroyed anyway, I wonder if that automatically means it leaves the monstersTouching array.
 
 --> (Small Bug): Determine if 'destroy' method in player class is necessary.
 --> (Small Bug): Fix status bar positions during camera zooming.
@@ -33,6 +32,7 @@
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
+
 --> (Future Bug): Multiple monsters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1. (May have to do with not destroying the previous scene or something, or the gamestate)
 
 
@@ -45,26 +45,10 @@ Weapon/Armor Sprite and Animation:
 --> Paper dolling: Separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation. To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
 
 
+Monsters:
+
+--> ID may be useful. (Already handled in arrays, perhaps that's inferior to the ID method?)
+--> Either fully destroy the monster's that spawned in, so you can spawn fresh ones in when the playe revisits a map. (Simple)
+--> OR, do not spawn a new set of monsters if the player revisits the scene, and instead find a way to save the state of those original monsters. (More complex)
 
 
-GameState Thoughts:
-
-You'll need to import GameState.js into any file where you want to create a new GameState instance or where you want to pass an existing GameState instance to a constructor.
-
-In your case, you'll likely need to import GameState.js in your Maps.js file, create a new GameState instance there, and then pass that instance to the Player's constructor when you create a new Player. You won't need to import GameState.js in your Player.js file because the GameState instance is being passed to the Player's constructor, so the Player class can access it without needing to import the GameState class.
-
-Listeners and Emitters can usually be left alone. Typically tied to specific game objects or scenes, so they can be kept in current location. If the listeners and emitters are related to the game state, like a listener for players HP to update the HP bar, may want to move that listener to the gamestate since the gamestate will be managing the player's hp. If a timer or interval is related to the game state (for example, a timer that regenerates the player's HP), you might want to move it to the GameState.
-
-Player GameState Bugs:
-
-Player's attributes are saving between scenes when going from Map1 to Map2 they save properly. And from Map2 to Map1 they save properly.
-The status bars don't get drawn/updated unless a change happens that effects them basically. So that is a minor bug, let us not focus on that right now. So his attributes seem to be saving between scenes correctly, and the bars draw correctly but only after an attribute has been altered. 
-
-
-Monster GameState Thoughts:
-
-Refactoring the monsters will be similar to the process for refactoring the player, but there will be some differences. Since there are multiple monsters, you'll need to store their state in an array or some other data structure that can hold multiple objects. Each monster will have its own state, which includes its HP, position, and other attributes. When a monster dies and is respawned, you'll need to create a new state object for it.
-
-It makes sense to save the state of the monsters in each scene. This will allow you to maintain the monsters' HP and position when the player leaves a scene and comes back. You can do this by storing the state of the monsters in the GameState object, similar to how you're storing the state of the player. You'll need to add a method to the GameState object to get and set the state of the monsters in each scene. When the player leaves a scene, you'll call the method to save the state of the monsters. When the player comes back to the scene, you'll call the method to restore the state of the monsters.
-
-The monsters attributes like HP and positions should be saved. And also they should not be 'recreated' from scratch if the player re-visists the Map, for exmaple. If he revisits Map1, all the original monsters, that weren't killed, should still be there.
