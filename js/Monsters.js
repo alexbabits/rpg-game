@@ -74,12 +74,6 @@ export class Monster {
         this.currentState.enter();
     }
 
-    handleMonsterDeath() {
-        if(this.HP <= 0) {
-            this.transitionToNewState(this.deathState);
-        }
-    }
-
     update(player) {
         this.currentState.update(player);
         this.hpBar.update();

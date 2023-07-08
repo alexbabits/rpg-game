@@ -166,8 +166,7 @@ export class PlayerAttackState extends PlayerState {
           console.log(`Player attacked ${monster.name} for ${this.player.gameState.getPlayerDamage()} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
-          this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
-          monster.handleMonsterDeath();
+          monster.transitionToNewState(monster.deathState);
         }
       }
     }
@@ -222,8 +221,7 @@ export class PlayerSpecialAttackState extends PlayerState {
           console.log(`Player special attacked ${monster.name} for ${this.player.gameState.getPlayerSpecialDamage()} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
-          this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
-          monster.handleMonsterDeath();
+          monster.transitionToNewState(monster.deathState);
         }
       }
     }
