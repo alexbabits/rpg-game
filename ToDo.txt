@@ -24,11 +24,9 @@
 
 --> (Small Refactor): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Small Refactor): Refactor player stats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
---> (Small Refactor): This line in the playestates for the monster might be useless: "this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);". Since the object gets completely destroyed anyway, I wonder if that automatically means it leaves the monstersTouching array.
 
 --> (Small Bug): Fix status bar positions during camera zooming.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
---> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
 
@@ -48,7 +46,13 @@ ID: May be needed for gamestate.
 
 Currently: Destroy all monsters & references to monsters, and creates them again when you go back to a scene. Working fine.
 
-GameState: When the player leaves a scene by death or moving to Map2, Save all the current monster states. If there are 3/4 monsters, then it would save those 3 monsters, and also it would know that the 4th monster is currently dead and needs to respawn in X seconds, when you re-enter the scene. (respawn timers may have to be global). This requires the use of saving those 3 monsters to a gamestate, and then loading them back in when you re-visit the scene, AND making sure you don't spawn in any other monsters in the meantime. (Would have to explicitly state, spawn in bear1, bear2, ent1, ent2, and it would check if any are missing, and then spawn them in if they are dead)
+GameState: When the player leaves a scene by dying or simply walking to a new scene, the game would take a snapshot of the monsters current state when the player leaves the scene, and saves each monster's, dead or alive, current state which includes their attributes including hp, other stats, position, isAlive flag, etc. Then, if the player re-enters the scene, it would grab that snapshot and load in the data for each monster. 
+
+The whole purpose of this would be if the player has killed some of the monsters in a scene, if he exits the scene and comes back, only the monsters that are still alive are loaded back in, while the others are still waiting for their respawn timer so they can spawn back in.
+
+(Samll thing, force their hp to be full again to prevent cheesing).
+
+
 
 However, this doesn't necessarily mean you need to create a full-blown "MonsterState" class with getters and setters for every attribute. Depending on your needs, a simpler solution might be sufficient. For example, you could create a "MonsterData" class that simply stores the necessary information about a monster (type, health, position, respawn timer, etc.) in a serializable format. When the player leaves a scene, you could create a MonsterData object for each monster in the scene and store these in an array. When the player re-enters the scene, you could use these MonsterData objects to recreate the monsters in their previous state.
 

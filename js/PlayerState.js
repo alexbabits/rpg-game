@@ -64,7 +64,9 @@ export class PlayerWalkState extends PlayerState {
 
   update() {
     const {x, y} = this.player.getMovement();
-    
+    if (this.player.gameState.getPlayerStamina() >= 3) {
+      this.player.gameState.setPlayerCanRun(true);
+    }
     if (x === 0 && y === 0) {
       this.player.transitionToNewState(this.player.idleState);
     } else if (this.player.userInput.cursors.shift.isDown && this.player.gameState.getPlayerCanRun()) {
@@ -78,15 +80,12 @@ export class PlayerWalkState extends PlayerState {
       this.staminaIncrementTimer.destroy();
       this.staminaIncrementTimer = null;
     }
-    if (this.runCooldownTimer) {
-      this.runCooldownTimer.remove();
-      this.runCooldownTimer = null;
-    }
   }
 }
   
 export class PlayerRunState extends PlayerState {
   enter() {
+    this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - 1)
     this.player.sprite.anims.play('hero_run', true);
     console.log("Player entered running state");
 
@@ -108,6 +107,8 @@ export class PlayerRunState extends PlayerState {
 
     if (this.player.gameState.getPlayerStamina() === 0) {
       this.player.gameState.setPlayerCanRun(false);
+    } else if (this.player.gameState.getPlayerStamina() >= 3) {
+      this.player.gameState.setPlayerCanRun(true);
     }
 
     if (x === 0 && y === 0) {

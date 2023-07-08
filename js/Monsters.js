@@ -120,6 +120,7 @@ export class MonsterManager {
             delay: 5000,
             callback: () => {
                 this.spawnMonster(deadMonster.name);
+                console.log(`${deadMonster.name} respawned.`);
             },
             callbackScope: this
         });
