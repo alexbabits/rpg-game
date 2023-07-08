@@ -47,9 +47,20 @@ export class MonsterAggressiveState extends MonsterState {
 export class MonsterAttackingState extends MonsterState {
     enter() {
         console.log(`${this.monster.name} entered attacking state (idle anim atm)`);
-        this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
-        this.attackTimer = this.monster.scene.time.now;
+        this.monster.sprite.play(this.monster.idleAnim);
+        if (!this.monster.attackCooldown || this.monster.scene.time.now > this.monster.attackCooldown) {
+            this.monster.player.gameState.setPlayerHP(this.monster.player.gameState.getPlayerHP() - this.monster.Damage);
+            console.log(`${this.monster.name} attacked the player for ${this.monster.Damage} Damage. Player health: ${this.monster.player.gameState.getPlayerHP()}`);
+            this.attackTimer = this.monster.scene.time.now;
+            this.monster.attackCooldown = this.monster.scene.time.now + (1000 * this.monster.attackSpeed);
+
+            if(this.monster.player.gameState.getPlayerHP() > 0) {
+                this.monster.player.transitionToNewState(this.monster.player.gotHitState);
+            } else {
+                this.monster.player.transitionToNewState(this.monster.player.deathState);
+            }
+        }
     }
 
     update(player) {
@@ -69,10 +80,12 @@ export class MonsterAttackingState extends MonsterState {
             return;
         }
 
-        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed)) {
+        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed) && this.monster.scene.time.now > this.monster.attackCooldown) {
             player.gameState.setPlayerHP(player.gameState.getPlayerHP() - this.monster.Damage);
             console.log(`${this.monster.name} attacked the player for ${this.monster.Damage} Damage. Player health: ${player.gameState.getPlayerHP()}`);
             this.attackTimer = this.monster.scene.time.now;
+            this.monster.attackCooldown = this.monster.scene.time.now + (1000 * this.monster.attackSpeed);
+
             if(player.gameState.getPlayerHP() > 0) {
                 player.transitionToNewState(player.gotHitState);
             } else {
