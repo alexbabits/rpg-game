@@ -44,6 +44,9 @@ export default class Player {
     this.sprite.setFixedRotation();
     this.sprite.anims.play('hero_idle');
 
+    this.levelText = scene.add.text(400, 93, `Player Level: ${gameState.getPlayerLevel()}`, { fontFamily: 'Arial', fontSize: '12px', fill: '#000',  resolution: 4 });
+    this.levelText.setScrollFactor(0, 0);
+
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -98,7 +101,7 @@ export default class Player {
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(Math.ceil(this.gameState.getPlayerMaxXP() * 1.5));
     console.log(`Player leveled up! Current level: ${this.gameState.getPlayerLevel()}. XP to next level: ${this.xpToNextLevel()}`);
-  }
+}
 
   xpToNextLevel() {
     const remainingXP = this.gameState.getPlayerMaxXP() - this.gameState.getPlayerXP();
@@ -180,6 +183,7 @@ export default class Player {
     this.xpBar.draw(this.gameState.getPlayerXP(), this.gameState.getPlayerMaxXP());
     this.manaBar.draw(this.gameState.getPlayerMana(), this.gameState.getPlayerMaxMana());
     this.staminaBar.draw(this.gameState.getPlayerStamina(), this.gameState.getPlayerMaxStamina());
+    this.levelText.setText(`Player Level: ${this.gameState.getPlayerLevel()}`);
   }
 
 }

@@ -3,7 +3,7 @@ export class MonsterHPBar {
         this.scene = scene;
         this.monster = monster;
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, monster.sprite.x, monster.sprite.y, '', {fontFamily: 'Courier', fontSize: '11px', fill: '#000', resolution: 2});
+        this.text = new Phaser.GameObjects.Text(scene, monster.sprite.x, monster.sprite.y, '', {fontFamily: 'Arial', fontSize: '11px', fill: '#000', resolution: 2});
         this.bar.setDepth(40);
         this.text.setDepth(41);
         this.xOffset = -38;
@@ -18,7 +18,7 @@ export class MonsterHPBar {
 
     draw() {
         this.bar.clear();
-        this.text.setPosition(this.monster.sprite.x + this.xOffset + 13, this.monster.sprite.y + this.yOffset - 3);
+        this.text.setPosition(this.monster.sprite.x + this.xOffset + 18, this.monster.sprite.y + this.yOffset - 3);
         this.text.setText(`${this.monster.HP}/${this.monster.maxHP}`);
 
         this.pixelPerHP = this.size.width / this.monster.maxHP;

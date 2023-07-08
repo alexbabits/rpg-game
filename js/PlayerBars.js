@@ -4,7 +4,7 @@ export class Bar {
         this.player = player;
         this.color = color;
         this.bar = new Phaser.GameObjects.Graphics(scene);
-        this.text = new Phaser.GameObjects.Text(scene, textX, textY, '', { fontFamily: 'Courier', fontSize: `${fontSize}px`, fill: '#000', resolution: 2 });
+        this.text = new Phaser.GameObjects.Text(scene, textX, textY, '', { fontFamily: 'Arial', fontSize: `${fontSize}px`, fill: '#000', resolution: 2 });
         this.bar.setDepth(50);
         this.text.setDepth(51);
         this.bar.setScrollFactor(0, 0);
@@ -33,7 +33,7 @@ export class Bar {
 }
 
 export class HPBar extends Bar {
-    constructor(scene, player) {super(scene, player, 77, 10, 112, 110, 130, 108, 12, 0x73e600)}
+    constructor(scene, player) {super(scene, player, 77, 10, 112, 110, 130, 108, 11, 0x73e600)}
     draw() {
         let color = this.color;
         if (this.player.gameState.getPlayerHP() <= this.player.gameState.getPlayerMaxHP() / 4) {
@@ -44,16 +44,16 @@ export class HPBar extends Bar {
 }
 
 export class XPBar extends Bar {
-    constructor(scene, player) {super(scene, player, 200, 10, 332, 110, 420, 108, 12, 0x7300e6)}
+    constructor(scene, player) {super(scene, player, 200, 10, 332, 110, 420, 108, 11, 0x9900FF)}
     draw() {super.draw(this.player.gameState.getPlayerXP(), this.player.gameState.getPlayerMaxXP(), this.color);}
 }
 
 export class StaminaBar extends Bar {
-    constructor(scene, player) {super(scene, player, 77, 10, 112, 125, 130, 123, 12, 0xe6e600)}
+    constructor(scene, player) {super(scene, player, 77, 10, 112, 125, 130, 123, 11, 0xe6e600)}
     draw() {super.draw(this.player.gameState.getPlayerStamina(), this.player.gameState.getPlayerMaxStamina(), this.color);}
 }
 
 export class ManaBar extends Bar {
-    constructor(scene, player) {super(scene, player, 77, 10, 112, 140, 130, 138, 12, 0x0073e6)}
+    constructor(scene, player) {super(scene, player, 77, 10, 112, 140, 130, 138, 11, 0x0073e6)}
     draw() {super.draw(this.player.gameState.getPlayerMana(), this.player.gameState.getPlayerMaxMana(), this.color);}
 }
