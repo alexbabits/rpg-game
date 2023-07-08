@@ -61,10 +61,10 @@ export default class Player {
   }
 
   createBars() {
-    this.hpBar = new HPBar(this.scene, 112, 110, this);
-    this.staminaBar = new StaminaBar(this.scene, 112, 125, this);
-    this.manaBar = new ManaBar(this.scene, 112, 140, this);
-    this.xpBar = new XPBar(this.scene, 332, 110, this);
+    this.hpBar = new HPBar(this.scene, this);
+    this.staminaBar = new StaminaBar(this.scene, this);
+    this.manaBar = new ManaBar(this.scene, this);
+    this.xpBar = new XPBar(this.scene, this);
   }
   updateBars() {
     this.hpBar.player = this;
