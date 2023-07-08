@@ -37,7 +37,7 @@ export default class Map extends Phaser.Scene {
         this.spawnMonster();
 
         let camera = this.cameras.main;
-        camera.zoom = 1.4;
+        camera.zoom = 1;
         camera.startFollow(this.player.sprite);
         camera.setLerp(0.1,0.1);
         camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
