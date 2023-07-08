@@ -26,14 +26,11 @@
 --> (Small Refactor): Refactor player stats/methods into a separate file? Player class is getting a bit messy with its stats and methods.
 --> (Small Refactor): This line in the playestates for the monster might be useless: "this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);". Since the object gets completely destroyed anyway, I wonder if that automatically means it leaves the monstersTouching array.
 
---> (Small Bug): Determine if 'destroy' method in player class is necessary.
 --> (Small Bug): Fix status bar positions during camera zooming.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): You can 'cheese' the running system and tap shift very fast while moving to conserve stamina. Perhaps a cooldown for the transition.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): For enemy attacking, instead of the timer starting and then waiting 1 second and then performing first attack, have the first attack always be instant at the first instant of touching the player collider and the monster attack sensor, and then start the timer. (Later on making it based off frames just like player attacking could be best.)
-
---> (Future Bug): Multiple monsters spawn at once if you exit to map2 and back to map1. Also, game crashes if monster hits you after coming back to map1. (May have to do with not destroying the previous scene or something, or the gamestate)
 
 
 Weapon/Armor Sprite and Animation:
@@ -45,10 +42,18 @@ Weapon/Armor Sprite and Animation:
 --> Paper dolling: Separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation. To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
 
 
-Monsters:
+Monsters/GameState Thoughts:
 
---> ID may be useful. (Already handled in arrays, perhaps that's inferior to the ID method?)
---> Either fully destroy the monster's that spawned in, so you can spawn fresh ones in when the playe revisits a map. (Simple)
---> OR, do not spawn a new set of monsters if the player revisits the scene, and instead find a way to save the state of those original monsters. (More complex)
+ID: May be needed for gamestate.
 
+Currently: Destroy all monsters & references to monsters, and creates them again when you go back to a scene. Working fine.
 
+GameState: When the player leaves a scene by death or moving to Map2, Save all the current monster states. If there are 3/4 monsters, then it would save those 3 monsters, and also it would know that the 4th monster is currently dead and needs to respawn in X seconds, when you re-enter the scene. (respawn timers may have to be global). This requires the use of saving those 3 monsters to a gamestate, and then loading them back in when you re-visit the scene, AND making sure you don't spawn in any other monsters in the meantime. (Would have to explicitly state, spawn in bear1, bear2, ent1, ent2, and it would check if any are missing, and then spawn them in if they are dead)
+
+However, this doesn't necessarily mean you need to create a full-blown "MonsterState" class with getters and setters for every attribute. Depending on your needs, a simpler solution might be sufficient. For example, you could create a "MonsterData" class that simply stores the necessary information about a monster (type, health, position, respawn timer, etc.) in a serializable format. When the player leaves a scene, you could create a MonsterData object for each monster in the scene and store these in an array. When the player re-enters the scene, you could use these MonsterData objects to recreate the monsters in their previous state.
+
+This approach would be somewhat simpler than creating a full MonsterState class, but it would still require a fair amount of work. You would need to modify your Monster and MonsterManager classes to support creating monsters from MonsterData objects, and you would need to ensure that all relevant monster information is correctly saved and loaded.
+
+As for the issue of monster IDs, one possible solution would be to use the index of the monster in the array as its ID. This would allow you to easily identify and manipulate individual monsters, but it could potentially lead to issues if monsters are added or removed from the array in a way that changes the indices of existing monsters.
+
+In the end, the decision of whether or not to implement this feature really comes down to a cost-benefit analysis. If you feel that the improved gameplay experience is worth the additional complexity and development time, then by all means go for it. But if you feel that the benefits are marginal and the effort would be better spent on other features, then it might be best to put this idea on the back burner for now.

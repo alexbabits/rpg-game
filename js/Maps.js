@@ -49,9 +49,15 @@ export default class Map extends Phaser.Scene {
                 this.cameras.main.zoom = Math.min(this.cameras.main.zoom + zoomChange, 3.0);
             }
         });
+        this.events.once('shutdown', this.shutdown, this);
     }
     
     spawnMonster() {}
+
+    shutdown() {
+        this.events.off('monsterDeath', this.monsterManager.spawnNewMonster, this.monsterManager);
+        this.events.off('monsterDeath', this.player.gainXP, this.player);
+    }
 
     update() {
         this.player.update();
@@ -79,7 +85,7 @@ export class Map1 extends Map {
           this.gameState.playerPosition.x = 0;
           this.scene.start('Map2');
         }
-      }
+    }
 }
 
 export class Map2 extends Map {

@@ -117,13 +117,6 @@ export default class Player {
       loop: true
     });
   }
-  // For when the player object is removed from the game (level ends, player dies, exiting game)
-  destroy() {
-    if (this.runCooldownTimer) {
-      this.runCooldownTimer.remove();
-      this.runCooldownTimer = null;
-    }
-  }
 
   handleCollision(event) {
     this.monstersTouching = [];
