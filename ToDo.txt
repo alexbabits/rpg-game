@@ -50,3 +50,22 @@ Weapon/Armor Sprite and Animation:
 --> Contend with armor wearing using the paper dolling technique. Changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. Each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
 --> Contend with weapon wielding sprites by having separate animations for each weapon type.
 --> Paper dolling: Separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation. To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
+
+
+Inventory:
+
+3. Implement the addItem method: Now that you have a visual representation of the inventory and an item in it, you can start working on the underlying data. Implement the addItem method to add an item to the inventoryData. This will involve updating the inventoryData to reflect the new item and its quantity.
+
+4. Update the visual representation when an item is added: Modify the addItem method to also update the visual representation of the inventory when an item is added. This will involve creating a new item sprite (if necessary) and updating the quantity text.
+
+5. Implement the removeItem method: Implement the removeItem method to remove an item from the inventoryData. This will involve updating the inventoryData and the visual representation of the inventory.
+
+6. Implement the moveItem method: Implement the moveItem method to allow items to be moved between slots. This will involve updating both the inventoryData and the visual representation of the inventory.
+
+7. Implement the getInventoryData and setInventoryData methods: These methods will be used to save and load the inventory state. getInventoryData should return the current inventoryData, and setInventoryData should update the inventoryData and the visual representation of the inventory to match the given data.
+
+8. Implement the saveInventoryState and loadInventoryState methods in the GameState: These methods will call getInventoryData and setInventoryData to save and load the inventory state when transitioning between scenes.
+
+9. Test the inventory system: Finally, test the inventory system by adding, removing, and moving items, and by transitioning between scenes to make sure the inventory state is correctly saved and loaded.
+
+Remember to take it one step at a time, and test each part thoroughly before moving on to the next. 

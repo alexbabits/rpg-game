@@ -1,5 +1,6 @@
 import Player from "./Player.js";
 import {Monster, MonsterManager} from "./Monsters.js";
+import Inventory from "./Inventory.js";
 
 export default class Map extends Phaser.Scene {
     constructor(mapKey, gameState) {
@@ -11,9 +12,9 @@ export default class Map extends Phaser.Scene {
     preload() {
         this.load.image('tiles', 'assets/images/RPG Nature Tileset.png');
         this.load.tilemapTiledJSON(this.mapKey, `assets/images/${this.mapKey}.json`);
-
         Player.preload(this);
         Monster.preload(this);
+        Inventory.preload(this);
     }
 
     create() {
@@ -35,6 +36,11 @@ export default class Map extends Phaser.Scene {
 
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
+
+        //Stored Inventory class as a property of the Map instance (this.inventory) in the create method "this.inventory = new Inventory();". 
+        //Each Map will have its own Inventory. If you want the same Inventory for all maps (I do), we'll end up storing it in GameState instead.
+        this.inventory = new Inventory();
+        this.inventory.drawInventorySlots(this);
 
         let camera = this.cameras.main;
         camera.zoom = 1.4;
