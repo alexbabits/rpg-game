@@ -17,4 +17,4 @@ const config = {
   plugins: {scene:[{plugin: PhaserMatterCollisionPlugin.default, key: 'matterCollision', mapping: 'matterCollision'}]}
 }
 
-const game = new Phaser.Game(config);
+new Phaser.Game(config);

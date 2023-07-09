@@ -26,6 +26,10 @@ export default class Inventory {
     setInventoryData(inventoryData) {this.inventoryData = inventoryData}   
 
     drawInventorySlots(scene) {
+        const width = scene.game.config.width;
+        const height = scene.game.config.height;
+        const startX = width - 222
+        const startY = height - 222
         this.bagBackground = scene.add.image(475, 475, 'bag');
         this.bagBackground.setDepth(420).setScale(1.9125).setScrollFactor(0, 0);
         this.bagBackground.setVisible(this.inventoryVisibility);
@@ -42,7 +46,6 @@ export default class Inventory {
             slotSprite.setVisible(this.inventoryVisibility);
 
             slotSprite.slotID = j * slotsPerRow + i + 1;
-
             slotSprite.on('pointerover', function (pointer) {
               console.log(`Hovering over slotID: ${this.slotID}`);
               this.setTint(0xFFFF00);
