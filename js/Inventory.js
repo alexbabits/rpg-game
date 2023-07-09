@@ -96,32 +96,29 @@ export default class Inventory {
       
       toggleInventoryVisibility() {
         this.setInventoryVisibility(!this.getInventoryVisibility());
-        this.bagBackground.setVisible(this.inventoryVisibility);
         
-        // Toggle visibility of slot sprites
         for (let row of this.slotSprites) {
             for (let slotSprite of row) {
                 slotSprite.setVisible(this.inventoryVisibility);
             }
         }
     
-        // Toggle visibility of item sprites
         for (let row of this.itemSprites) {
             for (let itemSprite of row) {
-                if (itemSprite) {  // Check if there is an item sprite at this position
+                if (itemSprite) {
                     itemSprite.setVisible(this.inventoryVisibility);
                 }
             }
         }
     
-        // Toggle visibility of item texts
         for (let row of this.itemTexts) {
             for (let itemText of row) {
-                if (itemText) {  // Check if there is an item text at this position
+                if (itemText) {
                     itemText.setVisible(this.inventoryVisibility);
                 }
             }
         }
+        this.bagBackground.setVisible(this.inventoryVisibility);
     }
 
       update() {
@@ -135,6 +132,11 @@ export default class Inventory {
     //If all slots are full such that the item cannot be added, the item is not added. return.
     //Should update the contents array/object in some way.
 
+    moveItem() {
+        //Handles logic for actually dragging the item sprite around. 
+        //Makes it so if the drag stops, the item 'snaps' back to the slot it was in.
+        //Move an item from Slot A to Slot B. Also handles if an item is already in that slot, and things like that.
+    };
 
     addItem(itemName, frame, quantity) {
         //pass in an itemName, frame, and quantity, and it puts the item in the inventory in a slot.
@@ -146,11 +148,7 @@ export default class Inventory {
         //Should update the contents array/object in some way.
     };
 
-    moveItem() {
-        //Handles logic for actually dragging the item sprite around. 
-        //Makes it so if the drag stops, the item 'snaps' back to the slot it was in.
-        //Move an item from Slot A to Slot B. Also handles if an item is already in that slot, and things like that.
-    };
+
 
     destroyInventory(){
         //Completely destroys the inventory, it's sprites, and it's data. I suppose invoked during scene transitions? After the inventory has been saved to the gamestate, it makes sure everything is clear, so when a new scene appears, the loadInventoryState can be invoked with no issues?

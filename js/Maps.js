@@ -37,8 +37,6 @@ export default class Map extends Phaser.Scene {
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
 
-        //Stored Inventory class as a property of the Map instance (this.inventory) in the create method "this.inventory = new Inventory();". (Added 'this' because I needed to add the 'scene' in Inventory.js, in order to use UserInput.js file directly.)
-        //Each Map will have its own Inventory. If you want the same Inventory for all maps (I do), we'll end up storing it in GameState instead.
         this.inventory = new Inventory(this, this.gameState);
         this.gameState.loadInventoryState(this.inventory);
         this.inventory.drawInventorySlots(this);
