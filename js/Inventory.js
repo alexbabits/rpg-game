@@ -1,5 +1,11 @@
-import Items from './Items.js';
 import UserInput from './UserInput.js';
+
+    const slotSize = 32;
+    const slotsPerRow = 4;
+    const slotsPerColumn = 4;
+    const slotSpacing = 5;
+    const startX = 418;
+    const startY = 418;
 
 export default class Inventory {
 
@@ -16,29 +22,10 @@ export default class Inventory {
         this.inventoryVisibility = this.gameState.getInventoryVisibility();
     };
 
-    getInventoryVisibility() {return this.inventoryVisibility}
-    setInventoryVisibility(visible) {
-        this.inventoryVisibility = visible;
-        this.gameState.setInventoryVisibility(this.inventoryVisibility);
-    }
-
-    toggleInventoryVisibility() {
-        this.setInventoryVisibility(!this.getInventoryVisibility());
-        this.bagBackground.setVisible(this.inventoryVisibility);
-        for (let row of this.slotSprites) {
-            for (let slotSprite of row) {
-            slotSprite.setVisible(this.inventoryVisibility);
-            }
-        }
-    }      
+    getInventoryData() {return this.inventoryData}
+    setInventoryData(inventoryData) {this.inventoryData = inventoryData}   
 
     drawInventorySlots(scene) {
-        let slotSize = 32;
-        let slotsPerRow = 4;
-        let slotsPerColumn = 4;
-        let slotSpacing = 5;
-        let startX = 418;
-        let startY = 418;
         this.bagBackground = scene.add.image(475, 475, 'bag');
         this.bagBackground.setDepth(420).setScale(1.9125).setScrollFactor(0, 0);
         this.bagBackground.setVisible(this.inventoryVisibility);
@@ -70,48 +57,89 @@ export default class Inventory {
         }
       }
 
+      drawInventoryItems(scene) {
+        this.itemSprites = [];
+        this.itemTexts = [];
+        
+        for (let i = 0; i < slotsPerRow; i++) {
+          this.itemSprites[i] = [];
+          this.itemTexts[i] = []; 
+          for (let j = 0; j < slotsPerColumn; j++) {
+            let x = startX + i * (slotSize + slotSpacing);
+            let y = startY + j * (slotSize + slotSpacing);
+        
+            let itemData = this.inventoryData[i][j];
+            if (itemData) {
+              let itemSprite = scene.add.sprite(x-2, y-2, 'items', itemData.frame);
+              itemSprite.setDepth(457).setScale(0.9).setScrollFactor(0, 0).setInteractive();
+              itemSprite.setVisible(this.inventoryVisibility);
+              this.itemSprites[i][j] = itemSprite;
+      
+              let quantityText = scene.add.text(x+5, y, itemData.quantity, { fontSize: '12px', fontFamily: 'Arial', fill: '#000', resolution: 4 });
+              quantityText.setDepth(458).setScrollFactor(0, 0);  
+              quantityText.setVisible(this.inventoryVisibility);
+              this.itemTexts[i][j] = quantityText;
+            } else {
+              this.itemSprites[i][j] = null;
+              this.itemTexts[i][j] = null;
+            }
+          }
+        }
+      }
+
+
+      getInventoryVisibility() {return this.inventoryVisibility}
+      setInventoryVisibility(visible) {
+          this.inventoryVisibility = visible;
+          this.gameState.setInventoryVisibility(this.inventoryVisibility);
+      }
+      
+      toggleInventoryVisibility() {
+        this.setInventoryVisibility(!this.getInventoryVisibility());
+        this.bagBackground.setVisible(this.inventoryVisibility);
+        
+        // Toggle visibility of slot sprites
+        for (let row of this.slotSprites) {
+            for (let slotSprite of row) {
+                slotSprite.setVisible(this.inventoryVisibility);
+            }
+        }
+    
+        // Toggle visibility of item sprites
+        for (let row of this.itemSprites) {
+            for (let itemSprite of row) {
+                if (itemSprite) {  // Check if there is an item sprite at this position
+                    itemSprite.setVisible(this.inventoryVisibility);
+                }
+            }
+        }
+    
+        // Toggle visibility of item texts
+        for (let row of this.itemTexts) {
+            for (let itemText of row) {
+                if (itemText) {  // Check if there is an item text at this position
+                    itemText.setVisible(this.inventoryVisibility);
+                }
+            }
+        }
+    }
+
       update() {
         if (Phaser.Input.Keyboard.JustDown(this.userInput.cursors.I)) {
             this.toggleInventoryVisibility();
         }
     }
     
-      setup(scene){
-        this.drawInventorySlots(scene);
-        this.drawInventoryItems(scene);
-        //etc.
-        // then in Map parent class you just do this after you instnatiate and load it: 'this.inventory.setup(this);'.
-      }
 
-/*
-this.inventoryData = [
-  [null, null, null, null],
-  [null, {item: "sword", frame: 162, quantity: 1}, null, null],
-  [null, null, {item: "health_potion", frame: 144, quantity: 2}, null],
-  [null, null, null, null]
-];
-*/
-
-      drawInventoryItems(scene) {
-
-      }
+    //adds an item and it's sprite to the first available inventory slot. Also considers the quantity added. If it's adding another of the same item, add it to the same slot, don't redraw the sprite, and increment a counter text which displays the quantity.
+    //If all slots are full such that the item cannot be added, the item is not added. return.
+    //Should update the contents array/object in some way.
 
 
-        //adds an item and it's sprite to the first available inventory slot. Also considers the quantity added. If it's adding another of the same item, add it to the same slot, don't redraw the sprite, and increment a counter text which displays the quantity.
-        //If all slots are full such that the item cannot be added, the item is not added. return.
-        //Should update the contents array/object in some way.
-
-
-        addItem(itemName, frame, quantity) {
-            //pass in an itemName, frame, and quantity, and it puts the item in the inventory in a slot.
-            this.drawInventoryItems();
-        }
-
-
-    //Future include: item sprites and their text. And on clicking 'X' exit button in inventory to close, or a small bag icon to open. 
-
-
-
+    addItem(itemName, frame, quantity) {
+        //pass in an itemName, frame, and quantity, and it puts the item in the inventory in a slot.
+        this.drawInventoryItems();
+    }
 
     removeItem(/*itemName or frame, quantity, slotNumber*/){
         //Removes a specified item. Also considers the quantity removed.
@@ -124,22 +152,11 @@ this.inventoryData = [
         //Move an item from Slot A to Slot B. Also handles if an item is already in that slot, and things like that.
     };
 
-
-    //Perhaps these getters and setters are best placed in our GameState, and thensimply called within loadInventoryState and saveInventoryState?
-    getInventoryData(){
-        // Gets all of the current inventory data/contents. (For each slot number, it looks to see if theres an item in it, and grabs the item's frame (and/or itemName), it's quantity, and which slot it is in.). Used in saveInventoryState perhaps?
-        // Could return this.contents
-    };
-    setInventoryData(){
-        // Sets all of the current inventory data. Used in loadInventoryState perhaps?
-        // Could set this.contents
-    };
-
     destroyInventory(){
         //Completely destroys the inventory, it's sprites, and it's data. I suppose invoked during scene transitions? After the inventory has been saved to the gamestate, it makes sure everything is clear, so when a new scene appears, the loadInventoryState can be invoked with no issues?
     };
 
-
+    //Future include: Clicking 'X' exit button in inventory to close inventory, or a small bag icon to open inventory. 
 }
 
 /* Notes 

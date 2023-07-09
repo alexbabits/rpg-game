@@ -3,8 +3,8 @@ export default class GameState {
     this.playerState = null;
     this.inventoryData = [
       [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
+      [null, {item: "sword", frame: 81, quantity: 1}, null, null],
+      [null, null, {item: "health_potion", frame: 144, quantity: 2}, null],
       [null, null, null, null]
     ];
     this.inventoryVisibility = true;

@@ -42,6 +42,7 @@ export default class Map extends Phaser.Scene {
         this.inventory = new Inventory(this, this.gameState);
         this.gameState.loadInventoryState(this.inventory);
         this.inventory.drawInventorySlots(this);
+        this.inventory.drawInventoryItems(this);      
 
         let camera = this.cameras.main;
         camera.zoom = 1.4;
