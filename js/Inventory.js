@@ -8,12 +8,38 @@ export default class Inventory {
         scene.load.image('bag','assets/images/bagbackground.png');
     }
 
-    constructor(scene){
+    constructor(scene, gameState){
         this.scene = scene;
+        this.gameState = gameState;
         this.userInput = new UserInput(this.scene);
-        this.inventoryData = {/*each slot and what is in each slot?*/}
-        this.inventoryVisible = true;
+        this.inventoryData = this.gameState.inventoryData;
+        this.inventoryVisible = this.gameState.getInventoryVisible();
     };
+
+    getInventoryVisible() {
+        return this.inventoryVisible;
+    }
+    
+    setInventoryVisible(visible) {
+        this.inventoryVisible = visible;
+        this.gameState.setInventoryVisible(this.inventoryVisible);
+    }
+
+    toggleInventoryVisibility() {
+        this.setInventoryVisible(!this.getInventoryVisible());
+        this.bagBackground.setVisible(this.inventoryVisible);
+        for (let row of this.slotSprites) {
+            for (let slotSprite of row) {
+            slotSprite.setVisible(this.inventoryVisible);
+            }
+        }
+    }      
+
+    update() {
+        if (Phaser.Input.Keyboard.JustDown(this.userInput.cursors.I)) {
+            this.toggleInventoryVisibility();
+        }
+    }
 
     drawInventorySlots(scene) {
         let slotSize = 32;
@@ -24,7 +50,7 @@ export default class Inventory {
         let startY = 418;
         this.bagBackground = scene.add.image(475, 475, 'bag');
         this.bagBackground.setDepth(420).setScale(1.9125).setScrollFactor(0, 0);
-      
+        this.bagBackground.setVisible(this.inventoryVisible);
         this.slotSprites = [];
       
         for (let i = 0; i < slotsPerRow; i++) {
@@ -35,7 +61,8 @@ export default class Inventory {
       
             let slotSprite = scene.add.sprite(x, y, 'items', 11);
             slotSprite.setDepth(456).setScale(1).setScrollFactor(0, 0).setInteractive();
-      
+            slotSprite.setVisible(this.inventoryVisible);
+
             slotSprite.slotID = j * slotsPerRow + i + 1;
 
             slotSprite.on('pointerover', function (pointer) {
@@ -52,6 +79,27 @@ export default class Inventory {
         }
       }
 
+      setup(scene){
+        this.drawInventorySlots(scene);
+        this.drawInventoryItems(scene);
+        //etc.
+        // then in Map parent class you just do this after you instnatiate and load it: 'this.inventory.setup(this);'.
+      }
+
+/*
+this.inventoryData = [
+  [null, null, null, null],
+  [null, {item: "sword", frame: 162, quantity: 1}, null, null],
+  [null, null, {item: "health_potion", frame: 144, quantity: 2}, null],
+  [null, null, null, null]
+];
+*/
+
+      drawInventoryItems(scene) {
+
+      }
+
+
         //adds an item and it's sprite to the first available inventory slot. Also considers the quantity added. If it's adding another of the same item, add it to the same slot, don't redraw the sprite, and increment a counter text which displays the quantity.
         //If all slots are full such that the item cannot be added, the item is not added. return.
         //Should update the contents array/object in some way.
@@ -63,27 +111,9 @@ export default class Inventory {
         }
 
 
-        drawInventoryItems(scene) {
-
-        }
-
-            
     //Future include: item sprites and their text. And on clicking 'X' exit button in inventory to close, or a small bag icon to open. 
-    toggleInventoryVisibility() {
-        this.inventoryVisible = !this.inventoryVisible;
-        this.bagBackground.setVisible(this.inventoryVisible);
-        for (let row of this.slotSprites) {
-            for (let slotSprite of row) {
-                slotSprite.setVisible(this.inventoryVisible);
-            }
-        }
-    }
 
-      update() {
-        if (Phaser.Input.Keyboard.JustDown(this.userInput.cursors.I)) {
-            this.toggleInventoryVisibility();
-        }
-    }
+
 
 
     removeItem(/*itemName or frame, quantity, slotNumber*/){

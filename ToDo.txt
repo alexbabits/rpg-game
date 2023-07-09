@@ -15,7 +15,7 @@
 --> (Bonus): Hitsplats on player and monster
 --> (Bonus): Monster Attack Anims
 --> (Bonus): Click to move/Click to initiate attack?
---> (Bonus): Monster Spawn zones instead of just random points.
+--> (Bonus): Monster Spawn zones instead of just random points. Would be same dimensions as their wander zone.
 --> (Bonus): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Bonus): Defense stat on monsters & player.
 --> (Bonus): Debuffs and buffs.
@@ -54,9 +54,11 @@ Weapon/Armor Sprite and Animation:
 
 Inventory:
 
-3. Implement the addItem method: Now that you have a visual representation of the inventory and an item in it, you can start working on the underlying data. Implement the addItem method to add an item to the inventoryData. This will involve updating the inventoryData to reflect the new item and its quantity.
+inventoryData: This will be a 2D array that represents the state of the inventory. Each element of the array will be an object that contains information about the item in the corresponding slot. If a slot is empty, the corresponding element in the array will be null or some other value that represents an empty slot. Here's an example of what inventoryData might look like:
 
-4. Update the visual representation when an item is added: Modify the addItem method to also update the visual representation of the inventory when an item is added. This will involve creating a new item sprite (if necessary) and updating the quantity text.
+3. addItem: This method will be responsible for adding an item to the inventory. It will take the itemName, frame, and quantity as parameters. It will then add this item to the inventoryData. If the slot where the item is supposed to go is already occupied, it will find the next available slot and put the item there. If there are no available slots, it will print a message saying the inventory is full. The addItem method will need to find an available slot to add an item. This could be done in a simple way by iterating over the inventoryData until it finds an empty slot. If there are no empty slots, it will print a message saying the inventory is full.
+
+4. drawInventoryItems: This method will be responsible for updating the visual representation of the inventory. It will go through the inventoryData and for each item, it will draw the corresponding sprite in the correct slot and display the quantity. If a slot is empty, it will make sure there is no sprite or quantity text displayed for that slot. The drawInventoryItems method will also iterate over the inventoryData, but instead of looking for an empty slot, it will draw a sprite and display a quantity for each item it finds.
 
 5. Implement the removeItem method: Implement the removeItem method to remove an item from the inventoryData. This will involve updating the inventoryData and the visual representation of the inventory.
 

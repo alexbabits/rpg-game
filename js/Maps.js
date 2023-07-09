@@ -39,7 +39,8 @@ export default class Map extends Phaser.Scene {
 
         //Stored Inventory class as a property of the Map instance (this.inventory) in the create method "this.inventory = new Inventory();". (Added 'this' because I needed to add the 'scene' in Inventory.js, in order to use UserInput.js file directly.)
         //Each Map will have its own Inventory. If you want the same Inventory for all maps (I do), we'll end up storing it in GameState instead.
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory(this, this.gameState);
+        this.gameState.loadInventoryState(this.inventory);
         this.inventory.drawInventorySlots(this);
 
         let camera = this.cameras.main;
@@ -90,6 +91,7 @@ export class Map1 extends Map {
         super.update();
         if (this.player.sprite.x > this.sys.game.config.width) {
           this.gameState.savePlayerState(this.player);
+          this.gameState.saveInventoryState(this.inventory);
           this.gameState.playerPosition.x = 0;
           this.scene.start('Map2');
         }
@@ -112,6 +114,7 @@ export class Map2 extends Map {
         super.update();
         if (this.player.sprite.x < 0) {
           this.gameState.savePlayerState(this.player);
+          this.gameState.saveInventoryState(this.inventory);
           this.gameState.playerPosition.x = this.sys.game.config.width;
           this.scene.start('Map1');
         }

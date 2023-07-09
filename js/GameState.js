@@ -1,7 +1,36 @@
 export default class GameState {
   constructor() {
     this.playerState = null;
+    this.inventoryData = [
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null],
+      [null, null, null, null]
+    ];
+    this.inventoryVisible = true;
   }
+
+  saveInventoryState(inventory) {
+    this.inventoryData = inventory.getInventoryData();
+    this.inventoryVisible = inventory.getInventoryVisible();
+  }
+
+  loadInventoryState(inventory) {
+    inventory.setInventoryData(this.inventoryData);
+    inventory.setInventoryVisible(this.inventoryVisible);
+  }
+
+  setInventoryVisible(visible) {
+    this.inventoryVisible = visible;
+  }
+
+  getInventoryVisible() {
+    return this.inventoryVisible;
+  }
+
+  setInventoryData(inventoryData) {this.inventoryData = inventoryData}
+  getInventoryData() {return this.inventoryData}
+
 
   savePlayerState(player) {
     this.playerState = {
