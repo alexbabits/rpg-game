@@ -13,33 +13,24 @@ export default class Inventory {
         this.gameState = gameState;
         this.userInput = new UserInput(this.scene);
         this.inventoryData = this.gameState.inventoryData;
-        this.inventoryVisible = this.gameState.getInventoryVisible();
+        this.inventoryVisibility = this.gameState.getInventoryVisibility();
     };
 
-    getInventoryVisible() {
-        return this.inventoryVisible;
-    }
-    
-    setInventoryVisible(visible) {
-        this.inventoryVisible = visible;
-        this.gameState.setInventoryVisible(this.inventoryVisible);
+    getInventoryVisibility() {return this.inventoryVisibility}
+    setInventoryVisibility(visible) {
+        this.inventoryVisibility = visible;
+        this.gameState.setInventoryVisibility(this.inventoryVisibility);
     }
 
     toggleInventoryVisibility() {
-        this.setInventoryVisible(!this.getInventoryVisible());
-        this.bagBackground.setVisible(this.inventoryVisible);
+        this.setInventoryVisibility(!this.getInventoryVisibility());
+        this.bagBackground.setVisible(this.inventoryVisibility);
         for (let row of this.slotSprites) {
             for (let slotSprite of row) {
-            slotSprite.setVisible(this.inventoryVisible);
+            slotSprite.setVisible(this.inventoryVisibility);
             }
         }
     }      
-
-    update() {
-        if (Phaser.Input.Keyboard.JustDown(this.userInput.cursors.I)) {
-            this.toggleInventoryVisibility();
-        }
-    }
 
     drawInventorySlots(scene) {
         let slotSize = 32;
@@ -50,7 +41,7 @@ export default class Inventory {
         let startY = 418;
         this.bagBackground = scene.add.image(475, 475, 'bag');
         this.bagBackground.setDepth(420).setScale(1.9125).setScrollFactor(0, 0);
-        this.bagBackground.setVisible(this.inventoryVisible);
+        this.bagBackground.setVisible(this.inventoryVisibility);
         this.slotSprites = [];
       
         for (let i = 0; i < slotsPerRow; i++) {
@@ -61,7 +52,7 @@ export default class Inventory {
       
             let slotSprite = scene.add.sprite(x, y, 'items', 11);
             slotSprite.setDepth(456).setScale(1).setScrollFactor(0, 0).setInteractive();
-            slotSprite.setVisible(this.inventoryVisible);
+            slotSprite.setVisible(this.inventoryVisibility);
 
             slotSprite.slotID = j * slotsPerRow + i + 1;
 
@@ -79,6 +70,12 @@ export default class Inventory {
         }
       }
 
+      update() {
+        if (Phaser.Input.Keyboard.JustDown(this.userInput.cursors.I)) {
+            this.toggleInventoryVisibility();
+        }
+    }
+    
       setup(scene){
         this.drawInventorySlots(scene);
         this.drawInventoryItems(scene);

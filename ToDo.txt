@@ -30,6 +30,7 @@
 --> (Small Bug): Fix status bar positions during camera zooming.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
+--> (Small Bug): Player facing wrong way when entering map. Handle direction in gamestate.
 
 
 Monsters/GameState Thoughts:

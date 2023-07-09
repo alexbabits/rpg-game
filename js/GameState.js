@@ -7,26 +7,21 @@ export default class GameState {
       [null, null, null, null],
       [null, null, null, null]
     ];
-    this.inventoryVisible = true;
+    this.inventoryVisibility = true;
   }
 
   saveInventoryState(inventory) {
     this.inventoryData = inventory.getInventoryData();
-    this.inventoryVisible = inventory.getInventoryVisible();
+    this.inventoryVisibility = inventory.getInventoryVisibility();
   }
 
   loadInventoryState(inventory) {
     inventory.setInventoryData(this.inventoryData);
-    inventory.setInventoryVisible(this.inventoryVisible);
+    inventory.setInventoryVisibility(this.inventoryVisibility);
   }
 
-  setInventoryVisible(visible) {
-    this.inventoryVisible = visible;
-  }
-
-  getInventoryVisible() {
-    return this.inventoryVisible;
-  }
+  setInventoryVisibility(visible) {this.inventoryVisibility = visible}
+  getInventoryVisibility() {return this.inventoryVisibility}
 
   setInventoryData(inventoryData) {this.inventoryData = inventoryData}
   getInventoryData() {return this.inventoryData}
