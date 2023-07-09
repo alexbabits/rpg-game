@@ -1,4 +1,5 @@
 import Items from './Items.js';
+import UserInput from './UserInput.js';
 
 export default class Inventory {
 
@@ -7,49 +8,82 @@ export default class Inventory {
         scene.load.image('bag','assets/images/bagbackground.png');
     }
 
-    constructor(){
+    constructor(scene){
+        this.scene = scene;
+        this.userInput = new UserInput(this.scene);
         this.inventoryData = {/*each slot and what is in each slot?*/}
         this.inventoryVisible = true;
     };
 
-    drawInventorySlots(scene){
+    drawInventorySlots(scene) {
         let slotSize = 32;
-        let slotsPerRow = 4; 
-        let slotsPerColumn = 4; 
+        let slotsPerRow = 4;
+        let slotsPerColumn = 4;
         let slotSpacing = 5;
-        let startX = 420;
-        let startY = 420;
-        let bagBackground = scene.add.image(475, 475, 'bag')
-        bagBackground.setDepth(420).setScale(1.9125).setScrollFactor(0,0)
-
+        let startX = 418;
+        let startY = 418;
+        this.bagBackground = scene.add.image(475, 475, 'bag');
+        this.bagBackground.setDepth(420).setScale(1.9125).setScrollFactor(0, 0);
+      
         this.slotSprites = [];
+      
+        for (let i = 0; i < slotsPerRow; i++) {
+          this.slotSprites[i] = [];
+          for (let j = 0; j < slotsPerColumn; j++) {
+            let x = startX + i * (slotSize + slotSpacing);
+            let y = startY + j * (slotSize + slotSpacing);
+      
+            let slotSprite = scene.add.sprite(x, y, 'items', 11);
+            slotSprite.setDepth(456).setScale(1).setScrollFactor(0, 0).setInteractive();
+      
+            slotSprite.slotID = j * slotsPerRow + i + 1;
 
-        for(let i = 0; i < slotsPerRow; i++){
-            this.slotSprites[i] = [];
-            for(let j = 0; j < slotsPerColumn; j++){
-                let x = startX + i * (slotSize + slotSpacing);
-                let y = startY + j * (slotSize + slotSpacing);
+            slotSprite.on('pointerover', function (pointer) {
+              console.log(`Hovering over slotID: ${this.slotID}`);
+              this.setTint(0xFFFF00);
+            });
+            slotSprite.on('pointerout', function (pointer) {
+              console.log(`Left slotID: ${this.slotID}`);
+              this.clearTint();
+            });
 
-                let slotSprite = scene.add.sprite(x, y, "items", 11);
-                slotSprite.setDepth(777).setScale(1).setScrollFactor(0,0).setInteractive()
-                this.slotSprites[i][j] = slotSprite;
-            }
+            this.slotSprites[i][j] = slotSprite;
+          }
         }
-    };
+      }
 
-    
-    addItem(/*itemName or frame, quantity, slotNumber*/){
         //adds an item and it's sprite to the first available inventory slot. Also considers the quantity added. If it's adding another of the same item, add it to the same slot, don't redraw the sprite, and increment a counter text which displays the quantity.
         //If all slots are full such that the item cannot be added, the item is not added. return.
         //Should update the contents array/object in some way.
-    };
-// If my logic is correct, drawing should only happen once, but then we can then hide or show the inventory as many times as we want?
-    drawInventoryItems(/*itemName or frame*/){
-        // Draws inventory items (And their associated quantity text) in whichever slots they are in.
-        // The frames/names will be different for each different item we add.
-        // If my logic is correct, drawing should only happen once, but then we can then hide or show the inventory as many times as we want?
-    };
 
+
+        addItem(itemName, frame, quantity) {
+            //pass in an itemName, frame, and quantity, and it puts the item in the inventory in a slot.
+            this.drawInventoryItems();
+        }
+
+
+        drawInventoryItems(scene) {
+
+        }
+
+            
+    //Future include: item sprites and their text. And on clicking 'X' exit button in inventory to close, or a small bag icon to open. 
+    toggleInventoryVisibility() {
+        this.inventoryVisible = !this.inventoryVisible;
+        this.bagBackground.setVisible(this.inventoryVisible);
+        for (let row of this.slotSprites) {
+            for (let slotSprite of row) {
+                slotSprite.setVisible(this.inventoryVisible);
+            }
+        }
+    }
+
+      update() {
+        if (Phaser.Input.Keyboard.JustDown(this.userInput.cursors.I)) {
+            this.toggleInventoryVisibility();
+        }
+    }
 
 
     removeItem(/*itemName or frame, quantity, slotNumber*/){
@@ -63,13 +97,6 @@ export default class Inventory {
         //Move an item from Slot A to Slot B. Also handles if an item is already in that slot, and things like that.
     };
 
-    hideInventory() {
-        //hides the inventory slots and their items and the items quantity text. 
-    };
-
-    showInventory() {
-        //shows the inventory slots and their items and the items quantity text. Perhaps changes a boolean flag like 'inventoryVisible' to true.
-    };
 
     //Perhaps these getters and setters are best placed in our GameState, and thensimply called within loadInventoryState and saveInventoryState?
     getInventoryData(){
@@ -84,6 +111,8 @@ export default class Inventory {
     destroyInventory(){
         //Completely destroys the inventory, it's sprites, and it's data. I suppose invoked during scene transitions? After the inventory has been saved to the gamestate, it makes sure everything is clear, so when a new scene appears, the loadInventoryState can be invoked with no issues?
     };
+
+
 }
 
 /* Notes 
@@ -110,10 +139,6 @@ Process:
 
 /*
     //Bonus/Extra Future stuff:
-
-    tintSelectedSlot() {
-        //tints whichever inventory slot the mouse hovers over. Clears the tint when the mouse moves away.
-    };
 
     rightClickDestroy(){
         //If the player right clicks, a small hover screen can come up with the option to remove the item.
