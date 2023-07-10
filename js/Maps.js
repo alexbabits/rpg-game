@@ -41,13 +41,13 @@ export default class Map extends Phaser.Scene {
         this.gameState.loadInventoryState(this.inventory);
         this.inventory.drawInventorySlots(this);
         this.inventory.drawInventoryItems(this);      
-
+        this.scene.launch('test');
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
         camera.setLerp(0.1,0.1);
         camera.setBounds(0, 0, this.game.config.width,this.game.config.height);
-        /*
+
         this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
             const zoomChange = 0.1;
             if (deltaY > 0) {
@@ -56,7 +56,7 @@ export default class Map extends Phaser.Scene {
                 this.cameras.main.zoom = Math.min(this.cameras.main.zoom + zoomChange, 3.0);
             }
         });
-        */
+
         this.events.once('shutdown', this.shutdown, this);
     }
     
