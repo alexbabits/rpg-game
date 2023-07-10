@@ -1,6 +1,6 @@
 import UserInput from './UserInput.js';
 import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
-import {HPBar, StaminaBar, ManaBar, XPBar} from './PlayerBars.js'
+//import {HPBar, StaminaBar, ManaBar, XPBar} from './PlayerBars.js'
 
 export default class Player {
 
@@ -62,7 +62,7 @@ export default class Player {
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
     this.manaRegeneration();
   }
-
+/*
   createBars() {
     this.hpBar = new HPBar(this.scene, this);
     this.staminaBar = new StaminaBar(this.scene, this);
@@ -75,7 +75,7 @@ export default class Player {
     this.manaBar.player = this;
     this.xpBar.player = this;
   }
-
+*/
   gainXP(monster) {
     const currentXP = this.gameState.getPlayerXP();
     const maxXP = this.gameState.getPlayerMaxXP();
@@ -114,7 +114,7 @@ export default class Player {
       callback: () => {
         if (this.gameState.getPlayerMana() < this.gameState.getPlayerMaxMana() && this.currentState.name !== PlayerSpecialAttackState.stateName) {
           this.gameState.setPlayerMana(this.gameState.getPlayerMana() + 1);
-          this.manaBar.draw();
+          //this.manaBar.draw();
         }
       },
       loop: true
@@ -179,10 +179,10 @@ export default class Player {
 
   update() {
     this.currentState.update();
-    this.hpBar.draw(this.gameState.getPlayerHP(), this.gameState.getPlayerMaxHP());
-    this.xpBar.draw(this.gameState.getPlayerXP(), this.gameState.getPlayerMaxXP());
-    this.manaBar.draw(this.gameState.getPlayerMana(), this.gameState.getPlayerMaxMana());
-    this.staminaBar.draw(this.gameState.getPlayerStamina(), this.gameState.getPlayerMaxStamina());
+    //this.hpBar.draw(this.gameState.getPlayerHP(), this.gameState.getPlayerMaxHP());
+    //this.xpBar.draw(this.gameState.getPlayerXP(), this.gameState.getPlayerMaxXP());
+    //this.manaBar.draw(this.gameState.getPlayerMana(), this.gameState.getPlayerMaxMana());
+    //this.staminaBar.draw(this.gameState.getPlayerStamina(), this.gameState.getPlayerMaxStamina());
     this.levelText.setText(`Player Level: ${this.gameState.getPlayerLevel()}`);
   }
 

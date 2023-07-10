@@ -14,5 +14,3 @@ export default class test extends Phaser.Scene {
         inventorySlot.setDepth(500).setScale(1.5);
     }
 };
-
-//See if you can do it without them being in a Scene.

@@ -1,3 +1,4 @@
+/*
 export class Bar {
     constructor(scene, player, barWidth, barHeight, barX, barY, textX, textY, fontSize, color) {
         this.scene = scene;
@@ -57,3 +58,5 @@ export class ManaBar extends Bar {
     constructor(scene, player) {super(scene, player, 77, 10, 112, 140, 130, 138, 11, 0x0073e6)}
     draw() {super.draw(this.player.gameState.getPlayerMana(), this.player.gameState.getPlayerMaxMana(), this.color);}
 }
+
+*/

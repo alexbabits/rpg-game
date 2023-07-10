@@ -31,8 +31,8 @@ export default class Map extends Phaser.Scene {
 
         this.player = new Player(this, 320, 320, this.gameState);
         this.gameState.loadPlayerState(this.player);
-        this.player.createBars();
-        this.player.updateBars();
+        //this.player.createBars();
+        //this.player.updateBars();
 
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
@@ -41,7 +41,9 @@ export default class Map extends Phaser.Scene {
         this.gameState.loadInventoryState(this.inventory);
         this.inventory.drawInventorySlots(this);
         this.inventory.drawInventoryItems(this);      
-        this.scene.launch('test');
+
+        this.scene.launch('BarsTest', { player: this.player });
+
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
