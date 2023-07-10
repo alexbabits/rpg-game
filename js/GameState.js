@@ -1,8 +1,16 @@
 export default class GameState {
   constructor() {
     this.playerState = null;
+    this.inventoryVisible = true;
+  }
+  
+  setInventoryVisible(visible) {
+    this.inventoryVisible = visible;
   }
 
+  getInventoryVisible() {
+    return this.inventoryVisible;
+  }
   getInventoryData() {
     return this.inventoryData;
 }

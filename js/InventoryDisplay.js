@@ -19,6 +19,7 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.slots = [];
         this.items = [];
         let inventoryData = this.gameState.getInventoryData();
+        let isVisible = this.gameState.getInventoryVisible();
     
         for (let i = 0; i < 16; i++) {
             let x = 200 + (i % 4) * 48;
@@ -39,10 +40,17 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.bagbackground = this.add.image(272, 272, 'bag');
         this.bagbackground.setDepth(300).setScale(2.45);
         this.userInput = new UserInput(this);
+    
+        this.slots.forEach(slot => slot.visible = isVisible);
+        this.items.forEach(item => item.visible = isVisible);
+        this.bagbackground.visible = isVisible;
+    
         this.userInput.cursors.I.on('down', () => {
-            this.slots.forEach(slot => slot.visible = !slot.visible);
-            this.items.forEach(item => item.visible = !item.visible);
-            this.bagbackground.visible = !this.bagbackground.visible;
+            isVisible = !isVisible;
+            this.slots.forEach(slot => slot.visible = isVisible);
+            this.items.forEach(item => item.visible = isVisible);
+            this.bagbackground.visible = isVisible;
+            this.gameState.setInventoryVisible(isVisible);
         });
     }
 
