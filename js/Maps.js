@@ -36,7 +36,7 @@ export default class Map extends Phaser.Scene {
 
         this.inventoryData = new InventoryData();
         this.gameState.loadInventoryState(this.inventoryData);
-        this.scene.launch('InventoryDisplay', { player: this.player, gameState: this.gameState });
+        this.scene.launch('InventoryDisplay', { /*player: this.player,*/ gameState: this.gameState });
 
         this.scene.launch('PlayerStatusBars', { player: this.player });
 

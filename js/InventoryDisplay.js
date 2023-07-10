@@ -11,12 +11,13 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     init(data) {
-        this.player = data.player;
+        //this.player = data.player;
         this.gameState = data.gameState;
     }
 
     create() {
         this.slots = [];
+        this.items = [];
         let inventoryData = this.gameState.getInventoryData();
     
         for (let i = 0; i < 16; i++) {
@@ -28,10 +29,10 @@ export default class InventoryDisplay extends Phaser.Scene {
             slot.on('pointerout', () => {slot.clearTint()});
             this.slots.push(slot);
     
-            // If there is an item in this slot, draw it
             if (inventoryData[i]) {
                 let item = this.add.sprite(x, y, 'items', inventoryData[i].frame);
                 item.setDepth(621).setScale(1.4);
+                this.items.push(item);
             }
         }
     
@@ -40,6 +41,7 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.userInput = new UserInput(this);
         this.userInput.cursors.I.on('down', () => {
             this.slots.forEach(slot => slot.visible = !slot.visible);
+            this.items.forEach(item => item.visible = !item.visible);
             this.bagbackground.visible = !this.bagbackground.visible;
         });
     }
