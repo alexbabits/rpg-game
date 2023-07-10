@@ -1,32 +1,22 @@
 export default class GameState {
   constructor() {
     this.playerState = null;
-    this.inventoryData = [
-      [null, null, null, null],
-      [null, {item: "sword", frame: 81, quantity: 1}, null, null],
-      [null, null, {item: "health_potion", frame: 144, quantity: 2}, null],
-      [null, null, null, null]
-    ];
-    this.inventoryVisibility = true;
   }
 
-  saveInventoryState(inventory) {
-    this.inventoryData = inventory.getInventoryData();
-    this.inventoryVisibility = inventory.getInventoryVisibility();
+  getInventoryData() {
+    return this.inventoryData;
+}
+
+  saveInventoryState(inventoryData) {
+    this.inventoryData = inventoryData.getInventoryData();
+    //setInventoryVisibility
   }
 
-  loadInventoryState(inventory) {
-    inventory.setInventoryData(this.inventoryData);
-    inventory.setInventoryVisibility(this.inventoryVisibility);
-  }
-
-  setInventoryVisibility(visible) {this.inventoryVisibility = visible}
-  getInventoryVisibility() {return this.inventoryVisibility}
-
-  setInventoryData(inventoryData) {this.inventoryData = inventoryData}
-  getInventoryData() {return this.inventoryData}
-
-
+  loadInventoryState(inventoryData) {
+    this.inventoryData = inventoryData.getInventoryData();
+    //getInventoryVisibility
+}
+  
   savePlayerState(player) {
     this.playerState = {
       xp: player.gameState.getPlayerXP(),
@@ -150,7 +140,7 @@ export default class GameState {
 
 /*
 
-This saves game state to the user's local storage. Local Storage limits are 5-10MB. May need to use IndexedDB or a server-side database or the cloud. 
+Saving the game state to user's local storage is limited at 5-10MB. Use IndexedDB/server-side database/cloud for larger.
 
 If your game state contains complex objects like class instances, you may need to handle serialization and deserialization manually, as JSON.stringify/parse do not support this.
 

@@ -1,6 +1,6 @@
 import Player from "./Player.js";
 import {Monster, MonsterManager} from "./Monsters.js";
-import Inventory from "./Inventory.js";
+import InventoryData from "./InventoryData.js"
 
 export default class Map extends Phaser.Scene {
     constructor(mapKey, gameState) {
@@ -14,7 +14,6 @@ export default class Map extends Phaser.Scene {
         this.load.tilemapTiledJSON(this.mapKey, `assets/images/${this.mapKey}.json`);
         Player.preload(this);
         Monster.preload(this);
-        Inventory.preload(this);
     }
 
     create() {
@@ -35,12 +34,10 @@ export default class Map extends Phaser.Scene {
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
 
-        this.inventory = new Inventory(this, this.gameState);
-        this.gameState.loadInventoryState(this.inventory);
-        this.inventory.drawInventorySlots(this);
-        this.inventory.drawInventoryItems(this);      
+        this.inventoryData = new InventoryData();
+        this.gameState.loadInventoryState(this.inventoryData);
+        this.scene.launch('InventoryDisplay', { player: this.player, gameState: this.gameState });
 
-        this.scene.launch('InventoryDisplay', { player: this.player });
         this.scene.launch('PlayerStatusBars', { player: this.player });
 
         let camera = this.cameras.main;
@@ -70,8 +67,6 @@ export default class Map extends Phaser.Scene {
 
     update() {
         this.player.update();
-        //right now for toggling the inventory visibility
-        this.inventory.update();
         this.monsterManager.monsters.forEach((monster) => monster.update(this.player));
     }
 }
@@ -93,7 +88,7 @@ export class Map1 extends Map {
         super.update();
         if (this.player.sprite.x > this.sys.game.config.width) {
           this.gameState.savePlayerState(this.player);
-          this.gameState.saveInventoryState(this.inventory);
+          this.gameState.saveInventoryState(this.inventoryData);
           this.gameState.playerPosition.x = 0;
           this.scene.start('Map2');
         }
@@ -116,7 +111,7 @@ export class Map2 extends Map {
         super.update();
         if (this.player.sprite.x < 0) {
           this.gameState.savePlayerState(this.player);
-          this.gameState.saveInventoryState(this.inventory);
+          this.gameState.saveInventoryState(this.inventoryData);
           this.gameState.playerPosition.x = this.sys.game.config.width;
           this.scene.start('Map1');
         }
