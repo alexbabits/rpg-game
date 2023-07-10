@@ -2,7 +2,7 @@ import GameState from './GameState.js';
 import { Map1, Map2 } from "./Maps.js";
 import HomeScene from "./HomeScene.js";
 import GameOverScene from "./GameOverScene.js";
-import BarsTest from "./BarsTest.js";
+import PlayerStatusBars from "./PlayerStatusBars.js";
 
 const gameState = new GameState();
 
@@ -12,7 +12,7 @@ const config = {
   backgroundColor: '#000000',
   type: Phaser.AUTO,
   parent: 'configs',
-  scene:[HomeScene, new Map1(gameState), new Map2(gameState), BarsTest, GameOverScene],
+  scene:[HomeScene, new Map1(gameState), new Map2(gameState), PlayerStatusBars, GameOverScene],
   scale: {zoom:1.4},
   physics: {default: 'matter', matter: {debug:true, gravity:{y:0}}},
   plugins: {scene:[{plugin: PhaserMatterCollisionPlugin.default, key: 'matterCollision', mapping: 'matterCollision'}]}

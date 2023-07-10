@@ -42,7 +42,7 @@ export default class Map extends Phaser.Scene {
         this.inventory.drawInventorySlots(this);
         this.inventory.drawInventoryItems(this);      
 
-        this.scene.launch('BarsTest', { player: this.player });
+        this.scene.launch('PlayerStatusBars', { player: this.player });
 
         let camera = this.cameras.main;
         camera.zoom = 1.4;
