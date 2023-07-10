@@ -31,8 +31,6 @@ export default class Map extends Phaser.Scene {
 
         this.player = new Player(this, 320, 320, this.gameState);
         this.gameState.loadPlayerState(this.player);
-        //this.player.createBars();
-        //this.player.updateBars();
 
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
@@ -42,6 +40,7 @@ export default class Map extends Phaser.Scene {
         this.inventory.drawInventorySlots(this);
         this.inventory.drawInventoryItems(this);      
 
+        this.scene.launch('InventoryDisplay', { player: this.player });
         this.scene.launch('PlayerStatusBars', { player: this.player });
 
         let camera = this.cameras.main;
