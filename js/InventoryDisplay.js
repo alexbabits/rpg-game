@@ -92,20 +92,35 @@ export default class InventoryDisplay extends Phaser.Scene {
         item.on('drag', function (pointer) {
             this.x = pointer.x;
             this.y = pointer.y;
+
+            if (this.quantityText) {
+                this.quantityText.x = pointer.x + 10;
+                this.quantityText.y = pointer.y + 5;
+            }
         });
 
         item.on('dragend', function (pointer) {
             if (this.scene.hoveredSlotIndex !== null && this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] === null) {
-
+        
                 this.x = this.scene.inventory[this.scene.hoveredSlotIndex].slot.x;
                 this.y = this.scene.inventory[this.scene.hoveredSlotIndex].slot.y;
 
+                if (this.quantityText) {
+                    this.quantityText.x = this.x + 10;
+                    this.quantityText.y = this.y + 5;
+                }
+        
                 this.scene.gameState.inventoryData.items[this.index] = null;
                 this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] = itemData;
                 this.index = this.scene.hoveredSlotIndex;
             } else {
                 this.x = this.startX;
                 this.y = this.startY;
+        
+                if (this.quantityText) {
+                    this.quantityText.x = this.startX + 10;
+                    this.quantityText.y = this.startY + 5;
+                }
             }
         });
         return item;
