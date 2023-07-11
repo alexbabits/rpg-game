@@ -1,7 +1,10 @@
+import InventoryData from './InventoryData.js';
+
 export default class GameState {
   constructor() {
     this.playerState = null;
     this.inventoryVisibility = true;
+    this.inventoryData = new InventoryData();
   }
   toggleInventoryVisibility() {this.inventoryVisibility = !this.inventoryVisibility}
   getInventoryVisibility() {return this.inventoryVisibility}
