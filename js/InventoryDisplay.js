@@ -70,6 +70,26 @@ export default class InventoryDisplay extends Phaser.Scene {
             quantityText.setDepth(622);
             item.quantityText = quantityText;
         }
+    
+        item.setInteractive();
+        this.input.setDraggable(item);
+        this.input.setTopOnly(false);
+
+        item.on('dragstart', function (pointer) {
+            this.startX = this.x;
+            this.startY = this.y;
+        });
+    
+        item.on('drag', function (pointer) {
+            this.x = pointer.x;
+            this.y = pointer.y;
+        });
+
+        item.on('dragend', function (pointer) {
+            this.x = this.startX;
+            this.y = this.startY;
+        });
+    
         return item;
     }
 }
