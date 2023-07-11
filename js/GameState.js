@@ -9,14 +9,9 @@ export default class GameState {
 
   getInventoryData() {return this.inventoryData}
 
-  saveInventoryState(inventoryData) {
-    this.inventoryData = inventoryData.getInventoryData();
-  }
+  setInventoryState(inventoryData){this.inventoryData = inventoryData.getInventoryData()}
+  getInventoryState() {return this.inventoryData}
 
-  loadInventoryState(inventoryData) {
-    this.inventoryData = inventoryData.getInventoryData();
-  }
-  
   savePlayerState(player) {
     this.playerState = {
       xp: player.gameState.getPlayerXP(),

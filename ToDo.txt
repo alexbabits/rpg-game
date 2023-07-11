@@ -54,51 +54,11 @@ Weapon/Armor Sprite and Animation:
 
 
 Inventory:
-0. Preserve current visibility across scenes. (Store the visibility state in GameState, accessible to all scenes. When a scene is created/resumed, it checks the GameState for the visibility of the inventory and sets it accordingly.)
 
-1. Manually add an item to the inventory and display it. (Create internal representation of inventory as an array/list of objects. When an item is added to the inventoryData, its sprite would also be added to the inventory display.)
+1. GameState and InventoryData Redundancy: You're correct that there is some redundancy between GameState and InventoryData. Both classes have methods to get and set the inventory data. You could consider removing the getInventoryData and setInventoryData methods from GameState, and instead use the InventoryData methods directly when you need to get or set the inventory data. This would make GameState more of a simple container for the game state, which is a common design pattern.
 
-2. Allow for the item to be dragged and moved to different slots.
+2. GameState Visibility: The setInventoryVisible and getInventoryVisible methods in GameState could be replaced with a single toggleInventoryVisible method that flips the visibility state. This would simplify the code in InventoryDisplay that handles the 'I' key press.
 
-3. Add other future functionality, like automatically adding an item to an available slot, removing an item from the inventory, etc.
+3. InventoryDisplay Initialization: In the create method of InventoryDisplay, you're getting the inventory data and visibility state from GameState and storing them in local variables. You could consider removing these local variables and instead accessing the GameState directly whenever you need the inventory data or visibility state. This would make the code a bit more concise and ensure that you're always working with the most up-to-date state.
 
-4. Eventually, we'll want the inventory items to be able to be clicked or dragged on to be equipped by the player.
-
-
-Which methods should be in InventoryDisplay.js and which should be in GameState?
-
-The visual representation of the inventory (the slots, the item sprites, the quantity text, etc.) is derived from this underlying data. 
-When you load a new scene, you'll load the saved inventory data, and then use this data to draw the inventory on the screen. 
-Or, if you move the sprite from slot 3 to slot 7 for example, it should update the data to let everything know that item is no longer in slot 3, and is now in slot 7.
-
-Scene Transition process:
-
-1. Save the inventory data: When the player leaves a scene, you'll call saveInventoryState to save the current state of the inventory (visibility and data). This will involve getting the current inventory data (using getInventoryData) and storing it in the GameState.
-2. Load the inventory data: You'll call loadInventoryState (Probably within the create method of the parent 'Map' class) to load the saved inventory data into the new scene. This will involve setting the inventory data (using setInventoryData) to the saved data from the GameState. From the loaded data, the scene for the inventory will be able to be drawn with all the inventory slots and the item sprites in their correct and current locations.
-
-Extra:
-    rightClickDestroy(){
-        //If the player right clicks, a small hover screen can come up with the option to remove the item.
-    };
-    hoverOverStats(){
-        // If hovered over an item, displays its name and some text about the item in a small screen.
-    };
-
-
-
-Ok cool. So I imagine that I'll have an InventoryData.js file which is just a normal class which deals with the inventory data, like which items are where in the inventory, and then I'll have my InventoryDisplay.js file which is a class that extends Phaser.Scene, which is put in my Configs scene array, and launched in my parent scene class 'Map' create section.
-
-I imagine that the inventory data and the inventory display should always be 'talking' to eachother if that makes sense. They should be intimately linked, such that if the data is updated or changed, the inventory display draws that accordingly, and if an item is dragged to a different slot, the data is updated.
-
-And in regard to the gamestate of our game, I imagine that their are two main components to consider. The inventorys current visibility status (is it toggle to visible or invisible), and the inventories current data status (which items are in which slots).
-
-And so I imagine we'll set it up kind of similar to how our player's state is done. We'll have a get and set method for the inventories current visibility, and a get and set method for the inventories current data. We could call them 'getInventoryData', 'setInventoryData', 'getInventoryVisibility', 'setInventoryVisibility'.
-
-And so then we could also have an overall save and load state methods also in the GameState, like 'saveInventoryState' and 'loadInventoryState', which would consider both the current visibilty of the inventory and the current data of the inventory.
-
-We'll also need to contend with how exactly to describe the inventory data. I imagine this will reference each of the 16 slots basically that we created, so it could be an empty object set to null for each of its 16 entries if the inventory is empty.
-
-Synchronization: Keep data and display sycned. Use Observer pattern, where data emits events when its data changes, and display listens for these events and updates the display, and perhaps vice versa.
-
-
-As for the setInventoryData method, you don't need it in GameState for now because we're not modifying the inventory data from outside the InventoryData class. However, you might need it in the future when you implement item pickup or usage.
+4. InventoryDisplay Item Creation: In the loop where you're creating the inventory items, you could consider creating a separate method to create a single item. This would make the code more modular and easier to read.

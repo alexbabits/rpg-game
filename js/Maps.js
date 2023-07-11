@@ -35,8 +35,8 @@ export default class Map extends Phaser.Scene {
         this.spawnMonster();
 
         this.inventoryData = new InventoryData();
-        this.gameState.loadInventoryState(this.inventoryData);
-        this.scene.launch('InventoryDisplay', { /*player: this.player,*/ gameState: this.gameState });
+        this.gameState.setInventoryState(this.inventoryData);
+        this.scene.launch('InventoryDisplay', { gameState: this.gameState });
 
         this.scene.launch('PlayerStatusBars', { player: this.player });
 
@@ -88,7 +88,7 @@ export class Map1 extends Map {
         super.update();
         if (this.player.sprite.x > this.sys.game.config.width) {
           this.gameState.savePlayerState(this.player);
-          this.gameState.saveInventoryState(this.inventoryData);
+          this.gameState.setInventoryState(this.inventoryData);
           this.gameState.playerPosition.x = 0;
           this.scene.start('Map2');
         }
@@ -111,7 +111,7 @@ export class Map2 extends Map {
         super.update();
         if (this.player.sprite.x < 0) {
           this.gameState.savePlayerState(this.player);
-          this.gameState.saveInventoryState(this.inventoryData);
+          this.gameState.setInventoryState(this.inventoryData);
           this.gameState.playerPosition.x = this.sys.game.config.width;
           this.scene.start('Map1');
         }

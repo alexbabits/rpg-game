@@ -11,7 +11,6 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     init(data) {
-        //this.player = data.player;
         this.gameState = data.gameState;
     }
 
