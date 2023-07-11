@@ -22,8 +22,8 @@ export default class InventoryDisplay extends Phaser.Scene {
         let isVisible = this.gameState.getInventoryVisible();
     
         for (let i = 0; i < 16; i++) {
-            let x = 200 + (i % 4) * 48;
-            let y = 200 + Math.floor(i / 4) * 48;
+            let x = 470 + (i % 4) * 48;
+            let y = 470 + Math.floor(i / 4) * 48;
             let slot = this.add.sprite(x, y, 'items', 11);
             slot.setDepth(420).setScale(1.4).setInteractive();
             slot.on('pointerover', () => {slot.setTint(0xffff00); console.log(`Hovering over slot ${i}`)});
@@ -37,7 +37,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             }
         }
     
-        this.bagbackground = this.add.image(272, 272, 'bag');
+        this.bagbackground = this.add.image(542, 542, 'bag');
         this.bagbackground.setDepth(300).setScale(2.45);
         this.userInput = new UserInput(this);
     
@@ -52,8 +52,5 @@ export default class InventoryDisplay extends Phaser.Scene {
             this.bagbackground.visible = isVisible;
             this.gameState.setInventoryVisible(isVisible);
         });
-    }
-
-    update() {
     }
 };

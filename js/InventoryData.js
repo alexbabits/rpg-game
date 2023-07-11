@@ -7,12 +7,6 @@ export default class InventoryData {
             null, null, null, null
         ];
     }
-
-    getInventoryData() {
-        return this.items;
-    }
-
-    setInventoryData(inventoryData) {
-        this.items = inventoryData;
-    }
+    setInventoryData(inventoryData) {this.items = inventoryData}
+    getInventoryData() {return this.items}
 }
