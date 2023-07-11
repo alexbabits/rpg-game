@@ -23,7 +23,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             let slot = this.drawSlot(x, y, i);
     
             let itemData = this.gameState.inventoryData.items[i];
-            let item = itemData ? this.drawItem(x, y, itemData) : null;
+            let item = itemData ? this.drawItem(x, y, itemData, i) : null;
             
             this.inventory.push({ slot, item });
         }
@@ -57,12 +57,19 @@ export default class InventoryDisplay extends Phaser.Scene {
     drawSlot(x, y, i) {
         let slot = this.add.sprite(x, y, 'items', 11);
         slot.setDepth(420).setScale(1.4).setInteractive();
-        slot.on('pointerover', () => {slot.setTint(0xffff00); console.log(`Hovering over slot ${i}`)});
-        slot.on('pointerout', () => {slot.clearTint()});
+        slot.on('pointerover', () => {
+            slot.setTint(0xffff00); 
+            console.log(`Hovering over slot ${i}`);
+            this.hoveredSlotIndex = i;
+        });
+        slot.on('pointerout', () => {
+            slot.clearTint();
+            this.hoveredSlotIndex = null;
+        });
         return slot;
     }
     
-    drawItem(x, y, itemData) {
+    drawItem(x, y, itemData, i) {
         let item = this.add.sprite(x, y, 'items', itemData.frame);
         item.setDepth(621).setScale(1.4);
         if (itemData.quantity >= 2) {
@@ -75,6 +82,8 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.input.setDraggable(item);
         this.input.setTopOnly(false);
 
+        item.index = i;
+
         item.on('dragstart', function (pointer) {
             this.startX = this.x;
             this.startY = this.y;
@@ -86,10 +95,19 @@ export default class InventoryDisplay extends Phaser.Scene {
         });
 
         item.on('dragend', function (pointer) {
-            this.x = this.startX;
-            this.y = this.startY;
+            if (this.scene.hoveredSlotIndex !== null && this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] === null) {
+                // If the pointer is over a slot and the slot is empty, move the item to the slot
+                this.x = this.scene.inventory[this.scene.hoveredSlotIndex].slot.x;
+                this.y = this.scene.inventory[this.scene.hoveredSlotIndex].slot.y;
+                // Update the items array
+                this.scene.gameState.inventoryData.items[this.index] = null;
+                this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] = itemData;
+            } else {
+                // If the pointer is not over a slot or the slot is not empty, move the item back to its original position
+                this.x = this.startX;
+                this.y = this.startY;
+            }
         });
-    
         return item;
     }
 }
