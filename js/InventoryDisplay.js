@@ -96,14 +96,14 @@ export default class InventoryDisplay extends Phaser.Scene {
 
         item.on('dragend', function (pointer) {
             if (this.scene.hoveredSlotIndex !== null && this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] === null) {
-                // If the pointer is over a slot and the slot is empty, move the item to the slot
+
                 this.x = this.scene.inventory[this.scene.hoveredSlotIndex].slot.x;
                 this.y = this.scene.inventory[this.scene.hoveredSlotIndex].slot.y;
-                // Update the items array
+
                 this.scene.gameState.inventoryData.items[this.index] = null;
                 this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] = itemData;
+                this.index = this.scene.hoveredSlotIndex;
             } else {
-                // If the pointer is not over a slot or the slot is not empty, move the item back to its original position
                 this.x = this.startX;
                 this.y = this.startY;
             }
