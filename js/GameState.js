@@ -1,16 +1,11 @@
 export default class GameState {
   constructor() {
     this.playerState = null;
-    this.inventoryVisible = true;
+    this.inventoryVisibility = true;
   }
-
-  setInventoryVisible(visible) {this.inventoryVisible = visible}
-  getInventoryVisible() {return this.inventoryVisible}
-
-  getInventoryData() {return this.inventoryData}
-
-  setInventoryState(inventoryData){this.inventoryData = inventoryData.getInventoryData()}
-  getInventoryState() {return this.inventoryData}
+  toggleInventoryVisibility() {this.inventoryVisibility = !this.inventoryVisibility}
+  getInventoryVisibility() {return this.inventoryVisibility}
+  setInventoryState(inventoryData) {this.inventoryData = inventoryData}
 
   savePlayerState(player) {
     this.playerState = {
