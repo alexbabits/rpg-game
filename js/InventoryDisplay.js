@@ -57,15 +57,8 @@ export default class InventoryDisplay extends Phaser.Scene {
     drawSlot(x, y, i) {
         let slot = this.add.sprite(x, y, 'items', 11);
         slot.setDepth(420).setScale(1.4).setInteractive();
-        slot.on('pointerover', () => {
-            slot.setTint(0xffff00); 
-            console.log(`Hovering over slot ${i}`);
-            this.hoveredSlotIndex = i;
-        });
-        slot.on('pointerout', () => {
-            slot.clearTint();
-            this.hoveredSlotIndex = null;
-        });
+        slot.on('pointerover', () => this.onPointerOver(slot, i));
+        slot.on('pointerout', () => this.onPointerOut(slot));
         return slot;
     }
     
@@ -81,48 +74,57 @@ export default class InventoryDisplay extends Phaser.Scene {
         item.setInteractive();
         this.input.setDraggable(item);
         this.input.setTopOnly(false);
-
-        item.index = i;
-
-        item.on('dragstart', function (pointer) {
-            this.startX = this.x;
-            this.startY = this.y;
-        });
     
-        item.on('drag', function (pointer) {
-            this.x = pointer.x;
-            this.y = pointer.y;
-
-            if (this.quantityText) {
-                this.quantityText.x = pointer.x + 10;
-                this.quantityText.y = pointer.y + 5;
-            }
-        });
-
-        item.on('dragend', function (pointer) {
-            if (this.scene.hoveredSlotIndex !== null && this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] === null) {
-        
-                this.x = this.scene.inventory[this.scene.hoveredSlotIndex].slot.x;
-                this.y = this.scene.inventory[this.scene.hoveredSlotIndex].slot.y;
-
-                if (this.quantityText) {
-                    this.quantityText.x = this.x + 10;
-                    this.quantityText.y = this.y + 5;
-                }
-        
-                this.scene.gameState.inventoryData.items[this.index] = null;
-                this.scene.gameState.inventoryData.items[this.scene.hoveredSlotIndex] = itemData;
-                this.index = this.scene.hoveredSlotIndex;
-            } else {
-                this.x = this.startX;
-                this.y = this.startY;
-        
-                if (this.quantityText) {
-                    this.quantityText.x = this.startX + 10;
-                    this.quantityText.y = this.startY + 5;
-                }
-            }
-        });
+        item.index = i;
+    
+        item.on('dragstart', (pointer) => this.onDragStart(item, pointer));
+        item.on('drag', (pointer) => this.onDrag(item, pointer));
+        item.on('dragend', (pointer) => this.onDragEnd(item, pointer, itemData));
+    
         return item;
+    }
+
+    onPointerOver(slot, i) {
+        slot.setTint(0xffff00); 
+        console.log(`Hovering over slot ${i}`);
+        this.hoveredSlotIndex = i;
+    }
+    
+    onPointerOut(slot) {
+        slot.clearTint();
+        this.hoveredSlotIndex = null;
+    }
+
+    onDragStart(item, pointer) {
+        item.startX = item.x;
+        item.startY = item.y;
+    }
+    
+    onDrag(item, pointer) {
+        item.x = pointer.x;
+        item.y = pointer.y;
+        this.updateQuantityTextPosition(item, pointer.x, pointer.y);
+    }
+    
+    onDragEnd(item, pointer, itemData) {
+        if (this.hoveredSlotIndex !== null && this.gameState.inventoryData.items[this.hoveredSlotIndex] === null) {
+            item.x = this.inventory[this.hoveredSlotIndex].slot.x;
+            item.y = this.inventory[this.hoveredSlotIndex].slot.y;
+            this.updateQuantityTextPosition(item, item.x, item.y);
+    
+            this.gameState.inventoryData.items[item.index] = null;
+            this.gameState.inventoryData.items[this.hoveredSlotIndex] = itemData;
+            item.index = this.hoveredSlotIndex;
+        } else {
+            item.x = item.startX;
+            item.y = item.startY;
+            this.updateQuantityTextPosition(item, item.startX, item.startY);
+        }
+    }
+
+    updateQuantityTextPosition(item, x, y) {
+        if (item.quantityText) {
+            item.quantityText.x = x + 10; item.quantityText.y = y + 5;
+        }
     }
 }
