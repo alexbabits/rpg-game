@@ -55,10 +55,14 @@ Weapon/Armor Sprite and Animation:
 
 Inventory:
 
-1. GameState and InventoryData Redundancy: You're correct that there is some redundancy between GameState and InventoryData. Both classes have methods to get and set the inventory data. You could consider removing the getInventoryData and setInventoryData methods from GameState, and instead use the InventoryData methods directly when you need to get or set the inventory data. This would make GameState more of a simple container for the game state, which is a common design pattern.
+Right now have just 'inventoryData' for everything for the 'items' array. Previously had save/load/get/set methods. May need them in the future but not sure, may be able to just save and load everything with 'inventoryData'.
 
-2. GameState Visibility: The setInventoryVisible and getInventoryVisible methods in GameState could be replaced with a single toggleInventoryVisible method that flips the visibility state. This would simplify the code in InventoryDisplay that handles the 'I' key press.
+Text Blurry Tip: 
 
-3. InventoryDisplay Initialization: In the create method of InventoryDisplay, you're getting the inventory data and visibility state from GameState and storing them in local variables. You could consider removing these local variables and instead accessing the GameState directly whenever you need the inventory data or visibility state. This would make the code a bit more concise and ensure that you're always working with the most up-to-date state.
+I noticed that Text objects must be on exact x,y positions (integers) to be rendered without blurryness. Potentially this is the problem here as well: The resizing puts them on a floating point position which leads to blurryness. My solution to this was to keep text objects (like tooltips) in a separate scene that never gets resized/zoomed. This way I can guarantee that text objects are always on a integer x,y position.
 
-4. InventoryDisplay Item Creation: In the loop where you're creating the inventory items, you could consider creating a separate method to create a single item. This would make the code more modular and easier to read.
+Also, try BitMap text: https://somepx.itch.io/humble-fonts-tiny
+https://www.dafont.com/bitmap.php
+pixelArt: true, in configs
+WebFontLoader plugin: https://rexrainbow.github.io/phaser3-rex-notes/docs/site/webfontloader/
+https://labs.phaser.io/index.html?dir=game%20objects/&q=

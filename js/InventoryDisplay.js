@@ -22,7 +22,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             let y = 470 + Math.floor(i / 4) * 48;
             let slot = this.drawSlot(x, y, i);
     
-            let itemData = this.gameState.inventoryData.getInventoryData()[i];
+            let itemData = this.gameState.inventoryData.items[i];
             let item = itemData ? this.drawItem(x, y, itemData) : null;
             
             this.inventory.push({ slot, item });

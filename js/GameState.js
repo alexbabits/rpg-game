@@ -5,7 +5,6 @@ export default class GameState {
   }
   toggleInventoryVisibility() {this.inventoryVisibility = !this.inventoryVisibility}
   getInventoryVisibility() {return this.inventoryVisibility}
-  setInventoryState(inventoryData) {this.inventoryData = inventoryData}
 
   savePlayerState(player) {
     this.playerState = {
