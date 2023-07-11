@@ -1,17 +1,14 @@
---> GameState.js which houses games current state, allows for loading/saving, and has current state of player/monsters/npcs/items/etc.
-
-************************************************************************************************************************************************************
-
---> Inventory (Slots, and then brown bag background to make it look nice)
---> Usable Items (Put potion in bag, allow player to double click to use, hover over the potion gives a tooltip (hp pot, str pot, etc.))
+--> GameState Conerns
+--> Inventory (Usable Items like potion, and sword equip.)
+--> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene. (Hover over equipment gives stats)
 --> Looting Scene pop-up window (with enemy item drops)
 --> Bank (Need chest in game to click on and bank stuff). Store (Need NPC or chest in game to click on and view store menu.)
 --> Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
---> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene. (Hover over equipment gives stats)
---> Teleporter: =-D
+--> Teleporter. Allows for movement between scenes. Pretty easy.
 --> Chatbox for console messages.
 --> Loading Bar scene after the homescene that loads in assets.
 
+--> (Bonus): 'usable' and 'equippable' item properties. Useful to clarify which items are allowed to do what.
 --> (Bonus): Hitsplats on player and monster
 --> (Bonus): Monster Attack Anims
 --> (Bonus): Click to move/Click to initiate attack?
@@ -23,6 +20,7 @@
 --> (Bonus): You can only save at the inn when you go to sleep.
 --> (Bonus): Player and/or monster damage is random (from 0 to maxDamage basically)
 --> (Bonus): Monster Attacking Sensor is not a circle but more closely related to their body shape.
+--> (Bonus): Tooltip for inventory items displaying stats or description.
 
 --> (Optional): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Optional): Refactor player stats/methods into a separate file? Player class is messy with its stats and methods.
@@ -44,30 +42,11 @@ The whole purpose of this would be if the player has killed some of the monsters
 May not need full-blown "MonsterState" class with getters and setters for every attribute. You could create a "MonsterData" class that simply stores the necessary information about a monster (type, health, position, respawn timer, etc.) in a serializable format. When the player leaves a scene, you could create a MonsterData object for each monster in the scene and store these in an array. When the player re-enters the scene, you could use these MonsterData objects to recreate the monsters in their previous state. You would need to modify your Monster and MonsterManager classes to support creating monsters from MonsterData objects, and ensure that all relevant monster information is correctly saved and loaded.
 
 
-Weapon/Armor Sprite and Animation:
-
---> Different sprites and animations for different weapons. Start with sword and axe, and two colors of each. Different base damages for each weapon.
---> Weapon range distance can be dealt by by turning off and on sensors like you have done for the 'Direction'. It is possible to combine many sensors onto the player and only turn on the ones you want. Also up/down/left/right sensors rather than just left/right. You would have up/down/left/right sensors, and then also a specific weapon sensor which is basically a rectangle, or other shape, with a specific length for that weapon range.
---> Contend with armor wearing using the paper dolling technique. Changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. Each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
---> Contend with weapon wielding sprites by having separate animations for each weapon type.
---> Paper dolling: Separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation. To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.
-
-
 Inventory:
 
 --> Right now have just 'inventoryData' for everything for the 'items' array. Previously had save/load/get/set methods. May need them in the future but not sure, may be able to just save and load everything with 'inventoryData'.
---> Consider having 'usable' and 'equippable' true/false booleans on items as another property. So you can equip sword only in the equipment slot, and you can only use, usable items.
-Health Potion:
 
-1. Decrement Quantity / Remove Item: These operations could indeed be methods in the InventoryData class. The decrementQuantity method would take an index and decrease the quantity of the item at that index. If the quantity reaches zero, it could call the removeItem method, which would remove the item from the inventory and clean up any associated data.
-
-2. Use Potion: This could be a method in the Player class. It would call the decrementQuantity method on the InventoryData instance, and then increase the player's HP. The player class would need a reference to the InventoryData instance to do this.
-
-3. Triggering the Use Potion Action: This could be done in the InventoryDisplay class, since it handles user interactions with the inventory. You could add an event listener for the double click or keypress event, and when that event is triggered, it would call the usePotion method on the Player instance.
-
-5. Updating the Display: After the potion is used and the inventory data is updated, you would need to update the inventory display to reflect the new state of the inventory. This could be done in the InventoryDisplay class, possibly in a updateDisplay method that gets called whenever the inventory data changes.
-
-Text Blurry Tip: 
+Text Blurry Tips: 
 
 I noticed that Text objects must be on exact x,y positions (integers) to be rendered without blurryness. Potentially this is the problem here as well: The resizing puts them on a floating point position which leads to blurryness. My solution to this was to keep text objects (like tooltips) in a separate scene that never gets resized/zoomed. This way I can guarantee that text objects are always on a integer x,y position.
 
@@ -76,3 +55,12 @@ https://www.dafont.com/bitmap.php
 pixelArt: true, in configs
 WebFontLoader plugin: https://rexrainbow.github.io/phaser3-rex-notes/docs/site/webfontloader/
 https://labs.phaser.io/index.html?dir=game%20objects/&q=
+
+
+Weapon/Armor Sprite and Animation:
+
+--> Different sprites and animations for different weapons. Start with sword and axe, and two colors of each. Different base damages for each weapon.
+--> Weapon range distance can be dealt by by turning off and on sensors like you have done for the 'Direction'. It is possible to combine many sensors onto the player and only turn on the ones you want. Also up/down/left/right sensors rather than just left/right. You would have up/down/left/right sensors, and then also a specific weapon sensor which is basically a rectangle, or other shape, with a specific length for that weapon range.
+--> Contend with armor wearing using the paper dolling technique. Changing armor doesn't necessarily mean changing animations, but it does change the appearance of the character sprite. Each piece of gear or equipment (head, chest, legs, etc.) would be its own separate sprite or sprite sheet. These are layered on top of a base character sprite, which has its own set of animations (walking, running, etc.). The individual gear sprites can be static (not animated), or they can have their own animations that match up with the base character animations. When the gear is equipped, its sprite is added to the character's sprite at the appropriate layer and position.
+--> Contend with weapon wielding sprites by having separate animations for each weapon type.
+--> Paper dolling: Separate the weapon from the character, allowing it to be drawn independently. Then you can define a "hand" position in your character animation, and draw the weapon at that position with its own animation. This way, you can mix and match different weapon animations with the same character animation. To make this work, the artist needs to ensure that all the gear sprites align correctly with the base character sprite and its animations. For example, if the character raises their arm during an attack animation, there needs to be an equivalent 'raised arm' sprite for every piece of gear that could be equipped in the 'arm' slot.

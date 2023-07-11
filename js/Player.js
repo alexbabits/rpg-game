@@ -18,7 +18,7 @@ export default class Player {
     this.gameState.setPlayerWalkSpeed(2);
     this.gameState.setPlayerRunSpeed(4);
     this.gameState.setPlayerMaxHP(200);
-    this.gameState.setPlayerHP(200);
+    this.gameState.setPlayerHP(150);
     this.gameState.setPlayerMaxMana(20);
     this.gameState.setPlayerMana(20);
     this.gameState.setPlayerMaxStamina(100);
@@ -58,6 +58,16 @@ export default class Player {
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
     this.manaRegeneration();
   }
+
+
+  usePotion() {
+    let potionIndex = this.gameState.inventoryData.items.findIndex(item => item && item.name === 'potion');
+    if (potionIndex !== -1) {
+        this.gameState.inventoryData.decrementQuantity(potionIndex);
+        this.gameState.setPlayerHP(this.gameState.getPlayerHP() + 10);
+        console.log(`Player Used Potion. Current HP ${this.gameState.getPlayerHP()}`)
+    }
+}
 
   gainXP(monster) {
     const currentXP = this.gameState.getPlayerXP();

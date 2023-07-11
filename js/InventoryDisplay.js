@@ -12,6 +12,7 @@ export default class InventoryDisplay extends Phaser.Scene {
 
     init(data) {
         this.gameState = data.gameState;
+        this.player = data.player;
     }
 
     create() {
@@ -80,6 +81,14 @@ export default class InventoryDisplay extends Phaser.Scene {
         item.on('dragstart', (pointer) => this.onDragStart(item, pointer));
         item.on('drag', (pointer) => this.onDrag(item, pointer));
         item.on('dragend', (pointer) => this.onDragEnd(item, pointer, itemData));
+
+        item.on('pointerdown', (pointer) => {
+            let clickDelay = this.time.now - item.lastClickTime;
+            item.lastClickTime = this.time.now;
+            if (clickDelay < 300 && itemData.name === 'potion') {
+                this.player.usePotion();
+            }
+        });
     
         return item;
     }
@@ -127,4 +136,5 @@ export default class InventoryDisplay extends Phaser.Scene {
             item.quantityText.x = x + 10; item.quantityText.y = y + 5;
         }
     }
+
 }

@@ -34,7 +34,7 @@ export default class Map extends Phaser.Scene {
         this.spawnMonster();
 
         this.inventoryData = this.gameState.inventoryData;
-        this.scene.launch('InventoryDisplay', { gameState: this.gameState });
+        this.scene.launch('InventoryDisplay', { gameState: this.gameState, player: this.player });
 
         this.scene.launch('PlayerStatusBars', { player: this.player });
 
