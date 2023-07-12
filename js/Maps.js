@@ -2,15 +2,15 @@ import Player from "./Player.js";
 import {Monster, MonsterManager} from "./Monsters.js";
 
 export default class Map extends Phaser.Scene {
-    constructor(mapKey) {
-        super(mapKey);
-        this.mapKey = mapKey;
+    constructor(mapKey, gameState) {
+      super(mapKey);
+      this.mapKey = mapKey;
+      this.gameState = gameState;
     }
 
     preload() {
         this.load.image('tiles', 'assets/images/RPG Nature Tileset.png');
         this.load.tilemapTiledJSON(this.mapKey, `assets/images/${this.mapKey}.json`);
-
         Player.preload(this);
         Monster.preload(this);
     }
@@ -27,16 +27,23 @@ export default class Map extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
-        this.player = new Player(this, 320, 320);
-        this.monsterManager = new MonsterManager(this, this.player);
+        this.player = new Player(this, 320, 320, this.gameState, this.inventoryDisplay);
+        this.gameState.loadPlayerState(this.player);
 
-        this.spawnMonsters();
-        
+        this.monsterManager = new MonsterManager(this, this.player);
+        this.spawnMonster();
+
+        this.inventoryData = this.gameState.inventoryData;
+        this.scene.launch('InventoryDisplay', { gameState: this.gameState, player: this.player });
+
+        this.scene.launch('PlayerStatusBars', { player: this.player });
+
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
         camera.setLerp(0.1,0.1);
-        camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+        camera.setBounds(0, 0, this.game.config.width,this.game.config.height);
+
         this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
             const zoomChange = 0.1;
             if (deltaY > 0) {
@@ -45,9 +52,16 @@ export default class Map extends Phaser.Scene {
                 this.cameras.main.zoom = Math.min(this.cameras.main.zoom + zoomChange, 3.0);
             }
         });
+
+        this.events.once('shutdown', this.shutdown, this);
     }
     
-    spawnMonsters() {}
+    spawnMonster() {}
+
+    shutdown() {
+        this.events.off('monsterDeath', this.monsterManager.spawnNewMonster, this.monsterManager);
+        this.events.off('monsterDeath', this.player.gainXP, this.player);
+    }
 
     update() {
         this.player.update();
@@ -57,41 +71,45 @@ export default class Map extends Phaser.Scene {
 
 
 export class Map1 extends Map {
-    constructor() {
-        super("Map1");
+    constructor(gameState) {
+        super("Map1", gameState);
     }
 
-    spawnMonsters() {
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+    spawnMonster() {
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('ent');
+        this.monsterManager.spawnMonster('ent');
     }
 
     update() {
         super.update();
         if (this.player.sprite.x > this.sys.game.config.width) {
-            this.scene.start('Map2');
+          this.gameState.savePlayerState(this.player);
+          this.gameState.playerPosition.x = 0;
+          this.scene.start('Map2');
         }
     }
 }
 
 export class Map2 extends Map {
-    constructor() {
-        super("Map2");
+    constructor(gameState) {
+        super("Map2", gameState);
     }
 
-    spawnMonsters() {
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('bear', 50, 500, 50, 1, 2, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
-        this.monsterManager.spawnMonster('ent', 30, 200, 30, 0.5, 1, Phaser.Math.Between(100, 500), Phaser.Math.Between(100, 300), 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk');
+    spawnMonster() {
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('bear');
+        this.monsterManager.spawnMonster('ent');
+        this.monsterManager.spawnMonster('ent');
     }
 
     update() {
         super.update();
         if (this.player.sprite.x < 0) {
-            this.scene.start('Map1');
+          this.gameState.savePlayerState(this.player);
+          this.gameState.playerPosition.x = this.sys.game.config.width;
+          this.scene.start('Map1');
         }
     }
 }

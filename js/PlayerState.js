@@ -5,7 +5,7 @@ export class PlayerState {
     exit() {}
   }
   
-  export class PlayerIdleState extends PlayerState {
+export class PlayerIdleState extends PlayerState {
     enter() {
       console.log("Player entered idle state");
       this.player.sprite.anims.play('hero_idle', true);
@@ -14,8 +14,7 @@ export class PlayerState {
         this.staminaIncrementTimer = this.player.scene.time.addEvent({
           delay: 100,
           callback: () => {
-              this.player.stamina++;
-              this.player.staminaBar.draw();
+              this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 1);
           },
           loop: true
         });
@@ -27,9 +26,9 @@ export class PlayerState {
       const playerVelocity = this.player.sprite.body.velocity;
       const isPlayerMoving = x !== 0 || y !== 0;
 
-      if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.stamina >= this.player.spAttStaminaCost && this.player.mana >= this.player.spAttManaCost) {
+      if(this.player.userInput.cursors.space.isDown && this.player.userInput.cursors.ctrl.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.gameState.getPlayerStamina() >= this.player.gameState.getPlayerSpAttStaminaCost() && this.player.gameState.getPlayerMana() >= this.player.gameState.getPlayerSpAttManaCost()) {
         this.player.transitionToNewState(this.player.specialAttackingState);
-      } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.stamina >= this.player.attStaminaCost) {
+      } else if(this.player.userInput.cursors.space.isDown && playerVelocity.x === 0 && playerVelocity.y === 0 && this.player.gameState.getPlayerStamina() >= this.player.gameState.getPlayerAttStaminaCost()) {
         this.player.transitionToNewState(this.player.attackingState);
       } else if (isPlayerMoving && this.player.userInput.cursors.shift.isDown) {
         this.player.transitionToNewState(this.player.runningState);
@@ -43,52 +42,50 @@ export class PlayerState {
         this.staminaIncrementTimer = null;
       }
     }
-  }
+}
   
-  export class PlayerWalkState extends PlayerState {
-    enter() {
-      this.player.sprite.anims.play('hero_walk', true);
-      console.log("Player entered walking state");
-  
-      if (!this.staminaIncrementTimer) {
-        this.staminaIncrementTimer = this.player.scene.time.addEvent({
-          delay: 600,
-          callback: () => {
-            if (this.player.stamina < this.player.maxStamina) {
-              this.player.stamina++;
-              this.player.staminaBar.draw();
-            }
-          },
-          loop: true
-        });
-      }
-    }
-  
-    update() {
-      const {x, y} = this.player.getMovement();
-      
-      if (x === 0 && y === 0) {
-        this.player.transitionToNewState(this.player.idleState);
-      } else if (this.player.userInput.cursors.shift.isDown && this.player.canRun) {
-        this.player.transitionToNewState(this.player.runningState);
-      }
-      this.player.setMovement();
-    }
-  
-    exit() {
-      if (this.staminaIncrementTimer) {
-        this.staminaIncrementTimer.destroy();
-        this.staminaIncrementTimer = null;
-      }
-      if (this.runCooldownTimer) {
-        this.runCooldownTimer.remove();
-        this.runCooldownTimer = null;
-      }
+export class PlayerWalkState extends PlayerState {
+  enter() {
+    this.player.sprite.anims.play('hero_walk', true);
+    console.log("Player entered walking state");
+
+    if (!this.staminaIncrementTimer) {
+      this.staminaIncrementTimer = this.player.scene.time.addEvent({
+        delay: 600,
+        callback: () => {
+          if (this.player.gameState.getPlayerStamina() <= this.player.gameState.getPlayerMaxStamina()) {
+            this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 1);
+          }
+        },
+        loop: true
+      });
     }
   }
+
+  update() {
+    const {x, y} = this.player.getMovement();
+    if (this.player.gameState.getPlayerStamina() >= 3) {
+      this.player.gameState.setPlayerCanRun(true);
+    }
+    if (x === 0 && y === 0) {
+      this.player.transitionToNewState(this.player.idleState);
+    } else if (this.player.userInput.cursors.shift.isDown && this.player.gameState.getPlayerCanRun()) {
+      this.player.transitionToNewState(this.player.runningState);
+    }
+    this.player.setMovement();
+  }
+
+  exit() {
+    if (this.staminaIncrementTimer) {
+      this.staminaIncrementTimer.destroy();
+      this.staminaIncrementTimer = null;
+    }
+  }
+}
   
 export class PlayerRunState extends PlayerState {
   enter() {
+    this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - 1)
     this.player.sprite.anims.play('hero_run', true);
     console.log("Player entered running state");
 
@@ -96,9 +93,8 @@ export class PlayerRunState extends PlayerState {
       this.staminaDecrementTimer = this.player.scene.time.addEvent({
         delay: 200,
         callback: () => {
-          if (this.player.stamina > 0) {
-            this.player.stamina--;
-            this.player.staminaBar.draw();
+          if (this.player.gameState.getPlayerStamina() > 0) {
+            this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - 1);
           }
         },
         loop: true
@@ -109,13 +105,15 @@ export class PlayerRunState extends PlayerState {
   update() {
     const {x, y} = this.player.getMovement();
 
-    if (this.player.stamina === 0) {
-      this.player.canRun = false;
+    if (this.player.gameState.getPlayerStamina() === 0) {
+      this.player.gameState.setPlayerCanRun(false);
+    } else if (this.player.gameState.getPlayerStamina() >= 3) {
+      this.player.gameState.setPlayerCanRun(true);
     }
 
     if (x === 0 && y === 0) {
       this.player.transitionToNewState(this.player.idleState);
-    } else if (!this.player.userInput.cursors.shift.isDown || !this.player.canRun) {
+    } else if (!this.player.userInput.cursors.shift.isDown || !this.player.gameState.getPlayerCanRun()) {
       this.player.transitionToNewState(this.player.walkingState);
     }
     this.player.setMovement(true);
@@ -129,7 +127,7 @@ export class PlayerRunState extends PlayerState {
   }
 }
 
-  export class PlayerAttackState extends PlayerState {
+export class PlayerAttackState extends PlayerState {
     enter() {
       this.player.sprite.on('animationstart', this.handleAnimationReset, this);
       this.player.sprite.on('animationrepeat', this.handleAnimationReset, this);
@@ -146,9 +144,9 @@ export class PlayerRunState extends PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      if (this.player.stamina < this.player.attStaminaCost) {
+      if (this.player.gameState.getPlayerStamina() < this.player.gameState.getPlayerAttStaminaCost()) {
         this.player.transitionToNewState(this.player.idleState);
-      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_attack_5' && !this.damageApplied && this.player.stamina >= this.player.attStaminaCost) {
+      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_attack_5' && !this.damageApplied && this.player.gameState.getPlayerStamina() >= this.player.gameState.getPlayerAttStaminaCost()) {
         this.handleAttack();
         this.damageApplied = true;
       }
@@ -159,19 +157,17 @@ export class PlayerRunState extends PlayerState {
     }
   
     handleAttack() {
-      this.player.stamina -= this.player.attStaminaCost;
-      this.player.staminaBar.draw();
+      this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - this.player.gameState.getPlayerAttStaminaCost());
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
-          monster.HP -= this.player.playerDamage;
+          monster.HP -= this.player.gameState.getPlayerDamage();
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player attacked ${monster.name} for ${this.player.playerDamage} damage. Monster health: ${monster.HP}`);
+          console.log(`Player attacked ${monster.name} for ${this.player.gameState.getPlayerDamage()} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
-          this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
-          monster.handleMonsterDeath();
+          monster.transitionToNewState(monster.deathState);
         }
       }
     }
@@ -183,7 +179,7 @@ export class PlayerRunState extends PlayerState {
   }
 
 
-  export class PlayerSpecialAttackState extends PlayerState {
+export class PlayerSpecialAttackState extends PlayerState {
     static stateName = 'specialAttacking';
     enter() {
       this.name = PlayerSpecialAttackState.stateName;
@@ -202,9 +198,9 @@ export class PlayerRunState extends PlayerState {
   
     update() {
       const playerVelocity = this.player.sprite.body.velocity;
-      if (this.player.stamina < this.player.spAttStaminaCost || this.player.mana < this.player.spAttManaCost){
+      if (this.player.gameState.getPlayerStamina() < this.player.gameState.getPlayerSpAttStaminaCost() || this.player.gameState.getPlayerMana() < this.player.gameState.getPlayerSpAttManaCost()){
         this.player.transitionToNewState(this.player.idleState);
-      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_crit_4' && !this.damageApplied && this.player.stamina >= this.player.spAttStaminaCost && this.player.mana >= this.player.spAttManaCost) {
+      } else if (this.player.sprite.anims.currentFrame.textureFrame === 'hero_crit_4' && !this.damageApplied && this.player.gameState.getPlayerStamina() >= this.player.gameState.getPlayerSpAttStaminaCost() && this.player.gameState.getPlayerMana() >= this.player.gameState.getPlayerSpAttManaCost()) {
         this.handleAttack();
         this.damageApplied = true;
       }
@@ -215,21 +211,18 @@ export class PlayerRunState extends PlayerState {
     }
   
     handleAttack() {
-      this.player.mana -= this.player.spAttManaCost;
-      this.player.manaBar.draw();
-      this.player.stamina -= this.player.spAttStaminaCost;
-      this.player.staminaBar.draw();
+      this.player.gameState.setPlayerMana(this.player.gameState.getPlayerMana() - this.player.gameState.getPlayerSpAttManaCost());
+      this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() - this.player.gameState.getPlayerSpAttStaminaCost());
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
-          monster.HP -= this.player.playerSpecialDamage;
+          monster.HP -= this.player.gameState.getPlayerSpecialDamage();
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player special attacked ${monster.name} for ${this.player.playerSpecialDamage} damage. Monster health: ${monster.HP}`);
+          console.log(`Player special attacked ${monster.name} for ${this.player.gameState.getPlayerSpecialDamage()} damage. Monster health: ${monster.HP}`);
         }
         if (monster.HP <= 0) {
-          this.player.monstersTouching = this.player.monstersTouching.filter(m => m !== monsterSprite);
-          monster.handleMonsterDeath();
+          monster.transitionToNewState(monster.deathState);
         }
       }
     }
@@ -240,7 +233,7 @@ export class PlayerRunState extends PlayerState {
     }
   }
 
-  export class PlayerGotHitState extends PlayerState {
+export class PlayerGotHitState extends PlayerState {
     enter() {
         console.log("Player entered GotHitState");
         this.player.sprite.once('animationcomplete', this.handleAnimationComplete, this);

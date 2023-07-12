@@ -22,13 +22,13 @@ export class MonsterAggressiveState extends MonsterState {
     }
 
     update(player) {
-        if(player.HP <= 0) {
-            this.monster.transitionToNewState(new MonsterIdleState(this.monster));
+        if(player.gameState.getPlayerHP() <= 0) {
+            this.monster.transitionToNewState(this.monster.idleState);
             return;
         }
         let distance = Phaser.Math.Distance.Between(this.monster.sprite.x, this.monster.sprite.y, player.sprite.x, player.sprite.y);
         if(distance > 200) {
-            this.monster.transitionToNewState(new MonsterIdleState(this.monster));
+            this.monster.transitionToNewState(this.monster.idleState);
         } else {
             let velocity = Phaser.Physics.Matter.Matter.Vector.sub(player.sprite.body.position, this.monster.sprite.body.position);
             velocity = Phaser.Physics.Matter.Matter.Vector.normalise(velocity);
@@ -47,14 +47,15 @@ export class MonsterAggressiveState extends MonsterState {
 export class MonsterAttackingState extends MonsterState {
     enter() {
         console.log(`${this.monster.name} entered attacking state (idle anim atm)`);
-        this.monster.sprite.play(this.monster.idleAnim);
         this.monster.sprite.setVelocity(0, 0);
+        this.monster.sprite.play(this.monster.idleAnim);
         this.attackTimer = this.monster.scene.time.now;
+        this.firstAttack = true;
     }
 
     update(player) {
-        if(player.HP <= 0) {
-            this.monster.transitionToNewState(new MonsterIdleState(this.monster));
+        if(player.gameState.getPlayerHP() <= 0) {
+            this.monster.transitionToNewState(this.monster.idleState);
             return;
         }
 
@@ -62,22 +63,32 @@ export class MonsterAttackingState extends MonsterState {
         let distance = Phaser.Math.Distance.Between(this.monster.sprite.x, this.monster.sprite.y, player.sprite.x, player.sprite.y);
         if (distance > this.monster.attackingSensorRadius+20) {
             if(distance > this.monster.aggressionSensorRadius+20){
-                this.monster.transitionToNewState(new MonsterIdleState(this.monster));
+                this.monster.transitionToNewState(this.monster.idleState);
             } else {
-                this.monster.transitionToNewState(new MonsterAggressiveState(this.monster));
+                this.monster.transitionToNewState(this.monster.aggressiveState);
             }
             return;
         }
 
-        if (this.monster.scene.time.now - this.attackTimer > (1000*this.monster.attackSpeed)) {
-            player.HP -= this.monster.monsterDamage;
-            console.log(`${this.monster.name} attacked the player for ${this.monster.monsterDamage} Damage. Player health: ${player.HP}`);
+        let attackSpeed = this.firstAttack ? this.monster.attackSpeed / 4 : this.monster.attackSpeed;
+
+        if (this.monster.scene.time.now - this.attackTimer > (1000 * attackSpeed)) {
+            player.gameState.setPlayerHP(player.gameState.getPlayerHP() - this.monster.Damage);
+            console.log(`${this.monster.name} attacked the player for ${this.monster.Damage} Damage. Player health: ${player.gameState.getPlayerHP()}`);
             this.attackTimer = this.monster.scene.time.now;
-            this.monster.scene.events.emit('playerGotHit', player);
+            this.monster.attackCooldown = this.monster.scene.time.now + (1000 * this.monster.attackSpeed);
+            this.firstAttack = false;
+
+            if(player.gameState.getPlayerHP() > 0) {
+                player.transitionToNewState(player.gotHitState);
+            } else {
+                player.transitionToNewState(player.deathState);
+            }
         }
     }
 
     exit() {
+        this.firstAttack = false;
         this.attackTimer = null;
     }
 }

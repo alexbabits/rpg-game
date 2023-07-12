@@ -17,6 +17,7 @@ export default class UserInput {
       space: Phaser.Input.Keyboard.KeyCodes.SPACE,
       ctrl: Phaser.Input.Keyboard.KeyCodes.CTRL,
       esc: Phaser.Input.Keyboard.KeyCodes.ESC,
+      I: Phaser.Input.Keyboard.KeyCodes.I,
 
       arrowUp: Phaser.Input.Keyboard.KeyCodes.UP,
       arrowDown: Phaser.Input.Keyboard.KeyCodes.DOWN,

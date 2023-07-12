@@ -8,12 +8,12 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(name, XP, maxHP, HP, monsterDamage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
+    constructor(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
         this.name = name;
         this.XP = XP;
         this.maxHP = maxHP;
         this.HP = HP;
-        this.monsterDamage = monsterDamage;
+        this.Damage = Damage;
         this.movementSpeed = movementSpeed;
         this.attackSpeed = attackSpeed;
         this.scene = scene;
@@ -39,7 +39,13 @@ export class Monster {
         this.scene.matter.world.on('collisionstart', this.handleCollisionStart.bind(this));
         this.scene.matter.world.on('collisionend', this.handleCollisionEnd.bind(this));
 
-        this.currentState = new MonsterIdleState(this);
+
+        this.idleState = new MonsterIdleState(this);
+        this.aggressiveState = new MonsterAggressiveState(this);
+        this.attackingState = new MonsterAttackingState(this);
+        this.deathState = new MonsterDeathState(this);
+        this.currentState = this.idleState;
+
         this.hpBar = new MonsterHPBar(this.scene, this);
     }
 
@@ -47,9 +53,9 @@ export class Monster {
     handleCollisionStart(event, bodyA, bodyB) {
         if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
             if(bodyB.label === 'monsterAggressionSensor') {
-                this.transitionToNewState(new MonsterAggressiveState(this));
+                this.transitionToNewState(this.aggressiveState);
             } else if(bodyB.label === 'monsterAttackingSensor') {
-                this.transitionToNewState(new MonsterAttackingState(this));
+                this.transitionToNewState(this.attackingState);
             }
         }
     }
@@ -57,7 +63,7 @@ export class Monster {
     handleCollisionEnd(event, bodyA, bodyB) {
         if(bodyA.label === 'playerCollider' && bodyB.parent === this.sprite.body) {
             if(bodyB.label === 'monsterAttackingSensor') {
-                this.transitionToNewState(new MonsterAggressiveState(this));
+                this.transitionToNewState(this.aggressiveState);
             }
         }
     }
@@ -68,39 +74,53 @@ export class Monster {
         this.currentState.enter();
     }
 
-    handleMonsterDeath() {
-        if(this.HP <= 0) {
-            this.transitionToNewState(new MonsterDeathState(this));
-        }
-    }
-
     update(player) {
         this.currentState.update(player);
         this.hpBar.update();
     }
 }
 
+// super(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim)
+
+export class Bear extends Monster {
+    constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
+        super('bear', 40, 500, 500, 50, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk')}
+}
+
+export class Ent extends Monster {
+    constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
+        super('ent', 30, 350, 350, 30, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk')}
+}
+
+
 export class MonsterManager {
     constructor(scene, player) {
         this.scene = scene;
         this.player = player;
         this.monsters = [];
+        this.monsterClasses = {'bear': Bear, 'ent': Ent};
         this.scene.events.on('monsterDeath', this.spawnNewMonster, this);
     }
 
-    spawnMonster(name, XP, maxHP, monsterDamage, movementSpeed, attackSpeed, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
-        let monster = new Monster(name, XP, maxHP, maxHP, monsterDamage, movementSpeed, attackSpeed, this.scene, this.player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim);
-        this.monsters.push(monster);
-        monster.sprite.play(`${name}_idle`);
+    spawnMonster(type) {
+        let monster;
+        let x = Phaser.Math.Between(100, 500);
+        let y = Phaser.Math.Between(100, 300);
+        const MonsterClass = this.monsterClasses[type];
+        if (MonsterClass) {
+            monster = new MonsterClass(this.scene, this.player, x, y);
+            this.monsters.push(monster);
+            monster.sprite.play(`${type}_idle`);
+        }
         return monster;
     }
+
     spawnNewMonster(deadMonster) {
         this.scene.time.addEvent({
             delay: 5000,
             callback: () => {
-                let x = Phaser.Math.Between(100, 500);
-                let y = Phaser.Math.Between(100, 300);
-                this.spawnMonster(deadMonster.name, deadMonster.XP, deadMonster.maxHP, deadMonster.monsterDamage, deadMonster.movementSpeed, deadMonster.attackSpeed, x, y, deadMonster.sprite.texture.key, deadMonster.sprite.frame.name, deadMonster.colliderWidth, deadMonster.colliderHeight, deadMonster.originalChamfer, deadMonster.aggressionSensorRadius, deadMonster.attackingSensorRadius, deadMonster.sprite.scale, deadMonster.idleAnim, deadMonster.walkAnim);
+                this.spawnMonster(deadMonster.name);
+                console.log(`${deadMonster.name} respawned.`);
             },
             callbackScope: this
         });
