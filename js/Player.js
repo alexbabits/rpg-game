@@ -8,9 +8,10 @@ export default class Player {
     scene.load.animation('hero_anims', 'assets/images/hero_anims.json');
   }
 
-  constructor(scene, x, y, gameState) {
+  constructor(scene, x, y, gameState, inventoryDisplay) {
     this.scene = scene;
     this.gameState = gameState;
+    this.inventoryDisplay = inventoryDisplay;
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(50);
     this.gameState.setPlayerLevel(1);
@@ -58,13 +59,20 @@ export default class Player {
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
     this.manaRegeneration();
   }
-
+  
+  setInventoryDisplay(inventoryDisplay) {
+    this.inventoryDisplay = inventoryDisplay;
+}
 
   usePotion() {
     let potionIndex = this.gameState.inventoryData.items.findIndex(item => item && item.name === 'potion');
     if (potionIndex !== -1) {
         this.gameState.inventoryData.decrementQuantity(potionIndex);
         this.gameState.setPlayerHP(this.gameState.getPlayerHP() + 10);
+        this.inventoryDisplay.updateItemQuantity(potionIndex);
+        if (this.gameState.inventoryData.items[potionIndex] === null) {
+          this.inventoryDisplay.destroyItem(potionIndex);
+      }
         console.log(`Player Used Potion. Current HP ${this.gameState.getPlayerHP()}`)
     }
 }

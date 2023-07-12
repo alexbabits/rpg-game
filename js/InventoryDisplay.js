@@ -13,6 +13,7 @@ export default class InventoryDisplay extends Phaser.Scene {
     init(data) {
         this.gameState = data.gameState;
         this.player = data.player;
+        data.player.setInventoryDisplay(this);
     }
 
     create() {
@@ -93,6 +94,33 @@ export default class InventoryDisplay extends Phaser.Scene {
         return item;
     }
 
+    updateItemQuantity(index) {
+        let itemData = this.gameState.inventoryData.items[index];
+        let item = this.inventory[index].item;
+        if (itemData && itemData.quantity >= 2) {
+            if (!item.quantityText) {
+                item.quantityText = this.add.text(item.x+10, item.y+5, itemData.quantity, { fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4 });
+                item.quantityText.setDepth(622);
+            } else {
+                item.quantityText.setText(itemData.quantity);
+            }
+        } else if (item.quantityText) {
+            item.quantityText.destroy();
+            item.quantityText = null;
+        }
+    }
+    
+    destroyItem(index) {
+        let item = this.inventory[index].item;
+        if (item) {
+            if (item.quantityText) {
+                item.quantityText.destroy();
+            }
+            item.destroy();
+            this.inventory[index].item = null;
+        }
+    }
+
     onPointerOver(slot, i) {
         slot.setTint(0xffff00); 
         console.log(`Hovering over slot ${i}`);
@@ -123,6 +151,7 @@ export default class InventoryDisplay extends Phaser.Scene {
     
             this.gameState.inventoryData.items[item.index] = null;
             this.gameState.inventoryData.items[this.hoveredSlotIndex] = itemData;
+            this.inventory[this.hoveredSlotIndex].item = item;
             item.index = this.hoveredSlotIndex;
         } else {
             item.x = item.startX;

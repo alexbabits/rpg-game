@@ -27,7 +27,7 @@ export default class Map extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
-        this.player = new Player(this, 320, 320, this.gameState);
+        this.player = new Player(this, 320, 320, this.gameState, this.inventoryDisplay);
         this.gameState.loadPlayerState(this.player);
 
         this.monsterManager = new MonsterManager(this, this.player);
