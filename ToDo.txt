@@ -8,6 +8,8 @@
 --> Chatbox for console messages.
 --> Loading Bar scene after the homescene that loads in assets.
 
+--> (Bonus): potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).
+--> (Bonus): 'stackable' which dictates if items can 'stack' or not.
 --> (Bonus): 'usable' and 'equippable' item properties. Useful to clarify which items are allowed to do what.
 --> (Bonus): Hitsplats on player and monster
 --> (Bonus): Monster Attack Anims

@@ -121,6 +121,12 @@ export default class InventoryDisplay extends Phaser.Scene {
         }
     }
 
+    updateQuantityTextPosition(item, x, y) {
+        if (item.quantityText) {
+            item.quantityText.x = x + 10; item.quantityText.y = y + 5;
+        }
+    }
+
     onPointerOver(slot, i) {
         slot.setTint(0xffff00); 
         console.log(`Hovering over slot ${i}`);
@@ -157,12 +163,6 @@ export default class InventoryDisplay extends Phaser.Scene {
             item.x = item.startX;
             item.y = item.startY;
             this.updateQuantityTextPosition(item, item.startX, item.startY);
-        }
-    }
-
-    updateQuantityTextPosition(item, x, y) {
-        if (item.quantityText) {
-            item.quantityText.x = x + 10; item.quantityText.y = y + 5;
         }
     }
 

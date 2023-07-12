@@ -68,7 +68,7 @@ export default class Player {
     let potionIndex = this.gameState.inventoryData.items.findIndex(item => item && item.name === 'potion');
     if (potionIndex !== -1) {
         this.gameState.inventoryData.decrementQuantity(potionIndex);
-        this.gameState.setPlayerHP(this.gameState.getPlayerHP() + 10);
+        this.gameState.setPlayerHP(this.gameState.getPlayerHP() + 50);
         this.inventoryDisplay.updateItemQuantity(potionIndex);
         if (this.gameState.inventoryData.items[potionIndex] === null) {
           this.inventoryDisplay.destroyItem(potionIndex);
