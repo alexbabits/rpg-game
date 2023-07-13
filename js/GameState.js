@@ -24,7 +24,6 @@ export default class GameState {
     }
   }
 
-
   savePlayerState(player) {
     this.playerState = {
       xp: player.gameState.getPlayerXP(),
@@ -82,9 +81,6 @@ export default class GameState {
       player.sprite.y = this.playerPosition.y;
     };
   }
-
-  setPlayerState(state) {this.playerState = state}
-  getPlayerState() {return this.playerState}
 
   setPlayerXP(xp) {this.playerXP = xp}
   getPlayerXP() {return this.playerXP}

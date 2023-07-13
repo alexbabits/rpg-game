@@ -1,4 +1,3 @@
-import UserInput from './UserInput.js';
 import Player from "./Player.js";
 import InventoryData from "./InventoryData.js";
 import {Monster, MonsterManager} from "./Monsters.js";
@@ -29,9 +28,6 @@ export default class Map extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
-        this.handleWheel = this.handleWheel.bind(this);
-        this.userInput = new UserInput(this, { onWheel: this.handleWheel });
-        
         this.player = new Player(this, 320, 320, this.gameState);
         this.gameState.loadPlayerState(this.player);
         this.scene.launch('PlayerStatusBars', { player: this.player });
@@ -48,19 +44,17 @@ export default class Map extends Phaser.Scene {
         camera.startFollow(this.player.sprite);
         camera.setLerp(0.1,0.1);
         camera.setBounds(0, 0, this.game.config.width,this.game.config.height);
-
+        this.input.on('wheel', (pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+            const zoomChange = 0.1;
+            if (deltaY > 0) {
+                this.cameras.main.zoom = Math.max(this.cameras.main.zoom - zoomChange, 1);
+            } else {
+                this.cameras.main.zoom = Math.min(this.cameras.main.zoom + zoomChange, 3.0);
+            }
+        });
         this.events.once('shutdown', this.shutdown, this);
     }
 
-    handleWheel(deltaY) {
-        const zoomChange = 0.1;
-        if (deltaY > 0) {
-            this.cameras.main.zoom = Math.max(this.cameras.main.zoom - zoomChange, 1);
-        } else {
-            this.cameras.main.zoom = Math.min(this.cameras.main.zoom + zoomChange, 3.0);
-        }
-    }
-    
     spawnMonster() {}
 
     shutdown() {

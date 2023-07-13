@@ -1,16 +1,12 @@
-
 export default class InventoryDisplay extends Phaser.Scene {
     constructor(){
         super("InventoryDisplay");
         this.tileSize = 32;
         this.tileDistance = this.tileSize * 1.5;
-        this.rows = 4;
-        this.slots = 16;
         this.startX = 470;
         this.startY = 470;
         this.backgroundX = this.startX + 72;
         this.backgroundY = this.startY + 72;
-        this.backgroundScale = 2.45;
     }
 
     preload(){
@@ -23,11 +19,22 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     create() {
+        this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
+    
+        for (let i = 0; i < 16; i++) {
+            let x = this.startX + (i % 4) * this.tileDistance;
+            let y = this.startY + Math.floor(i / 4) * this.tileDistance;
+    
+            this.add.sprite(x, y, 'items', 11).setScale(1.4);
 
-    }
-
-    drawInventory(){
-        //draws the slots and items and text
+            let item = this.inventoryData.gameState.getItems()[i];
+            if (item) {
+                let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4);
+                if(item.quantity > 1){
+                    this.add.text(x + 10, y + 10, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#1ef7f0', resolution: 4});
+                }
+            }
+        }
     }
     
     update() {

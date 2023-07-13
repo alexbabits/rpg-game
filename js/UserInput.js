@@ -5,7 +5,7 @@ Handles all things associated with user input:
 --> Entering Information (inputting values in options or text box prompts in game)
 */
 export default class UserInput {
-  constructor(scene, handlers) {
+  constructor(scene, handlers = {}) {
     this.scene = scene;
 
     this.cursors = this.scene.input.keyboard.addKeys({
@@ -25,12 +25,11 @@ export default class UserInput {
       arrowRight: Phaser.Input.Keyboard.KeyCodes.RIGHT,
     });
 
-    this.scene.input.on('wheel', handlers.onWheel);
-    this.scene.input.on('pointerover', handlers.onPointerOver);
-    this.scene.input.on('pointerout', handlers.onPointerOut);
-    this.scene.input.on('pointerdown', handlers.onPointerDown);
-    this.scene.input.on('drag', handlers.onDrag);
-    this.scene.input.on('dragstart', handlers.onDragStart);
-    this.scene.input.on('dragend', handlers.onDragEnd);
+    this.scene.input.on('pointerover', handlers.onPointerOver || (() => {}));
+    this.scene.input.on('pointerout', handlers.onPointerOut || (() => {}));
+    this.scene.input.on('pointerdown', handlers.onPointerDown || (() => {}));
+    this.scene.input.on('drag', handlers.onDrag || (() => {}));
+    this.scene.input.on('dragstart', handlers.onDragStart || (() => {}));
+    this.scene.input.on('dragend', handlers.onDragEnd || (() => {}));
   }
 }
