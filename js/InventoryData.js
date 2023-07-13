@@ -8,8 +8,12 @@ export default class InventoryData {
             null, {name: "potion", frame: 144, quantity: 2, canEquip: false, canUse: true, stackable: false}, null, null, 
             null, null, {name: "gold", frame: 202, quantity: 50, canEquip: false, canUse: false, stackable: true}, null
         ]);
-        this.gameState.setVisibility(true);
+        if (this.gameState.getVisibility() === undefined) {
+            this.gameState.setVisibility(true);
+        }
     }
+
+    toggleInventoryVisibility() {this.gameState.setVisibility(!this.gameState.getVisibility())}
 
     moveItem(oldIndex, newIndex) {
         const items = this.gameState.getItems();
@@ -27,7 +31,7 @@ export default class InventoryData {
             this.removeItem(index);
         }
     }
-    
+
     incrementQuantity(index){
         let items = this.gameState.getItems();
         if (items[index]){
@@ -43,8 +47,6 @@ export default class InventoryData {
         } 
         this.gameState.setItems(items);     
     }
-
-    toggleInventoryVisibility() {this.gameState.setVisibility(!this.gameState.getVisibility())}
 
 /*
 

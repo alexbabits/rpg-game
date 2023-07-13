@@ -7,6 +7,10 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.startY = 470;
         this.backgroundX = this.startX + 72;
         this.backgroundY = this.startY + 72;
+        this.textOffset = 10;
+        this.inventorySprites = [];
+        this.quantityTexts = [];
+        this.background = null;
     }
 
     preload(){
@@ -19,17 +23,25 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     create() {
-        this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
+        this.input.keyboard.on('keydown-I', this.toggleVisibility.bind(this));
+        this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
         let slots = [];
     
+        let visible = this.inventoryData.gameState.getVisibility();
+        this.background.setVisible(visible);
+        
         for (let i = 0; i < 16; i++) {
             let item = this.inventoryData.gameState.getItems()[i];
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
-
+    
             slots[i] = this.setupSlotSprite(x, y, i);
+            slots[i].setVisible(visible);
+            this.inventorySprites.push(slots[i]);
             if (item) {
-                this.setupItemSprite(item, i, slots, x, y)
+                let itemSprite = this.setupItemSprite(item, i, slots, x, y);
+                itemSprite.setVisible(visible);
+                this.inventorySprites.push(itemSprite);
             }
         }
     }
@@ -59,17 +71,20 @@ export default class InventoryDisplay extends Phaser.Scene {
                 this.x = dragX;
                 this.y = dragY;
                 if (this.getData('quantityText')) {
-                    this.getData('quantityText').x = dragX + 10;
-                    this.getData('quantityText').y = dragY + 10;
+                    this.getData('quantityText').x = dragX + this.textOffset;
+                    this.getData('quantityText').y = dragY + this.textOffset;
                 }
             });
     
             itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
-    
+            let quantityText = null;
             if(item.quantity > 1){
-                let quantityText = this.add.text(x + 10, y + 10, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
+                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
+                quantityText.setVisible(this.inventoryData.gameState.getVisibility());
                 itemSprite.setData('quantityText', quantityText);
+                this.quantityTexts.push(quantityText);
             }
+            return itemSprite;
         }
     }
 
@@ -87,18 +102,26 @@ export default class InventoryDisplay extends Phaser.Scene {
                 itemSprite.x = itemSprite.getData('originX');
                 itemSprite.y = itemSprite.getData('originY');
                 if (itemSprite.getData('quantityText')) {
-                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + 10;
-                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + 10;
+                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
+                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
                 }
             } else {
                 itemSprite.x = itemSprite.getData('originX');
                 itemSprite.y = itemSprite.getData('originY');
                 if (itemSprite.getData('quantityText')) {
-                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + 10;
-                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + 10;
+                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
+                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
                 }
             }
         }.bind(this);
+    }
+
+    toggleVisibility() {
+        this.inventoryData.toggleInventoryVisibility();
+        let visible = this.inventoryData.gameState.getVisibility();
+        this.background.setVisible(visible);
+        this.inventorySprites.forEach(sprite => sprite.setVisible(visible));
+        this.quantityTexts.forEach(text => text.setVisible(visible));
     }
 
 }
