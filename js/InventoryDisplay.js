@@ -20,16 +20,18 @@ export default class InventoryDisplay extends Phaser.Scene {
 
     create() {
         this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
+        let slots = [];
     
         for (let i = 0; i < 16; i++) {
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
     
-            let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();;
+            let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
             slotSprite.index = i;
+            slots[i] = slotSprite;
     
-            slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f)});
-            slotSprite.on('pointerout', () => {slotSprite.clearTint()});
+            slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
+            slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
     
             let item = this.inventoryData.gameState.getItems()[i];
             if (item) {
@@ -39,9 +41,8 @@ export default class InventoryDisplay extends Phaser.Scene {
                     this.input.setDraggable(itemSprite);
                     this.input.setTopOnly(false);
     
-                    // Remember the original position to reset it on dragend
                     itemSprite.setData({originX: x, originY: y});
-                    
+    
                     itemSprite.on('dragstart', function (pointer) {this.setTint(0xbfbfbf)});
     
                     itemSprite.on('drag', function (pointer, dragX, dragY) {
@@ -49,11 +50,32 @@ export default class InventoryDisplay extends Phaser.Scene {
                         this.y = dragY;
                     });
     
-                    itemSprite.on('dragend', function (pointer) {
-                        this.clearTint();
-                        this.x = this.getData('originX');
-                        this.y = this.getData('originY');
-                    });
+                    itemSprite.on('dragend', function(pointer) {
+                        itemSprite.clearTint();
+                        let hoveredSlot = slots.find(slotSprite => slotSprite.getData('hovered'));
+                        if (hoveredSlot && !this.inventoryData.gameState.getItems()[hoveredSlot.index]) {
+                            // If the hovered slot is empty, move the item there
+                            let oldIndex = itemSprite.index;
+                            itemSprite.index = hoveredSlot.index;
+                            this.inventoryData.moveItem(oldIndex, itemSprite.index);
+                            // Update positions to reflect the new slot
+                            itemSprite.setData({ originX: hoveredSlot.x, originY: hoveredSlot.y });
+                            itemSprite.x = itemSprite.getData('originX');
+                            itemSprite.y = itemSprite.getData('originY');
+                            if (quantityText) {
+                                quantityText.x = itemSprite.getData('originX') + 10;
+                                quantityText.y = itemSprite.getData('originY') + 10;
+                            }
+                        } else {
+                            // If the hovered slot is not empty or if there's no hovered slot, reset the item to its original slot
+                            itemSprite.x = itemSprite.getData('originX');
+                            itemSprite.y = itemSprite.getData('originY');
+                            if (quantityText) {
+                                quantityText.x = itemSprite.getData('originX') + 10;
+                                quantityText.y = itemSprite.getData('originY') + 10;
+                            }
+                        }
+                    }.bind(this));
     
                     let quantityText = null;
                     if(item.quantity > 1){
@@ -66,9 +88,16 @@ export default class InventoryDisplay extends Phaser.Scene {
                             quantityText.y = dragY + 10;
                         });
     
-                        itemSprite.on('dragend', function (pointer) {
-                            quantityText.x = this.getData('originX') + 10;
-                            quantityText.y = this.getData('originY') + 10;
+                        itemSprite.on('dragend', (pointer) => {
+                            let hoveredSlot = slots.find(slot => slot.getData('hovered'));
+                        
+                            if (hoveredSlot && this.inventoryData.gameState.getItems()[hoveredSlot.index] === null) {
+                                quantityText.x = hoveredSlot.x + 10;
+                                quantityText.y = hoveredSlot.y + 10;
+                            } else {
+                                quantityText.x = itemSprite.getData('originX') + 10;
+                                quantityText.y = itemSprite.getData('originY') + 10;
+                            }
                         });
                     }
                 }

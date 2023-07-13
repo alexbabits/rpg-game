@@ -11,8 +11,11 @@ export default class InventoryData {
         this.gameState.setVisibility(true);
     }
 
-    moveItem(startIndex, endIndex){
-
+    moveItem(oldIndex, newIndex) {
+        const items = this.gameState.getItems();
+        const item = items[oldIndex];
+        items[oldIndex] = null;
+        items[newIndex] = item;
     }
 
     decrementQuantity(index){
