@@ -25,11 +25,9 @@ export default class InventoryDisplay extends Phaser.Scene {
         for (let i = 0; i < 16; i++) {
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
-    
             let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
             slotSprite.index = i;
             slots[i] = slotSprite;
-    
             slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
             slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
     
@@ -104,6 +102,4 @@ export default class InventoryDisplay extends Phaser.Scene {
             }
         }
     }
-    
-    update() {}
 }

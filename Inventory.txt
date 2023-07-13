@@ -1,4 +1,4 @@
-
+Swapping items is an extra feature added after everything is correct.
 
 Whenever a drag and drop event occurs in InventoryDisplay, it simply notifies InventoryData about the change. For example, when an item is moved from one slot to another, InventoryDisplay could call a method in InventoryData like moveItem(oldSlotIndex, newSlotIndex). The moveItem function would then update the internal game state to reflect the change.
 
