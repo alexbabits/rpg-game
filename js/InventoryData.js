@@ -28,6 +28,14 @@ export default class InventoryData {
         }
     }
     
+    incrementQuantity(index){
+        let items = this.gameState.getItems();
+        if (items[index]){
+            items[index].quantity++;
+        }
+        this.gameState.setItems(items);
+    }
+
     removeItem(index){
         let items = this.gameState.getItems();
         if(items[index]){
@@ -36,20 +44,8 @@ export default class InventoryData {
         this.gameState.setItems(items);     
     }
 
-
-
     toggleInventoryVisibility() {this.gameState.setVisibility(!this.gameState.getVisibility())}
 
-    // Then the InventoryDisplay file can display or not display the inventory based on the data setting of the visibility.
-
-    
-    incrementQuantity(index){
-        let items = this.gameState.getItems();
-        if (items[index]){
-            items[index].quantity++;
-        }
-        this.gameState.setItems(items);
-    }
 /*
 
     useItem(){

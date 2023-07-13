@@ -23,42 +23,52 @@ export default class InventoryDisplay extends Phaser.Scene {
         let slots = [];
     
         for (let i = 0; i < 16; i++) {
+            let item = this.inventoryData.gameState.getItems()[i];
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
-            let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
-            slotSprite.index = i;
-            slots[i] = slotSprite;
-            slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
-            slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
-    
-            let item = this.inventoryData.gameState.getItems()[i];
+
+            slots[i] = this.setupSlotSprite(x, y, i);
             if (item) {
-                let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(25);
-                if (itemSprite) {
-                    itemSprite.index = i;
-                    this.input.setDraggable(itemSprite);
-                    this.input.setTopOnly(false);
+                this.setupItemSprite(item, i, slots, x, y)
+            }
+        }
+    }
+
+    // Helper Methods
+
+    setupSlotSprite(x, y, index) {
+        let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
+        slotSprite.index = index;
+        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
+        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
+        return slotSprite;
+    }
+
+    setupItemSprite(item, i, slots, x, y) {
+        let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(25);
+        if (itemSprite) {
+            itemSprite.index = i;
+            this.input.setDraggable(itemSprite);
+            this.input.setTopOnly(false);
     
-                    itemSprite.setData({originX: x, originY: y, quantityText: null});
+            itemSprite.setData({originX: x, originY: y, quantityText: null});
     
-                    itemSprite.on('dragstart', function (pointer) {this.setTint(0xbfbfbf)});
+            itemSprite.on('dragstart', function (pointer) {this.setTint(0xbfbfbf)});
     
-                    itemSprite.on('drag', function (pointer, dragX, dragY) {
-                        this.x = dragX;
-                        this.y = dragY;
-                        if (this.getData('quantityText')) {
-                            this.getData('quantityText').x = dragX + 10;
-                            this.getData('quantityText').y = dragY + 10;
-                        }
-                    });
-    
-                    itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
-    
-                    if(item.quantity > 1){
-                        let quantityText = this.add.text(x + 10, y + 10, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
-                        itemSprite.setData('quantityText', quantityText);
-                    }
+            itemSprite.on('drag', function (pointer, dragX, dragY) {
+                this.x = dragX;
+                this.y = dragY;
+                if (this.getData('quantityText')) {
+                    this.getData('quantityText').x = dragX + 10;
+                    this.getData('quantityText').y = dragY + 10;
                 }
+            });
+    
+            itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
+    
+            if(item.quantity > 1){
+                let quantityText = this.add.text(x + 10, y + 10, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
+                itemSprite.setData('quantityText', quantityText);
             }
         }
     }
@@ -81,7 +91,6 @@ export default class InventoryDisplay extends Phaser.Scene {
                     itemSprite.getData('quantityText').y = itemSprite.getData('originY') + 10;
                 }
             } else {
-                // If the hovered slot is not empty or if there's no hovered slot, reset the item to its original slot
                 itemSprite.x = itemSprite.getData('originX');
                 itemSprite.y = itemSprite.getData('originY');
                 if (itemSprite.getData('quantityText')) {
