@@ -5,7 +5,7 @@ export default class InventoryData {
         this.gameState.setItems([
             null, null, null, {name: "shield", frame: 96, quantity: 1, canEquip: true, canUse: false, stackable: false}, 
             {name: "sword", frame: 81, quantity: 1, canEquip: true, canUse: false, stackable: false}, null, null, null, 
-            null, {name: "potion", frame: 144, quantity: 2, canEquip: false, canUse: true, stackable: false}, null, null, 
+            null, {name: "healthpotion", frame: 144, quantity: 2, canEquip: false, canUse: true, stackable: false}, null, null, 
             null, null, {name: "gold", frame: 202, quantity: 50, canEquip: false, canUse: false, stackable: true}, null
         ]);
         if (this.gameState.getVisibility() === undefined) {
@@ -22,12 +22,13 @@ export default class InventoryData {
         items[newIndex] = item;
     }
 
-    decrementQuantity(index){
+    useItem(index){
         let items = this.gameState.getItems();
-        if (items[index] && items[index].quantity > 1) {
+        if (items[index] && items[index].quantity > 1 && items[index].canUse === true) {
             items[index].quantity--;
             this.gameState.setItems(items);
-        } else if (items[index] && items[index].quantity === 1) {
+        } else if (items[index] && items[index].quantity === 1 && items[index].canUse === true) {
+            items[index].quantity--;
             this.removeItem(index);
         }
     }
@@ -49,19 +50,10 @@ export default class InventoryData {
     }
 
 /*
-
-    useItem(){
-        // 'canUse' has to be true.
-        // All items to be used, should be double clicked.
-    }
-
-    //usePotion becomes the child method of useItem. (useManaPotion, useHealthPotion, etc. can all be made simply then.)
-    usePotion() {
-        let potionIndex = this.gameState.inventoryData.items.findIndex(item => item && item.name === 'potion');
-        if (potionIndex !== -1) {
-            this.gameState.inventoryData.decrementQuantity(potionIndex);
-            this.gameState.setPlayerHP(this.gameState.getPlayerHP() + 50);
-            console.log(`Player Used Potion. Current HP ${this.gameState.getPlayerHP()}`)
+    useHealthPotion() {
+        if name === 'potion', 
+        this.gameState.setPlayerHP(this.gameState.getPlayerHP() + 50);
+        console.log(`Player Used Potion. Current HP ${this.gameState.getPlayerHP()}`)
         }
     }
 

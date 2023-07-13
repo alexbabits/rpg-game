@@ -84,8 +84,42 @@ export default class InventoryDisplay extends Phaser.Scene {
                 itemSprite.setData('quantityText', quantityText);
                 this.quantityTexts.push(quantityText);
             }
+            this.handleDoubleClick(itemSprite);
             return itemSprite;
         }
+    }
+
+    handleDoubleClick(itemSprite) {
+        let clickTime = null;
+
+        itemSprite.on('pointerdown', () => {
+            if (clickTime !== null) {
+                if (this.time.now - clickTime < 300) { 
+                    this.inventoryData.useItem(itemSprite.index);
+                    const newQuantity = this.inventoryData.gameState.getItems()[itemSprite.index]?.quantity;
+                    if (newQuantity > 0) {
+                        if (newQuantity > 1) {
+                            itemSprite.getData('quantityText').setText(newQuantity);
+                        } else {
+                            if (itemSprite.getData('quantityText')) {
+                                itemSprite.getData('quantityText').destroy();
+                                itemSprite.setData('quantityText', null);
+                            }
+                        }
+                    } else {
+                        if (itemSprite.getData('quantityText')) {
+                            itemSprite.getData('quantityText').destroy();
+                        }
+                        itemSprite.destroy();
+                    }
+                    clickTime = null;
+                } else {
+                    clickTime = this.time.now;
+                }
+            } else {
+                clickTime = this.time.now;
+            }
+        });
     }
 
     handleDragEnd(itemSprite, slots) {
