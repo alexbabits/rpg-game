@@ -25,7 +25,11 @@ export default class InventoryDisplay extends Phaser.Scene {
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
     
-            this.add.sprite(x, y, 'items', 11).setScale(1.4);
+            let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();;
+            slotSprite.index = i;
+            slotSprite.on('pointerover', () => {
+                console.log('Hovering over slot:', slotSprite.index);
+            });
 
             let item = this.inventoryData.gameState.getItems()[i];
             if (item) {
@@ -37,12 +41,5 @@ export default class InventoryDisplay extends Phaser.Scene {
         }
     }
     
-    update() {
-
-    }
-
-    updateInventory(){
-        //updates the items/text and maybe the slots too.
-    }
-
+    update() {}
 }

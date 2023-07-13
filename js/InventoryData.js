@@ -29,8 +29,15 @@ export default class InventoryData {
           });
     }
 
-    handlePointerOver(pointer, gameObject) {}
-    handlePointerOut(pointer) {}
+    handlePointerOver(pointer, gameObject) {
+
+    }
+
+    handlePointerOut(pointer) {
+
+    }
+
+    
     handlePointerDown(pointer, gameObject) {}
     handleDrag(pointer, gameObject, dragX, dragY) {}
     handleDragStart(pointer, gameObject) {}
