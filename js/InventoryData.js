@@ -1,5 +1,3 @@
-import UserInput from './UserInput.js';
-
 export default class InventoryData {
     constructor(scene, gameState) {
         this.scene = scene;
@@ -11,37 +9,11 @@ export default class InventoryData {
             null, null, {name: "gold", frame: 202, quantity: 50, canEquip: false, canUse: false, stackable: true}, null
         ]);
         this.gameState.setVisibility(true);
-
-        this.handlePointerOver = this.handlePointerOver.bind(this);
-        this.handlePointerOut = this.handlePointerOut.bind(this);
-        this.handlePointerDown = this.handlePointerDown.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-        this.handleDragStart = this.handleDragStart.bind(this);
-        this.handleDragEnd = this.handleDragEnd.bind(this);
-
-        this.userInput = new UserInput(this.scene, {
-            onPointerOver: this.handlePointerOver,
-            onPointerOut: this.handlePointerOut,
-            onPointerDown: this.handlePointerDown,
-            onDrag: this.handleDrag,
-            onDragStart: this.handleDragStart,
-            onDragEnd: this.handleDragEnd
-          });
     }
 
-    handlePointerOver(pointer, gameObject) {
+    moveItem(startIndex, endIndex){
 
     }
-
-    handlePointerOut(pointer) {
-
-    }
-
-    
-    handlePointerDown(pointer, gameObject) {}
-    handleDrag(pointer, gameObject, dragX, dragY) {}
-    handleDragStart(pointer, gameObject) {}
-    handleDragEnd(pointer, gameObject, dropped) {}
 
     decrementQuantity(index){
         let items = this.gameState.getItems();

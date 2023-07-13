@@ -1,9 +1,13 @@
-inventory slots drawn based on the indexes of the items array.
 
-All the drag positions x and y for the items and text, that data can be given to the display.
+
+Whenever a drag and drop event occurs in InventoryDisplay, it simply notifies InventoryData about the change. For example, when an item is moved from one slot to another, InventoryDisplay could call a method in InventoryData like moveItem(oldSlotIndex, newSlotIndex). The moveItem function would then update the internal game state to reflect the change.
+
+The key is to ensure that InventoryDisplay doesn't directly manipulate the game state -- it just passes the relevant information to InventoryData, which is responsible for actually making the changes. This approach maintains the separation of concerns between the two classes: one for display and user interaction, and one for managing the data.
+
+
+
 
 
 equipItem function in inventory, since its currently in the inventory (items array)
 unequipItem function in equipment, since its currently in the equipment (equip array).
 The only player aspect of a method like usePotion is incrementing the players HP. Therefore, the InventoryData will need a reference to the player.
-
