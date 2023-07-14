@@ -1,5 +1,10 @@
---> GameState Conerns
---> Inventory (Usable Items like potion, and sword equip.)
+Equipment:
+equipItem function in inventory, since its currently in the inventory (items array)
+unequipItem function in equipment, since its currently in the equipment (equip array).
+
+
+
+
 --> Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene. (Hover over equipment gives stats)
 --> Looting Scene pop-up window (with enemy item drops)
 --> Bank (Need chest in game to click on and bank stuff). Store (Need NPC or chest in game to click on and view store menu.)
@@ -7,7 +12,11 @@
 --> Teleporter. Allows for movement between scenes. Pretty easy.
 --> Chatbox for console messages.
 --> Loading Bar scene after the homescene that loads in assets.
+--> More level up mechanics (golden confetti, then stats choices to increase max stats)
 
+--> (Bonus): Inventory Swapping items.
+--> (Bonus): Items file to store the items, and then just call them in the items array by name/value or key for example.
+--> (Bonus): X button for inventory. Bag icon to open/close inventory too.
 --> (Bonus): potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).
 --> (Bonus): 'stackable' which dictates if items can 'stack' or not.
 --> (Bonus): 'usable' and 'equippable' item properties. Useful to clarify which items are allowed to do what.
@@ -27,7 +36,6 @@
 --> (Optional): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Optional): Refactor player stats/methods into a separate file? Player class is messy with its stats and methods.
 
---> (Small Bug): Fix status bar positions during camera zooming.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): Player facing wrong way when entering map. Handle direction in gamestate.
