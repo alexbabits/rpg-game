@@ -1,13 +1,28 @@
-import InventoryData from './InventoryData.js';
-
 export default class GameState {
   constructor() {
     this.playerState = null;
-    this.inventoryVisibility = true;
-    this.inventoryData = new InventoryData();
+    this.inventoryState = null;
   }
-  toggleInventoryVisibility() {this.inventoryVisibility = !this.inventoryVisibility}
-  getInventoryVisibility() {return this.inventoryVisibility}
+
+  setItems(items) {this.items = items}
+  getItems() {return this.items}
+
+  setVisibility(inventoryVisible) {this.inventoryVisible = inventoryVisible}
+  getVisibility() {return this.inventoryVisible}
+
+  saveInventoryState(inventory) {
+    this.inventoryState = {
+      items: inventory.gameState.getItems(),
+      visibility: inventory.gameState.getVisibility()
+    }
+  }
+
+  loadInventoryState(inventory) {
+    if (this.inventoryState) {
+      inventory.gameState.setItems(this.inventoryState.items);
+      inventory.gameState.setVisibility(this.inventoryState.visibility);
+    }
+  }
 
   savePlayerState(player) {
     this.playerState = {
@@ -66,9 +81,6 @@ export default class GameState {
       player.sprite.y = this.playerPosition.y;
     };
   }
-
-  setPlayerState(state) {this.playerState = state}
-  getPlayerState() {return this.playerState}
 
   setPlayerXP(xp) {this.playerXP = xp}
   getPlayerXP() {return this.playerXP}

@@ -1,8 +1,16 @@
-import UserInput from './UserInput.js';
-
 export default class InventoryDisplay extends Phaser.Scene {
     constructor(){
         super("InventoryDisplay");
+        this.tileSize = 32;
+        this.tileDistance = this.tileSize * 1.5;
+        this.startX = 470;
+        this.startY = 470;
+        this.backgroundX = this.startX + 72;
+        this.backgroundY = this.startY + 72;
+        this.textOffset = 10;
+        this.inventorySprites = [];
+        this.quantityTexts = [];
+        this.background = null;
     }
 
     preload(){
@@ -11,159 +19,143 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     init(data) {
-        this.gameState = data.gameState;
-        this.player = data.player;
-        data.player.setInventoryDisplay(this);
+        this.inventoryData = data.inventory;
     }
 
     create() {
-        this.inventory = [];
+        this.input.keyboard.on('keydown-I', this.toggleVisibility.bind(this));
+        this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
+        let slots = [];
     
+        let visible = this.inventoryData.gameState.getVisibility();
+        this.background.setVisible(visible);
+        
         for (let i = 0; i < 16; i++) {
-            let x = 470 + (i % 4) * 48;
-            let y = 470 + Math.floor(i / 4) * 48;
-            let slot = this.drawSlot(x, y, i);
+            let item = this.inventoryData.gameState.getItems()[i];
+            let x = this.startX + (i % 4) * this.tileDistance;
+            let y = this.startY + Math.floor(i / 4) * this.tileDistance;
     
-            let itemData = this.gameState.inventoryData.items[i];
-            let item = itemData ? this.drawItem(x, y, itemData, i) : null;
-            
-            this.inventory.push({ slot, item });
+            slots[i] = this.setupSlotSprite(x, y, i);
+            slots[i].setVisible(visible);
+            this.inventorySprites.push(slots[i]);
+            if (item) {
+                let itemSprite = this.setupItemSprite(item, i, slots, x, y);
+                itemSprite.setVisible(visible);
+                this.inventorySprites.push(itemSprite);
+            }
         }
+    }
+
+    // Helper Methods
+
+    setupSlotSprite(x, y, index) {
+        let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
+        slotSprite.index = index;
+        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
+        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
+        return slotSprite;
+    }
+
+    setupItemSprite(item, i, slots, x, y) {
+        let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(25);
+        if (itemSprite) {
+            itemSprite.index = i;
+            this.input.setDraggable(itemSprite);
+            this.input.setTopOnly(false);
     
-        this.bagbackground = this.add.image(542, 542, 'bag');
-        this.bagbackground.setDepth(300).setScale(2.45);
-        this.userInput = new UserInput(this);
+            itemSprite.setData({originX: x, originY: y, quantityText: null});
     
-        this.toggleVisibility();
+            itemSprite.on('dragstart', function (pointer) {this.setTint(0xbfbfbf)});
     
-        this.userInput.cursors.I.on('down', () => {
-            this.gameState.toggleInventoryVisibility();
-            this.toggleVisibility();
+            itemSprite.on('drag', function (pointer, dragX, dragY) {
+                this.x = dragX;
+                this.y = dragY;
+                if (this.getData('quantityText')) {
+                    this.getData('quantityText').x = dragX + this.textOffset;
+                    this.getData('quantityText').y = dragY + this.textOffset;
+                }
+            });
+    
+            itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
+            let quantityText = null;
+            if(item.quantity > 1){
+                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
+                quantityText.setVisible(this.inventoryData.gameState.getVisibility());
+                itemSprite.setData('quantityText', quantityText);
+                this.quantityTexts.push(quantityText);
+            }
+            this.handleDoubleClick(itemSprite);
+            return itemSprite;
+        }
+    }
+
+    handleDoubleClick(itemSprite) {
+        let clickTime = null;
+
+        itemSprite.on('pointerdown', () => {
+            if (clickTime !== null) {
+                if (this.time.now - clickTime < 300) { 
+                    this.inventoryData.useItem(itemSprite.index);
+                    const newQuantity = this.inventoryData.gameState.getItems()[itemSprite.index]?.quantity;
+                    if (newQuantity > 0) {
+                        if (newQuantity > 1) {
+                            itemSprite.getData('quantityText').setText(newQuantity);
+                        } else {
+                            if (itemSprite.getData('quantityText')) {
+                                itemSprite.getData('quantityText').destroy();
+                                itemSprite.setData('quantityText', null);
+                            }
+                        }
+                    } else {
+                        if (itemSprite.getData('quantityText')) {
+                            itemSprite.getData('quantityText').destroy();
+                        }
+                        itemSprite.destroy();
+                    }
+                    clickTime = null;
+                } else {
+                    clickTime = this.time.now;
+                }
+            } else {
+                clickTime = this.time.now;
+            }
         });
+    }
+
+    handleDragEnd(itemSprite, slots) {
+        return function(pointer) {
+            itemSprite.clearTint();
+            let hoveredSlot = slots.find(slotSprite => slotSprite.getData('hovered'));
+            if (hoveredSlot && !this.inventoryData.gameState.getItems()[hoveredSlot.index]) {
+                // If the hovered slot is empty, move the item there
+                let oldIndex = itemSprite.index;
+                itemSprite.index = hoveredSlot.index;
+                this.inventoryData.moveItem(oldIndex, itemSprite.index);
+                // Update positions to reflect the new slot
+                itemSprite.setData({ originX: hoveredSlot.x, originY: hoveredSlot.y });
+                itemSprite.x = itemSprite.getData('originX');
+                itemSprite.y = itemSprite.getData('originY');
+                if (itemSprite.getData('quantityText')) {
+                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
+                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
+                }
+            } else {
+                itemSprite.x = itemSprite.getData('originX');
+                itemSprite.y = itemSprite.getData('originY');
+                if (itemSprite.getData('quantityText')) {
+                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
+                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
+                }
+            }
+        }.bind(this);
     }
 
     toggleVisibility() {
-        let isVisible = this.gameState.getInventoryVisibility();
-        this.inventory.forEach(({ slot, item }) => {
-            slot.visible = isVisible;
-            if (item) {
-                item.visible = isVisible;
-                if (item.quantityText) {
-                    item.quantityText.visible = isVisible;
-                }
-            }
-        });
-        this.bagbackground.visible = isVisible;
-    }
-
-    drawSlot(x, y, i) {
-        let slot = this.add.sprite(x, y, 'items', 11);
-        slot.setDepth(420).setScale(1.4).setInteractive();
-        slot.on('pointerover', () => this.onPointerOver(slot, i));
-        slot.on('pointerout', () => this.onPointerOut(slot));
-        return slot;
-    }
-    
-    drawItem(x, y, itemData, i) {
-        let item = this.add.sprite(x, y, 'items', itemData.frame);
-        item.setDepth(621).setScale(1.4);
-        if (itemData.quantity >= 2) {
-            let quantityText = this.add.text(x+10, y+5, itemData.quantity, { fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4 });
-            quantityText.setDepth(622);
-            item.quantityText = quantityText;
-        }
-    
-        item.setInteractive();
-        this.input.setDraggable(item);
-        this.input.setTopOnly(false);
-    
-        item.index = i;
-    
-        item.on('dragstart', (pointer) => this.onDragStart(item, pointer));
-        item.on('drag', (pointer) => this.onDrag(item, pointer));
-        item.on('dragend', (pointer) => this.onDragEnd(item, pointer, itemData));
-
-        item.on('pointerdown', (pointer) => {
-            let clickDelay = this.time.now - item.lastClickTime;
-            item.lastClickTime = this.time.now;
-            if (clickDelay < 300 && itemData.name === 'potion') {
-                this.player.usePotion();
-            }
-        });
-    
-        return item;
-    }
-
-    updateItemQuantity(index) {
-        let itemData = this.gameState.inventoryData.items[index];
-        let item = this.inventory[index].item;
-        if (itemData && itemData.quantity >= 2) {
-            if (!item.quantityText) {
-                item.quantityText = this.add.text(item.x+10, item.y+5, itemData.quantity, { fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4 });
-                item.quantityText.setDepth(622);
-            } else {
-                item.quantityText.setText(itemData.quantity);
-            }
-        } else if (item.quantityText) {
-            item.quantityText.destroy();
-            item.quantityText = null;
-        }
-    }
-    
-    destroyItem(index) {
-        let item = this.inventory[index].item;
-        if (item) {
-            if (item.quantityText) {
-                item.quantityText.destroy();
-            }
-            item.destroy();
-            this.inventory[index].item = null;
-        }
-    }
-
-    updateQuantityTextPosition(item, x, y) {
-        if (item.quantityText) {
-            item.quantityText.x = x + 10; item.quantityText.y = y + 5;
-        }
-    }
-
-    onPointerOver(slot, i) {
-        slot.setTint(0xffff00); 
-        console.log(`Hovering over slot ${i}`);
-        this.hoveredSlotIndex = i;
-    }
-    
-    onPointerOut(slot) {
-        slot.clearTint();
-        this.hoveredSlotIndex = null;
-    }
-
-    onDragStart(item, pointer) {
-        item.startX = item.x;
-        item.startY = item.y;
-    }
-    
-    onDrag(item, pointer) {
-        item.x = pointer.x;
-        item.y = pointer.y;
-        this.updateQuantityTextPosition(item, pointer.x, pointer.y);
-    }
-    
-    onDragEnd(item, pointer, itemData) {
-        if (this.hoveredSlotIndex !== null && this.gameState.inventoryData.items[this.hoveredSlotIndex] === null) {
-            item.x = this.inventory[this.hoveredSlotIndex].slot.x;
-            item.y = this.inventory[this.hoveredSlotIndex].slot.y;
-            this.updateQuantityTextPosition(item, item.x, item.y);
-    
-            this.gameState.inventoryData.items[item.index] = null;
-            this.gameState.inventoryData.items[this.hoveredSlotIndex] = itemData;
-            this.inventory[this.hoveredSlotIndex].item = item;
-            item.index = this.hoveredSlotIndex;
-        } else {
-            item.x = item.startX;
-            item.y = item.startY;
-            this.updateQuantityTextPosition(item, item.startX, item.startY);
-        }
+        this.inventoryData.toggleInventoryVisibility();
+        let visible = this.inventoryData.gameState.getVisibility();
+        this.background.setVisible(visible);
+        this.inventorySprites.forEach(sprite => sprite.setVisible(visible));
+        this.quantityTexts.forEach(text => text.setVisible(visible));
     }
 
 }
