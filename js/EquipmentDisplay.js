@@ -9,35 +9,33 @@ export default class EquipmentDisplay extends Phaser.Scene {
 
     preload(){
         this.load.image('equipbackground','assets/images/equipbackground.png');
-        //scene.load.atlas('hero', 'assets/images/hero.png', 'assets/images/hero_atlas.json');
-        //scene.load.animation('hero_anims', 'assets/images/hero_anims.json');
     }
-
 
     init(data) {
         this.equipmentData = data.equipment;
     }
 
     create() {
-        this.sprite = this.add.sprite(500, 240, 'hero');
+        //this.input.keyboard.on('keydown-Q', this.toggleVisibility.bind(this));
+        this.sprite = this.add.sprite(500, 260, 'hero');
         this.sprite.setDepth(50).setScale(4);
         let animConfig = {key: 'hero_idle', frames: 6, frameRate: 12, repeat: -1};
         this.anims.create(animConfig);
         this.sprite.anims.play('hero_idle');
         this.sprite.anims.msPerFrame = 150;
 
-        //this.input.keyboard.on('keydown-Q', this.toggleVisibility.bind(this));
+
         this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'equipbackground').setScale(1.6).setDepth(30);
         let slots = [];
-        slots[0] = this.setupSlotSprite(500, 120, 0);
-        slots[1] = this.setupSlotSprite(500, 170, 1);
-        slots[2] = this.setupSlotSprite(500, 220, 2);
-        slots[3] = this.setupSlotSprite(500, 270, 3);
-        slots[4] = this.setupSlotSprite(450, 170, 4);
-        slots[5] = this.setupSlotSprite(550, 170, 5);
-        slots[6] = this.setupSlotSprite(450, 220, 6);
-        slots[7] = this.setupSlotSprite(550, 220, 7);
-        slots[8] = this.setupSlotSprite(550, 120, 8);
+        slots[0] = this.setupSlotSprite(415, 155, 0);
+        slots[1] = this.setupSlotSprite(415, 230, 1);
+        slots[2] = this.setupSlotSprite(415, 305, 2);
+        slots[3] = this.setupSlotSprite(470, 360, 3);
+        slots[4] = this.setupSlotSprite(540, 360, 4);
+        slots[5] = this.setupSlotSprite(590, 305, 5);
+        slots[6] = this.setupSlotSprite(590, 255, 6);
+        slots[7] = this.setupSlotSprite(590, 205, 7);
+        slots[8] = this.setupSlotSprite(590, 155, 8);
     }
 
     setupSlotSprite(x, y, index) {
@@ -45,7 +43,6 @@ export default class EquipmentDisplay extends Phaser.Scene {
         slotSprite.index = index;
         slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
         slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
-        //this.input.setTopOnly(false);
         return slotSprite;
     }
 

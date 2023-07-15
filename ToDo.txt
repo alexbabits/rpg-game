@@ -3,7 +3,7 @@ Equipment Scene, have an enlarged idling animation of the player on the equip sc
 equipItem function in inventory, since its currently in the inventory (items array)
 unequipItem function in equipment, since its currently in the equipment (equip array).
 takes in player to adjust his defence/attack/etc.
-
+Player stats in equipment menu (player hp, damage, speed, mana, stamina, etc.)
 
 
 1. Looting Scene pop-up window (with enemy item drops).

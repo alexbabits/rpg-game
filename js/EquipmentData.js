@@ -38,8 +38,8 @@ export default class EquipmentData {
                 case 'weapon':
                     this.unequipWeapon(type);
                     break;
-                case 'shield':
-                    this.unequipShield(type);
+                case 'offhand':
+                    this.unequipOffhand(type);
                     break;
                 case 'helm':
                     this.unequipHelm(type);
@@ -60,8 +60,8 @@ export default class EquipmentData {
             //render new animation set for the hero
         }
     }
-    unequipShield(type) {
-        if(type === 'shield'){
+    unequipOffhand(type) {
+        if(type === 'shield' || type === 'defender'){
             //decrease stats appropriately
             //render new animation set for the hero
         }

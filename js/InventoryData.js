@@ -1,43 +1,45 @@
+import things from './Things.js'
+
 export default class InventoryData {
     constructor(scene, gameState, player) {
         this.scene = scene;
         this.gameState = gameState;
         this.player = player;
-        this.gameState.setItems([
-            {name: "staminapotion", frame: 147, quantity: 3, canEquip: false, canUse: true, stackable: false}, null, null, {name: "shield", frame: 96, quantity: 1, canEquip: true, canUse: false, stackable: false}, 
-            {name: "sword", frame: 81, quantity: 1, canEquip: true, canUse: false, stackable: false}, null, null, null, 
-            null, {name: "healthpotion", frame: 144, quantity: 2, canEquip: false, canUse: true, stackable: false}, null, null, 
-            null, null, {name: "gold", frame: 202, quantity: 50, canEquip: false, canUse: false, stackable: true}, {name: "manapotion", frame: 145, quantity: 6, canEquip: false, canUse: true, stackable: false}
+        this.gameState.setInvItems([
+            things.staminapotion, null, null, things.shield, 
+            things.sword, null, null, null, 
+            null, things.healthpotion, null, null, 
+            null, null, things.gold, things.manapotion
         ]);
-        if (this.gameState.getVisibility() === undefined) {
-            this.gameState.setVisibility(true);
+        if (this.gameState.getInvVisibility() === undefined) {
+            this.gameState.setInvVisibility(true);
         }
     }
 
-    toggleInventoryVisibility() {this.gameState.setVisibility(!this.gameState.getVisibility())}
+    toggleInventoryVisibility() {this.gameState.setInvVisibility(!this.gameState.getInvVisibility())}
 
-    moveItem(oldIndex, newIndex) {
-        const items = this.gameState.getItems();
+    moveInvItem(oldIndex, newIndex) {
+        const items = this.gameState.getInvItems();
         const item = items[oldIndex];
         items[oldIndex] = null;
         items[newIndex] = item;
     }
 
-    removeItem(index){
-        let items = this.gameState.getItems();
+    removeInvItem(index){
+        let items = this.gameState.getInvItems();
         if(items[index]){
             items[index] = null;
         } 
-        this.gameState.setItems(items);     
+        this.gameState.setInvItems(items);     
     }
 
     useItem(index) {
-        let items = this.gameState.getItems();
+        let items = this.gameState.getInvItems();
         if (items[index] && items[index].canUse === true) {
             let itemName = items[index].name; 
             if (items[index].quantity > 1) {
                 items[index].quantity--;
-                this.gameState.setItems(items);
+                this.gameState.setInvItems(items);
             } else if (items[index].quantity === 1) {
                 items[index].quantity--;
             }
@@ -57,7 +59,7 @@ export default class InventoryData {
             }
     
             if (items[index]?.quantity === 0) {
-                this.removeItem(index);
+                this.removeInvItem(index);
             }
         }
     }
@@ -82,10 +84,10 @@ export default class InventoryData {
     }
 
     equipItem(type){
-        let items = this.gameState.getItems();
+        let items = this.gameState.getInvItems();
         if (items[index] && items[index].canEquip === true) {
                 items[index].quantity--;
-                this.gameState.setItems(items);
+                this.gameState.setInvItems(items);
     
             switch (type) {
                 case 'weapon':
@@ -102,7 +104,7 @@ export default class InventoryData {
             }
     
             if (items[index]?.quantity === 0) {
-                this.removeItem(index);
+                this.removeInvItem(index);
                 //add the item to the equipment with some kind of 'addItem' method called here, from the EquipmentData.js?
             }
         }
@@ -133,11 +135,11 @@ export default class InventoryData {
 /*
 
     incrementQuantity(index){
-        let items = this.gameState.getItems();
+        let items = this.gameState.getInvItems();
         if (items[index]){
             items[index].quantity++;
         }
-        this.gameState.setItems(items);
+        this.gameState.setInvItems(items);
     }
 
 

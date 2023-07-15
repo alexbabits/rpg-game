@@ -4,7 +4,7 @@ export default class GameState {
     this.inventoryState = null;
     this.equipmentState = null;
   }
-  // will need to tweak these.
+
   setEquipItems(equips) {this.equips = equips}
   getEquipItems() {return this.equips}
 
@@ -25,23 +25,23 @@ export default class GameState {
     }
   }
 
-  setItems(items) {this.items = items}
-  getItems() {return this.items}
+  setInvItems(items) {this.items = items}
+  getInvItems() {return this.items}
 
-  setVisibility(inventoryVisible) {this.inventoryVisible = inventoryVisible}
-  getVisibility() {return this.inventoryVisible}
+  setInvVisibility(inventoryVisible) {this.inventoryVisible = inventoryVisible}
+  getInvVisibility() {return this.inventoryVisible}
 
   saveInventoryState(inventory) {
     this.inventoryState = {
-      items: inventory.gameState.getItems(),
-      visibility: inventory.gameState.getVisibility()
+      items: inventory.gameState.getInvItems(),
+      visibility: inventory.gameState.getInvVisibility()
     }
   }
 
   loadInventoryState(inventory) {
     if (this.inventoryState) {
-      inventory.gameState.setItems(this.inventoryState.items);
-      inventory.gameState.setVisibility(this.inventoryState.visibility);
+      inventory.gameState.setInvItems(this.inventoryState.items);
+      inventory.gameState.setInvVisibility(this.inventoryState.visibility);
     }
   }
 

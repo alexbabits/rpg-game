@@ -27,11 +27,11 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
         let slots = [];
     
-        let visible = this.inventoryData.gameState.getVisibility();
+        let visible = this.inventoryData.gameState.getInvVisibility();
         this.background.setVisible(visible);
         
         for (let i = 0; i < 16; i++) {
-            let item = this.inventoryData.gameState.getItems()[i];
+            let item = this.inventoryData.gameState.getInvItems()[i];
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
     
@@ -80,7 +80,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             let quantityText = null;
             if(item.quantity > 1){
                 quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
-                quantityText.setVisible(this.inventoryData.gameState.getVisibility());
+                quantityText.setVisible(this.inventoryData.gameState.getInvVisibility());
                 itemSprite.setData('quantityText', quantityText);
                 this.quantityTexts.push(quantityText);
             }
@@ -96,7 +96,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             if (clickTime !== null) {
                 if (this.time.now - clickTime < 300) { 
                     this.inventoryData.useItem(itemSprite.index);
-                    const newQuantity = this.inventoryData.gameState.getItems()[itemSprite.index]?.quantity;
+                    const newQuantity = this.inventoryData.gameState.getInvItems()[itemSprite.index]?.quantity;
                     if (newQuantity > 0) {
                         if (newQuantity > 1) {
                             itemSprite.getData('quantityText').setText(newQuantity);
@@ -126,11 +126,11 @@ export default class InventoryDisplay extends Phaser.Scene {
         return function(pointer) {
             itemSprite.clearTint();
             let hoveredSlot = slots.find(slotSprite => slotSprite.getData('hovered'));
-            if (hoveredSlot && !this.inventoryData.gameState.getItems()[hoveredSlot.index]) {
+            if (hoveredSlot && !this.inventoryData.gameState.getInvItems()[hoveredSlot.index]) {
                 // If the hovered slot is empty, move the item there
                 let oldIndex = itemSprite.index;
                 itemSprite.index = hoveredSlot.index;
-                this.inventoryData.moveItem(oldIndex, itemSprite.index);
+                this.inventoryData.moveInvItem(oldIndex, itemSprite.index);
                 // Update positions to reflect the new slot
                 itemSprite.setData({ originX: hoveredSlot.x, originY: hoveredSlot.y });
                 itemSprite.x = itemSprite.getData('originX');
@@ -152,7 +152,7 @@ export default class InventoryDisplay extends Phaser.Scene {
 
     toggleVisibility() {
         this.inventoryData.toggleInventoryVisibility();
-        let visible = this.inventoryData.gameState.getVisibility();
+        let visible = this.inventoryData.gameState.getInvVisibility();
         this.background.setVisible(visible);
         this.inventorySprites.forEach(sprite => sprite.setVisible(visible));
         this.quantityTexts.forEach(text => text.setVisible(visible));
