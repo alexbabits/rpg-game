@@ -3,17 +3,19 @@ export default class EquipmentData {
         this.scene = scene;
         this.gameState = gameState;
         this.player = player;
-        this.gameState.setEquipItems([null, null, null, null, null, null, null, null, null, null]);
+        this.gameState.setEquipItems([null, null, null, null, null, null, null, null, null]);
         if (this.gameState.getEquipVisibility() === undefined) {
             this.gameState.setEquipVisibility(true);
         } 
     }
 
-
     toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
 
+    addEquippedItem(index){
+        //May need to invoke this in the 'InventoryData' file in the 'equipItem' method.
+    }
 
-    removeEquipItem(index){
+    removeEquippedItem(index){
         let equips = this.gameState.getEquipItems();
         if(equips[index]){
             equips[index] = null;
@@ -47,24 +49,27 @@ export default class EquipmentData {
             }
     
             if (equips[index]?.quantity === 0) {
-                this.removeEquipItem(index);
+                this.removeEquippedItem(index);
             }
         }
     }
 
     unequipWeapon(type) {
         if(type === 'weapon'){
-            //
+            //decrease stats appropriately
+            //render new animation set for the hero
         }
     }
     unequipShield(type) {
         if(type === 'shield'){
-            //
+            //decrease stats appropriately
+            //render new animation set for the hero
         }
     }
     unequipHelm(type) {
         if(type === 'helm'){
-            //
+            //decrease stats appropriately
+            //render new animation set for the hero
         }
     }
 

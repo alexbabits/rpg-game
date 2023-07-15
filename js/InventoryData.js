@@ -81,21 +81,63 @@ export default class InventoryData {
         }
     }
 
-    incrementQuantity(index){
+    equipItem(type){
         let items = this.gameState.getItems();
-        if (items[index]){
-            items[index].quantity++;
+        if (items[index] && items[index].canEquip === true) {
+                items[index].quantity--;
+                this.gameState.setItems(items);
+    
+            switch (type) {
+                case 'weapon':
+                    this.equipWeapon(type);
+                    break;
+                case 'shield':
+                    this.equipShield(type);
+                    break;
+                case 'helm':
+                    this.equipHelm(type);
+                    break;
+                default:
+                    console.error('Invalid item type:', type);
+            }
+    
+            if (items[index]?.quantity === 0) {
+                this.removeItem(index);
+                //add the item to the equipment with some kind of 'addItem' method called here, from the EquipmentData.js?
+            }
         }
-        this.gameState.setItems(items);
+    }
+
+    equipWeapon(type) {
+        if(type === 'weapon'){
+            //increase stats appropriately
+            //render new animation set for the hero
+        }
+    }
+    equipShield(type) {
+        if(type === 'shield'){
+            //increase stats appropriately
+            //render new animation set for the hero
+        }
+    }
+    equipHelm(type) {
+        if(type === 'helm'){
+            //increase stats appropriately
+            //render new animation set for the hero
+        }
     }
 
 }
 
 
 /*
-    equipItem(){
-        //remove the item from the inventory data with removeItem method probably.
-        //add the item to the equipment with some kind of addItem method from the equipment class?
+
+    incrementQuantity(index){
+        let items = this.gameState.getItems();
+        if (items[index]){
+            items[index].quantity++;
+        }
+        this.gameState.setItems(items);
     }
 
 
