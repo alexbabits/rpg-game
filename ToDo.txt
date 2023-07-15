@@ -23,7 +23,7 @@ takes in player to adjust his defence/attack/etc.
 --> (Future): More level up mechanics (golden confetti, then stats choices to increase max stats)
 --> (Future): Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
 --> (Future): Inventory Swapping items.
---> (Future): Items file to store the items, and then just call them in the items array by name/value or key for example.
+--> (Future): Items file to store the items, and then just call them in the items array by name/value or key for example. CALL IT 'THINGS'.
 --> (Future): X button for inventory. Bag icon to open/close inventory too.
 --> (Future): Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
 --> (Future): potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).

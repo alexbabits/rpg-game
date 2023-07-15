@@ -2,6 +2,27 @@ export default class GameState {
   constructor() {
     this.playerState = null;
     this.inventoryState = null;
+    this.equipmentState = null;
+  }
+  // will need to tweak these.
+  setEquipItems(equips) {this.equips = equips}
+  getEquipItems() {return this.equips}
+
+  setEquipVisibility(equipmentVisible) {this.equipmentVisible = equipmentVisible}
+  getEquipVisibility() {return this.equipmentVisible}
+
+  saveEquipmentState(equipment) {
+    this.equipmentState = {
+      equips: equipment.gameState.getEquipItems(),
+      visibility: equipment.gameState.getEquipVisibility()
+    }
+  }
+
+  loadEquipmentState(equipment) {
+    if (this.equipmentState) {
+      equipment.gameState.setEquipItems(this.equipmentState.equips);
+      equipment.gameState.setEquipVisibility(this.equipmentState.visibility);
+    }
   }
 
   setItems(items) {this.items = items}

@@ -1,5 +1,6 @@
 import Player from "./Player.js";
 import InventoryData from "./InventoryData.js";
+import EquipmentData from "./EquipmentData.js";
 import {Monster, MonsterManager} from "./Monsters.js";
 
 export default class Map extends Phaser.Scene {
@@ -35,6 +36,10 @@ export default class Map extends Phaser.Scene {
         this.inventory = new InventoryData(this, this.gameState, this.player)
         this.gameState.loadInventoryState(this.inventory)
         this.scene.launch('InventoryDisplay', { inventory: this.inventory});
+
+        this.equipment = new EquipmentData(this, this.gameState, this.player)
+        this.gameState.loadEquipmentState(this.equipment)
+        this.scene.launch('EquipmentDisplay', { equipment: this.equipment});
 
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
@@ -86,6 +91,7 @@ export class Map1 extends Map {
         if (this.player.sprite.x > this.sys.game.config.width) {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
+          this.gameState.saveEquipmentState(this.equipment);
           this.gameState.playerPosition.x = 0;
           this.scene.start('Map2');
         }
@@ -109,6 +115,7 @@ export class Map2 extends Map {
         if (this.player.sprite.x < 0) {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
+          this.gameState.saveEquipmentState(this.equipment);
           this.gameState.playerPosition.x = this.sys.game.config.width;
           this.scene.start('Map1');
         }
