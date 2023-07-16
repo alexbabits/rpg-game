@@ -11,9 +11,38 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
             this.gameState.setEquipVisibility(true);
         } 
     }
-
+    
     setInventoryData(inventoryData) {
         this.inventoryData = inventoryData;
+    }
+
+    isSlotAvailable(itemType) {
+        let equipItems = this.gameState.getEquipItems();
+        switch (itemType) {
+            case 'weapon':
+                return equipItems[3] === null;
+            case 'offhand':
+                return equipItems[4] === null;
+            case 'helm':
+                return equipItems[0] === null;
+            default:
+                console.error('Invalid item type:', itemType);
+                return false;
+        }
+    }
+
+    removeEquippedItem(index) {
+        let equipItems = this.gameState.getEquipItems();
+        if (equipItems[index]) {
+            let item = equipItems[index];
+            this.inventoryData.addInvItem(item);
+    
+            console.log(`Item unequipped: ${item.name}`);
+    
+            equipItems[index] = null;
+            this.gameState.setEquipItems(equipItems);
+            this.emit('equipmentChanged');
+        }
     }
 
     equipWeapon(item) {
@@ -46,34 +75,6 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         this.emit('equipmentChanged');
     }
 
-    isSlotAvailable(itemType) {
-        let equipItems = this.gameState.getEquipItems();
-        switch (itemType) {
-            case 'weapon':
-                return equipItems[3] === null;
-            case 'offhand':
-                return equipItems[4] === null;
-            case 'helm':
-                return equipItems[0] === null;
-            default:
-                console.error('Invalid item type:', itemType);
-                return false;
-        }
-    }
-
-    removeEquippedItem(index) {
-        let equipItems = this.gameState.getEquipItems();
-        if (equipItems[index]) {
-            let item = equipItems[index];
-            this.inventoryData.addInvItem(item);
-    
-            console.log(`Item unequipped: ${item.name}`);
-    
-            equipItems[index] = null;
-            this.gameState.setEquipItems(equipItems);
-            this.emit('equipmentChanged');
-        }
-    }
 }
 
 

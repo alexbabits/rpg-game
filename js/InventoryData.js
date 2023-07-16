@@ -135,24 +135,3 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
     }
 
 }
-
-
-/*
-
-    incrementQuantity(index){
-        let items = this.gameState.getInvItems();
-        if (items[index]){
-            items[index].quantity++;
-        }
-        this.gameState.setInvItems(items);
-    }
-
-
-    addItem(){
-        // Adds an item to first available inventory slot if there is space.
-        // If the same item already exists, and there is space, either would 'stack' the item and do incrementQuantity, or put in available slot if not 'stackable'.
-        // If no space, just returns and console logs 'Inventory is Full.'
-    }
-
-
-*/

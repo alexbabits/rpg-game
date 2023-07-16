@@ -66,6 +66,14 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(40);
                 itemSprite.setData('quantityText', quantityText);
             }
+    
+            itemSprite.on('pointerdown', (pointer) => {
+                if (pointer.downTime - pointer.upTime < 300) {
+                    this.equipmentData.removeEquippedItem(i);
+                    itemSprite.destroy();
+                }
+            });
+    
             return itemSprite;
         }
     }
@@ -94,73 +102,3 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
 }
-    /*
-    handleDoubleClick(itemSprite) {
-        let clickTime = null;
-
-        itemSprite.on('pointerdown', () => {
-            if (clickTime !== null) {
-                if (this.time.now - clickTime < 300) { 
-                    this.equipmentData.useItem(itemSprite.index);
-                    const newQuantity = this.equipmentData.gameState.getItems()[itemSprite.index]?.quantity;
-                    if (newQuantity > 0) {
-                        if (newQuantity > 1) {
-                            itemSprite.getData('quantityText').setText(newQuantity);
-                        } else {
-                            if (itemSprite.getData('quantityText')) {
-                                itemSprite.getData('quantityText').destroy();
-                                itemSprite.setData('quantityText', null);
-                            }
-                        }
-                    } else {
-                        if (itemSprite.getData('quantityText')) {
-                            itemSprite.getData('quantityText').destroy();
-                        }
-                        itemSprite.destroy();
-                    }
-                    clickTime = null;
-                } else {
-                    clickTime = this.time.now;
-                }
-            } else {
-                clickTime = this.time.now;
-            }
-        });
-    }
-
-    handleDragEnd(itemSprite, slots) {
-        return function(pointer) {
-            itemSprite.clearTint();
-            let hoveredSlot = slots.find(slotSprite => slotSprite.getData('hovered'));
-            if (hoveredSlot && !this.equipmentData.gameState.getItems()[hoveredSlot.index]) {
-                // If the hovered slot is empty, move the item there
-                let oldIndex = itemSprite.index;
-                itemSprite.index = hoveredSlot.index;
-                this.equipmentData.moveItem(oldIndex, itemSprite.index);
-                // Update positions to reflect the new slot
-                itemSprite.setData({ originX: hoveredSlot.x, originY: hoveredSlot.y });
-                itemSprite.x = itemSprite.getData('originX');
-                itemSprite.y = itemSprite.getData('originY');
-                if (itemSprite.getData('quantityText')) {
-                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
-                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
-                }
-            } else {
-                itemSprite.x = itemSprite.getData('originX');
-                itemSprite.y = itemSprite.getData('originY');
-                if (itemSprite.getData('quantityText')) {
-                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
-                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
-                }
-            }
-        }.bind(this);
-    }
-
-    toggleVisibility() {
-        this.equipmentData.toggleInventoryVisibility();
-        let visible = this.equipmentData.gameState.getVisibility();
-        this.background.setVisible(visible);
-        this.inventorySprites.forEach(sprite => sprite.setVisible(visible));
-        this.quantityTexts.forEach(text => text.setVisible(visible));
-    }
-    */
