@@ -1,7 +1,8 @@
 import things from './Things.js'
 
-export default class InventoryData {
+export default class InventoryData extends Phaser.Events.EventEmitter {
     constructor(scene, gameState, player, equipmentData) {
+        super();
         this.scene = scene;
         this.gameState = gameState;
         this.player = player;
@@ -32,6 +33,21 @@ export default class InventoryData {
             items[index] = null;
         } 
         this.gameState.setInvItems(items);     
+    }
+
+    addInvItem(item) {
+        let items = this.gameState.getInvItems();
+        let itemAdded = false;
+        
+        for(let i=0; i < items.length; i++){
+            if(items[i] === null){
+                items[i] = item;
+                itemAdded = true;
+                break;
+            }
+        }
+        this.gameState.setInvItems(items);
+        this.emit('addInvItem');
     }
 
     useItem(index) {
@@ -89,19 +105,11 @@ export default class InventoryData {
         if (items[index] && items[index].canEquip === true) {
             let item = items[index];
             
-            // Check if slot is available for this item type
             if (!this.equipmentData.isSlotAvailable(item.type)) {
                 console.log('Slot is already occupied. Cannot equip item.');
                 return;
             }
             
-            if (items[index].quantity > 1) {
-                items[index].quantity--;
-                this.gameState.setInvItems(items);
-            } else if (items[index].quantity === 1) {
-                items[index].quantity--;
-            }
-    
             switch (item.type) {
                 case 'weapon':
                     this.equipmentData.equipWeapon(item);
@@ -114,22 +122,17 @@ export default class InventoryData {
                     break;
                 default:
                     console.error('Invalid item index or type:', index, item.type);
+                    return;
             }
-    
-            if (items[index]?.quantity === 0) {
-                this.removeInvItem(index);
+            
+            if (items[index].quantity > 1) {
+                items[index].quantity--;
+            } else if (items[index].quantity === 1) {
+                items[index] = null;
             }
+            this.gameState.setInvItems(items);
         }
     }
-
-    /*
-    addInvItem(item){
-    let invItems = this.gameState.getInvItems();
-    invItems.push(item);
-    this.gameState.setInvItems(invItems);
-    console.log(`Item added to inventory: ${item.name}`);
-    }
-    */
 
 }
 

@@ -43,6 +43,7 @@ export default class InventoryDisplay extends Phaser.Scene {
                 this.inventorySprites.push(itemSprite);
             }
         }
+        this.inventoryData.on('addInvItem', this.drawInventory.bind(this));
     }
 
     // Helper Methods
@@ -148,6 +149,32 @@ export default class InventoryDisplay extends Phaser.Scene {
                 }
             }
         }.bind(this);
+    }
+
+    drawInventory() {
+        // Clear old sprites and texts
+        this.inventorySprites.forEach(sprite => sprite.destroy());
+        this.quantityTexts.forEach(text => text.destroy());
+        this.inventorySprites = [];
+        this.quantityTexts = [];
+
+        let slots = [];
+    
+        for (let i = 0; i < 16; i++) {
+            let item = this.inventoryData.gameState.getInvItems()[i];
+            let x = this.startX + (i % 4) * this.tileDistance;
+            let y = this.startY + Math.floor(i / 4) * this.tileDistance;
+    
+            slots[i] = this.setupSlotSprite(x, y, i);
+            slots[i].setVisible(this.background.visible);
+            this.inventorySprites.push(slots[i]);
+    
+            if (item) {
+                let itemSprite = this.setupItemSprite(item, i, slots, x, y);
+                itemSprite.setVisible(this.background.visible);
+                this.inventorySprites.push(itemSprite);
+            }
+        }
     }
 
     toggleVisibility() {

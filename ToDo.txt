@@ -1,11 +1,10 @@
 Equipment:
---> When an item is already equipped, and you go to double click equip another item of the same type, then the item we double clicked in the inventory should be equipped, and the item that was originally equipped in the equipment data should be unequipped and put back in the inventory in the same slot where the other item was.
-
---> Dragging item into equipment slot, as another way to equip besides double click.
 --> Include player stats, and adjust them. (Adding gains player damage/defense, removing loses player damage/defense). Use player's set and get methods.
+--> Swap items when equipping one of the same type.
+--> Dragging item into equipment slot, as another way to equip besides double click.
+--> Dragging item from equipment slot into inventory, as another way to unequip besides double click.
 
---> Unequip an item through double clicking it, placing it back in the inventory.
---> Unequip item through dragging it back into the inventory.
+--> Fix bug where the 'slot occupied' check doesn't work after the first time.
 
 
 1. Looting Scene pop-up window (with enemy item drops).

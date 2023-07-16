@@ -12,6 +12,10 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         } 
     }
 
+    setInventoryData(inventoryData) {
+        this.inventoryData = inventoryData;
+    }
+
     equipWeapon(item) {
         let equipItems = this.gameState.getEquipItems();
         equipItems[3] = item;
@@ -57,17 +61,17 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         }
     }
 
-    removeEquippedItem(index){
+    removeEquippedItem(index) {
         let equipItems = this.gameState.getEquipItems();
-        if(equipItems[index]){
+        if (equipItems[index]) {
             let item = equipItems[index];
-            //this.scene.inventoryData.addInvItem(item);
+            this.inventoryData.addInvItem(item);
+    
             console.log(`Item unequipped: ${item.name}`);
-            
+    
             equipItems[index] = null;
-            this.gameState.setEquipItems(equipItems); 
-            
-            this.emit('equipmentChanged');    
+            this.gameState.setEquipItems(equipItems);
+            this.emit('equipmentChanged');
         }
     }
 }
