@@ -27,7 +27,7 @@ export default class Player {
     this.gameState.setPlayerSpAttStaminaCost(25);
     this.gameState.setPlayerSpAttManaCost(5);
     this.gameState.setPlayerCanRun(true);
-    this.gameState.setPlayerDamage(100);
+    this.gameState.setPlayerDamage(10);
     this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
     this.gameState.setPlayerDirection('Right');
     

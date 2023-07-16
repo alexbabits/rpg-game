@@ -43,6 +43,10 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 this.equipmentSprites.push(itemSprite);
             }
         }
+
+        let playerDamage = this.equipmentData.gameState.getPlayerDamage();
+        this.damageText = this.add.text(450, 100, `Damage: ${playerDamage}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
+
         this.equipmentData.on('equipmentChanged', this.refreshDisplay, this);
     }
 
@@ -99,6 +103,8 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 });
             }
         }
+        let playerDamage = this.equipmentData.gameState.getPlayerDamage();
+        this.damageText.setText(`Damage: ${playerDamage}`);
     }
 
 }

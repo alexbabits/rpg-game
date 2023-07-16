@@ -11,7 +11,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
             this.gameState.setEquipVisibility(true);
         } 
     }
-    
+
     setInventoryData(inventoryData) {
         this.inventoryData = inventoryData;
     }
@@ -37,21 +37,27 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
             let item = equipItems[index];
             this.inventoryData.addInvItem(item);
     
-            console.log(`Item unequipped: ${item.name}`);
-    
+            let newDamage = this.player.gameState.getPlayerDamage() - item.damage;
+            this.player.gameState.setPlayerDamage(newDamage);
+            
+            this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
+            console.log(`Item unequipped: ${item.name}. Player's damage is now ${this.player.gameState.getPlayerDamage()}`);
             equipItems[index] = null;
             this.gameState.setEquipItems(equipItems);
             this.emit('equipmentChanged');
         }
     }
-
+    
     equipWeapon(item) {
         let equipItems = this.gameState.getEquipItems();
         equipItems[3] = item;
         this.gameState.setEquipItems(equipItems);
-        console.log(`Equips array: ${equipItems[3]}`)
-        //increase stats appropriately
-        console.log(`Equipped ${item.name}`)
+    
+        let newDamage = this.player.gameState.getPlayerDamage() + item.damage;
+        this.player.gameState.setPlayerDamage(newDamage);
+        
+        this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
+        console.log(`Equipped ${item.name}. Player's damage is now ${this.player.gameState.getPlayerDamage()}`);
         this.emit('equipmentChanged');
     }
 
