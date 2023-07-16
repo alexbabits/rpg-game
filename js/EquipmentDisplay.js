@@ -3,6 +3,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
         super("EquipmentDisplay");
         this.equipmentSprites = [];
         this.textOffset = 10;
+        this.previousEquipItems = null;
     }
 
     preload(){
@@ -22,26 +23,27 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.sprite.anims.msPerFrame = 150;
     
         this.background = this.add.sprite(500, 240, 'equipbackground').setScale(1.6).setDepth(30);
-        let slots = [];
-        slots[0] = this.setupSlotSprite(415, 155, 0);
-        slots[1] = this.setupSlotSprite(415, 230, 1);
-        slots[2] = this.setupSlotSprite(415, 305, 2);
-        slots[3] = this.setupSlotSprite(470, 360, 3);
-        slots[4] = this.setupSlotSprite(540, 360, 4);
-        slots[5] = this.setupSlotSprite(590, 305, 5);
-        slots[6] = this.setupSlotSprite(590, 255, 6);
-        slots[7] = this.setupSlotSprite(590, 205, 7);
-        slots[8] = this.setupSlotSprite(590, 155, 8);
+        this.slots = [];
+        this.slots[0] = this.setupSlotSprite(415, 155, 0);
+        this.slots[1] = this.setupSlotSprite(415, 230, 1);
+        this.slots[2] = this.setupSlotSprite(415, 305, 2);
+        this.slots[3] = this.setupSlotSprite(470, 360, 3);
+        this.slots[4] = this.setupSlotSprite(540, 360, 4);
+        this.slots[5] = this.setupSlotSprite(590, 305, 5);
+        this.slots[6] = this.setupSlotSprite(590, 255, 6);
+        this.slots[7] = this.setupSlotSprite(590, 205, 7);
+        this.slots[8] = this.setupSlotSprite(590, 155, 8);
     
         let equipItems = this.equipmentData.gameState.getEquipItems();
     
         for (let i = 0; i < equipItems.length; i++) {
             let item = equipItems[i];
             if (item) {
-                let itemSprite = this.setupItemSprite(item, i, slots, slots[i].x, slots[i].y);
+                let itemSprite = this.setupItemSprite(item, i, this.slots, this.slots[i].x, this.slots[i].y);
                 this.equipmentSprites.push(itemSprite);
             }
         }
+        this.previousEquipItems = [...this.equipmentData.gameState.getEquipItems()];
     }
 
     setupSlotSprite(x, y, index) {
@@ -53,7 +55,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     setupItemSprite(item, i, slots, x, y) {
-        let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(35);
+        let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(45);
         if (itemSprite) {
             itemSprite.index = i;
             this.input.setTopOnly(false);
@@ -68,66 +70,43 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
     }
 
-}
-        /*
-        let slots = [];
+    update() {
+        const currentEquipItems = this.equipmentData.gameState.getEquipItems();
     
-        let visible = this.equipmentData.gameState.getVisibility();
-        this.background.setVisible(visible);
-        
-        
-        for (let i = 0; i < 16; i++) {
-            let item = this.equipmentData.gameState.getItems()[i];
-            let x = this.startX + (i % 4) * this.tileDistance;
-            let y = this.startY + Math.floor(i / 4) * this.tileDistance;
+        // Check if the equipment items have changed
+        if (!this.arraysEqual(currentEquipItems, this.previousEquipItems)) {
+            // Destroy existing equipment sprites
+            this.equipmentSprites.forEach(sprite => sprite.destroy());
+            this.equipmentSprites = [];
     
-            slots[i] = this.setupSlotSprite(x, y, i);
-            slots[i].setVisible(visible);
-            this.inventorySprites.push(slots[i]);
-            if (item) {
-                let itemSprite = this.setupItemSprite(item, i, slots, x, y);
-                itemSprite.setVisible(visible);
-                this.inventorySprites.push(itemSprite);
-            }
-        }
-        */
-
-    // Helper Methods
-/*
-
-    setupItemSprite(item, i, slots, x, y) {
-        let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(25);
-        if (itemSprite) {
-            itemSprite.index = i;
-            this.input.setDraggable(itemSprite);
-            this.input.setTopOnly(false);
-    
-            itemSprite.setData({originX: x, originY: y, quantityText: null});
-    
-            itemSprite.on('dragstart', function (pointer) {this.setTint(0xbfbfbf)});
-    
-            itemSprite.on('drag', function (pointer, dragX, dragY) {
-                this.x = dragX;
-                this.y = dragY;
-                if (this.getData('quantityText')) {
-                    this.getData('quantityText').x = dragX + this.textOffset;
-                    this.getData('quantityText').y = dragY + this.textOffset;
+            // Draw the updated equipment items
+            for (let i = 0; i < currentEquipItems.length; i++) {
+                const item = currentEquipItems[i];
+                if (item) {
+                    const itemSprite = this.setupItemSprite(item, i, this.slots, this.slots[i].x, this.slots[i].y);
+                    this.equipmentSprites.push(itemSprite);
                 }
-            });
-    
-            itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
-            let quantityText = null;
-            if(item.quantity > 1){
-                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
-                quantityText.setVisible(this.equipmentData.gameState.getVisibility());
-                itemSprite.setData('quantityText', quantityText);
-                this.quantityTexts.push(quantityText);
             }
-            this.handleDoubleClick(itemSprite);
-            return itemSprite;
+    
+            // Update the previous equipment items
+            this.previousEquipItems = [...currentEquipItems];
         }
     }
+    
+    arraysEqual(a, b) {
+        if (a === b) return true;
+        if (a == null || b == null) return false;
+        if (a.length !== b.length) return false;
+    
+        for (let i = 0; i < a.length; ++i) {
+            if (a[i] !== b[i]) return false;
+        }
+    
+        return true;
+    }
 
+}
+    /*
     handleDoubleClick(itemSprite) {
         let clickTime = null;
 

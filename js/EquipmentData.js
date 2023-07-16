@@ -10,6 +10,8 @@ export default class EquipmentData {
             this.gameState.setEquipVisibility(true);
         } 
     }
+
+    
 }
 
 

@@ -119,23 +119,32 @@ export default class InventoryData {
             let equips = this.gameState.getEquipItems();
             equips[3] = item;
             this.gameState.setEquipItems(equips);
+            console.log(`Equips array: ${equips[3]}`)
+            this.scene.events.emit('weaponEquipped', { slot: 3, item: item });
             //increase stats appropriately
-            console.log(`Equipped weapon.`)
+            console.log(`Equipped ${item.name}`)
         }
     }
 
-    equipOffhand(type) {
-        if(type === 'offhand'){
-            //item goes to slot[4] in equips array
-            //increase stats appropriately
-            console.log(`Equipped offhand.`)
+    equipOffhand(item) {
+        if (item.type === 'offhand') {
+            let equips = this.gameState.getEquipItems();
+            equips[4] = item;
+            this.gameState.setEquipItems(equips);
+            this.scene.events.emit('offhandEquipped', { slot: 4, item: item });
+            // Increase stats appropriately
+            console.log(`Equipped offhand.`);
         }
     }
-    equipHelm(type) {
-        if(type === 'helm'){
-            //item goes to slot[0] in equips array
-            //increase stats appropriately
-            console.log(`Equipped helm.`)
+    
+    equipHelm(item) {
+        if (item.type === 'helm') {
+            let equips = this.gameState.getEquipItems();
+            equips[0] = item;
+            this.gameState.setEquipItems(equips);
+            this.scene.events.emit('helmEquipped', { slot: 0, item: item });
+            // Increase stats appropriately
+            console.log(`Equipped helm.`);
         }
     }
 
