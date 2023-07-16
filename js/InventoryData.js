@@ -1,10 +1,11 @@
 import things from './Things.js'
 
 export default class InventoryData {
-    constructor(scene, gameState, player) {
+    constructor(scene, gameState, player, equipmentData) {
         this.scene = scene;
         this.gameState = gameState;
         this.player = player;
+        this.equipmentData = equipmentData;
         this.gameState.setInvItems([
             things.staminapotion, null, null, things.basicshield, 
             things.basicsword, null, null, null, 
@@ -86,23 +87,30 @@ export default class InventoryData {
     equipItem(index){
         let items = this.gameState.getInvItems();
         if (items[index] && items[index].canEquip === true) {
-                let item = items[index]; 
-                if (items[index].quantity > 1) {
-                    items[index].quantity--;
-                    this.gameState.setInvItems(items);
-                } else if (items[index].quantity === 1) {
-                    items[index].quantity--;
-                }
+            let item = items[index];
+            
+            // Check if slot is available for this item type
+            if (!this.equipmentData.isSlotAvailable(item.type)) {
+                console.log('Slot is already occupied. Cannot equip item.');
+                return;
+            }
+            
+            if (items[index].quantity > 1) {
+                items[index].quantity--;
+                this.gameState.setInvItems(items);
+            } else if (items[index].quantity === 1) {
+                items[index].quantity--;
+            }
     
             switch (item.type) {
                 case 'weapon':
-                    this.equipWeapon(item);
+                    this.equipmentData.equipWeapon(item);
                     break;
                 case 'offhand':
-                    this.equipOffhand(item);
+                    this.equipmentData.equipOffhand(item);
                     break;
                 case 'helm':
-                    this.equipHelm(item);
+                    this.equipmentData.equipHelm(item);
                     break;
                 default:
                     console.error('Invalid item index or type:', index, item.type);
@@ -111,40 +119,6 @@ export default class InventoryData {
             if (items[index]?.quantity === 0) {
                 this.removeInvItem(index);
             }
-        }
-    }
-
-    equipWeapon(item) {
-        if(item.type === 'weapon'){
-            let equips = this.gameState.getEquipItems();
-            equips[3] = item;
-            this.gameState.setEquipItems(equips);
-            console.log(`Equips array: ${equips[3]}`)
-            //this.scene.events.emit('weaponEquipped', { slot: 3, item: item });
-            //increase stats appropriately
-            console.log(`Equipped ${item.name}`)
-        }
-    }
-
-    equipOffhand(item) {
-        if (item.type === 'offhand') {
-            let equips = this.gameState.getEquipItems();
-            equips[4] = item;
-            this.gameState.setEquipItems(equips);
-            //this.scene.events.emit('offhandEquipped', { slot: 4, item: item });
-            // Increase stats appropriately
-            console.log(`Equipped offhand.`);
-        }
-    }
-    
-    equipHelm(item) {
-        if (item.type === 'helm') {
-            let equips = this.gameState.getEquipItems();
-            equips[0] = item;
-            this.gameState.setEquipItems(equips);
-            //this.scene.events.emit('helmEquipped', { slot: 0, item: item });
-            // Increase stats appropriately
-            console.log(`Equipped helm.`);
         }
     }
 

@@ -14,7 +14,6 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     preload(){
-        this.load.spritesheet('items','assets/images/items.png',{frameWidth:32,frameHeight:32});
         this.load.image('bag','assets/images/bagbackground.png');
     }
 

@@ -1,17 +1,11 @@
 Equipment:
 
-Shutdown methods for listeners.
-Actually don't need the EquipmentDisplay to have an 'update' method, can find some clever way to not check every frame. Since we technically are just waiting for an item to be double clicked, or in the future, an item to be dragged to a specific slot and the data updated.
+--> Cannot equip an item if the slot is already occupied by an item. (Basically returns, does nothing.)
+--> Dragging item into equipment slot, as another way to equip besides double click.
+--> Include player stats, and adjust them. (Adding gains player damage/defense, removing loses player damage/defense). Use player's set and get methods.
 
-In InventoryData, we make the equipItem method, responsible for removing the item from the inventory, and within that we would call an 'addEquippedItem' method from EquipmentData. In the InventoryDisplay, we would call the equipItem method inside the 'handleDoubleClick' method, because we want the item to be equipped on a double click. In EquipmentData, we would make the 'addEquippedItem' method, responsible for adding the item to the correct slot in the equipment 'equips' array. Finally, in the EquipmentDisplay, we would need to make sure the item's sprite that was just equipped shows up in the correct slot it was added to. Through all this, making sure to properly make sure we are calling get and set methods for the items and the equips arrays, to properly update their array data so the gamestate is happy and up to date.
-
-The next task would be to put the item in the correct slot in the 'equips' array. For example, slot 0 is the index for helmets, slot 3 is for weapons, and slot index 4 is for offhands.
-
-How might we now create that item we double clicked into the equipment data now?
-
-
-takes in player to adjust his defence/attack/etc. (set and get methods will be used).
-Player stats in equipment menu (player damage, defense, crit, etc.)
+--> Unequip an item through double clicking it, placing it back in the inventory.
+--> Unequip item through dragging it back into the inventory.
 
 
 1. Looting Scene pop-up window (with enemy item drops).

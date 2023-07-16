@@ -6,6 +6,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     preload(){
+        this.load.spritesheet('items','assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
         this.load.image('equipbackground','assets/images/equipbackground.png');
     }
 
@@ -42,7 +43,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 this.equipmentSprites.push(itemSprite);
             }
         }
-
+        this.equipmentData.on('equipmentChanged', this.refreshDisplay, this);
     }
 
     setupSlotSprite(x, y, index) {
@@ -69,19 +70,14 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
     }
 
-
-    update() {
-        // Destroy all existing equipment sprites
-        for (let i = 0; i < this.equipmentSprites.length; i++) {
-            let itemSprite = this.equipmentSprites[i];
-            if (itemSprite) {
-                itemSprite.destroy();
-            }
+    refreshDisplay() {
+        for (let sprite of this.equipmentSprites) {
+            sprite.destroy();
         }
         this.equipmentSprites = [];
     
-        // Re-populate equipment sprites from equipment data
         let equipItems = this.equipmentData.gameState.getEquipItems();
+
         for (let i = 0; i < equipItems.length; i++) {
             let item = equipItems[i];
             if (item) {
