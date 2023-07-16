@@ -57,26 +57,26 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         }
     }
 
-
+    removeEquippedItem(index){
+        let equipItems = this.gameState.getEquipItems();
+        if(equipItems[index]){
+            let item = equipItems[index];
+            //this.scene.inventoryData.addInvItem(item);
+            console.log(`Item unequipped: ${item.name}`);
+            
+            equipItems[index] = null;
+            this.gameState.setEquipItems(equipItems); 
+            
+            this.emit('equipmentChanged');    
+        }
+    }
 }
 
 
 /*
-    addEquippedItem(){
-        //this.gameState.setEquippedItems(equips);
-    }
-*/
-
-/*
 
 
-    removeEquippedItem(index){
-        let equips = this.gameState.getEquipItems();
-        if(equips[index]){
-            equips[index] = null;
-        } 
-        this.gameState.setEquipItems(equips);     
-    }
+
 
 
     toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}

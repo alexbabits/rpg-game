@@ -75,14 +75,20 @@ export default class EquipmentDisplay extends Phaser.Scene {
             sprite.destroy();
         }
         this.equipmentSprites = [];
-    
+        
         let equipItems = this.equipmentData.gameState.getEquipItems();
-
+    
         for (let i = 0; i < equipItems.length; i++) {
             let item = equipItems[i];
             if (item) {
                 let itemSprite = this.setupItemSprite(item, i, this.slots, this.slots[i].x, this.slots[i].y);
                 this.equipmentSprites.push(itemSprite);
+                itemSprite.on('pointerdown', (pointer) => {
+                    if (pointer.downTime - pointer.upTime < 300) {
+                        this.equipmentData.removeEquippedItem(i);
+                        itemSprite.destroy();
+                    }
+                });
             }
         }
     }

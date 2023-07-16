@@ -122,6 +122,15 @@ export default class InventoryData {
         }
     }
 
+    /*
+    addInvItem(item){
+    let invItems = this.gameState.getInvItems();
+    invItems.push(item);
+    this.gameState.setInvItems(invItems);
+    console.log(`Item added to inventory: ${item.name}`);
+    }
+    */
+
 }
 
 
