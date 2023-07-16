@@ -105,7 +105,7 @@ export default class InventoryData {
                     this.equipHelm(item);
                     break;
                 default:
-                    console.error('Invalid item index or type:', index, itemType);
+                    console.error('Invalid item index or type:', index, item.type);
             }
     
             if (items[index]?.quantity === 0) {
@@ -120,7 +120,7 @@ export default class InventoryData {
             equips[3] = item;
             this.gameState.setEquipItems(equips);
             console.log(`Equips array: ${equips[3]}`)
-            this.scene.events.emit('weaponEquipped', { slot: 3, item: item });
+            //this.scene.events.emit('weaponEquipped', { slot: 3, item: item });
             //increase stats appropriately
             console.log(`Equipped ${item.name}`)
         }
@@ -131,7 +131,7 @@ export default class InventoryData {
             let equips = this.gameState.getEquipItems();
             equips[4] = item;
             this.gameState.setEquipItems(equips);
-            this.scene.events.emit('offhandEquipped', { slot: 4, item: item });
+            //this.scene.events.emit('offhandEquipped', { slot: 4, item: item });
             // Increase stats appropriately
             console.log(`Equipped offhand.`);
         }
@@ -142,7 +142,7 @@ export default class InventoryData {
             let equips = this.gameState.getEquipItems();
             equips[0] = item;
             this.gameState.setEquipItems(equips);
-            this.scene.events.emit('helmEquipped', { slot: 0, item: item });
+            //this.scene.events.emit('helmEquipped', { slot: 0, item: item });
             // Increase stats appropriately
             console.log(`Equipped helm.`);
         }

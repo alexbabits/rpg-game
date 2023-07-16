@@ -3,7 +3,6 @@ export default class EquipmentDisplay extends Phaser.Scene {
         super("EquipmentDisplay");
         this.equipmentSprites = [];
         this.textOffset = 10;
-        this.previousEquipItems = null;
     }
 
     preload(){
@@ -43,7 +42,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 this.equipmentSprites.push(itemSprite);
             }
         }
-        this.previousEquipItems = [...this.equipmentData.gameState.getEquipItems()];
+
     }
 
     setupSlotSprite(x, y, index) {
@@ -70,39 +69,26 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
     }
 
+
     update() {
-        const currentEquipItems = this.equipmentData.gameState.getEquipItems();
-    
-        // Check if the equipment items have changed
-        if (!this.arraysEqual(currentEquipItems, this.previousEquipItems)) {
-            // Destroy existing equipment sprites
-            this.equipmentSprites.forEach(sprite => sprite.destroy());
-            this.equipmentSprites = [];
-    
-            // Draw the updated equipment items
-            for (let i = 0; i < currentEquipItems.length; i++) {
-                const item = currentEquipItems[i];
-                if (item) {
-                    const itemSprite = this.setupItemSprite(item, i, this.slots, this.slots[i].x, this.slots[i].y);
-                    this.equipmentSprites.push(itemSprite);
-                }
+        // Destroy all existing equipment sprites
+        for (let i = 0; i < this.equipmentSprites.length; i++) {
+            let itemSprite = this.equipmentSprites[i];
+            if (itemSprite) {
+                itemSprite.destroy();
             }
-    
-            // Update the previous equipment items
-            this.previousEquipItems = [...currentEquipItems];
         }
-    }
+        this.equipmentSprites = [];
     
-    arraysEqual(a, b) {
-        if (a === b) return true;
-        if (a == null || b == null) return false;
-        if (a.length !== b.length) return false;
-    
-        for (let i = 0; i < a.length; ++i) {
-            if (a[i] !== b[i]) return false;
+        // Re-populate equipment sprites from equipment data
+        let equipItems = this.equipmentData.gameState.getEquipItems();
+        for (let i = 0; i < equipItems.length; i++) {
+            let item = equipItems[i];
+            if (item) {
+                let itemSprite = this.setupItemSprite(item, i, this.slots, this.slots[i].x, this.slots[i].y);
+                this.equipmentSprites.push(itemSprite);
+            }
         }
-    
-        return true;
     }
 
 }
