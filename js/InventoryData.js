@@ -86,7 +86,7 @@ export default class InventoryData {
     equipItem(index){
         let items = this.gameState.getInvItems();
         if (items[index] && items[index].canEquip === true) {
-                let itemType = items[index].type; 
+                let item = items[index]; 
                 if (items[index].quantity > 1) {
                     items[index].quantity--;
                     this.gameState.setInvItems(items);
@@ -94,15 +94,15 @@ export default class InventoryData {
                     items[index].quantity--;
                 }
     
-            switch (itemType) {
+            switch (item.type) {
                 case 'weapon':
-                    this.equipWeapon(itemType);
+                    this.equipWeapon(item);
                     break;
                 case 'offhand':
-                    this.equipOffhand(itemType);
+                    this.equipOffhand(item);
                     break;
                 case 'helm':
-                    this.equipHelm(itemType);
+                    this.equipHelm(item);
                     break;
                 default:
                     console.error('Invalid item index or type:', index, itemType);
@@ -114,14 +114,16 @@ export default class InventoryData {
         }
     }
 
-    equipWeapon(type) {
-        if(type === 'weapon'){
-            //item goes to slot[3] in equips array
+    equipWeapon(item) {
+        if(item.type === 'weapon'){
+            let equips = this.gameState.getEquipItems();
+            equips[3] = item;
+            this.gameState.setEquipItems(equips);
             //increase stats appropriately
             console.log(`Equipped weapon.`)
         }
     }
-    
+
     equipOffhand(type) {
         if(type === 'offhand'){
             //item goes to slot[4] in equips array

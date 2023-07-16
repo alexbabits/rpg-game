@@ -5,19 +5,19 @@ export default class EquipmentData {
         this.scene = scene;
         this.gameState = gameState;
         this.player = player;
-        this.gameState.setEquipItems([null, null, null, null, null, null, null, null, null]);
+        this.gameState.setEquipItems([null, null, null, null, things.metalshield, null, null, null, null]);
         if (this.gameState.getEquipVisibility() === undefined) {
             this.gameState.setEquipVisibility(true);
         } 
     }
-
-    addEquippedItem(){
-        //this.gameState.setEquippedItems(equips);
-    }
-
 }
 
 
+/*
+    addEquippedItem(){
+        //this.gameState.setEquippedItems(equips);
+    }
+*/
 
 /*
 
