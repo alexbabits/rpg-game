@@ -1,9 +1,14 @@
 Equipment:
-Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. 
-equipItem function in inventory, since its currently in the inventory (items array)
-unequipItem function in equipment, since its currently in the equipment (equip array).
-takes in player to adjust his defence/attack/etc.
-Player stats in equipment menu (player hp, damage, speed, mana, stamina, etc.)
+
+In InventoryData, we make the equipItem method, responsible for removing the item from the inventory, and within that we would call an 'addEquippedItem' method from EquipmentData. In the InventoryDisplay, we would call the equipItem method inside the 'handleDoubleClick' method, because we want the item to be equipped on a double click. In EquipmentData, we would make the 'addEquippedItem' method, responsible for adding the item to the correct slot in the equipment 'equips' array. Finally, in the EquipmentDisplay, we would need to make sure the item's sprite that was just equipped shows up in the correct slot it was added to. Through all this, making sure to properly make sure we are calling get and set methods for the items and the equips arrays, to properly update their array data so the gamestate is happy and up to date.
+
+The next task would be to put the item in the correct slot in the 'equips' array. For example, slot 0 is the index for helmets, slot 3 is for weapons, and slot index 4 is for offhands.
+
+How might we now create that item we double clicked into the equipment data now?
+
+
+takes in player to adjust his defence/attack/etc. (set and get methods will be used).
+Player stats in equipment menu (player damage, defense, crit, etc.)
 
 
 1. Looting Scene pop-up window (with enemy item drops).
@@ -23,8 +28,7 @@ Player stats in equipment menu (player hp, damage, speed, mana, stamina, etc.)
 --> (Future): More level up mechanics (golden confetti, then stats choices to increase max stats)
 --> (Future): Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
 --> (Future): Inventory Swapping items.
---> (Future): Items file to store the items, and then just call them in the items array by name/value or key for example. CALL IT 'THINGS'.
---> (Future): X button for inventory. Bag icon to open/close inventory too.
+--> (Future): X button for inventory. Bag icon to open/close inventory too. (Done via bag background iteractable object pretty much?)
 --> (Future): Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
 --> (Future): potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).
 --> (Future): Hitsplats on player and monster
@@ -32,9 +36,9 @@ Player stats in equipment menu (player hp, damage, speed, mana, stamina, etc.)
 --> (Future): Click to move/Click to initiate attack?
 --> (Future): Monster Spawn zones instead of just random points. Would be same dimensions as their wander zone.
 --> (Future): Monster 'wandering' while in idle state? Or new 'wander' state.
---> (Future): Defense stat on monsters & player. Also Attack state related to total damage.
+--> (Future): Defense stat on monsters & player. Also Attack stat related to total damage. Crit/Crit Eff. stats.
 --> (Future): Debuffs and buffs.
---> (Future): Random % Chance for critical (no anim change, besides hitsplats), would work with both attack and special attack. Along with crit efficiency (150% etc.)
+--> (Future): Random % Chance for critical, base 5% or something. (no anim change, besides hitsplats), would work with both attack and special attack.
 --> (Future): You can only save at the inn when you go to sleep.
 --> (Future): Player and/or monster damage is random (from 0 to maxDamage basically)
 --> (Future): Monster Attacking Sensor is not a circle but more closely related to their body shape.

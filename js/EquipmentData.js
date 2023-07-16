@@ -1,3 +1,5 @@
+import things from './Things.js'
+
 export default class EquipmentData {
     constructor(scene, gameState, player) {
         this.scene = scene;
@@ -9,11 +11,16 @@ export default class EquipmentData {
         } 
     }
 
-    toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
-
-    addEquippedItem(index){
-        //May need to invoke this in the 'InventoryData' file in the 'equipItem' method.
+    addEquippedItem(){
+        //this.gameState.setEquippedItems(equips);
     }
+
+}
+
+
+
+/*
+
 
     removeEquippedItem(index){
         let equips = this.gameState.getEquipItems();
@@ -22,6 +29,10 @@ export default class EquipmentData {
         } 
         this.gameState.setEquipItems(equips);     
     }
+
+
+    toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
+
 
     unequipItem(index) {
         let equips = this.gameState.getEquipItems();
@@ -72,10 +83,5 @@ export default class EquipmentData {
             //render new animation set for the hero
         }
     }
-
-}
-
-
-
-
+*/
 

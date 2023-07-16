@@ -91,11 +91,12 @@ export default class InventoryDisplay extends Phaser.Scene {
 
     handleDoubleClick(itemSprite) {
         let clickTime = null;
-
+    
         itemSprite.on('pointerdown', () => {
             if (clickTime !== null) {
                 if (this.time.now - clickTime < 300) { 
                     this.inventoryData.useItem(itemSprite.index);
+                    this.inventoryData.equipItem(itemSprite.index);
                     const newQuantity = this.inventoryData.gameState.getInvItems()[itemSprite.index]?.quantity;
                     if (newQuantity > 0) {
                         if (newQuantity > 1) {

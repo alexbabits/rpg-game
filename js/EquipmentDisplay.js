@@ -1,10 +1,6 @@
 export default class EquipmentDisplay extends Phaser.Scene {
     constructor(){
         super("EquipmentDisplay");
-        this.tileSize = 32;
-        this.backgroundX = 500;
-        this.backgroundY = 240;
-        
     }
 
     preload(){
@@ -16,7 +12,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     create() {
-        //this.input.keyboard.on('keydown-Q', this.toggleVisibility.bind(this));
+        //this.input.keyboard.on('keydown-C', this.toggleVisibility.bind(this));
         this.sprite = this.add.sprite(500, 260, 'hero');
         this.sprite.setDepth(50).setScale(4);
         let animConfig = {key: 'hero_idle', frames: 6, frameRate: 12, repeat: -1};
@@ -25,7 +21,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.sprite.anims.msPerFrame = 150;
 
 
-        this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'equipbackground').setScale(1.6).setDepth(30);
+        this.background = this.add.sprite(500, 240, 'equipbackground').setScale(1.6).setDepth(30);
         let slots = [];
         slots[0] = this.setupSlotSprite(415, 155, 0);
         slots[1] = this.setupSlotSprite(415, 230, 1);
@@ -72,13 +68,6 @@ export default class EquipmentDisplay extends Phaser.Scene {
 
     // Helper Methods
 /*
-    setupSlotSprite(x, y, index) {
-        let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
-        slotSprite.index = index;
-        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
-        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
-        return slotSprite;
-    }
 
     setupItemSprite(item, i, slots, x, y) {
         let itemSprite = this.add.sprite(x, y, 'items', item.frame).setScale(1.4).setInteractive().setDepth(25);

@@ -6,13 +6,13 @@ export default class InventoryData {
         this.gameState = gameState;
         this.player = player;
         this.gameState.setInvItems([
-            things.staminapotion, null, null, things.shield, 
-            things.sword, null, null, null, 
-            null, things.healthpotion, null, null, 
-            null, null, things.gold, things.manapotion
+            things.staminapotion, null, null, things.basicshield, 
+            things.basicsword, null, null, null, 
+            null, things.healthpotion, things.metalshield, null, 
+            null, things.metalsword, things.gold, things.manapotion
         ]);
         if (this.gameState.getInvVisibility() === undefined) {
-            this.gameState.setInvVisibility(true);
+            this.gameState.setInvVisibility(false);
         }
     }
 
@@ -67,65 +67,73 @@ export default class InventoryData {
     useHealthPotion(itemName) {
         if(itemName === 'healthpotion'){
             this.player.gameState.setPlayerHP(this.player.gameState.getPlayerHP() + 50);
-            console.log(`Used health potion. Gained 50 HP. HP is now ${this.player.gameState.getPlayerHP()}`)
+            console.log(`Used health potion. HP is now ${this.player.gameState.getPlayerHP()}`)
         }
     }
     useManaPotion(itemName) {
         if(itemName === 'manapotion'){
             this.player.gameState.setPlayerMana(this.player.gameState.getPlayerMana() + 10);
-            console.log(`Used mana potion. Gained 10 Mana. Mana is now ${this.player.gameState.getPlayerMana()}`)
+            console.log(`Used mana potion. Mana is now ${this.player.gameState.getPlayerMana()}`)
         }
     }
     useStaminaPotion(itemName) {
         if(itemName === 'staminapotion'){
             this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 25);
-            console.log(`Used stamina potion. Gained 25 Stamina. Stamina is now ${this.player.gameState.getPlayerStamina()}`)
+            console.log(`Used stamina potion. Stamina is now ${this.player.gameState.getPlayerStamina()}`)
         }
     }
 
-    equipItem(type){
+    equipItem(index){
         let items = this.gameState.getInvItems();
         if (items[index] && items[index].canEquip === true) {
-                items[index].quantity--;
-                this.gameState.setInvItems(items);
+                let itemType = items[index].type; 
+                if (items[index].quantity > 1) {
+                    items[index].quantity--;
+                    this.gameState.setInvItems(items);
+                } else if (items[index].quantity === 1) {
+                    items[index].quantity--;
+                }
     
-            switch (type) {
+            switch (itemType) {
                 case 'weapon':
-                    this.equipWeapon(type);
+                    this.equipWeapon(itemType);
                     break;
-                case 'shield':
-                    this.equipShield(type);
+                case 'offhand':
+                    this.equipOffhand(itemType);
                     break;
                 case 'helm':
-                    this.equipHelm(type);
+                    this.equipHelm(itemType);
                     break;
                 default:
-                    console.error('Invalid item type:', type);
+                    console.error('Invalid item index or type:', index, itemType);
             }
     
             if (items[index]?.quantity === 0) {
                 this.removeInvItem(index);
-                //add the item to the equipment with some kind of 'addItem' method called here, from the EquipmentData.js?
             }
         }
     }
 
     equipWeapon(type) {
         if(type === 'weapon'){
+            //item goes to slot[3] in equips array
             //increase stats appropriately
-            //render new animation set for the hero
+            console.log(`Equipped weapon.`)
         }
     }
-    equipShield(type) {
-        if(type === 'shield'){
+    
+    equipOffhand(type) {
+        if(type === 'offhand'){
+            //item goes to slot[4] in equips array
             //increase stats appropriately
-            //render new animation set for the hero
+            console.log(`Equipped offhand.`)
         }
     }
     equipHelm(type) {
         if(type === 'helm'){
+            //item goes to slot[0] in equips array
             //increase stats appropriately
-            //render new animation set for the hero
+            console.log(`Equipped helm.`)
         }
     }
 
