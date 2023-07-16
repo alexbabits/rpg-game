@@ -45,8 +45,9 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
 
         let playerDamage = this.equipmentData.gameState.getPlayerDamage();
-        this.damageText = this.add.text(450, 100, `Damage: ${playerDamage}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
-
+        this.damageText = this.add.text(400, 90, `Damage: ${playerDamage}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
+        let playerDefense = this.equipmentData.gameState.getPlayerDefense();
+        this.defenseText = this.add.text(400, 105, `Defense: ${playerDefense}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
         this.equipmentData.on('equipmentChanged', this.refreshDisplay, this);
     }
 
@@ -105,6 +106,8 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
         let playerDamage = this.equipmentData.gameState.getPlayerDamage();
         this.damageText.setText(`Damage: ${playerDamage}`);
+        let playerDefense = this.equipmentData.gameState.getPlayerDefense();
+        this.defenseText.setText(`Defense: ${playerDefense}`);
     }
 
 }

@@ -36,12 +36,13 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         if (equipItems[index]) {
             let item = equipItems[index];
             this.inventoryData.addInvItem(item);
-    
+            let newDefense = this.player.gameState.getPlayerDefense() - item.defense;
+            this.player.gameState.setPlayerDefense(newDefense);
             let newDamage = this.player.gameState.getPlayerDamage() - item.damage;
             this.player.gameState.setPlayerDamage(newDamage);
             
             this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
-            console.log(`Item unequipped: ${item.name}. Player's damage is now ${this.player.gameState.getPlayerDamage()}`);
+            console.log(`Item unequipped: ${item.name}. Damage: ${this.player.gameState.getPlayerDamage()} Defense: ${this.player.gameState.getPlayerDefense()}`);
             equipItems[index] = null;
             this.gameState.setEquipItems(equipItems);
             this.emit('equipmentChanged');
@@ -52,12 +53,11 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         let equipItems = this.gameState.getEquipItems();
         equipItems[3] = item;
         this.gameState.setEquipItems(equipItems);
-    
         let newDamage = this.player.gameState.getPlayerDamage() + item.damage;
         this.player.gameState.setPlayerDamage(newDamage);
         
         this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
-        console.log(`Equipped ${item.name}. Player's damage is now ${this.player.gameState.getPlayerDamage()}`);
+        console.log(`Equipped ${item.name}. Damage: ${this.player.gameState.getPlayerDamage()}.`);
         this.emit('equipmentChanged');
     }
 
@@ -65,9 +65,10 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         let equipItems = this.gameState.getEquipItems();
         equipItems[4] = item;
         this.gameState.setEquipItems(equipItems);
-        console.log(`Equips array: ${equipItems[4]}`)
-        //increase stats appropriately
-        console.log(`Equipped ${item.name}`)
+        let newDefense = this.player.gameState.getPlayerDefense() + item.defense;
+        this.player.gameState.setPlayerDefense(newDefense);
+
+        console.log(`Equipped ${item.name}. Defense: ${this.player.gameState.getPlayerDefense()}.`)
         this.emit('equipmentChanged');
     }
 
@@ -75,7 +76,6 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         let equipItems = this.gameState.getEquipItems();
         equipItems[0] = item;
         this.gameState.setEquipItems(equipItems);
-        console.log(`Equips array: ${equipItems[0]}`)
         //increase stats appropriately
         console.log(`Equipped ${item.name}`)
         this.emit('equipmentChanged');
@@ -83,64 +83,6 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
 
 }
 
+//toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
 
-/*
-
-
-
-
-
-    toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
-
-
-    unequipItem(index) {
-        let equips = this.gameState.getEquipItems();
-        if (equips[index] && equips[index].canEquip === true) {
-            let type = equips[index].type; 
-            if (equips[index].quantity > 1) {
-                equips[index].quantity--;
-                this.gameState.setEquipItems(equips);
-            } else if (equips[index].quantity === 1) {
-                equips[index].quantity--;
-            }
-    
-            switch (type) {
-                case 'weapon':
-                    this.unequipWeapon(type);
-                    break;
-                case 'offhand':
-                    this.unequipOffhand(type);
-                    break;
-                case 'helm':
-                    this.unequipHelm(type);
-                    break;
-                default:
-                    console.error('Invalid type:', type);
-            }
-    
-            if (equips[index]?.quantity === 0) {
-                this.removeEquippedItem(index);
-            }
-        }
-    }
-
-    unequipWeapon(type) {
-        if(type === 'weapon'){
-            //decrease stats appropriately
-            //render new animation set for the hero
-        }
-    }
-    unequipOffhand(type) {
-        if(type === 'shield' || type === 'defender'){
-            //decrease stats appropriately
-            //render new animation set for the hero
-        }
-    }
-    unequipHelm(type) {
-        if(type === 'helm'){
-            //decrease stats appropriately
-            //render new animation set for the hero
-        }
-    }
-*/
 

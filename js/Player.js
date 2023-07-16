@@ -29,6 +29,7 @@ export default class Player {
     this.gameState.setPlayerCanRun(true);
     this.gameState.setPlayerDamage(10);
     this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
+    this.gameState.setPlayerDefense(5);
     this.gameState.setPlayerDirection('Right');
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;

@@ -71,10 +71,11 @@ export class MonsterAttackingState extends MonsterState {
         }
 
         let attackSpeed = this.firstAttack ? this.monster.attackSpeed / 4 : this.monster.attackSpeed;
+        let netDamage = Math.max(0, this.monster.Damage - player.gameState.getPlayerDefense());
 
         if (this.monster.scene.time.now - this.attackTimer > (1000 * attackSpeed)) {
-            player.gameState.setPlayerHP(player.gameState.getPlayerHP() - this.monster.Damage);
-            console.log(`${this.monster.name} attacked the player for ${this.monster.Damage} Damage. Player health: ${player.gameState.getPlayerHP()}`);
+            player.gameState.setPlayerHP(player.gameState.getPlayerHP() - netDamage);
+            console.log(`${this.monster.name} attacked the player for ${netDamage} Damage. Player health: ${player.gameState.getPlayerHP()}`);
             this.attackTimer = this.monster.scene.time.now;
             this.monster.attackCooldown = this.monster.scene.time.now + (1000 * this.monster.attackSpeed);
             this.firstAttack = false;

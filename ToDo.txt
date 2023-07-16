@@ -1,12 +1,3 @@
-Equipment:
---> Include player stats, and adjust them. (Adding gains player damage/defense, removing loses player damage/defense). Use player's set and get methods.
---> Swap items when equipping one of the same type.
---> Dragging item into equipment slot, as another way to equip besides double click.
---> Dragging item from equipment slot into inventory, as another way to unequip besides double click.
-
---> Fix bug where the 'slot occupied' check doesn't work after the first time.
-
-
 1. Looting Scene pop-up window (with enemy item drops).
 2. Bank (Need chest in game to click on and bank stuff). Gold currency.
 3. Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
@@ -39,6 +30,9 @@ Equipment:
 --> (Future): Player and/or monster damage is random (from 0 to maxDamage basically)
 --> (Future): Monster Attacking Sensor is not a circle but more closely related to their body shape.
 --> (Future): Tooltip for inventory items displaying stats or description.
+--> (Future): Swap items when equipping one of the same type.
+--> (Future): Dragging item into equipment slot, as another way to equip besides double click.
+--> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click.
 
 --> (Optional): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Optional): Refactor player stats/methods into a separate file? Player class is messy with its stats and methods.

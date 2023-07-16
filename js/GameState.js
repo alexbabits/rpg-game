@@ -64,6 +64,7 @@ export default class GameState {
       spAttManaCost: player.gameState.getPlayerSpAttManaCost(),
       canRun: player.gameState.getPlayerCanRun(),
       damage: player.gameState.getPlayerDamage(),
+      defense: player.gameState.getPlayerDefense(),
       specialDamage: player.gameState.getPlayerSpecialDamage(),
       direction: player.gameState.getPlayerDirection(),
     };
@@ -93,6 +94,7 @@ export default class GameState {
       player.gameState.setPlayerSpAttManaCost(this.playerState.spAttManaCost);
       player.gameState.setPlayerCanRun(this.playerState.canRun);
       player.gameState.setPlayerDamage(this.playerState.damage);
+      player.gameState.setPlayerDefense(this.playerState.defense);
       player.gameState.setPlayerSpecialDamage(this.playerState.specialDamage);
       player.gameState.setPlayerDirection(this.playerState.direction);
     };
@@ -156,6 +158,9 @@ export default class GameState {
 
   setPlayerSpecialDamage(specialDamage) {this.playerSpecialDamage = specialDamage}
   getPlayerSpecialDamage() {return this.playerSpecialDamage}
+
+  setPlayerDefense(defense) {this.playerDefense = defense}
+  getPlayerDefense() {return this.playerDefense}
 
   setPlayerDirection(direction) {this.playerDirection = direction}
   getPlayerDirection() {return this.playerDirection}
