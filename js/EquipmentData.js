@@ -8,9 +8,11 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         this.player = player;
         this.gameState.setEquipItems([null, null, null, null, null, null, null, null, null]);
         if (this.gameState.getEquipVisibility() === undefined) {
-            this.gameState.setEquipVisibility(true);
+            this.gameState.setEquipVisibility(false);
         } 
     }
+
+    toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
 
     setInventoryData(inventoryData) {
         this.inventoryData = inventoryData;
@@ -82,7 +84,3 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
     }
 
 }
-
-//toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
-
-

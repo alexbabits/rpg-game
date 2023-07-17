@@ -15,6 +15,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     create() {
+        this.input.keyboard.on('keydown-C', this.toggleVisibility.bind(this));
         this.sprite = this.add.sprite(500, 260, 'hero');
         this.sprite.setDepth(50).setScale(4);
         let animConfig = {key: 'hero_idle', frames: 6, frameRate: 12, repeat: -1};
@@ -49,6 +50,13 @@ export default class EquipmentDisplay extends Phaser.Scene {
         let playerDefense = this.equipmentData.gameState.getPlayerDefense();
         this.defenseText = this.add.text(400, 105, `Defense: ${playerDefense}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
         this.equipmentData.on('equipmentChanged', this.refreshDisplay, this);
+
+        this.sprite.setVisible(this.equipmentData.gameState.getEquipVisibility());
+        this.background.setVisible(this.equipmentData.gameState.getEquipVisibility());
+        this.slots.forEach(slot => slot.setVisible(this.equipmentData.gameState.getEquipVisibility()));
+        this.equipmentSprites.forEach(sprite => sprite.setVisible(this.equipmentData.gameState.getEquipVisibility()));
+        this.damageText.setVisible(this.equipmentData.gameState.getEquipVisibility());
+        this.defenseText.setVisible(this.equipmentData.gameState.getEquipVisibility());
     }
 
     setupSlotSprite(x, y, index) {
@@ -108,6 +116,24 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.damageText.setText(`Damage: ${playerDamage}`);
         let playerDefense = this.equipmentData.gameState.getPlayerDefense();
         this.defenseText.setText(`Defense: ${playerDefense}`);
+
+        let visible = this.equipmentData.gameState.getEquipVisibility();
+        this.slots.forEach(slot => slot.setVisible(visible));
+        this.equipmentSprites.forEach(sprite => sprite.setVisible(visible));
+        this.damageText.setVisible(visible);
+        this.defenseText.setVisible(visible);
+    }
+
+    toggleVisibility() {
+        this.equipmentData.toggleEquipmentVisibility();
+        let visible = this.equipmentData.gameState.getEquipVisibility();
+    
+        this.sprite.setVisible(visible);
+        this.background.setVisible(visible);
+        this.slots.forEach(slot => slot.setVisible(visible));
+        this.equipmentSprites.forEach(sprite => sprite.setVisible(visible));
+        this.damageText.setVisible(visible);
+        this.defenseText.setVisible(visible);
     }
 
 }

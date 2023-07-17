@@ -1,11 +1,12 @@
 1. Looting Scene pop-up window (with enemy item drops).
-2. Bank (Need chest in game to click on and bank stuff). Gold currency.
-3. Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
-4. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
-5. Teleporter. Allows for movement between scenes. Animated.
-6. Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-7. Quests & Interactions with NPCs.
+2. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
+3. Saving/Loading/Electron/.exe
 
+--> (Future): Bank (Need chest in game to click on and bank stuff). Gold currency.
+--> (Future): Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
+--> (Future): Quests & Interactions with NPCs.
+--> (Future): Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
+--> (Future): Teleporter. Allows for movement between scenes. Animated.
 --> (Future): Minimap
 --> (Future): J for journal, M for map
 --> (Future): Caps lock toggles run, in addition to the current shift-hold mechanism.
@@ -19,11 +20,12 @@
 --> (Future): Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
 --> (Future): potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).
 --> (Future): Hitsplats on player and monster
+--> (Future): XP drops
 --> (Future): Monster Attack Anims
 --> (Future): Click to move/Click to initiate attack?
 --> (Future): Monster Spawn zones instead of just random points. Would be same dimensions as their wander zone.
 --> (Future): Monster 'wandering' while in idle state? Or new 'wander' state.
---> (Future): Defense stat on monsters & player. Also Attack stat related to total damage. Crit/Crit Eff. stats.
+--> (Future): Defense stat on monsters. Also Attack stat related to total damage. Crit/Crit Eff. stats.
 --> (Future): Debuffs and buffs.
 --> (Future): Random % Chance for critical, base 5% or something. (no anim change, besides hitsplats), would work with both attack and special attack.
 --> (Future): You can only save at the inn when you go to sleep.
