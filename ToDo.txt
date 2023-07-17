@@ -1,19 +1,12 @@
-Equipment:
-Equipment Scene, have an enlarged idling animation of the player on the equip screen, like runescape, and gear slots, and stats on the right. 
-equipItem function in inventory, since its currently in the inventory (items array)
-unequipItem function in equipment, since its currently in the equipment (equip array).
-takes in player to adjust his defence/attack/etc.
+1. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
+2. Saving/Loading/Electron/.exe
 
-
-
-1. Looting Scene pop-up window (with enemy item drops).
-2. Bank (Need chest in game to click on and bank stuff). Gold currency.
-3. Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
-4. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
-5. Teleporter. Allows for movement between scenes. Animated.
-6. Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-7. Quests & Interactions with NPCs.
-
+--> (Future): Randomized/Weighted Monster drops.
+--> (Future): Bank (Need chest in game to click on and bank stuff). Gold currency.
+--> (Future): Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
+--> (Future): Quests & Interactions with NPCs.
+--> (Future): Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
+--> (Future): Teleporter. Allows for movement between scenes. Animated.
 --> (Future): Minimap
 --> (Future): J for journal, M for map
 --> (Future): Caps lock toggles run, in addition to the current shift-hold mechanism.
@@ -23,22 +16,25 @@ takes in player to adjust his defence/attack/etc.
 --> (Future): More level up mechanics (golden confetti, then stats choices to increase max stats)
 --> (Future): Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
 --> (Future): Inventory Swapping items.
---> (Future): Items file to store the items, and then just call them in the items array by name/value or key for example.
---> (Future): X button for inventory. Bag icon to open/close inventory too.
+--> (Future): X button for inventory. Bag icon to open/close inventory too. (Done via bag background iteractable object pretty much?)
 --> (Future): Have small button next to inventory bag with helmet and sword indicating that player can click and that also takes you to equipment scene.
 --> (Future): potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).
 --> (Future): Hitsplats on player and monster
+--> (Future): XP drops
 --> (Future): Monster Attack Anims
 --> (Future): Click to move/Click to initiate attack?
 --> (Future): Monster Spawn zones instead of just random points. Would be same dimensions as their wander zone.
 --> (Future): Monster 'wandering' while in idle state? Or new 'wander' state.
---> (Future): Defense stat on monsters & player. Also Attack state related to total damage.
+--> (Future): Defense stat on monsters. Crit/Crit Eff. stats.
 --> (Future): Debuffs and buffs.
---> (Future): Random % Chance for critical (no anim change, besides hitsplats), would work with both attack and special attack. Along with crit efficiency (150% etc.)
+--> (Future): Random % Chance for critical, base 5% or something. (no anim change, besides hitsplats), would work with both attack and special attack.
 --> (Future): You can only save at the inn when you go to sleep.
 --> (Future): Player and/or monster damage is random (from 0 to maxDamage basically)
 --> (Future): Monster Attacking Sensor is not a circle but more closely related to their body shape.
 --> (Future): Tooltip for inventory items displaying stats or description.
+--> (Future): Swap items when equipping one of the same type.
+--> (Future): Dragging item into equipment slot, as another way to equip besides double click.
+--> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click.
 
 --> (Optional): Combine PlayerAttackState and PlayerSpecialAttackState.
 --> (Optional): Refactor player stats/methods into a separate file? Player class is messy with its stats and methods.

@@ -2,25 +2,46 @@ export default class GameState {
   constructor() {
     this.playerState = null;
     this.inventoryState = null;
+    this.equipmentState = null;
   }
 
-  setItems(items) {this.items = items}
-  getItems() {return this.items}
+  setEquipItems(equips) {this.equips = equips}
+  getEquipItems() {return this.equips}
 
-  setVisibility(inventoryVisible) {this.inventoryVisible = inventoryVisible}
-  getVisibility() {return this.inventoryVisible}
+  setEquipVisibility(equipmentVisible) {this.equipmentVisible = equipmentVisible}
+  getEquipVisibility() {return this.equipmentVisible}
+
+  saveEquipmentState(equipment) {
+    this.equipmentState = {
+      equips: equipment.gameState.getEquipItems(),
+      visibility: equipment.gameState.getEquipVisibility()
+    }
+  }
+
+  loadEquipmentState(equipment) {
+    if (this.equipmentState) {
+      equipment.gameState.setEquipItems(this.equipmentState.equips);
+      equipment.gameState.setEquipVisibility(this.equipmentState.visibility);
+    }
+  }
+
+  setInvItems(items) {this.items = items}
+  getInvItems() {return this.items}
+
+  setInvVisibility(inventoryVisible) {this.inventoryVisible = inventoryVisible}
+  getInvVisibility() {return this.inventoryVisible}
 
   saveInventoryState(inventory) {
     this.inventoryState = {
-      items: inventory.gameState.getItems(),
-      visibility: inventory.gameState.getVisibility()
+      items: inventory.gameState.getInvItems(),
+      visibility: inventory.gameState.getInvVisibility()
     }
   }
 
   loadInventoryState(inventory) {
     if (this.inventoryState) {
-      inventory.gameState.setItems(this.inventoryState.items);
-      inventory.gameState.setVisibility(this.inventoryState.visibility);
+      inventory.gameState.setInvItems(this.inventoryState.items);
+      inventory.gameState.setInvVisibility(this.inventoryState.visibility);
     }
   }
 
@@ -43,6 +64,7 @@ export default class GameState {
       spAttManaCost: player.gameState.getPlayerSpAttManaCost(),
       canRun: player.gameState.getPlayerCanRun(),
       damage: player.gameState.getPlayerDamage(),
+      defense: player.gameState.getPlayerDefense(),
       specialDamage: player.gameState.getPlayerSpecialDamage(),
       direction: player.gameState.getPlayerDirection(),
     };
@@ -72,6 +94,7 @@ export default class GameState {
       player.gameState.setPlayerSpAttManaCost(this.playerState.spAttManaCost);
       player.gameState.setPlayerCanRun(this.playerState.canRun);
       player.gameState.setPlayerDamage(this.playerState.damage);
+      player.gameState.setPlayerDefense(this.playerState.defense);
       player.gameState.setPlayerSpecialDamage(this.playerState.specialDamage);
       player.gameState.setPlayerDirection(this.playerState.direction);
     };
@@ -135,6 +158,9 @@ export default class GameState {
 
   setPlayerSpecialDamage(specialDamage) {this.playerSpecialDamage = specialDamage}
   getPlayerSpecialDamage() {return this.playerSpecialDamage}
+
+  setPlayerDefense(defense) {this.playerDefense = defense}
+  getPlayerDefense() {return this.playerDefense}
 
   setPlayerDirection(direction) {this.playerDirection = direction}
   getPlayerDirection() {return this.playerDirection}

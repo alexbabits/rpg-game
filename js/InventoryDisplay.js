@@ -14,7 +14,6 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     preload(){
-        this.load.spritesheet('items','assets/images/items.png',{frameWidth:32,frameHeight:32});
         this.load.image('bag','assets/images/bagbackground.png');
     }
 
@@ -27,11 +26,11 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
         let slots = [];
     
-        let visible = this.inventoryData.gameState.getVisibility();
+        let visible = this.inventoryData.gameState.getInvVisibility();
         this.background.setVisible(visible);
         
         for (let i = 0; i < 16; i++) {
-            let item = this.inventoryData.gameState.getItems()[i];
+            let item = this.inventoryData.gameState.getInvItems()[i];
             let x = this.startX + (i % 4) * this.tileDistance;
             let y = this.startY + Math.floor(i / 4) * this.tileDistance;
     
@@ -44,6 +43,7 @@ export default class InventoryDisplay extends Phaser.Scene {
                 this.inventorySprites.push(itemSprite);
             }
         }
+        this.inventoryData.on('addInvItem', this.drawInventory.bind(this));
     }
 
     // Helper Methods
@@ -80,7 +80,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             let quantityText = null;
             if(item.quantity > 1){
                 quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
-                quantityText.setVisible(this.inventoryData.gameState.getVisibility());
+                quantityText.setVisible(this.inventoryData.gameState.getInvVisibility());
                 itemSprite.setData('quantityText', quantityText);
                 this.quantityTexts.push(quantityText);
             }
@@ -91,12 +91,13 @@ export default class InventoryDisplay extends Phaser.Scene {
 
     handleDoubleClick(itemSprite) {
         let clickTime = null;
-
+    
         itemSprite.on('pointerdown', () => {
             if (clickTime !== null) {
                 if (this.time.now - clickTime < 300) { 
                     this.inventoryData.useItem(itemSprite.index);
-                    const newQuantity = this.inventoryData.gameState.getItems()[itemSprite.index]?.quantity;
+                    this.inventoryData.equipItem(itemSprite.index);
+                    const newQuantity = this.inventoryData.gameState.getInvItems()[itemSprite.index]?.quantity;
                     if (newQuantity > 0) {
                         if (newQuantity > 1) {
                             itemSprite.getData('quantityText').setText(newQuantity);
@@ -126,11 +127,11 @@ export default class InventoryDisplay extends Phaser.Scene {
         return function(pointer) {
             itemSprite.clearTint();
             let hoveredSlot = slots.find(slotSprite => slotSprite.getData('hovered'));
-            if (hoveredSlot && !this.inventoryData.gameState.getItems()[hoveredSlot.index]) {
+            if (hoveredSlot && !this.inventoryData.gameState.getInvItems()[hoveredSlot.index]) {
                 // If the hovered slot is empty, move the item there
                 let oldIndex = itemSprite.index;
                 itemSprite.index = hoveredSlot.index;
-                this.inventoryData.moveItem(oldIndex, itemSprite.index);
+                this.inventoryData.moveInvItem(oldIndex, itemSprite.index);
                 // Update positions to reflect the new slot
                 itemSprite.setData({ originX: hoveredSlot.x, originY: hoveredSlot.y });
                 itemSprite.x = itemSprite.getData('originX');
@@ -150,9 +151,35 @@ export default class InventoryDisplay extends Phaser.Scene {
         }.bind(this);
     }
 
+    drawInventory() {
+        // Clear old sprites and texts
+        this.inventorySprites.forEach(sprite => sprite.destroy());
+        this.quantityTexts.forEach(text => text.destroy());
+        this.inventorySprites = [];
+        this.quantityTexts = [];
+
+        let slots = [];
+    
+        for (let i = 0; i < 16; i++) {
+            let item = this.inventoryData.gameState.getInvItems()[i];
+            let x = this.startX + (i % 4) * this.tileDistance;
+            let y = this.startY + Math.floor(i / 4) * this.tileDistance;
+    
+            slots[i] = this.setupSlotSprite(x, y, i);
+            slots[i].setVisible(this.background.visible);
+            this.inventorySprites.push(slots[i]);
+    
+            if (item) {
+                let itemSprite = this.setupItemSprite(item, i, slots, x, y);
+                itemSprite.setVisible(this.background.visible);
+                this.inventorySprites.push(itemSprite);
+            }
+        }
+    }
+
     toggleVisibility() {
         this.inventoryData.toggleInventoryVisibility();
-        let visible = this.inventoryData.gameState.getVisibility();
+        let visible = this.inventoryData.gameState.getInvVisibility();
         this.background.setVisible(visible);
         this.inventorySprites.forEach(sprite => sprite.setVisible(visible));
         this.quantityTexts.forEach(text => text.setVisible(visible));
