@@ -1,6 +1,7 @@
 export default class LootData {
-    constructor() {
-        //
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
     }
 
     addLootItem(){
@@ -26,8 +27,6 @@ Handle the possibility of having multiple LootDisplay scenes running simultaneou
 
 Also, in the future, you may want to pass in the monster data (or just the loot data) to the LootData constructor so that the loot can be generated based on the monster that was killed.
 
-
-    --> We'll have to invoke and destroy this scene many times, basically everytime a monster dies. What is best way?
     --> Also, each loot scene will be unique, as the sprites will vary based on what is dropped.
     --> Invoke the loot display scene when a monster dies. Get the looting image background to display when the monster dies.
     --> Get monsters position at time of death, and thats the local x and y for the loot display
