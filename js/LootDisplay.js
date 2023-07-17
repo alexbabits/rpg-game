@@ -5,7 +5,7 @@ export default class LootDisplay extends Phaser.Scene {
 
     create(data) {
         this.loot = data.loot;
-        this.scene = data.scene;
+        this.lootScene = data.scene;
         this.lootBackground = this.add.sprite(this.loot.x, this.loot.y, 'bag').setScale(2.0, 1.5);
         this.slots = [];
         let startX = this.loot.x - 50;
@@ -14,21 +14,26 @@ export default class LootDisplay extends Phaser.Scene {
             let x = startX + (i % 3) * 48;
             let y = startY + Math.floor(i / 3) * 48; 
             let slotSprite = this.setupSlotSprite(x, y, i);
+            slotSprite.itemSprite = null;
             this.slots.push(slotSprite);
         }
         this.drawItemSprite(0, this.loot.itemDrop.frame);
     }
 
-    handleSingleClick(itemSprite){
-        this.scene.events.emit('itemLooted', this.loot.itemDrop)
+    handleSingleClick(itemSprite, slotIndex){
+        this.lootScene.events.emit('itemLooted', this.loot.itemDrop)
         itemSprite.destroy();
+        this.slots[slotIndex].itemSprite = null;
+        if (this.slots.every(slot => slot.itemSprite === null)) {
+            this.closeDisplay();
+        }
     }
 
     drawItemSprite(slotIndex, frame){
         let slot = this.slots[slotIndex];
         let itemSprite = this.add.sprite(slot.x, slot.y, 'items', frame).setScale(1.2).setInteractive();
         this.input.setTopOnly(false);
-        itemSprite.on('pointerdown', () => {this.handleSingleClick(itemSprite)});
+        itemSprite.on('pointerdown', () => {this.handleSingleClick(itemSprite, slotIndex)});
         slot.itemSprite = itemSprite;
     }
 
@@ -40,15 +45,10 @@ export default class LootDisplay extends Phaser.Scene {
         return slotSprite;
     }
 
-}
-
-
-/*
-
     closeDisplay() {
-        // Stop LootDisplay scene
-        this.scene.stop('LootDisplay');
-        //delete item sprite, background, and slots when item is looted.
+        this.lootBackground.destroy();
+        this.slots.forEach(slot => {slot.destroy()});
+        this.scene.stop();
     }
 
-*/
+}

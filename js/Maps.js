@@ -67,6 +67,7 @@ export default class Map extends Phaser.Scene {
     shutdown() {
         this.events.off('monsterDeath', this.monsterManager.spawnNewMonster, this.monsterManager);
         this.events.off('monsterDeath', this.player.gainXP, this.player);
+        this.events.off('itemLooted', this.inventory.addInvItem, this.inventory)
     }
 
     update() {
