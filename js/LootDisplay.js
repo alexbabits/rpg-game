@@ -3,11 +3,9 @@ export default class LootDisplay extends Phaser.Scene {
         super("LootDisplay");
     }
 
-    preload() {
-    }
-
     create(data) {
         this.loot = data.loot;
+        this.scene = data.scene;
         this.lootBackground = this.add.sprite(this.loot.x, this.loot.y, 'bag').setScale(2.0, 1.5);
         this.slots = [];
         let startX = this.loot.x - 50;
@@ -21,22 +19,25 @@ export default class LootDisplay extends Phaser.Scene {
         this.drawItemSprite(0, this.loot.itemDrop.frame);
     }
 
+    handleSingleClick(itemSprite){
+        this.scene.events.emit('itemLooted', this.loot.itemDrop)
+        itemSprite.destroy();
+    }
+
     drawItemSprite(slotIndex, frame){
         let slot = this.slots[slotIndex];
-        let itemSprite = this.add.sprite(slot.x, slot.y, 'items', frame).setScale(1.2);
+        let itemSprite = this.add.sprite(slot.x, slot.y, 'items', frame).setScale(1.2).setInteractive();
+        this.input.setTopOnly(false);
+        itemSprite.on('pointerdown', () => {this.handleSingleClick(itemSprite)});
         slot.itemSprite = itemSprite;
     }
 
     setupSlotSprite(x, y, index) {
         let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
         slotSprite.index = index;
-        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true);});
-        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false);});
+        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true)});
+        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false)});
         return slotSprite;
-    }
-
-    handleSingleClick(){
-        //pointer down which invokes the 'addInvItem' method from the InventoryData.
     }
 
 }
@@ -44,15 +45,10 @@ export default class LootDisplay extends Phaser.Scene {
 
 /*
 
-
-    destroyItemSprite(){
-
-    }
-
     closeDisplay() {
         // Stop LootDisplay scene
         this.scene.stop('LootDisplay');
+        //delete item sprite, background, and slots when item is looted.
     }
-//delete item sprite, background, and slots when item is looted.
 
 */

@@ -16,6 +16,7 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
         if (this.gameState.getInvVisibility() === undefined) {
             this.gameState.setInvVisibility(false);
         }
+        this.scene.events.on('itemLooted', this.addInvItem, this);
     }
 
     toggleInventoryVisibility() {this.gameState.setInvVisibility(!this.gameState.getInvVisibility())}
