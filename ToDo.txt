@@ -1,7 +1,7 @@
-1. Looting Scene pop-up window (with enemy item drops).
-2. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
-3. Saving/Loading/Electron/.exe
+1. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
+2. Saving/Loading/Electron/.exe
 
+--> (Future): Randomized/Weighted Monster drops.
 --> (Future): Bank (Need chest in game to click on and bank stuff). Gold currency.
 --> (Future): Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
 --> (Future): Quests & Interactions with NPCs.
@@ -25,7 +25,7 @@
 --> (Future): Click to move/Click to initiate attack?
 --> (Future): Monster Spawn zones instead of just random points. Would be same dimensions as their wander zone.
 --> (Future): Monster 'wandering' while in idle state? Or new 'wander' state.
---> (Future): Defense stat on monsters. Also Attack stat related to total damage. Crit/Crit Eff. stats.
+--> (Future): Defense stat on monsters. Crit/Crit Eff. stats.
 --> (Future): Debuffs and buffs.
 --> (Future): Random % Chance for critical, base 5% or something. (no anim change, besides hitsplats), would work with both attack and special attack.
 --> (Future): You can only save at the inn when you go to sleep.

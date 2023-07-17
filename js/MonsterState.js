@@ -1,3 +1,5 @@
+import LootData from './LootData.js'
+
 export class MonsterState {
     constructor(monster) {this.monster = monster}
     enter() {}
@@ -97,6 +99,10 @@ export class MonsterAttackingState extends MonsterState {
 export class MonsterDeathState extends MonsterState {
     enter() {
         console.log(`${this.monster.name} died.`);
+
+        let loot = new LootData();
+        this.monster.scene.scene.launch('LootDisplay', { loot: loot });
+
         this.monster.scene.events.emit('monsterDeath', this.monster);
         this.monster.scene.matter.world.remove(this.monster.sprite.body);
         this.monster.sprite.destroy();
