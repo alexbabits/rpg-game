@@ -12,24 +12,19 @@ export default class LootDisplay extends Phaser.Scene {
         this.slots = [];
         let startX = this.loot.x - 50;
         let startY = this.loot.y - 30;
-        let tileDistance = 50;
         for (let i = 0; i < 6; i++) {
-            let x = startX + (i % 3) * tileDistance;
-            let y = startY + Math.floor(i / 3) * tileDistance; 
+            let x = startX + (i % 3) * 48;
+            let y = startY + Math.floor(i / 3) * 48; 
             let slotSprite = this.setupSlotSprite(x, y, i);
             this.slots.push(slotSprite);
         }
-
-
-        //delete item sprite, background, and slots when item is looted.
+        this.drawItemSprite(0, this.loot.itemDrop.frame);
     }
 
-    drawItemSprite(){
-        //draws item sprite
-    }
-
-    destroyItemSprite(){
-
+    drawItemSprite(slotIndex, frame){
+        let slot = this.slots[slotIndex];
+        let itemSprite = this.add.sprite(slot.x, slot.y, 'items', frame).setScale(1.2);
+        slot.itemSprite = itemSprite;
     }
 
     setupSlotSprite(x, y, index) {
@@ -40,9 +35,24 @@ export default class LootDisplay extends Phaser.Scene {
         return slotSprite;
     }
 
+    handleSingleClick(){
+        //pointer down which invokes the 'addInvItem' method from the InventoryData.
+    }
+
+}
+
+
+/*
+
+
+    destroyItemSprite(){
+
+    }
+
     closeDisplay() {
         // Stop LootDisplay scene
         this.scene.stop('LootDisplay');
     }
+//delete item sprite, background, and slots when item is looted.
 
-}
+*/
