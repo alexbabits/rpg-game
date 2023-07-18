@@ -1,5 +1,4 @@
-1. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
-2. Smooth out death stuff (cleanup, etc.) (New Game, Load Game, Save Game).
+1. Smooth out death stuff (cleanup, etc.) (New Game, Load Game, Save Game).
 2. Saving/Loading/Electron/.exe
 
 --> (Future): Customizable keybinds
@@ -45,3 +44,5 @@
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): Player facing wrong way when entering map. Handle direction in gamestate.
+--> (Small Bug): Can equip/use things while in pause mode in menu.
+--> (Small Bug): On death if respawn, you get damage/defense as if you were equipping your stuff twice.
