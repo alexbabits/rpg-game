@@ -1,5 +1,7 @@
 import {MonsterIdleState, MonsterAggressiveState, MonsterAttackingState, MonsterDeathState} from "./MonsterState.js";
 import { MonsterHPBar } from './MonsterBars.js';
+import things from './Things.js';
+
 
 export class Monster {
 
@@ -8,7 +10,7 @@ export class Monster {
         scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
     }
     
-    constructor(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim) {
+    constructor(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop) {
         this.name = name;
         this.XP = XP;
         this.maxHP = maxHP;
@@ -18,12 +20,14 @@ export class Monster {
         this.attackSpeed = attackSpeed;
         this.scene = scene;
         this.player = player;
-        this.idleAnim = idleAnim;
-        this.walkAnim = walkAnim;
-        this.aggressionSensorRadius = aggressionSensorRadius;
-        this.attackingSensorRadius = attackingSensorRadius;
         this.colliderWidth = colliderWidth;
         this.colliderHeight = colliderHeight;
+        this.aggressionSensorRadius = aggressionSensorRadius;
+        this.attackingSensorRadius = attackingSensorRadius;
+        this.idleAnim = idleAnim;
+        this.walkAnim = walkAnim;
+        this.itemDrop = itemDrop;
+
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(2).setScale(scale);
         this.sprite.monsterInstance = this;
 
@@ -39,14 +43,13 @@ export class Monster {
         this.scene.matter.world.on('collisionstart', this.handleCollisionStart.bind(this));
         this.scene.matter.world.on('collisionend', this.handleCollisionEnd.bind(this));
 
-
         this.idleState = new MonsterIdleState(this);
         this.aggressiveState = new MonsterAggressiveState(this);
         this.attackingState = new MonsterAttackingState(this);
         this.deathState = new MonsterDeathState(this);
         this.currentState = this.idleState;
-
         this.hpBar = new MonsterHPBar(this.scene, this);
+
     }
 
 
@@ -80,16 +83,18 @@ export class Monster {
     }
 }
 
-// super(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim)
+// super(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop)
 
 export class Bear extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        super('bear', 40, 500, 500, 50, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk')}
+        super('bear', 40, 500, 500, 50, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', things.basicshield);
+    }
 }
 
 export class Ent extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        super('ent', 30, 350, 350, 30, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk')}
+        super('ent', 30, 350, 350, 30, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk', things.basicsword);
+    }
 }
 
 

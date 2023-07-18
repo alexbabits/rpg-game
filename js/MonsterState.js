@@ -100,8 +100,8 @@ export class MonsterDeathState extends MonsterState {
     enter() {
         console.log(`${this.monster.name} died.`);
 
-        let loot = new LootData();
-        this.monster.scene.scene.launch('LootDisplay', { loot: loot });
+        let loot = new LootData(this.monster.sprite.x, this.monster.sprite.y, this.monster.itemDrop);
+        this.monster.scene.scene.launch('LootDisplay', { loot: loot, scene: this.monster.scene });
 
         this.monster.scene.events.emit('monsterDeath', this.monster);
         this.monster.scene.matter.world.remove(this.monster.sprite.body);

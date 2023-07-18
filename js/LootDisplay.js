@@ -3,21 +3,52 @@ export default class LootDisplay extends Phaser.Scene {
         super("LootDisplay");
     }
 
-    preload() {
-        this.load.image('bag','assets/images/bagbackground.png');
-    }
-
     create(data) {
         this.loot = data.loot;
-        this.lootBackground = this.add.sprite(200, 300, 'bag').setScale(1.5);
-        //slots (6)
-        //item sprite
-        //delete item sprite, background, and slots when item is looted.
+        this.lootScene = data.scene;
+        this.lootBackground = this.add.sprite(this.loot.x, this.loot.y, 'bag').setScale(2.0, 1.5);
+        this.slots = [];
+        let startX = this.loot.x - 50;
+        let startY = this.loot.y - 30;
+        for (let i = 0; i < 6; i++) {
+            let x = startX + (i % 3) * 48;
+            let y = startY + Math.floor(i / 3) * 48; 
+            let slotSprite = this.setupSlotSprite(x, y, i);
+            slotSprite.itemSprite = null;
+            this.slots.push(slotSprite);
+        }
+        this.drawItemSprite(0, this.loot.itemDrop.frame);
+    }
+
+    handleSingleClick(itemSprite, slotIndex){
+        this.lootScene.events.emit('itemLooted', this.loot.itemDrop)
+        itemSprite.destroy();
+        this.slots[slotIndex].itemSprite = null;
+        if (this.slots.every(slot => slot.itemSprite === null)) {
+            this.closeDisplay();
+        }
+    }
+
+    drawItemSprite(slotIndex, frame){
+        let slot = this.slots[slotIndex];
+        let itemSprite = this.add.sprite(slot.x, slot.y, 'items', frame).setScale(1.2).setInteractive();
+        this.input.setTopOnly(false);
+        itemSprite.on('pointerdown', () => {this.handleSingleClick(itemSprite, slotIndex)});
+        slot.itemSprite = itemSprite;
+    }
+
+    setupSlotSprite(x, y, index) {
+        let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
+        slotSprite.index = index;
+        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true)});
+        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false)});
+        return slotSprite;
     }
 
     closeDisplay() {
-        // Stop LootDisplay scene
-        this.scene.stop('LootDisplay');
+        this.lootBackground.destroy();
+        this.slots.forEach(slot => {slot.destroy()});
+        this.scene.stop();
     }
 
 }
