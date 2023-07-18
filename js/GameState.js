@@ -3,7 +3,11 @@ export default class GameState {
     this.playerState = null;
     this.inventoryState = null;
     this.equipmentState = null;
+    this.currentMap = null;
   }
+
+  setCurrentMap(mapKey) {this.currentMap = mapKey}
+  getCurrentMap() {return this.currentMap}
 
   setEquipItems(equips) {this.equips = equips}
   getEquipItems() {return this.equips}

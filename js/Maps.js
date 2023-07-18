@@ -46,6 +46,11 @@ export default class Map extends Phaser.Scene {
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
 
+        this.input.keyboard.on('keydown-ESC', () => {
+            this.scene.launch('Menu', { gameState: this.gameState });
+            this.scene.pause();
+        });
+
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);
@@ -82,6 +87,11 @@ export class Map1 extends Map {
         super("Map1", gameState);
     }
 
+    create(){
+        super.create();
+        this.gameState.setCurrentMap('Map1');
+    }
+
     spawnMonster() {
         this.monsterManager.spawnMonster('bear');
         this.monsterManager.spawnMonster('bear');
@@ -104,6 +114,11 @@ export class Map1 extends Map {
 export class Map2 extends Map {
     constructor(gameState) {
         super("Map2", gameState);
+    }
+
+    create(){
+        super.create();
+        this.gameState.setCurrentMap('Map2');
     }
 
     spawnMonster() {
