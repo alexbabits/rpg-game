@@ -1,6 +1,8 @@
 1. Pause Menu/Controls(Esc key brings up menu options (Load, Save, Options, Esc, etc.) (Options --> Audio/Keybinds/Graphics etc.))
+2. Smooth out death stuff (cleanup, etc.) (New Game, Load Game, Save Game).
 2. Saving/Loading/Electron/.exe
 
+--> (Future): Customizable keybinds
 --> (Future): Handle Stackable Scenarios for looting/equipment.
 --> (Future): Randomized/Weighted Monster drops.
 --> (Future): Bank (Need chest in game to click on and bank stuff). Gold currency.
