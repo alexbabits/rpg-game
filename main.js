@@ -2,16 +2,16 @@ const { app, BrowserWindow } = require('electron')
 
 function createWindow () {
   let win = new BrowserWindow({
-    width: 1000,
-    height: 1000,
+    width: 912,
+    height: 936,
     backgroundColor: '#000',
     webPreferences: {
       nodeIntegration: true,
     }
   })
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
   win.loadFile('index.html')
-
+  win.removeMenu();
   win.on('closed', function(){
     win = null
   })

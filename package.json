@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/alexbabits/Game#readme",
   "devDependencies": {
-    "electron": "^25.3.0"
+    "electron": "^25.3.0",
+    "electron-builder": "^24.4.0"
   }
 }

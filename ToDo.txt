@@ -1,5 +1,4 @@
-1. Smooth out death stuff (cleanup, etc.) (New Game, Load Game, Save Game).
-2. Saving/Loading/Electron/.exe
+1. Implement save/load functionality using ‘electron-store’ or another suitable module. Smooth out death stuff (cleanup, etc.) (New Game, Load Game, Save Game).
 
 --> (Future): Customizable keybinds
 --> (Future): Handle Stackable Scenarios for looting/equipment.
