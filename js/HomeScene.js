@@ -9,14 +9,38 @@ export default class HomeScene extends Phaser.Scene {
 
     create() {
         this.add.image(0, 0, 'homescene').setOrigin(0).setScale(1);
+        this.setupNewButton();
+        this.setupLoadButton();
+        this.setupOptionsButton();
+    }
 
-        this.input.keyboard.on('keydown', () => {
-            this.scene.stop('HomeScene')
-            this.scene.start('Map1')
-        })
-        this.input.on('pointerdown', () => {
-            this.scene.stop('HomeScene')
-            this.scene.start('Map1')
-        })
+    setupNewButton() {
+        const newButton = this.add.rectangle(320, 480, 200, 50, 0xcbdbfc).setInteractive();
+        newButton.on('pointerover', () => newButton.setFillStyle(0xa3bffa));
+        newButton.on('pointerout', () => newButton.setFillStyle(0xcbdbfc));
+        newButton.on('pointerdown', () => {
+            this.scene.stop('HomeScene');
+            this.scene.start('Map1');
+        });
+        const newButtonText = this.add.text(320, 480, 'New', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+        this.add.container(0, 0, [newButton, newButtonText]);
+    }
+
+    setupLoadButton(){
+        const loadButton = this.add.rectangle(320, 540, 200, 50, 0xcbdbfc).setInteractive();
+        loadButton.on('pointerover', () => loadButton.setFillStyle(0xa3bffa));
+        loadButton.on('pointerout', () => loadButton.setFillStyle(0xcbdbfc));
+        loadButton.on('pointerdown', () => {console.log(`Load Button Clicked.`)});
+        const loadButtonText = this.add.text(320, 540, 'Load', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+        this.add.container(0, 0, [loadButton, loadButtonText]);
+    }
+
+    setupOptionsButton() {
+        const optionsButton = this.add.rectangle(320, 600, 200, 50, 0xcbdbfc).setInteractive();
+        optionsButton.on('pointerover', () => optionsButton.setFillStyle(0xa3bffa));
+        optionsButton.on('pointerout', () => optionsButton.setFillStyle(0xcbdbfc));
+        optionsButton.on('pointerdown', () => {console.log(`Options Button Clicked.`)});
+        const optionsButtonText = this.add.text(320, 600, 'Options', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+        this.add.container(0, 0, [optionsButton, optionsButtonText]);
     }
 }
