@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+const path = require('path')
 
 function createWindow () {
   let win = new BrowserWindow({
@@ -7,9 +8,11 @@ function createWindow () {
     backgroundColor: '#000',
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
     }
   })
-  //win.webContents.openDevTools()
+  win.webContents.openDevTools()
   win.loadFile('index.html')
   win.removeMenu();
   win.on('closed', function(){

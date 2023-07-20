@@ -10,9 +10,9 @@ export default class Menu extends Phaser.Scene{
 
     create(data){
         this.gameState = data.gameState;
-        this.menuBackground = this.add.sprite(this.game.config.width/2, this.game.config.height/2, 'bag').setScale(2.0, 3.0);
+        this.menuBackground = this.add.sprite(this.game.config.width/2, this.game.config.height/2, 'bag').setScale(2.0, 4.0);
 
-        this.menuOptions = ['Resume', 'Controls', 'Save', 'Quit'];
+        this.menuOptions = ['Resume', 'Controls', 'Save', 'Load', 'Quit'];
         this.buttons = [];
         let startX = this.game.config.width/2;
         let startY = this.game.config.height/2 - 75;
@@ -53,6 +53,9 @@ export default class Menu extends Phaser.Scene{
                 this.handleSaveButtonClick();
                 break;
             case 3:
+                this.handleLoadButtonClick();
+                break;
+            case 4:
                 this.handleQuitButtonClick();
                 break;
             default:
@@ -72,6 +75,17 @@ export default class Menu extends Phaser.Scene{
 
     handleSaveButtonClick() {
         console.log('Save button pressed')
+        this.gameState.saveToFile()
+        console.log('Game Saved')
+    }
+
+    handleLoadButtonClick() {
+        console.log('Load button pressed')
+        this.gameState.loadFromFile();
+        const mapKey = this.gameState.currentMap;
+        this.scene.start(mapKey);
+        console.log(`${this.gameState.loadFromFile()}`)
+        console.log('Game Loaded')
     }
 
     handleQuitButtonClick() {

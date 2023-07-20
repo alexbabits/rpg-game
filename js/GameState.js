@@ -4,6 +4,29 @@ export default class GameState {
     this.inventoryState = null;
     this.equipmentState = null;
     this.currentMap = null;
+    console.log(window.Store);
+    this.store = new window.Store();
+  }
+
+  saveToFile() {
+    const gameState = {
+      playerState: this.playerState,
+      inventoryState: this.inventoryState,
+      equipmentState: this.equipmentState,
+      currentMap: this.currentMap
+    };
+    this.store.set('gameState', gameState);
+  }
+
+  loadFromFile() {
+    const gameState = this.store.get('gameState');
+    if (gameState) {
+      this.playerState = gameState.playerState;
+      this.inventoryState = gameState.inventoryState;
+      this.equipmentState = gameState.equipmentState;
+      this.currentMap = gameState.currentMap;
+    }
+    return gameState;
   }
 
   setCurrentMap(mapKey) {this.currentMap = mapKey}
