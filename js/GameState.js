@@ -92,12 +92,8 @@ export default class GameState {
       defense: player.gameState.getPlayerDefense(),
       specialDamage: player.gameState.getPlayerSpecialDamage(),
       direction: player.gameState.getPlayerDirection(),
-    };
-    
-    this.playerPosition = {
-      x: player.sprite.x,
-      y: player.sprite.y
-    };
+      position: player.gameState.getPlayerPosition()
+    }
   }
 
   loadPlayerState(player) {
@@ -122,12 +118,8 @@ export default class GameState {
       player.gameState.setPlayerDefense(this.playerState.defense);
       player.gameState.setPlayerSpecialDamage(this.playerState.specialDamage);
       player.gameState.setPlayerDirection(this.playerState.direction);
-    };
-
-    if (this.playerPosition) {
-      player.sprite.x = this.playerPosition.x;
-      player.sprite.y = this.playerPosition.y;
-    };
+      player.gameState.setPlayerPosition(this.playerState.position.x, this.playerState.position.y);
+    }
   }
 
   setPlayerXP(xp) {this.playerXP = xp}
@@ -190,6 +182,8 @@ export default class GameState {
   setPlayerDirection(direction) {this.playerDirection = direction}
   getPlayerDirection() {return this.playerDirection}
 
+  setPlayerPosition(x, y) {this.playerPosition = { x, y }}
+  getPlayerPosition() {return this.playerPosition}
 }
 
 

@@ -29,7 +29,12 @@ export default class Map extends Phaser.Scene {
         this.matter.world.convertTilemapLayer(background);
         this.matter.world.convertTilemapLayer(environment);
 
-        this.player = new Player(this, 320, 320, this.gameState);
+        let savedPosition = this.gameState.getPlayerPosition();
+        if (!savedPosition) {
+            savedPosition = {x: 320, y: 320};
+        }
+
+        this.player = new Player(this, savedPosition.x, savedPosition.y, this.gameState);
         this.gameState.loadPlayerState(this.player);
         this.scene.launch('PlayerStatusBars', { player: this.player });
         
@@ -105,7 +110,7 @@ export class Map1 extends Map {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
           this.gameState.saveEquipmentState(this.equipment);
-          this.gameState.playerPosition.x = 10;
+          this.gameState.setPlayerPosition(10, this.player.sprite.y);
           this.scene.start('Map2');
         }
     }
@@ -134,7 +139,7 @@ export class Map2 extends Map {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
           this.gameState.saveEquipmentState(this.equipment);
-          this.gameState.playerPosition.x = this.sys.game.config.width - 10;
+          this.gameState.setPlayerPosition(this.sys.game.config.width - 10, this.player.sprite.y);
           this.scene.start('Map1');
         }
     }

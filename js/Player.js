@@ -11,6 +11,7 @@ export default class Player {
   constructor(scene, x, y, gameState) {
     this.scene = scene;
     this.gameState = gameState;
+    this.gameState.setPlayerPosition(x, y);
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(50);
     this.gameState.setPlayerLevel(1);
