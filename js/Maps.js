@@ -105,7 +105,7 @@ export class Map1 extends Map {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
           this.gameState.saveEquipmentState(this.equipment);
-          this.gameState.playerPosition.x = 0;
+          this.gameState.playerPosition.x = 10;
           this.scene.start('Map2');
         }
     }
@@ -134,7 +134,7 @@ export class Map2 extends Map {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
           this.gameState.saveEquipmentState(this.equipment);
-          this.gameState.playerPosition.x = this.sys.game.config.width;
+          this.gameState.playerPosition.x = this.sys.game.config.width - 10;
           this.scene.start('Map1');
         }
     }

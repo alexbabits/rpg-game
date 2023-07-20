@@ -30,7 +30,7 @@ export default class Player {
     this.gameState.setPlayerDamage(10);
     this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
     this.gameState.setPlayerDefense(5);
-    this.gameState.setPlayerDirection('Right');
+    this.gameState.setPlayerDirection(this.gameState.getPlayerDirection());
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
@@ -58,6 +58,7 @@ export default class Player {
     this.scene.events.on('monsterDeath', this.gainXP, this);
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
     this.manaRegeneration();
+    this.setSpriteFlipFromDirection();
   }
 
   gainXP(monster) {
@@ -146,13 +147,23 @@ export default class Player {
     this.sprite.setVelocity(x * speed, y * speed);
 
     if (x < 0) {
-      this.sprite.setFlipX(true);
       this.gameState.setPlayerDirection('Left');
     } else if (x > 0) {
-      this.sprite.setFlipX(false);
       this.gameState.setPlayerDirection('Right');
     }
+    this.setSpriteFlipFromDirection();
   }
+
+  setSpriteFlipFromDirection() {
+    if (this.gameState.getPlayerDirection() === undefined) {
+        this.gameState.setPlayerDirection('Right');
+    }
+    if (this.gameState.getPlayerDirection() === 'Left') {
+        this.sprite.setFlipX(true);
+    } else if (this.gameState.getPlayerDirection() === 'Right') {
+        this.sprite.setFlipX(false);
+    }
+}
 
   transitionToNewState(newState) {
     this.currentState.exit();

@@ -14,6 +14,7 @@ function createWindow () {
       contextIsolation: true,
     }
   })
+  win.setBackgroundColor('#000')
   win.removeMenu();
   win.webContents.openDevTools()
   store = new ElectronStore()
