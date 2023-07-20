@@ -16,7 +16,9 @@ Reference GameState, Menu, and Maps, and maybe Configs.js and HomeScene to put t
 
 It works!! If you save a game, it saves. And then when you enter a new game, and then menu, and then load, it loads that old save from a previous game that was closed before.
 
-1. Implement save/load functionality using ‘electron-store’ or another suitable module. Smooth out death stuff (cleanup, etc.) (New Game, Load Game, Save Game).
+
+Add game load method in your HomeScene.js instead of menu.js. Check if a saved game state exists, and if it does, offer the player the option to continue their previous game. If no saved game state exists, this option could either be grayed out or display a message to the user saying that no saved games were found.
+Dandle errors and edge cases - if the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
 
 --> (Future): Customizable keybinds
 --> (Future): Handle Stackable Scenarios for looting/equipment.

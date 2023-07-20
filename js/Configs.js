@@ -9,11 +9,10 @@ import PlayerStatusBars from "./PlayerStatusBars.js";
 import Menu, { Controls } from "./Menu.js";
 
 const gameState = new GameState();
-
 const config = {
-  width:640,
-  height:640,
-  backgroundColor: '#000000',
+  width: 640,
+  height: 640,
+  backgroundColor: '#000',
   type: Phaser.AUTO,
   parent: 'configs',
   scene:[HomeScene, new Map1(gameState), new Map2(gameState), LootDisplay, EquipmentDisplay, InventoryDisplay, PlayerStatusBars, GameOverScene, Menu, Controls],

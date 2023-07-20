@@ -1,29 +1,39 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const ElectronStore = require('electron-store')
 const path = require('path')
 
+let win;
+let store;
+
 function createWindow () {
-  let win = new BrowserWindow({
-    width: 912,
-    height: 936,
-    backgroundColor: '#000',
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
     }
   })
-  win.webContents.openDevTools()
-  win.loadFile('index.html')
   win.removeMenu();
-  win.on('closed', function(){
-    win = null
-  })
+  win.webContents.openDevTools()
+  store = new ElectronStore()
+  win.loadFile('index.html')
 }
 
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  } 
+  if (process.platform !== 'darwin') app.quit()
 })
+
+app.on('activate', function () {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow()
+})
+
+ipcMain.handle('saveGameState', (event, gameState) => {
+  return store.set('gameState', gameState);
+});
+
+ipcMain.handle('loadGameState', (event) => {
+  return store.get('gameState');
+});

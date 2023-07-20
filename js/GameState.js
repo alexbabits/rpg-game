@@ -4,22 +4,20 @@ export default class GameState {
     this.inventoryState = null;
     this.equipmentState = null;
     this.currentMap = null;
-    console.log(window.Store);
-    this.store = new window.Store();
   }
 
-  saveToFile() {
+  async saveToFile() {
     const gameState = {
       playerState: this.playerState,
       inventoryState: this.inventoryState,
       equipmentState: this.equipmentState,
       currentMap: this.currentMap
     };
-    this.store.set('gameState', gameState);
+    await window.electron.invokeSave(gameState);
   }
 
-  loadFromFile() {
-    const gameState = this.store.get('gameState');
+  async loadFromFile() {
+    const gameState = await window.electron.invokeLoad();
     if (gameState) {
       this.playerState = gameState.playerState;
       this.inventoryState = gameState.inventoryState;
@@ -28,7 +26,7 @@ export default class GameState {
     }
     return gameState;
   }
-
+  
   setCurrentMap(mapKey) {this.currentMap = mapKey}
   getCurrentMap() {return this.currentMap}
 

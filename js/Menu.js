@@ -73,18 +73,17 @@ export default class Menu extends Phaser.Scene{
         this.scene.start('Controls');
     }
 
-    handleSaveButtonClick() {
+    async handleSaveButtonClick() {
         console.log('Save button pressed')
-        this.gameState.saveToFile()
+        await this.gameState.saveToFile()
         console.log('Game Saved')
     }
-
-    handleLoadButtonClick() {
+    
+    async handleLoadButtonClick() {
         console.log('Load button pressed')
-        this.gameState.loadFromFile();
+        await this.gameState.loadFromFile();
         const mapKey = this.gameState.currentMap;
         this.scene.start(mapKey);
-        console.log(`${this.gameState.loadFromFile()}`)
         console.log('Game Loaded')
     }
 
