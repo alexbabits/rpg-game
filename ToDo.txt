@@ -38,7 +38,6 @@ Add game load method in your HomeScene.js instead of menu.js. Check if a saved g
 --> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click.
 
 --> (Small Bug): Player gets double bonus sometimes when save/loading with/without equipment?
---> (Small Bug): Player load always respawns at 320,320.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): Can equip/use things while in pause mode in menu.

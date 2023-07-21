@@ -15,7 +15,7 @@ export default class Menu extends Phaser.Scene{
         this.menuOptions = ['Resume', 'Controls', 'Save', 'Load', 'Quit'];
         this.buttons = [];
         let startX = this.game.config.width/2;
-        let startY = this.game.config.height/2 - 75;
+        let startY = this.game.config.height/2 - 100;
         for (let i = 0; i < this.menuOptions.length; i++) {
             let x = startX;
             let y = startY + i * 50; 
@@ -113,7 +113,12 @@ export default class Menu extends Phaser.Scene{
     }
 
     handleQuitButtonClick() {
-        console.log('Quit button pressed')
+        for (let key in this.scene.manager.scenes) {
+            if (key !== 'HomeScene') {
+                this.scene.manager.scenes[key].scene.stop();
+            }
+        }
+        this.scene.start('HomeScene')
     }
 }
 

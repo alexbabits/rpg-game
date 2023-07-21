@@ -1,9 +1,3 @@
-/*
-Handles all things associated with user input:
-
---> Clicking Things (Changing volume, changing options, click load/save buttons)
---> Entering Information (inputting values in options or text box prompts in game)
-*/
 export default class UserInput {
   constructor(scene) {
     this.scene = scene;
