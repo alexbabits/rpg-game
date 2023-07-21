@@ -5,7 +5,6 @@ export default class Menu extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('controlsbackground','assets/images/controlsbackground.png');
     }
 
     create(data){
@@ -128,7 +127,8 @@ export class Controls extends Phaser.Scene {
         super("Controls");
     }
 
-    create() {
+    create(data) {
+        this.returnScene = data.returnScene;
         this.controlsBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'controlsbackground');
 
         this.add.text(320, 100, 'WASD/Arrow Keys - Move', { fontSize: '32px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
@@ -142,7 +142,7 @@ export class Controls extends Phaser.Scene {
 
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();
-            this.scene.start("Menu");
+            this.scene.start(this.returnScene);
         });
     }
 }

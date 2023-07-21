@@ -5,6 +5,7 @@ export default class HomeScene extends Phaser.Scene {
 
     preload() {
         this.load.image('homescene', 'assets/images/homescene.png');
+        this.load.image('controlsbackground','assets/images/controlsbackground.png');
     }
 
     create() {
@@ -39,7 +40,14 @@ export default class HomeScene extends Phaser.Scene {
         const optionsButton = this.add.rectangle(320, 600, 200, 50, 0xcbdbfc).setInteractive();
         optionsButton.on('pointerover', () => optionsButton.setFillStyle(0xa3bffa));
         optionsButton.on('pointerout', () => optionsButton.setFillStyle(0xcbdbfc));
-        optionsButton.on('pointerdown', () => {console.log(`Options Button Clicked.`)});
+        optionsButton.on('pointerdown', () => {
+            for (let key in this.scene.manager.scenes) {
+                if (key !== 'Controls') {
+                    this.scene.manager.scenes[key].scene.stop();
+                }
+            }
+            this.scene.start('Controls', { returnScene: this.scene.key });
+        });
         const optionsButtonText = this.add.text(320, 600, 'Options', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [optionsButton, optionsButtonText]);
     }
