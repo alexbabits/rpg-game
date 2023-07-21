@@ -261,8 +261,12 @@ export class PlayerDeathState extends PlayerState {
     this.player.sprite.setActive(false);
     this.player.sprite.setVisible(false);
     this.player.scene.time.delayedCall(500, () => {
-      this.player.scene.scene.stop(this.player.scene.scene.key);
-      this.player.scene.scene.start('GameOverScene');
+        for (let key in this.player.scene.scene.manager.scenes) {
+            if (key !== 'GameOverScene') {
+                this.player.scene.scene.manager.scenes[key].scene.stop();
+            }
+        }
+        this.player.scene.scene.start('GameOverScene');
     });
   }
 }
