@@ -1,22 +1,5 @@
 Right now: save/load kind of works. Save button saves config.json, but only basically when a scene transitions. And load basically just loads that in, which is right at the scene transition.
 
-So either,
-1. we can make the config.json better by actually saving the current state, instead of just the last scene transition state.
-2. we could, right now, make it so the save button takes snapshot of current state, just like the scene transition logic in Map1 and Map2, and then the load button grabs that current state. This would basically solve our save/loading from within a single game instance, without Electron at all. BUT, Electron is probably needed for that save gamestate to persist and be able to be loaded even when the game is closed. So basically, Electron should grab the up to date save state from the save button (Which it is doing right now, but not getting the 'up to date' save gamestate stuff, but rather its just grabbing the most recent scene transition save state.)
-
-So, again. The save/load buttons COULD be working perfectly without Electron at all, the save button would just have to do what the Map1 and Map2 is currently doing for the player/inventory/equipment with our already made 'saveplayerstate, saveequipmentstate, saveinventorystate' methods in gamestate.
-
-So our save button could already do that better than what it is doing right now. Our save button COULD actually get the current up to date gamestate using those savexyzstate methods, rather than whatever it is doing now.
-
-Then our load button COULD also be better right now, and it would copy what it was doing in Map1 and Map2, and we could just get the ACTUALLY CORRECT save gamestate. 
-
-But I think the good thing is, if we fix our save button to actually save the current exact moment, rather than just the last scene transition's save, then we should be golden?
-
-Reference GameState, Menu, and Maps, and maybe Configs.js and HomeScene to put the load button in there in the future, rather than within the game itself, but that doesn't really matter.
-
-It works!! If you save a game, it saves. And then when you enter a new game, and then menu, and then load, it loads that old save from a previous game that was closed before.
-
-
 Add game load method in your HomeScene.js instead of menu.js. Check if a saved game state exists, and if it does, offer the player the option to continue their previous game. If no saved game state exists, this option could either be grayed out or display a message to the user saying that no saved games were found.
 Dandle errors and edge cases - if the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
 
@@ -57,11 +40,10 @@ Dandle errors and edge cases - if the saved file is corrupted or not available, 
 --> (Future): Dragging item into equipment slot, as another way to equip besides double click.
 --> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click.
 
---> (Optional): Combine PlayerAttackState and PlayerSpecialAttackState.
---> (Optional): Refactor player stats/methods into a separate file? Player class is messy with its stats and methods.
-
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
---> (Small Bug): Player facing wrong way when entering map. Handle direction in gamestate.
 --> (Small Bug): Can equip/use things while in pause mode in menu.
 --> (Small Bug): On death if respawn, you get damage/defense as if you were equipping your stuff twice.
+
+--> (Optional): Combine PlayerAttackState and PlayerSpecialAttackState.
+--> (Optional): Refactor player stats/methods into a separate file? Player class is messy with its stats and methods.

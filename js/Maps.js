@@ -51,6 +51,10 @@ export default class Map extends Phaser.Scene {
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
 
+        this.gameState.setPlayer(this.player);
+        this.gameState.setInventory(this.inventory);
+        this.gameState.setEquipment(this.equipment);
+
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.launch('Menu', { gameState: this.gameState });
             this.scene.pause();

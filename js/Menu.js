@@ -74,17 +74,35 @@ export default class Menu extends Phaser.Scene{
     }
 
     async handleSaveButtonClick() {
-        console.log('Save button pressed')
-        await this.gameState.saveToFile()
-        console.log('Game Saved')
+        console.log('Save button pressed');
+        
+        let player = this.gameState.player;
+        let inventory = this.gameState.inventory;
+        let equipment = this.gameState.equipment;
+    
+        this.gameState.savePlayerState(player);
+        this.gameState.saveInventoryState(inventory);
+        this.gameState.saveEquipmentState(equipment);
+        await this.gameState.saveToFile();
+        
+        console.log('Game Saved');
     }
     
     async handleLoadButtonClick() {
-        console.log('Load button pressed')
+        console.log('Load button pressed');
         await this.gameState.loadFromFile();
         const mapKey = this.gameState.currentMap;
+    
+        let player = this.gameState.player;
+        let inventory = this.gameState.inventory;
+        let equipment = this.gameState.equipment;
+    
+        this.gameState.loadPlayerState(player);
+        this.gameState.loadInventoryState(inventory);
+        this.gameState.loadEquipmentState(equipment);
+        
         this.scene.start(mapKey);
-        console.log('Game Loaded')
+        console.log('Game Loaded');
     }
 
     handleQuitButtonClick() {

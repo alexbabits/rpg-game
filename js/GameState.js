@@ -4,7 +4,14 @@ export default class GameState {
     this.inventoryState = null;
     this.equipmentState = null;
     this.currentMap = null;
+    this.player = null;
+    this.inventory = null;
+    this.equipment = null;
   }
+  
+  setPlayer(player) { this.player = player; }
+  setInventory(inventory) { this.inventory = inventory; }
+  setEquipment(equipment) { this.equipment = equipment; }
 
   async saveToFile() {
     const gameState = {
