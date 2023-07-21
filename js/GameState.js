@@ -99,7 +99,7 @@ export default class GameState {
       defense: player.gameState.getPlayerDefense(),
       specialDamage: player.gameState.getPlayerSpecialDamage(),
       direction: player.gameState.getPlayerDirection(),
-      position: player.gameState.getPlayerPosition()
+      position: {x: player.sprite.x, y: player.sprite.y}
     }
   }
 

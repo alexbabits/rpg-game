@@ -1,7 +1,4 @@
-Right now: save/load kind of works. Save button saves config.json, but only basically when a scene transitions. And load basically just loads that in, which is right at the scene transition.
-
-Add game load method in your HomeScene.js instead of menu.js. Check if a saved game state exists, and if it does, offer the player the option to continue their previous game. If no saved game state exists, this option could either be grayed out or display a message to the user saying that no saved games were found.
-Dandle errors and edge cases - if the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
+Add game load method in your HomeScene.js instead of menu.js. Check if a saved game state exists. If no saved game state exists, this option could either be grayed out or display a message to the user saying that no saved games were found. Handle errors and edge cases - if the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
 
 --> (Future): Customizable keybinds
 --> (Future): Handle Stackable Scenarios for looting/equipment.
@@ -40,6 +37,8 @@ Dandle errors and edge cases - if the saved file is corrupted or not available, 
 --> (Future): Dragging item into equipment slot, as another way to equip besides double click.
 --> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click.
 
+--> (Small Bug): Player gets double bonus sometimes when save/loading with/without equipment?
+--> (Small Bug): Player load always respawns at 320,320.
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
 --> (Small Bug): Can equip/use things while in pause mode in menu.

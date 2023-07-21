@@ -101,6 +101,13 @@ export default class Menu extends Phaser.Scene{
         this.gameState.loadInventoryState(inventory);
         this.gameState.loadEquipmentState(equipment);
         
+        const savedPosition = this.gameState.getPlayerPosition();
+        this.gameState.setPlayerPosition(savedPosition.x, savedPosition.y);
+        for (let key in this.scene.manager.scenes) {
+            if (key !== mapKey) {
+                this.scene.manager.scenes[key].scene.stop();
+            }
+        }
         this.scene.start(mapKey);
         console.log('Game Loaded');
     }
