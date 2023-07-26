@@ -16,7 +16,7 @@ const config = {
   type: Phaser.AUTO,
   parent: 'configs',
   scene:[HomeScene, new Map1(gameState), new Map2(gameState), LootDisplay, EquipmentDisplay, InventoryDisplay, PlayerStatusBars, GameOverScene, Menu, Controls],
-  scale: {zoom:1.4},
+  scale: {zoom:1},
   physics: {default: 'matter', matter: {debug:true, gravity:{y:0}}},
   plugins: {scene:[{plugin: PhaserMatterCollisionPlugin.default, key: 'matterCollision', mapping: 'matterCollision'}]}
 }

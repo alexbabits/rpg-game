@@ -79,7 +79,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
             let quantityText = null;
             if(item.quantity > 1){
-                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(30);
+                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFFF00', resolution: 4}).setDepth(30);
                 quantityText.setVisible(this.inventoryData.gameState.getInvVisibility());
                 itemSprite.setData('quantityText', quantityText);
                 this.quantityTexts.push(quantityText);

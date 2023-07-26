@@ -3,11 +3,15 @@ export default class PlayerStatusBars extends Phaser.Scene {
         super("PlayerStatusBars");
     }
 
+    preload() {
+        this.load.bitmapFont('Font', 'assets/images/Font.png', 'assets/images/Font.fnt');
+    }
+
     init(data) {
         this.player = data.player;
     }
 
-    create() {
+    create() {   
         this.barsConfig = [
             {color: 0x73e600, x: 53, y: 22.5, width: 100, adj: 20, getValue: () => this.player.gameState.getPlayerHP(), getMaxValue: () => this.player.gameState.getPlayerMaxHP(), getColor: (value, maxValue) => value <= maxValue / 4 ? 0xFF0000 : 0x73e600},
             {color: 0xe6e600, x: 53, y: 42.5, width: 100, adj: 20, getValue: () => this.player.gameState.getPlayerStamina(), getMaxValue: () => this.player.gameState.getPlayerMaxStamina()},
@@ -20,9 +24,10 @@ export default class PlayerStatusBars extends Phaser.Scene {
             let maxValue = barConfig.getMaxValue();
             barConfig.bar = this.add.graphics();
             barConfig.bar.fillStyle(barConfig.color, 1.0);
-            barConfig.text = this.add.text(barConfig.x + barConfig.adj, barConfig.y, `${value}/${maxValue}`, { fontFamily: 'Arial', fontSize: '16px', fill: '#000', resolution: 4 });
+            barConfig.text = this.add.bitmapText(barConfig.x + barConfig.adj, barConfig.y, 'Font', `${value}/${maxValue}`, 16).setTint(0x000);
+
         });
-        this.levelText = this.add.text(410, 5, `Player Level: ${this.player.gameState.getPlayerLevel()}`, { fontFamily: 'Arial', fontSize: '16px', fill: '#000',  resolution: 4 });
+        this.levelText = this.add.bitmapText(410, 5, 'Font', `Player Level: ${this.player.gameState.getPlayerLevel()}`, 16).setTint(0x000);
     }
 
     update() {
@@ -30,9 +35,9 @@ export default class PlayerStatusBars extends Phaser.Scene {
             let value = barConfig.getValue();
             let maxValue = barConfig.getMaxValue();
             let barWidth = (value / maxValue) * barConfig.width;
-
+    
             barConfig.text.setText(`${value}/${maxValue}`);
-
+    
             barConfig.bar.clear();
             barConfig.bar.fillStyle(0xFFFFFF, 1.0);
             barConfig.bar.fillRect(barConfig.x, barConfig.y, barConfig.width, 16);

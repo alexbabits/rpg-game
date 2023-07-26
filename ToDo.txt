@@ -14,7 +14,7 @@ Add game load method in your HomeScene.js instead of menu.js. Check if a saved g
 --> (Future): Hover over equipment gives stats & description & enchants & frost/fire stuff etc.
 --> (Future): Loading Bar scene after the homescene that loads in assets.
 --> (Future): Stat resets. Drink from the forgetfullness well or fountain.
---> (Future): More level up mechanics (golden confetti, then stats choices to increase max stats)
+--> (Future): Level up mechanics (golden confetti, then stats choices to increase max stats)
 --> (Future): Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
 --> (Future): Inventory Swapping items.
 --> (Future): X button for inventory. Bag icon to open/close inventory too. (Done via bag background iteractable object pretty much?)
@@ -24,7 +24,7 @@ Add game load method in your HomeScene.js instead of menu.js. Check if a saved g
 --> (Future): XP drops
 --> (Future): Monster Attack Anims
 --> (Future): Click to move/Click to initiate attack?
---> (Future): Monster Spawn zones instead of just random points. Would be same dimensions as their wander zone.
+--> (Future): Monster Spawn 'zones' instead of 'random points'. Random Respawn/Spawn be same dimensions as their wander zone.
 --> (Future): Monster 'wandering' while in idle state? Or new 'wander' state.
 --> (Future): Defense stat on monsters. Crit/Crit Eff. stats.
 --> (Future): Debuffs and buffs.
@@ -34,9 +34,14 @@ Add game load method in your HomeScene.js instead of menu.js. Check if a saved g
 --> (Future): Monster Attacking Sensor is not a circle but more closely related to their body shape.
 --> (Future): Tooltip for inventory items displaying stats or description.
 --> (Future): Swap items when equipping one of the same type.
---> (Future): Dragging item into equipment slot, as another way to equip besides double click.
---> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click.
+--> (Future): Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
+--> (Future): Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
+--> (Future): Custom Electron Icon.
+--> (Future): Instead of 640x640, game configs to fullscreen, and on electron startup.
+--> (Future): Combat and movement as turn-based/tick based.
+--> (Future): Click to move, click to attack.
 
+--> (Bug): Get Saving/Loading/New to work smoothly. And also multiple save slots.
 --> (Small Bug): Player gets double bonus sometimes when save/loading with/without equipment?
 --> (Small Bug): Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 --> (Small Bug): If you aggro two enemies at once, only one will follow you. (Similar to how if you ran away from two monsters attack range quickly, only 1 would transition to attack state).
