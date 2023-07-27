@@ -113,11 +113,11 @@ export default class Menu extends Phaser.Scene{
 
     handleQuitButtonClick() {
         for (let key in this.scene.manager.scenes) {
-            if (key !== 'HomeScene') {
+            if (key !== 'StartScreen') {
                 this.scene.manager.scenes[key].scene.stop();
             }
         }
-        this.scene.start('HomeScene')
+        this.scene.start('StartScreen')
     }
 }
 

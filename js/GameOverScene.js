@@ -12,11 +12,11 @@ export default class GameOverScene extends Phaser.Scene {
 
         this.input.keyboard.on('keydown', () => {
             this.scene.stop('GameOverScene')
-            this.scene.start('HomeScene')
+            this.scene.start('StartScreen')
         })
         this.input.on('pointerdown', () => {
             this.scene.stop('GameOverScene')
-            this.scene.start('HomeScene')
+            this.scene.start('StartScreen')
         })
     }
 }

@@ -1,0 +1,3 @@
+New/Saving/Loading work smoothly for one player, for homescene and in game. (Load scene popup is same in HomeScene and in game for example.)
+
+Add game load method in your HomeScene.js instead of menu.js. Check if a saved game state exists. If no saved game state exists, this option could either be grayed out or display a message to the user saying that no saved games were found. Handle errors and edge cases - if the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.

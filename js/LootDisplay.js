@@ -26,6 +26,7 @@ export default class LootDisplay extends Phaser.Scene {
         this.slots[slotIndex].itemSprite = null;
         if (this.slots.every(slot => slot.itemSprite === null)) {
             this.closeDisplay();
+            console.log(`Looted ${this.loot.itemDrop.name}`)
         }
     }
 

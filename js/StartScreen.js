@@ -1,15 +1,15 @@
-export default class HomeScene extends Phaser.Scene {
+export default class StartScreen extends Phaser.Scene {
     constructor() {
-        super("HomeScene");
+        super("StartScreen");
     }
 
     preload() {
-        this.load.image('homescene', 'assets/images/homescene.png');
+        this.load.image('StartScreen', 'assets/images/StartScreen.png');
         this.load.image('controlsbackground','assets/images/controlsbackground.png');
     }
 
     create() {
-        this.add.image(0, 0, 'homescene').setOrigin(0).setScale(1);
+        this.add.image(0, 0, 'StartScreen').setOrigin(0).setScale(1);
         this.setupNewButton();
         this.setupLoadButton();
         this.setupOptionsButton();
@@ -20,7 +20,7 @@ export default class HomeScene extends Phaser.Scene {
         newButton.on('pointerover', () => newButton.setFillStyle(0xa3bffa));
         newButton.on('pointerout', () => newButton.setFillStyle(0xcbdbfc));
         newButton.on('pointerdown', () => {
-            this.scene.stop('HomeScene');
+            this.scene.stop('StartScreen');
             this.scene.start('Map1');
         });
         const newButtonText = this.add.text(320, 480, 'New', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
