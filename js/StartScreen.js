@@ -26,9 +26,11 @@ export default class StartScreen extends Phaser.Scene {
             this.gameState.inventoryState = null;
             this.gameState.equipmentState = null;
             this.gameState.currentMap = null;
-            //this.player = null;
-            //this.inventory = null;
-            //this.equipment = null;
+            this.gameState.playerPosition = {x: 320, y: 320};
+            this.gameState.playerDirection = 'Right';
+            this.player = null;
+            this.inventory = null;
+            this.equipment = null;
             this.scene.start('Map1');
         });
         const newButtonText = this.add.text(320, 480, 'New', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
