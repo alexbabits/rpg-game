@@ -1,3 +1,19 @@
-New/Saving/Loading work smoothly for one player, for homescene and in game. (Load scene popup is same in HomeScene and in game for example.)
+• (Bug) New/Saving/Loading (One Player/Slot):
 
-Add game load method in your HomeScene.js instead of menu.js. Check if a saved game state exists. If no saved game state exists, this option could either be grayed out or display a message to the user saying that no saved games were found. Handle errors and edge cases - if the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
+HomeScene should have (New, Load, Options, Quit) that functions as expected. (Quit just exits Electron).
+In Game Menu should have (Save/Load/Quit to Main Menu) that functions as expected.
+
+For multiple save slots, the load scene should popup showing which ones.
+The loadscene popup is exactly the same in the StartScreen as it is in game.
+
+Currently, loading only done from menu.js. Tried loading with load button in StartScreen, but things got messy because not everything was loaded yet.
+
+
+(Load Button, first checks if a game state exists, perhaps handled by a 'LoadScene' screen which pops up the slots (Just 1 at first).)
+
+
+If no saved game state exists, all the slots would be blank and not show anything.
+If the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
+
+
+• (Refactor/Bug) Preload everything in some central location (Fix Inventory Sprites loading in after.)

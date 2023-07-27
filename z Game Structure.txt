@@ -1,0 +1,23 @@
+*****Game/Scene Structure*****
+
+StartScreen - New, Load, Options, Quit
+    - New grabs default gamestate as if player is starting a new game.
+    - Load pops up LoadScene, allowing to load a game.
+    - Options pops up the Options Scene.
+    - Quit exits Electron
+
+Options - Controls, Audio, Graphics, ???
+    - Controls contains controls/keybinds (customizable in future)
+    - Audio contains audio settings
+    - Graphcis contains graphics settings
+
+Menu - Save, Load, Options, Resume, Quit to Main, Quit Entirely 
+    - Save allows you to save a game to whatever 'load slot' you are currently in, it could prompt the loadscene to pop up, asking which slot to save to.
+    - Load scene exactly the same as StartScreen, just pick one and load it.
+    - Options also the same
+    - Resume just resumes back to current map and everything.
+    - Quit goes back to StartScreen, quit entirely exits electron.
+
+Game - Death, Maps
+    - On death, what happens? Death scene and then... idk?
+    - Maps should have current gamestate of the player and everything neccessary between maps. Maps talk to eachother with their data?
