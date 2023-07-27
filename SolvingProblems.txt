@@ -1,19 +1,48 @@
-• (Bug) New/Saving/Loading (One Player/Slot):
-
-HomeScene should have (New, Load, Options, Quit) that functions as expected. (Quit just exits Electron).
-In Game Menu should have (Save/Load/Quit to Main Menu) that functions as expected.
-
-For multiple save slots, the load scene should popup showing which ones.
-The loadscene popup is exactly the same in the StartScreen as it is in game.
-
-Currently, loading only done from menu.js. Tried loading with load button in StartScreen, but things got messy because not everything was loaded yet.
+Within same session:
+    1. New Game isn't always a new game. If play game, click New ---> Do stuff/Save ---> Quit ---> New, it's not a new game. (Within the same session).
+    2. Save and Load works perfect within same session, even with quitting back to StartScreen or not.
 
 
-(Load Button, first checks if a game state exists, perhaps handled by a 'LoadScene' screen which pops up the slots (Just 1 at first).)
+Different sessions:
+    1. New works as intended, always starting a completely fresh game.
+    2. Load and Save still work as intended.
 
 
-If no saved game state exists, all the slots would be blank and not show anything.
-If the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
+Problems:
+    1. New game needs to make a new game always, even within same session.
+    2. Load functionality currently only within game menu in game. Needs to be functional on start screen as well.
+    3. (Refactor/Bug) Preload everything in some central location (Fix Inventory Sprites loading in after.)
 
 
-• (Refactor/Bug) Preload everything in some central location (Fix Inventory Sprites loading in after.)
+
+File concerns:
+
+Core: GameState.js, Maps.js, StartScreen.js, Menu.js
+Peripheral: main.js, preload.js, Configs.js, Player.js, InventoryData.js, EquipmentData.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Back Burner:
+For multiple save slots, the load scene should popup showing which ones. The loadscene popup is exactly the same in the StartScreen as it is in game.
+
+
+Load Button, first checks if a game state exists, perhaps handled by a 'LoadScene' screen which pops up the slots (Just 1 at first). If no saved game state exists, all the slots would be blank and not show anything. If the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
+
