@@ -1,6 +1,7 @@
 export default class StartScreen extends Phaser.Scene {
-    constructor() {
+    constructor(gameState) {
         super("StartScreen");
+        this.gameState = gameState;
     }
 
     preload() {
@@ -21,6 +22,13 @@ export default class StartScreen extends Phaser.Scene {
         newButton.on('pointerout', () => newButton.setFillStyle(0xcbdbfc));
         newButton.on('pointerdown', () => {
             this.scene.stop('StartScreen');
+            this.gameState.playerState = null;
+            this.gameState.inventoryState = null;
+            this.gameState.equipmentState = null;
+            this.gameState.currentMap = null;
+            //this.player = null;
+            //this.inventory = null;
+            //this.equipment = null;
             this.scene.start('Map1');
         });
         const newButtonText = this.add.text(320, 480, 'New', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
