@@ -14,6 +14,8 @@ export default class StartScreen extends Phaser.Scene {
         this.setupNewButton();
         this.setupLoadButton();
         this.setupOptionsButton();
+        //this.scene.sleep('Map1');
+        //this.scene.sleep('Map2');
     }
 
     setupNewButton() {
@@ -37,11 +39,30 @@ export default class StartScreen extends Phaser.Scene {
         this.add.container(0, 0, [newButton, newButtonText]);
     }
 
+    async loadGame(){
+        console.log('Load button pressed');
+        await this.gameState.loadFromFile();
+
+        let player = this.gameState.player;
+        let inventory = this.gameState.inventory;
+        let equipment = this.gameState.equipment;
+
+        this.gameState.loadPlayerState(player);
+        this.gameState.loadInventoryState(inventory);
+        this.gameState.loadEquipmentState(equipment);
+
+        this.scene.stop('StartScreen');
+        this.scene.start('Map1');
+        console.log('Game Loaded');
+    }
+
     setupLoadButton(){
         const loadButton = this.add.rectangle(320, 540, 200, 50, 0xcbdbfc).setInteractive();
         loadButton.on('pointerover', () => loadButton.setFillStyle(0xa3bffa));
         loadButton.on('pointerout', () => loadButton.setFillStyle(0xcbdbfc));
-        loadButton.on('pointerdown', () => {console.log(`Load Button Clicked.`)});
+        loadButton.on('pointerdown', () => {
+            this.loadGame(); 
+        });
         const loadButtonText = this.add.text(320, 540, 'Load', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [loadButton, loadButtonText]);
     }

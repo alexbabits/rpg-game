@@ -9,7 +9,6 @@ Different sessions:
 
 
 Problems:
-    1. New game needs to make a new game always, even within same session.
     2. Load functionality currently only within game menu in game. Needs to be functional on start screen as well.
     3. (Refactor/Bug) Preload everything in some central location (Fix Inventory Sprites loading in after.)
 
@@ -20,15 +19,13 @@ File concerns:
 Core: GameState.js, Maps.js, StartScreen.js, Menu.js
 Peripheral: main.js, preload.js, Configs.js, Player.js, InventoryData.js, EquipmentData.js
 
-StartScreen, manually reset GameState properties to null.
-
-In Map1 create method, if gameState is not null, reset it to defaults before proceeding. (For New button)
-
-Build a GameState.reset() method that restores defaults for all properties, called from StartScreen New button transition.
-
-Separate GameState objects, one for persisted state, another for fresh games (New button click).
 
 
+Initialize core objects in StartScreen create method, instead of the Map scenes. (Downside takes that initialization away from MAps)
+
+Use Sleep and Wake to control activation
+
+Use custom init method for lazy loading.
 
 
 

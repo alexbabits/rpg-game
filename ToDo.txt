@@ -8,6 +8,7 @@
 • (Bug) Can equip/use things while in pause mode in menu.
 • (Bug) On death if respawn, you get damage/defense as if you were equipping your stuff twice.
 • (Bug) If exit controls inside in-game menu, game can freeze.
+• (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand.
 
 
 
