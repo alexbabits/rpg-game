@@ -73,7 +73,7 @@ export default class Menu extends Phaser.Scene{
     }
 
     handleControlsButtonClick() {
-        this.scene.start('Controls');
+        this.scene.start('Controls', { returnScene: this.scene.key });
     }
 
     async handleSaveButtonClick() {
@@ -142,7 +142,6 @@ export class Controls extends Phaser.Scene {
         this.add.text(320, 400, 'Ctrl+Space - Special Attack', { fontSize: '32px', fontFamily: 'Arial', fill: '#cbdbfc', resolution: 4 }).setOrigin(0.5, 0.5);
         this.add.text(320, 475, 'Shift - Run', { fontSize: '32px', fontFamily: 'Arial', fill: '#cbdbfc', resolution: 4 }).setOrigin(0.5, 0.5);
         this.add.text(320, 550, 'Esc - Exit/Back', { fontSize: '32px', fontFamily: 'Arial', fill: '#cbdbfc', resolution: 4 }).setOrigin(0.5, 0.5);
-
 
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();
