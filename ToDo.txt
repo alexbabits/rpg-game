@@ -1,19 +1,14 @@
 *****Bug Fixes/Refactoring*****
+• (Bug) If exit controls inside in-game menu, game can freeze.
+• (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand within the same session.
+• (Bug) Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
 • (Refactor/Bug) Preload everything in some central location (Fix Inventory Sprites loading in after, sometimes an issue. BootScene perhaps?)
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
 • (Refactor) Combine player stats/methods into a separate file? Player class is messy with its stats and methods.
-• (Bug) Player gets double bonus sometimes when save/loading with/without equipment?
-• (Bug) Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
-• (Bug) If you aggro two enemies at once, only one will follow you.
-• (Bug) If you exit aggro range of two enemies at once, only one will follow you (Fixed, what was fix?)
-• (Bug) Can equip/use things while in pause mode in menu.
-• (Bug) On death if respawn, you get damage/defense as if you were equipping your stuff twice.
-• (Bug) If exit controls inside in-game menu, game can freeze.
-• (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand.
-
 
 
 *****New Features/Improvements on Current Features*****
+• Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
 • Multiple Save Slots
 • Customizable keybinds in 'Controls/Keybinds' section.
 • XP drops

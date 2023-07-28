@@ -25,6 +25,8 @@ export default class Menu extends Phaser.Scene{
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();
             this.scene.resume(this.gameState.getCurrentMap());
+            this.scene.resume('InventoryDisplay');
+            this.scene.resume('EquipmentDisplay');
         });
     }
 
@@ -66,6 +68,8 @@ export default class Menu extends Phaser.Scene{
     handleResumeButtonClick() {
         this.scene.stop();
         this.scene.resume(this.gameState.getCurrentMap());
+        this.scene.resume('InventoryDisplay');
+        this.scene.resume('EquipmentDisplay');
     }
 
     handleControlsButtonClick() {

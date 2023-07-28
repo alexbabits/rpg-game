@@ -58,6 +58,8 @@ export default class Map extends Phaser.Scene {
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.launch('Menu', { gameState: this.gameState });
             this.scene.pause();
+            this.scene.pause('InventoryDisplay');
+            this.scene.pause('EquipmentDisplay');
         });
 
         let camera = this.cameras.main;
