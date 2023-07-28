@@ -11,14 +11,13 @@ Options - Controls, Audio, Graphics
     - Audio: Contains audio settings
     - Graphcis: Contains graphics settings
 
-Game Menu - Save, Load, Options, Resume, Quit to Main, Quit Entirely 
+Game Menu - Save, Load, Options, Resume, Quit
     - Save: Allows you to save a game to whatever 'load slot' you are currently in, it could prompt the loadscene to pop up, asking which slot to save to.
     - Load: Same LoadScene as the StartScreen's Load.
     - Options: Same Options as at the StartScreen's Options.
     - Resume: Just resumes back to current map and everything.
-    - Quit to Main: Goes back to StartScreen.
-    - Quit to Desktop: Exits Electron Window entirely.
+    - Quit: Goes back to StartScreen.
 
 Game - Death, Maps
-    - Death: DeathScene with 'Load' and 'Main Menu' buttons.
+    - Death: DeathScene is fine as it is. Should simply take you back to main menu, making sure everything is clear and ready for New/Load game.
     - Maps: Should have current gamestate of the player and everything neccessary between maps. Maps talk to eachother with their data?

@@ -1,3 +1,7 @@
+import Player from './Player.js';
+import InventoryData from './InventoryData.js';
+import EquipmentData from './EquipmentData.js';
+
 export default class StartScreen extends Phaser.Scene {
     constructor(gameState) {
         super("StartScreen");
@@ -14,8 +18,6 @@ export default class StartScreen extends Phaser.Scene {
         this.setupNewButton();
         this.setupLoadButton();
         this.setupOptionsButton();
-        //this.scene.sleep('Map1');
-        //this.scene.sleep('Map2');
     }
 
     setupNewButton() {
@@ -43,16 +45,20 @@ export default class StartScreen extends Phaser.Scene {
         console.log('Load button pressed');
         await this.gameState.loadFromFile();
 
-        let player = this.gameState.player;
-        let inventory = this.gameState.inventory;
-        let equipment = this.gameState.equipment;
+        let player = new Player(this, 320, 320, this.gameState);
+        let inventory = new InventoryData(this, this.gameState, player);
+        let equipment = new EquipmentData(this, this.gameState, player);
+
+        this.gameState.setPlayer(player);
+        this.gameState.setInventory(inventory);
+        this.gameState.setEquipment(equipment);
 
         this.gameState.loadPlayerState(player);
         this.gameState.loadInventoryState(inventory);
         this.gameState.loadEquipmentState(equipment);
 
         this.scene.stop('StartScreen');
-        this.scene.start('Map1');
+        this.scene.start(this.gameState.getCurrentMap());
         console.log('Game Loaded');
     }
 

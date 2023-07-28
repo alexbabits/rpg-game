@@ -1,4 +1,5 @@
 *****Bug Fixes/Refactoring*****
+• (Refactor/Bug) Preload everything in some central location (Fix Inventory Sprites loading in after, sometimes an issue. BootScene perhaps?)
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
 • (Refactor) Combine player stats/methods into a separate file? Player class is messy with its stats and methods.
 • (Bug) Player gets double bonus sometimes when save/loading with/without equipment?
