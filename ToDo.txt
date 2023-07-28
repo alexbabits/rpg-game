@@ -7,51 +7,50 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
 • Multiple Save Slots
-• Customizable keybinds in 'Controls/Keybinds' section.
+• Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
+• Level up mechanics (golden confetti, then stats choices to increase max stats)
+• Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
 • XP drops
+• X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
+• Hitsplats on player and monster
+• Defense stat on monsters. Player damage on monster adjusted properly.
+• Custom Electron Icon.
+• Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
+• Increased inventory size (16 --> 64). 4 pages of it?
 • Map (M key for Map)
 • Minimap
 • J for journal/Quests
+• Teleporter. Allows for movement between scenes. Animated.
+• Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
 • Caps lock toggles run, in addition to the current shift-hold mechanism.
-• Hitsplats on player and monster
 • Instead of 640x640, game configs to fullscreen, and on electron startup.
-• Custom Electron Icon.
 • Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
-• Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
-• Increased inventory size (16 --> 64). 4 pages of it?
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
-• Monster Attacking Sensor is not a circle but more closely related to their body shape.
-• Monster Attack Anims. Mosnter Death Anims. Mechanism for clicking dead body to loot. Or on Click/walkover the loot scene appears.
-• Defense stat on monsters. 
+• Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
+• Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
 • Crit Chance %/Crit Damge %/Dodge/Accuracy/etc. (MORE STATS) (no anim change for crits/dodges, besides hitsplats).
 • Debuffs and buffs.
 • Handle Stackable Scenarios for looting/equipment.
+• Handle Multiple Items in loot scene (test, should be ok?)
 • Randomized/Weighted Monster drops.
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
 • Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
 • Quests & Interactions with NPCs.
-• Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-• Teleporter. Allows for movement between scenes. Animated.
 • Monster Spawn 'zones' instead of 'random points'. Random Respawn/Spawn be same dimensions as their wander zone.
 • Monster 'wandering' while in idle state? Or new 'wander' state.
 • Stat resets. Drink from the forgetfullness well or fountain. Or a fairy lets you unlearn everything.
-• Level up mechanics (golden confetti, then stats choices to increase max stats)
 • Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
 • Spritesheet for each weapon type, and for armor. And maybe colors for different ones if feeling ambitious.
 • 4 way direction instead of 2 way direction for monsters and player animations.
-• X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
-• Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
 • Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
-
+• Some form of a loading scene (Loading Bar, Spinning Icon, etc.). Only when game gets heavy enough.
 
 
 *****Undecided Features*****
 • Combat and movement as turn-based/tick based.
 • Player and/or monster damage is random (from 0 to maxDamage basically)
 • Click to move/Click to attack
-• Some form of a loading scene (Loading Bar, Spinning Icon, etc.). Only when game gets heavy enough.
 • Potion cooldown timer, and ticker that displays top of screen (20s cooldown that ticks down).

@@ -64,11 +64,7 @@ export class MonsterAttackingState extends MonsterState {
         //fixes attack state bug with multiple monsters (collision end wasn't working properly)
         let distance = Phaser.Math.Distance.Between(this.monster.sprite.x, this.monster.sprite.y, player.sprite.x, player.sprite.y);
         if (distance > this.monster.attackingSensorRadius+20) {
-            if(distance > this.monster.aggressionSensorRadius+20){
-                this.monster.transitionToNewState(this.monster.idleState);
-            } else {
                 this.monster.transitionToNewState(this.monster.aggressiveState);
-            }
             return;
         }
 
