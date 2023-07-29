@@ -18,7 +18,7 @@ export default class Menu extends Phaser.Scene{
         for (let i = 0; i < this.menuOptions.length; i++) {
             let x = startX;
             let y = startY + i * 50; 
-            let button = this.setupButton(x, y, this.menuOptions[i], i);
+            let button = this.setupButtons(x, y, this.menuOptions[i], i);
             this.buttons.push(button);
         }
 
@@ -30,7 +30,7 @@ export default class Menu extends Phaser.Scene{
         });
     }
 
-    setupButton(x, y, text, index) {
+    setupButtons(x, y, text, index) {
         let buttonSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive().setScale(3.0, 1);
         buttonSprite.index = index;
         buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f); buttonSprite.setData('hovered', true)});
@@ -73,7 +73,7 @@ export default class Menu extends Phaser.Scene{
     }
 
     handleControlsButtonClick() {
-        this.scene.start('Controls', { returnScene: this.scene.key });
+        this.scene.start('ControlsScene', { returnScene: this.scene.key });
     }
 
     async handleSaveButtonClick() {
@@ -92,27 +92,8 @@ export default class Menu extends Phaser.Scene{
     }
     
     async handleLoadButtonClick() {
-        console.log('Load button pressed');
-        await this.gameState.loadFromFile();
-        const mapKey = this.gameState.currentMap;
-    
-        let player = this.gameState.player;
-        let inventory = this.gameState.inventory;
-        let equipment = this.gameState.equipment;
-    
-        this.gameState.loadPlayerState(player);
-        this.gameState.loadInventoryState(inventory);
-        this.gameState.loadEquipmentState(equipment);
-        
-        const savedPosition = this.gameState.getPlayerPosition();
-        this.gameState.setPlayerPosition(savedPosition.x, savedPosition.y);
-        for (let key in this.scene.manager.scenes) {
-            if (key !== mapKey) {
-                this.scene.manager.scenes[key].scene.stop();
-            }
-        }
-        this.scene.start(mapKey);
-        console.log('Game Loaded');
+        this.scene.stop();
+        this.scene.start('LoadScene', { returnScene: this.scene.key });
     }
 
     handleQuitButtonClick() {
@@ -125,10 +106,10 @@ export default class Menu extends Phaser.Scene{
     }
 }
 
-
-export class Controls extends Phaser.Scene {
+/*
+export class ControlsScene extends Phaser.Scene {
     constructor() {
-        super("Controls");
+        super("ControlsScene");
     }
 
     create(data) {
@@ -149,3 +130,4 @@ export class Controls extends Phaser.Scene {
         });
     }
 }
+*/

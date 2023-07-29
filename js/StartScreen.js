@@ -1,7 +1,3 @@
-import Player from './Player.js';
-import InventoryData from './InventoryData.js';
-import EquipmentData from './EquipmentData.js';
-
 export default class StartScreen extends Phaser.Scene {
     constructor(gameState) {
         super("StartScreen");
@@ -41,33 +37,13 @@ export default class StartScreen extends Phaser.Scene {
         this.add.container(0, 0, [newButton, newButtonText]);
     }
 
-    async loadGame(){
-        console.log('Load button pressed');
-        await this.gameState.loadFromFile();
-
-        let player = new Player(this, 320, 320, this.gameState);
-        let inventory = new InventoryData(this, this.gameState, player);
-        let equipment = new EquipmentData(this, this.gameState, player);
-
-        this.gameState.setPlayer(player);
-        this.gameState.setInventory(inventory);
-        this.gameState.setEquipment(equipment);
-
-        this.gameState.loadPlayerState(player);
-        this.gameState.loadInventoryState(inventory);
-        this.gameState.loadEquipmentState(equipment);
-
-        this.scene.stop('StartScreen');
-        this.scene.start(this.gameState.getCurrentMap());
-        console.log('Game Loaded');
-    }
-
     setupLoadButton(){
         const loadButton = this.add.rectangle(320, 540, 200, 50, 0xcbdbfc).setInteractive();
         loadButton.on('pointerover', () => loadButton.setFillStyle(0xa3bffa));
         loadButton.on('pointerout', () => loadButton.setFillStyle(0xcbdbfc));
         loadButton.on('pointerdown', () => {
-            this.loadGame(); 
+            this.scene.stop('StartScreen');
+            this.scene.start('LoadScene', { returnScene: this.scene.key });
         });
         const loadButtonText = this.add.text(320, 540, 'Load', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [loadButton, loadButtonText]);
@@ -79,11 +55,11 @@ export default class StartScreen extends Phaser.Scene {
         optionsButton.on('pointerout', () => optionsButton.setFillStyle(0xcbdbfc));
         optionsButton.on('pointerdown', () => {
             for (let key in this.scene.manager.scenes) {
-                if (key !== 'Controls') {
+                if (key !== 'ControlsScene') {
                     this.scene.manager.scenes[key].scene.stop();
                 }
             }
-            this.scene.start('Controls', { returnScene: this.scene.key });
+            this.scene.start('ControlsScene', { returnScene: this.scene.key });
         });
         const optionsButtonText = this.add.text(320, 600, 'Options', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [optionsButton, optionsButtonText]);
