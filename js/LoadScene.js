@@ -8,7 +8,7 @@ export default class LoadScene extends Phaser.Scene {
         this.gameState = gameState;
     }
 
-    create(data){
+    async create(data) {
         this.returnScene = data.returnScene;
         this.loadBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'controlsbackground');
         this.createButtons();
@@ -16,6 +16,9 @@ export default class LoadScene extends Phaser.Scene {
             this.scene.stop();
             this.scene.start(this.returnScene);
         });
+
+        const playerLevel = await this.gameState.getSaveSlotStatistics();
+        this.add.text(200, 200, `Player Level: ${playerLevel}`);
     }
 
     createButtons() {

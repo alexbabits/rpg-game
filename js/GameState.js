@@ -33,7 +33,12 @@ export default class GameState {
     }
     return gameState;
   }
-  
+
+  async getSaveSlotStatistics() {
+    const gameState = await window.electron.invokeLoad();
+    return gameState && gameState.playerState ? gameState.playerState.level : undefined;
+  }
+
   setCurrentMap(mapKey) {this.currentMap = mapKey}
   getCurrentMap() {return this.currentMap}
 

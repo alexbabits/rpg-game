@@ -1,13 +1,13 @@
 *****Bug Fixes/Refactoring*****
 • (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand within the same session.
 • (Bug) Multiple Monsters running like idiots at you, pushing you around and not respecting the attackSensor as a stopping place sometimes.
-• (Bug) Inventory item sprites and Controls background occassionally not loading in properly.
+• (Bug) Inventory item sprites and Controls background occassionally not loading in properly. (On first startup via .exe, after map loads once it's fine.)
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
 • (Refactor) Combine player stats/methods into a separate file? Player class is messy with its stats and methods.
 
 
 *****New Features/Improvements on Current Features*****
-• Multiple Save Slots
+• Multiple Save Slots (delete saves, check for existing saves, if does exist, info about it like timestamp and level, etc.)
 • Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
 • Level up mechanics (golden confetti, then stats choices to increase max stats)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
