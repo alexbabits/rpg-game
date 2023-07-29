@@ -11,14 +11,36 @@ export default class LoadScene extends Phaser.Scene {
     create(data){
         this.returnScene = data.returnScene;
         this.loadBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'controlsbackground');
-        this.setupLoadButtons();
+        this.createButtons();
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();
             this.scene.start(this.returnScene);
         });
     }
 
-    async loadGame(){
+    createButtons() {
+        const labels = ['Slot 1', 'Slot 2', 'Slot 3'];
+        const yPos = [this.game.config.height/2, this.game.config.height/2 + 60, this.game.config.height/2 + 120];
+    
+        labels.forEach((label, index) => {
+            let buttonClickedMethod;
+            const y = yPos[index];
+            const buttonRectangle = this.add.rectangle(this.game.config.width / 2, y, 200, 50, 0xcbdbfc).setInteractive();
+            buttonRectangle.on('pointerover', () => buttonRectangle.setFillStyle(0xa3bffa));
+            buttonRectangle.on('pointerout', () => buttonRectangle.setFillStyle(0xcbdbfc));
+            
+            if (label === 'Slot 1') { buttonClickedMethod = this.loadGame1.bind(this); }
+            else if (label === 'Slot 2') { buttonClickedMethod = this.loadGame2.bind(this); }
+            else if (label === 'Slot 3') { buttonClickedMethod = this.loadGame3.bind(this); }
+    
+            buttonRectangle.on('pointerdown', buttonClickedMethod);
+    
+            const buttonText = this.add.text(320, y, label, { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+            this.add.container(0, 0, [buttonRectangle, buttonText]);
+        });
+    }
+
+    async loadGame1(){
         console.log('Load button pressed');
         await this.gameState.loadFromFile();
 
@@ -39,28 +61,12 @@ export default class LoadScene extends Phaser.Scene {
         console.log('Game Loaded');
     }
 
-    setupLoadButtons() {
-        const buttonWidth = 200;
-        const buttonHeight = 50;
-        const startX = 320;
-        const startY = 340;
-        const buttonSpacing = 60;
+    loadGame2(){
+        console.log('Load Slot 2 button pressed');
+    }
     
-        for (let i = 0; i < 3; i++) {
-            let y = startY + i * buttonSpacing;
-            let loadButton = this.add.rectangle(startX, y, buttonWidth, buttonHeight, 0xcbdbfc).setInteractive();
-            loadButton.on('pointerover', () => loadButton.setFillStyle(0xa3bffa));
-            loadButton.on('pointerout', () => loadButton.setFillStyle(0xcbdbfc));
-    
-            if (i === 0) {
-                loadButton.on('pointerdown', () => {
-                    this.loadGame(); 
-                });
-            }
-    
-            const loadButtonText = this.add.text(startX, y, 'Slot ' + (i+1), { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
-            this.add.container(0, 0, [loadButton, loadButtonText]);
-        }
+    loadGame3(){
+        console.log('Load Slot 3 button pressed');
     }
 
 }

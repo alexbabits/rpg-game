@@ -38,3 +38,7 @@ ipcMain.handle('saveGameState', (event, gameState) => {
 ipcMain.handle('loadGameState', (event) => {
   return store.get('gameState');
 });
+
+ipcMain.on('quit-app', () => {
+  app.quit();
+});
