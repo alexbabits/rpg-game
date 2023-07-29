@@ -18,7 +18,8 @@ export default class GameState {
       playerState: this.playerState,
       inventoryState: this.inventoryState,
       equipmentState: this.equipmentState,
-      currentMap: this.currentMap
+      currentMap: this.currentMap,
+      timestamp: new Date().toISOString()
     };
     await window.electron.invokeSave(gameState);
   }
@@ -33,10 +34,13 @@ export default class GameState {
     }
     return gameState;
   }
-
+  
   async getSaveSlotStatistics() {
     const gameState = await window.electron.invokeLoad();
-    return gameState && gameState.playerState ? gameState.playerState.level : undefined;
+    return {
+      level: gameState && gameState.playerState ? gameState.playerState.level : undefined,
+      timestamp: gameState ? gameState.timestamp : undefined,
+    };
   }
 
   setCurrentMap(mapKey) {this.currentMap = mapKey}

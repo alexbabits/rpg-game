@@ -16,9 +16,9 @@ export default class LoadScene extends Phaser.Scene {
             this.scene.stop();
             this.scene.start(this.returnScene);
         });
-
-        const playerLevel = await this.gameState.getSaveSlotStatistics();
-        this.add.text(200, 200, `Player Level: ${playerLevel}`);
+        const stats = await this.gameState.getSaveSlotStatistics();
+        this.add.text(100, 100, `Save Time: ${stats.timestamp}`, { font: '16px Arial', fill: '#ffffff' });
+        this.add.text(200, 200, `Player Level: ${stats.level}`);
     }
 
     createButtons() {
