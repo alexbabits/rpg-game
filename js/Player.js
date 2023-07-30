@@ -45,6 +45,8 @@ export default class Player {
     this.sprite.setFixedRotation();
     this.sprite.anims.play('hero_idle');
 
+    this.container = scene.add.container(x, y);
+
     this.userInput = new UserInput(this.scene);
     this.idleState = new PlayerIdleState(this);
     this.walkingState = new PlayerWalkState(this);
@@ -57,6 +59,7 @@ export default class Player {
 
     this.monstersTouching = [];
     this.scene.events.on('monsterDeath', this.gainXP, this);
+    this.scene.events.on('monsterAttack', this.takeDamage, this);
     this.scene.matter.world.on('collisionactive', this.handleCollision, this);
     this.manaRegeneration();
     this.setSpriteFlipFromDirection();
@@ -67,7 +70,7 @@ export default class Player {
     const maxXP = this.gameState.getPlayerMaxXP();
     const totalXP = this.gameState.getPlayerTotalXP();
     const monsterXP = monster.XP
-    
+
     if (currentXP + monster.XP > maxXP) {
         this.gameState.setPlayerTotalXP(totalXP + maxXP - currentXP);
     } else {
@@ -82,6 +85,10 @@ export default class Player {
     }
     this.scene.scene.get('PlayerStatusBars').events.emit('xpGained', monsterXP);
   }
+
+  takeDamage(netDamage) {
+    this.scene.scene.get('PlayerStatusBars').events.emit('damageTaken', netDamage);
+}
   
   levelUp() {
     const currentLevel = this.gameState.getPlayerLevel();
@@ -175,6 +182,8 @@ export default class Player {
   }
 
   update() {
+    this.sprite.setPosition(this.playerCollider.position.x, this.playerCollider.position.y);
+    this.container.setPosition(this.sprite.x, this.sprite.y);
     this.currentState.update();
   }
 

@@ -14,6 +14,8 @@ export class MonsterHPBar {
         this.draw();
         this.bar.setVisible(false);
         this.text.setVisible(false);
+        this.monster.sprite.on('monsterDamageTaken', this.damageSplat, this);
+        this.monster.sprite.on('monsterSpecialDamageTaken', this.damageSplat, this);
     };
 
     draw() {
@@ -32,6 +34,35 @@ export class MonsterHPBar {
         }
     };
 
+    damageSplat(damage, specialDamage) {
+        const posX = this.monster.sprite.x;
+        const posY = this.monster.sprite.y;
+        const hitSplat = this.scene.add.graphics({ x: posX, y: posY });
+        hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 10).setDepth(49);
+    
+        const damageText = this.scene.add.text(posX, posY, `${damage}`, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2}).setOrigin(0.5,0.5);
+        damageText.setDepth(50);
+
+        const specialDamageText = this.scene.add.text(posX, posY, `${specialDamage}`, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2}).setOrigin(0.5,0.5);
+        specialDamageText.setDepth(50);
+    
+        this.specialDamageText = specialDamageText;
+        this.damageText = damageText;
+        this.hitSplat = hitSplat;
+    
+        this.scene.tweens.add({
+            targets: [damageText, specialDamageText, hitSplat],
+            alpha: 0,
+            duration: 1000, 
+            onComplete: () => {
+                damageText.destroy();
+                hitSplat.destroy();
+                this.damageText = null;
+                this.hitSplat = null;
+            }
+        });
+    }
+
     showHPBar() {
         this.bar.setVisible(true);
         this.text.setVisible(true);
@@ -49,5 +80,15 @@ export class MonsterHPBar {
             this.bar.clear();
             this.text.setText('');
         }
-    };
+
+        if (this.damageText && this.monster.sprite.body) {
+            this.damageText.setPosition(this.monster.sprite.x, this.monster.sprite.y);
+        }
+        if (this.specialDamageText && this.monster.sprite.body) {
+            this.specialDamageText.setPosition(this.monster.sprite.x, this.monster.sprite.y);
+        }
+        if (this.hitSplat && this.monster.sprite.body) {
+            this.hitSplat.setPosition(this.monster.sprite.x, this.monster.sprite.y);
+        }
+    }
 }

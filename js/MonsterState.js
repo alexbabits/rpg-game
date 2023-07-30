@@ -83,7 +83,9 @@ export class MonsterAttackingState extends MonsterState {
             } else {
                 player.transitionToNewState(player.deathState);
             }
+            this.monster.scene.events.emit('monsterAttack', netDamage);
         }
+
     }
 
     exit() {

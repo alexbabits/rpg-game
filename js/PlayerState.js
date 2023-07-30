@@ -161,10 +161,12 @@ export class PlayerAttackState extends PlayerState {
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
-          monster.HP -= this.player.gameState.getPlayerDamage();
+          const damage = this.player.gameState.getPlayerDamage();
+          monster.HP -= damage;
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player attacked ${monster.name} for ${this.player.gameState.getPlayerDamage()} damage. Monster health: ${monster.HP}`);
+          console.log(`Player attacked ${monster.name} for ${damage} damage. Monster health: ${monster.HP}`);
+          monster.sprite.emit('monsterDamageTaken', damage);
         }
         if (monster.HP <= 0) {
           monster.transitionToNewState(monster.deathState);
@@ -216,10 +218,12 @@ export class PlayerSpecialAttackState extends PlayerState {
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
-          monster.HP -= this.player.gameState.getPlayerSpecialDamage();
+          const specialDamage = this.player.gameState.getPlayerSpecialDamage();
+          monster.HP -= specialDamage
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player special attacked ${monster.name} for ${this.player.gameState.getPlayerSpecialDamage()} damage. Monster health: ${monster.HP}`);
+          console.log(`Player special attacked ${monster.name} for ${specialDamage} damage. Monster health: ${monster.HP}`);
+          monster.sprite.emit('monsterSpecialDamageTaken', specialDamage);
         }
         if (monster.HP <= 0) {
           monster.transitionToNewState(monster.deathState);

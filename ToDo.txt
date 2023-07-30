@@ -7,14 +7,15 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Hitsplats on player and monster
+• when using hp/mana/stam potion, does +xyz text when he uses (similar to damage splats).
+• Hitsplats on monsters
 • X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
 • Level up mechanics (golden confetti, then stats choices to increase max stats)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-• Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
-• Delete buttons to delete the save file.
-• Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
 • Defense stat on monsters. Player damage on monster adjusted properly.
+• Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
+• Delete buttons to delete the save file(s).
+• Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Increased inventory size (16 --> 64). 4 pages of it?
 • Map (M key for Map)
