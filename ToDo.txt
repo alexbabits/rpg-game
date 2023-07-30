@@ -8,7 +8,6 @@
 
 *****New Features/Improvements on Current Features*****
 • when using hp/mana/stam potion, does +xyz text when he uses (similar to damage splats).
-• Hitsplats on monsters
 • X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
 • Level up mechanics (golden confetti, then stats choices to increase max stats)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
