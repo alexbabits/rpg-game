@@ -33,16 +33,24 @@ export default class LoadScene extends Phaser.Scene {
             const buttonText = this.add.text(120, y, label, { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
             const buttonContainer = this.add.container(0, 0, [buttonRectangle, buttonText]);
     
-            if (label === `Slot 1`) { 
+            if (label === `Slot 1`) {
                 buttonClickedMethod = this.loadGame1.bind(this);
-                const timestampText = this.add.text(360, y + 40, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                const levelText = this.add.text(380, y - 20, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                const mapText = this.add.text(380, y + 10, `Location: ${stats.currentMap}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-
-                buttonContainer.add([timestampText, levelText, mapText]);
+                if (stats === null) {
+                  const emptyText = this.add.text(this.game.config.width / 2, y, 'Empty', { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+                  buttonContainer.add([emptyText]);
+                } else {
+                  const timestampText = this.add.text(360, y + 40, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                  const levelText = this.add.text(380, y - 20, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                  const mapText = this.add.text(380, y + 10, `Location: ${stats.currentMap}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+              
+                  buttonContainer.add([timestampText, levelText, mapText]);
+                }
+            } else {
+                const emptyText = this.add.text(this.game.config.width / 2, y, 'Empty', { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+                buttonContainer.add([emptyText]);
+                if (label === 'Slot 2') { buttonClickedMethod = this.loadGame2.bind(this); }
+                else if (label === 'Slot 3') { buttonClickedMethod = this.loadGame3.bind(this); }
             }
-            else if (label === 'Slot 2') { buttonClickedMethod = this.loadGame2.bind(this); }
-            else if (label === 'Slot 3') { buttonClickedMethod = this.loadGame3.bind(this); }
     
             buttonRectangle.on('pointerdown', buttonClickedMethod);
         });
@@ -55,7 +63,7 @@ export default class LoadScene extends Phaser.Scene {
             console.log('No save data found.');
             return;
         }
-        
+
         let player = new Player(this, 320, 320, this.gameState);
         let inventory = new InventoryData(this, this.gameState, player);
         let equipment = new EquipmentData(this, this.gameState, player);

@@ -45,13 +45,8 @@ export default class GameState {
         timestamp: humanReadableTimestamp,
         currentMap: gameState.currentMap
       };
-    } else {
-      return {
-        level: "No Data",
-        timestamp: "No Data",
-        currentMap: "No Data"
-      };
     }
+    return null;
   }
 
   setCurrentMap(mapKey) {this.currentMap = mapKey}
