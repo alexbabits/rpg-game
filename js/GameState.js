@@ -37,12 +37,21 @@ export default class GameState {
   
   async getSaveSlotStatistics() {
     const gameState = await window.electron.invokeLoad();
-    const timestamp = new Date(gameState.timestamp);
-    const humanReadableTimestamp = timestamp.toLocaleString();
-    return {
-      level: gameState.playerState.level,
-      timestamp: humanReadableTimestamp,
-    };
+    if (gameState) {
+      const timestamp = new Date(gameState.timestamp);
+      const humanReadableTimestamp = timestamp.toLocaleString();
+      return {
+        level: gameState.playerState.level,
+        timestamp: humanReadableTimestamp,
+        currentMap: gameState.currentMap
+      };
+    } else {
+      return {
+        level: "No Data",
+        timestamp: "No Data",
+        currentMap: "No Data"
+      };
+    }
   }
 
   setCurrentMap(mapKey) {this.currentMap = mapKey}

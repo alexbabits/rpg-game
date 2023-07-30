@@ -35,9 +35,11 @@ export default class LoadScene extends Phaser.Scene {
     
             if (label === `Slot 1`) { 
                 buttonClickedMethod = this.loadGame1.bind(this);
-                const timestampText = this.add.text(360, y + 30, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                const levelText = this.add.text(380, y - 10, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                buttonContainer.add([timestampText, levelText]);
+                const timestampText = this.add.text(360, y + 40, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                const levelText = this.add.text(380, y - 20, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                const mapText = this.add.text(380, y + 10, `Location: ${stats.currentMap}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+
+                buttonContainer.add([timestampText, levelText, mapText]);
             }
             else if (label === 'Slot 2') { buttonClickedMethod = this.loadGame2.bind(this); }
             else if (label === 'Slot 3') { buttonClickedMethod = this.loadGame3.bind(this); }
@@ -48,8 +50,12 @@ export default class LoadScene extends Phaser.Scene {
 
     async loadGame1(){
         console.log('Load button pressed');
-        await this.gameState.loadFromFile();
-
+        const data = await this.gameState.loadFromFile();
+        if (!data) {
+            console.log('No save data found.');
+            return;
+        }
+        
         let player = new Player(this, 320, 320, this.gameState);
         let inventory = new InventoryData(this, this.gameState, player);
         let equipment = new EquipmentData(this, this.gameState, player);
