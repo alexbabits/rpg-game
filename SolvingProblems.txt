@@ -1,9 +1,7 @@
-Multiple Save Slots (delete saves, check for existing saves, if does exist, info about it like timestamp and level, etc.)
+Multiple Save Slots
 
-Checks for Load Button:
-Load Button, first checks if a game state exists, perhaps handled by a 'LoadScene' screen which pops up the slots (Just 1 at first). If no saved game state exists, all the slots would be blank and not show anything. If the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
+If no saved game state exists, all the slots would be blank and not show anything. If the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
 
-
-Save timestamp somehow when save
 Delete button
-Multiple things for text on the slots (player level, smth else)
+
+Check if there are no saves? Basically doesn't write any of the text, and doesn't let you press the load button.

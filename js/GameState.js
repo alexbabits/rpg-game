@@ -37,9 +37,11 @@ export default class GameState {
   
   async getSaveSlotStatistics() {
     const gameState = await window.electron.invokeLoad();
+    const timestamp = new Date(gameState.timestamp);
+    const humanReadableTimestamp = timestamp.toLocaleString();
     return {
-      level: gameState && gameState.playerState ? gameState.playerState.level : undefined,
-      timestamp: gameState ? gameState.timestamp : undefined,
+      level: gameState.playerState.level,
+      timestamp: humanReadableTimestamp,
     };
   }
 

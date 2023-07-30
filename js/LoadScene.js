@@ -17,28 +17,28 @@ export default class LoadScene extends Phaser.Scene {
             this.scene.start(this.returnScene);
         });
         const stats = await this.gameState.getSaveSlotStatistics();
-        this.add.text(100, 100, `Save Time: ${stats.timestamp}`, { font: '16px Arial', fill: '#ffffff' });
-        this.add.text(200, 200, `Player Level: ${stats.level}`);
+        this.add.text(100, 100, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 });
+        this.add.text(150, 150, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 });
     }
 
     createButtons() {
         const labels = ['Slot 1', 'Slot 2', 'Slot 3'];
-        const yPos = [this.game.config.height/2, this.game.config.height/2 + 60, this.game.config.height/2 + 120];
-    
+        const yPos = [100, 300, 500];
+
         labels.forEach((label, index) => {
             let buttonClickedMethod;
             const y = yPos[index];
-            const buttonRectangle = this.add.rectangle(this.game.config.width / 2, y, 200, 50, 0xcbdbfc).setInteractive();
+            const buttonRectangle = this.add.rectangle(this.game.config.width / 2, y, 600, 160, 0xcbdbfc).setInteractive();
             buttonRectangle.on('pointerover', () => buttonRectangle.setFillStyle(0xa3bffa));
             buttonRectangle.on('pointerout', () => buttonRectangle.setFillStyle(0xcbdbfc));
             
-            if (label === 'Slot 1') { buttonClickedMethod = this.loadGame1.bind(this); }
+            if (label === `Slot 1`) { buttonClickedMethod = this.loadGame1.bind(this); }
             else if (label === 'Slot 2') { buttonClickedMethod = this.loadGame2.bind(this); }
             else if (label === 'Slot 3') { buttonClickedMethod = this.loadGame3.bind(this); }
     
             buttonRectangle.on('pointerdown', buttonClickedMethod);
     
-            const buttonText = this.add.text(320, y, label, { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+            const buttonText = this.add.text(120, y, label, { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
             this.add.container(0, 0, [buttonRectangle, buttonText]);
         });
     }
