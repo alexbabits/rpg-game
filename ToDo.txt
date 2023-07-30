@@ -7,14 +7,13 @@
 
 
 *****New Features/Improvements on Current Features*****
+• Hitsplats on player and monster
+• X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
+• Level up mechanics (golden confetti, then stats choices to increase max stats)
+• Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
 • Delete buttons to delete the save file.
 • Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
-• Level up mechanics (golden confetti, then stats choices to increase max stats)
-• Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-• XP drops
-• X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
-• Hitsplats on player and monster
 • Defense stat on monsters. Player damage on monster adjusted properly.
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Increased inventory size (16 --> 64). 4 pages of it?

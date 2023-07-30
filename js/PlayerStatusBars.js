@@ -28,6 +28,26 @@ export default class PlayerStatusBars extends Phaser.Scene {
 
         });
         this.levelText = this.add.bitmapText(410, 5, 'Font', `Player Level: ${this.player.gameState.getPlayerLevel()}`, 16).setTint(0x000);
+
+        this.events.on('xpGained', (monsterXP) => {
+            const xpDropText = this.add.text(530, 40, `+${monsterXP} XP`, {
+              fontSize: '20px',
+              fontFamily: 'Arial',
+              fill: '#9900FF',
+              resolution: 2
+            });
+          
+            this.tweens.add({
+              targets: xpDropText,
+              y: xpDropText.y + 80,
+              alpha: 0,
+              duration: 1200,
+              ease: 'Linear',
+              onComplete: () => {
+                xpDropText.destroy();
+              }
+            });
+          });
     }
 
     update() {

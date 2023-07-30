@@ -66,7 +66,8 @@ export default class Player {
     const currentXP = this.gameState.getPlayerXP();
     const maxXP = this.gameState.getPlayerMaxXP();
     const totalXP = this.gameState.getPlayerTotalXP();
-
+    const monsterXP = monster.XP
+    
     if (currentXP + monster.XP > maxXP) {
         this.gameState.setPlayerTotalXP(totalXP + maxXP - currentXP);
     } else {
@@ -79,6 +80,7 @@ export default class Player {
     if (this.gameState.getPlayerXP() >= this.gameState.getPlayerMaxXP()) {
         this.levelUp();
     }
+    this.scene.scene.get('PlayerStatusBars').events.emit('xpGained', monsterXP);
   }
   
   levelUp() {
