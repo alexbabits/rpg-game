@@ -7,10 +7,12 @@ export default class StartScreen extends Phaser.Scene {
     preload() {
         this.load.image('StartScreen', 'assets/images/StartScreen.png');
         this.load.image('controlsbackground','assets/images/controlsbackground.png');
+        this.load.image('cursor', 'assets/images/cursor.png');
     }
 
     create() {
         this.add.image(0, 0, 'StartScreen').setOrigin(0).setScale(1);
+        this.input.setDefaultCursor(`url(assets/images/cursor.png), pointer`);
         this.createButtons();
     }
 

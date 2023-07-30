@@ -39,9 +39,9 @@ export default class LoadScene extends Phaser.Scene {
                   const emptyText = this.add.text(this.game.config.width / 2, y, 'Empty', { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
                   buttonContainer.add([emptyText]);
                 } else {
-                  const timestampText = this.add.text(360, y + 40, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                  const levelText = this.add.text(380, y - 20, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                  const mapText = this.add.text(380, y + 10, `Location: ${stats.currentMap}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                  const timestampText = this.add.text(360, y + 30, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                  const levelText = this.add.text(360, y - 30, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+                  const mapText = this.add.text(360, y, `Location: ${stats.currentMap}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
               
                   buttonContainer.add([timestampText, levelText, mapText]);
                 }

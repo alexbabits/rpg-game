@@ -1,9 +1,1 @@
-Multiple Save Slots
 
-If no saved game state exists, all the slots would be blank and not show anything. If the saved file is corrupted or not available, make a try-catch block when calling loadFromFile() and providing appropriate user feedback could be a good idea.
-
-Delete buttons to delete the save file.
-
-Check if there are no saves? Basically doesn't write any of the text, and doesn't let you press the load button.
-
-Handle text and catches if there is no save data for a slot.

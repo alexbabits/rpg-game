@@ -8,6 +8,12 @@
     "start": "electron .",
     "build": "electron-builder"
   },
+  "build": {
+    "appId": "com.game",
+    "win": {
+      "icon": "assets/images/gameicon.ico"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexbabits/Game.git"
