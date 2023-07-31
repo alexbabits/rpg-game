@@ -56,13 +56,13 @@ export default class PlayerStatusBars extends Phaser.Scene {
             });
         });
 
-        this.events.on('healthPotionSplat', (healAmount) => {
+        this.events.on('potionSplat', (amount, color) => {
             const posX = this.player.sprite.x;
             const posY = this.player.sprite.y;
-            const healText = this.add.text(0,0, `+${healAmount}`, {fontSize: '18px', fontFamily: 'Arial', fill: '#00FF00', resolution: 2}).setOrigin(0.5,0.5);
-            this.container.add([healText]).setPosition(posX, posY).setDepth(10);
-            this.tweens.add({targets: healText, alpha: 0, duration: 1000, onComplete: () => {
-                healText.destroy();
+            const text = this.add.text(0, 0, `+${amount}`, {fontSize: '14px', fontFamily: 'Arial', fill: color, resolution: 2}).setOrigin(0.5, 0.5);
+            this.container.add([text]).setPosition(posX, posY).setDepth(10);
+            this.tweens.add({targets: text, alpha: 0, duration: 1000, onComplete: () => {
+                text.destroy();
             }});
         });
 
