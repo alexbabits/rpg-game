@@ -6,7 +6,6 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     preload(){
-        this.load.spritesheet('items','assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
         this.load.image('equipbackground','assets/images/equipbackground.png');
     }
 

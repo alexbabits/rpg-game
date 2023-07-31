@@ -15,6 +15,7 @@ export default class Map extends Phaser.Scene {
         this.load.tilemapTiledJSON(this.mapKey, `assets/images/${this.mapKey}.json`);
         Player.preload(this);
         Monster.preload(this);
+        this.load.spritesheet('items','assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
     }
 
     create() {

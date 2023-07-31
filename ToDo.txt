@@ -1,5 +1,5 @@
 *****Bug Fixes/Refactoring*****
-• (Bug) Inventory item sprites and Controls background occassionally not loading in properly. (On first startup via .exe, after map loads once it's fine.)
+Double check controls scene bug image sometimes not appearing
 • (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand within the same session.
 • (Bug) Multiple Monsters running like idiots at you, pushing you/them around and not respecting the attackSensor as a stopping place sometimes.
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
