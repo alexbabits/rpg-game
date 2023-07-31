@@ -38,9 +38,9 @@ export class MonsterHPBar {
         const posX = this.monster.sprite.x;
         const posY = this.monster.sprite.y;
         const hitSplat = this.scene.add.graphics({ x: posX, y: posY });
-        hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 10).setDepth(49);
+        hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 7).setDepth(49);
     
-        const textStyle = {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2};
+        const textStyle = {fontSize: '10px', fontFamily: 'Arial', fill: '#FFF', resolution: 2};
         const damageText = this.scene.add.text(posX, posY, `${damage}`, textStyle).setOrigin(0.5,0.5).setDepth(50);
     
         if (isSpecial) {

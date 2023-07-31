@@ -59,7 +59,7 @@ export default class PlayerStatusBars extends Phaser.Scene {
         this.events.on('potionSplat', (amount, color) => {
             const posX = this.player.sprite.x;
             const posY = this.player.sprite.y;
-            const text = this.add.text(0, 0, `+${amount}`, {fontSize: '14px', fontFamily: 'Arial', fill: color, resolution: 2}).setOrigin(0.5, 0.5);
+            const text = this.add.text(-2, -30, `+${amount}`, {fontSize: '14px', fontFamily: 'Arial', fill: color, resolution: 2}).setOrigin(0.5, 0.5);
             this.container.add([text]).setPosition(posX, posY).setDepth(10);
             this.tweens.add({targets: text, alpha: 0, duration: 1000, onComplete: () => {
                 text.destroy();
