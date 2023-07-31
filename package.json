@@ -11,8 +11,7 @@
   "build": {
     "appId": "com.game",
     "win": {
-      "icon": "assets/images/gameicon.ico",
-      "createDesktopShortcut": "always"
+      "icon": "assets/images/gameicon.ico"
     }
   },
   "repository": {
