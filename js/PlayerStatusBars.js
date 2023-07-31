@@ -30,6 +30,7 @@ export default class PlayerStatusBars extends Phaser.Scene {
         });
         this.levelText = this.add.bitmapText(410, 5, 'Font', `Player Level: ${this.player.gameState.getPlayerLevel()}`, 16).setTint(0x000);
 
+        // Event listeners for player related attribute changes (hitsplats, xp drops, etc.)
         this.events.on('xpGained', (monsterXP) => {
             const xpDropText = this.add.text(530, 40, `+${monsterXP} XP`, {fontSize: '20px', fontFamily: 'Arial', fill: '#9900FF', resolution: 2});
             this.tweens.add({targets: xpDropText, y: xpDropText.y + 80, alpha: 0, duration: 1200, ease: 'Linear',
@@ -42,18 +43,27 @@ export default class PlayerStatusBars extends Phaser.Scene {
         this.events.on('damageTaken', (netDamage) => {
             const posX = this.player.sprite.x;
             const posY = this.player.sprite.y;
-            const hitSplat = this.add.graphics({ x: 0, y: -30 });
-            hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 10);
+            const hitSplat = this.add.graphics({ x: 0, y: 0 });
+            hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 7);
 
-            const damageText = this.add.text(0, -30, `${netDamage}`, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2}).setOrigin(0.5,0.5);
-            this.container.setDepth(10);
-            this.container.add([hitSplat, damageText]);
-            this.container.setPosition(posX, posY);
+            const damageText = this.add.text(0, 0, `${netDamage}`, {fontSize: '10px', fontFamily: 'Arial', fill: '#FFF', resolution: 2}).setOrigin(0.5,0.5);
+            this.container.add([hitSplat, damageText]).setPosition(posX, posY).setDepth(10);
             this.tweens.add({targets: [damageText, hitSplat], alpha: 0, duration: 1000,
                 onComplete: () => {
                     damageText.destroy();
+                    hitSplat.destroy();
                 }
             });
+        });
+
+        this.events.on('healthPotionSplat', (healAmount) => {
+            const posX = this.player.sprite.x;
+            const posY = this.player.sprite.y;
+            const healText = this.add.text(0,0, `+${healAmount}`, {fontSize: '18px', fontFamily: 'Arial', fill: '#00FF00', resolution: 2}).setOrigin(0.5,0.5);
+            this.container.add([healText]).setPosition(posX, posY).setDepth(10);
+            this.tweens.add({targets: healText, alpha: 0, duration: 1000, onComplete: () => {
+                healText.destroy();
+            }});
         });
 
     }

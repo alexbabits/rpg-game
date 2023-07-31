@@ -14,8 +14,8 @@ export class MonsterHPBar {
         this.draw();
         this.bar.setVisible(false);
         this.text.setVisible(false);
-        this.monster.sprite.on('monsterDamageTaken', this.damageSplat, this);
-        this.monster.sprite.on('monsterSpecialDamageTaken', this.specialDamageSplat, this);
+        this.monster.sprite.on('monsterDamageTaken', (damage) => this.damageSplat(damage, false), this);
+        this.monster.sprite.on('monsterSpecialDamageTaken', (damage) => this.damageSplat(damage, true), this);
     };
 
     draw() {
@@ -34,16 +34,21 @@ export class MonsterHPBar {
         }
     };
 
-    damageSplat(damage) {
+    damageSplat(damage, isSpecial = false) {
         const posX = this.monster.sprite.x;
         const posY = this.monster.sprite.y;
         const hitSplat = this.scene.add.graphics({ x: posX, y: posY });
         hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 10).setDepth(49);
     
-        const damageText = this.scene.add.text(posX, posY, `${damage}`, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2}).setOrigin(0.5,0.5);
-        damageText.setDepth(50);
+        const textStyle = {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2};
+        const damageText = this.scene.add.text(posX, posY, `${damage}`, textStyle).setOrigin(0.5,0.5).setDepth(50);
     
-        this.damageText = damageText;
+        if (isSpecial) {
+            this.specialDamageText = damageText;
+        } else {
+            this.damageText = damageText;
+        }
+
         this.hitSplat = hitSplat;
     
         this.scene.tweens.add({
@@ -53,33 +58,11 @@ export class MonsterHPBar {
             onComplete: () => {
                 damageText.destroy();
                 hitSplat.destroy();
-                this.damageText = null;
-                this.hitSplat = null;
-            }
-        });
-    }
-
-
-    specialDamageSplat(specialDamage) {
-        const posX = this.monster.sprite.x;
-        const posY = this.monster.sprite.y;
-        const hitSplat = this.scene.add.graphics({ x: posX, y: posY });
-        hitSplat.fillStyle(0xff0000).fillCircle(0, 0, 10).setDepth(49);
-    
-        const specialDamageText = this.scene.add.text(posX, posY, `${specialDamage}`, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFF', resolution: 2}).setOrigin(0.5,0.5);
-        specialDamageText.setDepth(50);
-    
-        this.specialDamageText = specialDamageText;
-        this.hitSplat = hitSplat;
-    
-        this.scene.tweens.add({
-            targets: [specialDamageText, hitSplat],
-            alpha: 0,
-            duration: 1000, 
-            onComplete: () => {
-                specialDamageText.destroy();
-                hitSplat.destroy();
-                this.specialDamageText = null;
+                if (isSpecial) {
+                    this.specialDamageText = null;
+                } else {
+                    this.damageText = null;
+                }
                 this.hitSplat = null;
             }
         });

@@ -83,21 +83,29 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
     }
     
     useHealthPotion(itemName) {
-        if(itemName === 'healthpotion'){
-            this.player.gameState.setPlayerHP(this.player.gameState.getPlayerHP() + 50);
-            console.log(`Used health potion. HP is now ${this.player.gameState.getPlayerHP()}`)
+        if(itemName === 'healthpotion') {
+            const healAmount = 50;
+            this.player.gameState.setPlayerHP(this.player.gameState.getPlayerHP() + healAmount);
+            console.log(`Used health potion. HP is now ${this.player.gameState.getPlayerHP()}`);
+            this.player.scene.scene.get('PlayerStatusBars').events.emit('healthPotionSplat', healAmount);
         }
     }
+    
     useManaPotion(itemName) {
-        if(itemName === 'manapotion'){
-            this.player.gameState.setPlayerMana(this.player.gameState.getPlayerMana() + 10);
-            console.log(`Used mana potion. Mana is now ${this.player.gameState.getPlayerMana()}`)
+        if(itemName === 'manapotion') {
+            const manaAmount = 10;
+            this.player.gameState.setPlayerMana(this.player.gameState.getPlayerMana() + manaAmount);
+            console.log(`Used mana potion. Mana is now ${this.player.gameState.getPlayerMana()}`);
+            //this.player.scene.scene.get('PlayerStatusBars').events.emit('manaPotionSplat', manaAmount);
         }
     }
+    
     useStaminaPotion(itemName) {
-        if(itemName === 'staminapotion'){
-            this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + 25);
-            console.log(`Used stamina potion. Stamina is now ${this.player.gameState.getPlayerStamina()}`)
+        if(itemName === 'staminapotion') {
+            const staminaAmount = 25;
+            this.player.gameState.setPlayerStamina(this.player.gameState.getPlayerStamina() + staminaAmount);
+            console.log(`Used stamina potion. Stamina is now ${this.player.gameState.getPlayerStamina()}`);
+            //this.player.scene.scene.get('PlayerStatusBars').events.emit('staminaPotionSplat', staminaAmount);
         }
     }
 
