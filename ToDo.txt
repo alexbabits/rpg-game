@@ -6,7 +6,6 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Bag/equipment icon to open/close inventory too.
 • Level up mechanics (golden confetti, then stats choices to increase max stats)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
 • Defense stat on monsters. Player damage on monster adjusted properly.
