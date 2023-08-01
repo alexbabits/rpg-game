@@ -96,6 +96,7 @@ export default class Player {
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(Math.ceil(this.gameState.getPlayerMaxXP() * 1.5));
     console.log(`Player leveled up! Current level: ${this.gameState.getPlayerLevel()}. XP to next level: ${this.xpToNextLevel()}`);
+    this.scene.scene.get('PlayerStatusBars').events.emit('levelUp');
 }
 
   xpToNextLevel() {

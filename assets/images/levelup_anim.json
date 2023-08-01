@@ -1,0 +1,40 @@
+{
+    "anims": [
+        {
+            "key": "levelup",
+            "type": "frames",
+            "repeat": -1,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "levelup",
+                    "frame": "levelup_1"
+                },
+                {
+                    "key": "levelup",
+                    "frame": "levelup_2"
+                },
+                {
+                    "key": "levelup",
+                    "frame": "levelup_3"
+                },
+                {
+                    "key": "levelup",
+                    "frame": "levelup_4"
+                },
+                {
+                    "key": "levelup",
+                    "frame": "levelup_5"
+                },
+                {
+                    "key": "levelup",
+                    "frame": "levelup_6"
+                },
+                {
+                    "key": "levelup",
+                    "frame": "levelup_7"
+                }
+            ]
+        }
+    ]
+}

@@ -1,10 +1,10 @@
 {
     "frames": [
         {
-            "filename": "ogre-attack-00",
+            "filename": "levelup_1",
             "frame": {
-                "w": 58,
-                "h": 42,
+                "w": 256,
+                "h": 512,
                 "x": 0,
                 "y": 0
             },
@@ -14,24 +14,11 @@
             }
         },
         {
-            "filename": "ogre-attack-01",
+            "filename": "levelup_2",
             "frame": {
-                "w": 58,
-                "h": 42,
-                "x": 0,
-                "y": 42
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "ogre-attack-02",
-            "frame": {
-                "w": 58,
-                "h": 42,
-                "x": 58,
+                "w": 256,
+                "h": 512,
+                "x": 256,
                 "y": 0
             },
             "anchor": {
@@ -40,12 +27,12 @@
             }
         },
         {
-            "filename": "ogre-attack-03",
+            "filename": "levelup_3",
             "frame": {
-                "w": 58,
-                "h": 42,
-                "x": 58,
-                "y": 42
+                "w": 256,
+                "h": 512,
+                "x": 512,
+                "y": 0
             },
             "anchor": {
                 "x": 0.5,
@@ -53,12 +40,12 @@
             }
         },
         {
-            "filename": "ogre-attack-04",
+            "filename": "levelup_4",
             "frame": {
-                "w": 58,
-                "h": 42,
+                "w": 256,
+                "h": 512,
                 "x": 0,
-                "y": 84
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -66,12 +53,12 @@
             }
         },
         {
-            "filename": "ogre-attack-05",
+            "filename": "levelup_5",
             "frame": {
-                "w": 58,
-                "h": 42,
-                "x": 58,
-                "y": 84
+                "w": 256,
+                "h": 512,
+                "x": 256,
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -79,11 +66,24 @@
             }
         },
         {
-            "filename": "ogre-attack-06",
+            "filename": "levelup_6",
             "frame": {
-                "w": 58,
-                "h": 42,
-                "x": 116,
+                "w": 256,
+                "h": 512,
+                "x": 512,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "levelup_7",
+            "frame": {
+                "w": 256,
+                "h": 512,
+                "x": 768,
                 "y": 0
             },
             "anchor": {

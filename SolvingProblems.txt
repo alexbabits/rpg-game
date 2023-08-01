@@ -1,3 +1,0 @@
-Level up mechanics (golden confetti, then stats choices to increase max stats)
-
-There is some kind of particle mechanism for Phaser 3.

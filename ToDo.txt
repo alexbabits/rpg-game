@@ -6,7 +6,7 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Level up mechanics (golden confetti, then stats choices to increase max stats)
+• Level up Scene ( Pick stats to increase, will increase your maxStats.)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
 • Defense stat on monsters. Player damage on monster adjusted properly.
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.

@@ -5,6 +5,8 @@ export default class PlayerStatusBars extends Phaser.Scene {
 
     preload() {
         this.load.bitmapFont('Font', 'assets/images/Font.png', 'assets/images/Font.fnt');
+        this.load.atlas('levelup', 'assets/images/levelup.png', 'assets/images/levelup_atlas.json');
+        this.load.animation('levelupAnim', 'assets/images/levelup_anim.json');
     }
 
     init(data) {
@@ -56,12 +58,28 @@ export default class PlayerStatusBars extends Phaser.Scene {
             });
         });
 
-        this.events.on('potionSplat', (amount, color) => {
+        this.events.on('potionDrank', (amount, color) => {
             const posX = this.player.sprite.x;
             const posY = this.player.sprite.y;
             const text = this.add.text(-2, -30, `+${amount}`, {fontSize: '14px', fontFamily: 'Arial', fill: color, resolution: 2}).setOrigin(0.5, 0.5);
             this.container.add([text]).setPosition(posX, posY).setDepth(10);
             this.tweens.add({targets: text, alpha: 0, duration: 1000, onComplete: () => {
+                text.destroy();
+            }});
+        });
+
+        this.events.on('levelUp', () => {
+            const posX = this.player.sprite.x;
+            const posY = this.player.sprite.y;
+        
+            const levelupSprite = this.add.sprite(0, -50, 'levelup').setScale(0.3,0.3);
+            levelupSprite.play({ key: 'levelup', repeat: 0, frameRate: 6 });
+            levelupSprite.on('animationcomplete', () => {levelupSprite.destroy()});
+        
+            const text = this.add.text(-2, -30, `Level Up!`, {fontSize: '48px', fontFamily: 'Arial', fill: '#FFD700', resolution: 2}).setOrigin(0.5, 0.5);
+            this.container.add([levelupSprite, text]).setPosition(posX, posY).setDepth(10);
+        
+            this.tweens.add({targets: text, y: text.y - 150, alpha: 0, duration: 1200, onComplete: () => {
                 text.destroy();
             }});
         });
