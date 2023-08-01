@@ -1,6 +1,6 @@
-export default class PlayerStatusBars extends Phaser.Scene {
+export default class PlayerVisualScene extends Phaser.Scene {
     constructor(){
-        super("PlayerStatusBars");
+        super("PlayerVisualScene");
     }
 
     preload() {

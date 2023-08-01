@@ -37,7 +37,7 @@ export default class Map extends Phaser.Scene {
 
         this.player = new Player(this, savedPosition.x, savedPosition.y, this.gameState);
         this.gameState.loadPlayerState(this.player);
-        this.scene.launch('PlayerStatusBars', { player: this.player, container: this.player.container });
+        this.scene.launch('PlayerVisualScene', { player: this.player, container: this.player.container });
         
         this.equipment = new EquipmentData(this, this.gameState, this.player);
         this.gameState.loadEquipmentState(this.equipment)

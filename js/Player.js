@@ -83,11 +83,11 @@ export default class Player {
     if (this.gameState.getPlayerXP() >= this.gameState.getPlayerMaxXP()) {
         this.levelUp();
     }
-    this.scene.scene.get('PlayerStatusBars').events.emit('xpGained', monsterXP);
+    this.scene.scene.get('PlayerVisualScene').events.emit('xpGained', monsterXP);
   }
 
   takeDamage(netDamage) {
-    this.scene.scene.get('PlayerStatusBars').events.emit('damageTaken', netDamage);
+    this.scene.scene.get('PlayerVisualScene').events.emit('damageTaken', netDamage);
 }
   
   levelUp() {
@@ -96,7 +96,7 @@ export default class Player {
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(Math.ceil(this.gameState.getPlayerMaxXP() * 1.5));
     console.log(`Player leveled up! Current level: ${this.gameState.getPlayerLevel()}. XP to next level: ${this.xpToNextLevel()}`);
-    this.scene.scene.get('PlayerStatusBars').events.emit('levelUp');
+    this.scene.scene.get('PlayerVisualScene').events.emit('levelUp');
 }
 
   xpToNextLevel() {
