@@ -18,6 +18,7 @@ export default class LootDisplay extends Phaser.Scene {
             this.slots.push(slotSprite);
         }
         this.drawItemSprite(0, this.loot.itemDrop.frame);
+        this.setupExitButton();
     }
 
     handleSingleClick(itemSprite, slotIndex){
@@ -41,9 +42,17 @@ export default class LootDisplay extends Phaser.Scene {
     setupSlotSprite(x, y, index) {
         let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
         slotSprite.index = index;
-        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f); slotSprite.setData('hovered', true)});
-        slotSprite.on('pointerout', () => {slotSprite.clearTint(); slotSprite.setData('hovered', false)});
+        slotSprite.on('pointerover', () => {slotSprite.setTint(0x9e733f)});
+        slotSprite.on('pointerout', () => {slotSprite.clearTint()});
         return slotSprite;
+    }
+
+    setupExitButton() {
+        let exitButton = this.add.sprite(this.loot.x - 75, this.loot.y - 60, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        exitButton.on('pointerover', () => {exitButton.setTint(0x969696)});
+        exitButton.on('pointerout', () => {exitButton.clearTint()});
+        exitButton.on('pointerdown', () => this.closeDisplay());
+        return exitButton;
     }
 
     closeDisplay() {

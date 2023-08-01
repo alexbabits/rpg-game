@@ -24,6 +24,7 @@ export default class InventoryDisplay extends Phaser.Scene {
     create() {
         this.input.keyboard.on('keydown-I', this.toggleVisibility.bind(this));
         this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
+        this.setupExitButton();
         let slots = [];
     
         let visible = this.inventoryData.gameState.getInvVisibility();
@@ -47,6 +48,14 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     // Helper Methods
+    setupExitButton() {
+        this.exitButton = this.add.sprite(this.startX - 25, this.startY - 25, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
+        this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
+        this.exitButton.on('pointerdown', this.toggleVisibility.bind(this));
+        let visible = this.inventoryData.gameState.getInvVisibility();
+        this.exitButton.setVisible(visible);
+    }
 
     setupSlotSprite(x, y, index) {
         let slotSprite = this.add.sprite(x, y, 'items', 11).setScale(1.4).setInteractive();
@@ -181,6 +190,7 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.inventoryData.toggleInventoryVisibility();
         let visible = this.inventoryData.gameState.getInvVisibility();
         this.background.setVisible(visible);
+        this.exitButton.setVisible(visible);
         this.inventorySprites.forEach(sprite => sprite.setVisible(visible));
         this.quantityTexts.forEach(text => text.setVisible(visible));
     }

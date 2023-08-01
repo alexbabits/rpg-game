@@ -1,5 +1,4 @@
 *****Bug Fixes/Refactoring*****
-Double check controls scene bug image sometimes not appearing
 • (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand within the same session.
 • (Bug) Multiple Monsters running like idiots at you, pushing you/them around and not respecting the attackSensor as a stopping place sometimes.
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
@@ -7,7 +6,7 @@ Double check controls scene bug image sometimes not appearing
 
 
 *****New Features/Improvements on Current Features*****
-• X button for inventory/equipment/loot scenes. Bag/equipment icon to open/close inventory too.
+• Bag/equipment icon to open/close inventory too.
 • Level up mechanics (golden confetti, then stats choices to increase max stats)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
 • Defense stat on monsters. Player damage on monster adjusted properly.
@@ -29,7 +28,7 @@ Double check controls scene bug image sometimes not appearing
 • Tooltips for stats/abilities w/ descriptions.
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
-• Crit Chance %/Crit Damge %/Dodge/Accuracy/etc. (MORE STATS) (no anim change for crits/dodges, besides hitsplats).
+• Crit Chance %/Crit Damge %/Dodge/Accuracy/etc. (MORE STATS) (no special anim change for crits/dodges)
 • Debuffs and buffs.
 • Handle Stackable Scenarios for looting/equipment.
 • Handle Multiple Items in loot scene (test, should be ok?)
@@ -52,3 +51,4 @@ Double check controls scene bug image sometimes not appearing
 • Player and/or monster damage is random (from 0 to maxDamage basically)
 • Click to move/Click to attack
 • Potion cooldown timer, and ticker/hourglass icon that displays top of screen (20s cooldown that ticks down).
+• NSIS for the installer, makes it so always creates desktop shortcut.

@@ -23,6 +23,10 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.sprite.anims.msPerFrame = 150;
     
         this.background = this.add.sprite(500, 240, 'equipbackground').setScale(1.6).setDepth(30);
+        this.exitButton = this.add.sprite(365, 85, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
+        this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
+        this.exitButton.on('pointerdown', this.toggleVisibility.bind(this));
         this.slots = [];
         this.slots[0] = this.setupSlotSprite(415, 155, 0);
         this.slots[1] = this.setupSlotSprite(415, 230, 1);
@@ -52,6 +56,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
 
         this.sprite.setVisible(this.equipmentData.gameState.getEquipVisibility());
         this.background.setVisible(this.equipmentData.gameState.getEquipVisibility());
+        this.exitButton.setVisible(this.equipmentData.gameState.getEquipVisibility());
         this.slots.forEach(slot => slot.setVisible(this.equipmentData.gameState.getEquipVisibility()));
         this.equipmentSprites.forEach(sprite => sprite.setVisible(this.equipmentData.gameState.getEquipVisibility()));
         this.damageText.setVisible(this.equipmentData.gameState.getEquipVisibility());
@@ -129,6 +134,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     
         this.sprite.setVisible(visible);
         this.background.setVisible(visible);
+        this.exitButton.setVisible(visible);
         this.slots.forEach(slot => slot.setVisible(visible));
         this.equipmentSprites.forEach(sprite => sprite.setVisible(visible));
         this.damageText.setVisible(visible);
