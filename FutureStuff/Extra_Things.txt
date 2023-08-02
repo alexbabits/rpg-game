@@ -9,17 +9,6 @@ The whole purpose of this would be if the player has killed some of the monsters
 May not need full-blown "MonsterState" class with getters and setters for every attribute. You could create a "MonsterData" class that simply stores the necessary information about a monster (type, health, position, respawn timer, etc.) in a serializable format. When the player leaves a scene, you could create a MonsterData object for each monster in the scene and store these in an array. When the player re-enters the scene, you could use these MonsterData objects to recreate the monsters in their previous state. You would need to modify your Monster and MonsterManager classes to support creating monsters from MonsterData objects, and ensure that all relevant monster information is correctly saved and loaded.
 
 
-Text Blurry Tips: 
-
-I noticed that Text objects must be on exact x,y positions (integers) to be rendered without blurryness. Potentially this is the problem here as well: The resizing puts them on a floating point position which leads to blurryness. My solution to this was to keep text objects (like tooltips) in a separate scene that never gets resized/zoomed. This way I can guarantee that text objects are always on a integer x,y position.
-
-Also, try BitMap text: https://somepx.itch.io/humble-fonts-tiny
-https://www.dafont.com/bitmap.php
-pixelArt: true, in configs
-WebFontLoader plugin: https://rexrainbow.github.io/phaser3-rex-notes/docs/site/webfontloader/
-https://labs.phaser.io/index.html?dir=game%20objects/&q=
-
-
 Weapon/Armor Sprite and Animation:
 
 --> Different sprites and animations for different weapons. Start with sword and axe, and two colors of each. Different base damages for each weapon.

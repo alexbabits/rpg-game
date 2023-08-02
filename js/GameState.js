@@ -207,12 +207,3 @@ export default class GameState {
   setPlayerPosition(x, y) {this.playerPosition = { x, y }}
   getPlayerPosition() {return this.playerPosition}
 }
-
-
-/*
-
-Saving the game state to user's local storage is limited at 5-10MB. Use IndexedDB/server-side database/cloud for larger.
-
-If your game state contains complex objects like class instances, you may need to handle serialization and deserialization manually, as JSON.stringify/parse do not support this.
-
-*/

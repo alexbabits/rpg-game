@@ -11,7 +11,6 @@
 • Defense stat on monsters. Player damage on monster adjusted properly.
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
 • Delete buttons to delete the save file(s).
-• Preload all assets in some central location. BootScene perhaps? Ask GPT if that makes sense.
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Increased inventory size (16 --> 64). 4 pages of it?
 • Map (M key for Map)
@@ -42,7 +41,7 @@
 • Spritesheet for each weapon type, and for armor. And maybe colors for different ones if feeling ambitious.
 • 4 way direction instead of 2 way direction for monsters and player animations.
 • Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
-• Some form of a loading scene (Loading Bar, Spinning Icon, etc.). Only when game gets heavy enough.
+• Some form of a preloading/bootup scene (Loading Bar, Spinning Icon, etc.). Only when game gets heavy enough. Preload all assets in some central location. 
 
 
 *****Undecided Features*****
@@ -50,4 +49,4 @@
 • Player and/or monster damage is random (from 0 to maxDamage basically)
 • Click to move/Click to attack
 • Potion cooldown timer, and ticker/hourglass icon that displays top of screen (20s cooldown that ticks down).
-• NSIS for the installer, makes it so always creates desktop shortcut.
+• NSIS for the installer, makes it so always creates desktop shortcut. (Otherwise have to uninstall if made the dist build more than once)

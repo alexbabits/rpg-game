@@ -8,6 +8,7 @@ export default class StartScreen extends Phaser.Scene {
         this.load.image('StartScreen', 'assets/images/StartScreen.png');
         this.load.image('controlsbackground','assets/images/controlsbackground.png');
         this.load.image('cursor', 'assets/images/cursor.png');
+        this.load.spritesheet('items','assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
     }
 
     create() {
