@@ -15,22 +15,32 @@ export default class LoadScene extends Phaser.Scene {
         this.createSlots();
         this.createLoadButtons();
         this.createDeleteButtons();
-        this.input.keyboard.on('keydown-ESC', () => {
-            this.scene.stop();
-            this.scene.start(this.returnScene);
-        });
+        this.createBackButton();
+        this.input.keyboard.on('keydown-ESC', () => this.returnToPreviousScene());
+    }
+
+    returnToPreviousScene(){
+        this.scene.stop();
+        this.scene.start(this.returnScene);
+    }
+
+    createBackButton(){
+        const backButtonRectangle = this.add.rectangle(60, 610, 80, 40, 0xcbdbfc).setInteractive();
+        this.add.text(60, 610, 'Back', { font: '24px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
+        backButtonRectangle.on('pointerover', () => backButtonRectangle.setFillStyle(0xa3bffa));
+        backButtonRectangle.on('pointerout', () => backButtonRectangle.setFillStyle(0xcbdbfc));
+        backButtonRectangle.on('pointerdown', () => this.returnToPreviousScene());
     }
 
     createSlots() {
         const labels = ['Slot 1', 'Slot 2', 'Slot 3'];
-        const yPos = [120, 320, 520];
+        const yPos = [100, 300, 500];
     
         labels.forEach((label, index) => {
             const y = yPos[index];
             const x = this.game.config.width / 2;
-            this.add.rectangle(x, y, 600, 160, 0xcbdbfc);
+            this.add.rectangle(x, y, 600, 160, 0xcbdbfc)
             this.add.text(x - 200, y, label, { font: '48px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
-
             if (this.stats !== null && index === 0) {
                 this.add.text(360, y + 30, `${this.stats.timestamp}`, { font: '24px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
                 this.add.text(360, y - 30, `Player Level: ${this.stats.level}`, { font: '24px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
@@ -42,7 +52,7 @@ export default class LoadScene extends Phaser.Scene {
     }
 
     createLoadButtons() {
-        const yPos = [80, 280, 480];
+        const yPos = [60, 260, 460];
         yPos.forEach((y, index) => {
             const x = this.game.config.width / 2 + 230;
             const loadButtonRectangle = this.add.rectangle(x, y, 100, 40, 0x452840).setInteractive();
@@ -55,7 +65,7 @@ export default class LoadScene extends Phaser.Scene {
     }
 
     createDeleteButtons() {
-        const yPos = [150, 350, 550];
+        const yPos = [130, 330, 530];
         yPos.forEach((y, index) => {
             const x = this.game.config.width / 2 + 230;
             const deleteButtonRectangle = this.add.rectangle(x, y, 100, 40, 0x452840).setInteractive();
