@@ -4,12 +4,13 @@ import things from './Things.js';
 
 
 export class Monster {  
-    constructor(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop) {
+    constructor(name, XP, maxHP, HP, Damage, Defense, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop) {
         this.name = name;
         this.XP = XP;
         this.maxHP = maxHP;
         this.HP = HP;
         this.Damage = Damage;
+        this.Defense = Defense;
         this.movementSpeed = movementSpeed;
         this.attackSpeed = attackSpeed;
         this.scene = scene;
@@ -77,17 +78,17 @@ export class Monster {
     }
 }
 
-// super(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop)
+// super(name, XP, maxHP, HP, Damage, Defense, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop)
 
 export class Bear extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        super('bear', 40, 500, 500, 50, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', things.basicshield);
+        super('bear', 40, 500, 500, 50, 20, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', things.basicshield);
     }
 }
 
 export class Ent extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        super('ent', 30, 350, 350, 30, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk', things.basicsword);
+        super('ent', 30, 350, 350, 30, 40, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk', things.basicsword);
     }
 }
 

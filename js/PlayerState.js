@@ -161,12 +161,12 @@ export class PlayerAttackState extends PlayerState {
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
-          const damage = this.player.gameState.getPlayerDamage();
-          monster.HP -= damage;
+          const netDamage = Math.max(0, this.player.gameState.getPlayerDamage() - monster.Defense);
+          monster.HP -= netDamage;
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player attacked ${monster.name} for ${damage} damage. Monster health: ${monster.HP}`);
-          monster.sprite.emit('monsterDamageTaken', damage);
+          console.log(`Player attacked ${monster.name} for ${netDamage} damage. Monster health: ${monster.HP}`);
+          monster.sprite.emit('monsterDamageTaken', netDamage);
         }
         if (monster.HP <= 0) {
           monster.transitionToNewState(monster.deathState);
@@ -218,12 +218,12 @@ export class PlayerSpecialAttackState extends PlayerState {
       for(let monsterSprite of this.player.monstersTouching){
         let monster = monsterSprite.monsterInstance;
         if (monster.HP > 0) {
-          const specialDamage = this.player.gameState.getPlayerSpecialDamage();
-          monster.HP -= specialDamage
+          const netSpecialDamage = Math.max(0, this.player.gameState.getPlayerSpecialDamage() - monster.Defense);
+          monster.HP -= netSpecialDamage
           monster.sprite.setTint(0xff0000);
           setTimeout(() => monster.sprite.clearTint(), 200);
-          console.log(`Player special attacked ${monster.name} for ${specialDamage} damage. Monster health: ${monster.HP}`);
-          monster.sprite.emit('monsterSpecialDamageTaken', specialDamage);
+          console.log(`Player special attacked ${monster.name} for ${netSpecialDamage} damage. Monster health: ${monster.HP}`);
+          monster.sprite.emit('monsterSpecialDamageTaken', netSpecialDamage);
         }
         if (monster.HP <= 0) {
           monster.transitionToNewState(monster.deathState);

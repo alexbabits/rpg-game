@@ -8,7 +8,6 @@
 *****New Features/Improvements on Current Features*****
 • Level up Scene ( Pick stats to increase, will increase your maxStats.)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-• Defense stat on monsters. Player damage on monster adjusted properly.
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
 • Delete buttons to delete the save file(s).
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
