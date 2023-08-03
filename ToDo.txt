@@ -1,6 +1,6 @@
 *****Bug Fixes/Refactoring*****
 • (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand within the same session.
-• (Bug) Multiple Monsters running like idiots at you, pushing you/them around and not respecting the attackSensor as a stopping place sometimes.
+• (Bug) Multiple Monsters running at you, pushing you/them around and not respecting the attackSensor as a stopping place sometimes.
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
 • (Refactor) Combine player stats/methods into a separate file? Player class is messy with its stats and methods.
 
@@ -8,20 +8,18 @@
 *****New Features/Improvements on Current Features*****
 • Level up Scene ( Pick stats to increase, will increase your maxStats.)
 • Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
-• Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
-• Delete buttons to delete the save file(s).
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
+• Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
 • Increased inventory size (16 --> 64). 4 pages of it?
 • Map (M key for Map)
 • Minimap
 • J for journal/Quests
 • Teleporter. Allows for movement between scenes. Animated.
 • Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
-• Instead of 640x640, game configs to fullscreen, and on electron startup.
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
 • Crit Chance %/Crit Damge %/Dodge/Accuracy/etc. (MORE STATS) (no special anim change for crits/dodges)
@@ -38,7 +36,8 @@
 • Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
 • Spritesheet for each weapon type, and for armor. And maybe colors for different ones if feeling ambitious.
 • 4 way direction instead of 2 way direction for monsters and player animations.
-• Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
+• Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
+• Instead of 640x640, game configs to fullscreen, and on electron startup.
 
 
 *****Undecided Features*****
