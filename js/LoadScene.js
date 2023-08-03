@@ -8,85 +8,73 @@ export default class LoadScene extends Phaser.Scene {
         this.gameState = gameState;
     }
 
-    create(data) {
+    async create(data) {
         this.returnScene = data.returnScene;
         this.loadBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'purplebackground');
-        this.createButtons();
+        this.stats = await this.gameState.getSaveSlotStatistics();
+        this.createSlots();
+        this.createLoadButtons();
+        this.createDeleteButtons();
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();
             this.scene.start(this.returnScene);
         });
     }
 
-    async createButtons() {
+    createSlots() {
         const labels = ['Slot 1', 'Slot 2', 'Slot 3'];
-        const yPos = [100, 300, 500];
-        const stats = await this.gameState.getSaveSlotStatistics();
+        const yPos = [120, 320, 520];
     
         labels.forEach((label, index) => {
-            let buttonClickedMethod;
             const y = yPos[index];
-            const buttonRectangle = this.add.rectangle(this.game.config.width / 2, y, 600, 160, 0xcbdbfc).setInteractive();
-            const loadButtonX = this.game.config.width / 2 + 200;
-            const loadButtonY = y - 40;
-            const loadButtonRectangle = this.add.rectangle(loadButtonX, loadButtonY, 100, 50, 0x00FF00).setInteractive();
-            const loadButtonText = this.add.text(loadButtonX, loadButtonY, 'Load', { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+            const x = this.game.config.width / 2;
+            this.add.rectangle(x, y, 600, 160, 0xcbdbfc);
+            this.add.text(x - 200, y, label, { font: '48px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
 
-            loadButtonRectangle.on('pointerover', () => loadButtonRectangle.setFillStyle(0x023020));
-            loadButtonRectangle.on('pointerout', () => loadButtonRectangle.setFillStyle(0x00FF00));
-    
-            const buttonText = this.add.text(120, y, label, { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
-            const buttonContainer = this.add.container(0, 0, [buttonRectangle, buttonText, loadButtonRectangle, loadButtonText]);
-    
-            if (label === `Slot 1`) {
-                buttonClickedMethod = this.loadGame1.bind(this);
-                if (stats === null) {
-                  const emptyText = this.add.text(this.game.config.width / 2, y, 'Empty', { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
-                  buttonContainer.add([emptyText]);
-                } else {
-                  const timestampText = this.add.text(360, y + 30, `${stats.timestamp}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                  const levelText = this.add.text(360, y - 30, `Player Level: ${stats.level}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-                  const mapText = this.add.text(360, y, `Location: ${stats.currentMap}`, { fontSize: '24px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
-              
-                  buttonContainer.add([timestampText, levelText, mapText]);
-                }
+            if (this.stats !== null && index === 0) {
+                this.add.text(360, y + 30, `${this.stats.timestamp}`, { font: '24px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
+                this.add.text(360, y - 30, `Player Level: ${this.stats.level}`, { font: '24px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
+                this.add.text(360, y, `Location: ${this.stats.currentMap}`, { font: '24px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
             } else {
-                const emptyText = this.add.text(this.game.config.width / 2, y, 'Empty', { fontSize: '48px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
-                buttonContainer.add([emptyText]);
-                if (label === 'Slot 2') { buttonClickedMethod = this.loadGame2.bind(this); }
-                else if (label === 'Slot 3') { buttonClickedMethod = this.loadGame3.bind(this); }
+                this.add.text(x, y, 'Empty', { font: '48px Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
             }
-    
-            loadButtonRectangle.on('pointerdown', buttonClickedMethod);
         });
-        this.setupDeleteButton(stats);
     }
 
-    setupDeleteButton(stats) {
-        const deleteButtonRectangle = this.add.rectangle(520, 130, 100, 50, 0xff0000).setInteractive();
-        const deleteButtonText = this.add.text(520, 130, 'Delete', { fontSize: '24px', fontFamily: 'Arial', fill: '#fff', resolution: 4 }).setOrigin(0.5, 0.5);
-        const deleteButtonContainer = this.add.container(0, 0, [deleteButtonRectangle, deleteButtonText]);
-        deleteButtonRectangle.on('pointerover', () => deleteButtonRectangle.setFillStyle(0x8B0000));
-        deleteButtonRectangle.on('pointerout', () => deleteButtonRectangle.setFillStyle(0xff0000));
-        if (stats !== null) {
-            deleteButtonRectangle.on('pointerdown', async () => {
-                await this.gameState.deleteSave();
-                this.scene.restart();
-            });
+    createLoadButtons() {
+        const yPos = [80, 280, 480];
+        yPos.forEach((y, index) => {
+            const x = this.game.config.width / 2 + 230;
+            const loadButtonRectangle = this.add.rectangle(x, y, 100, 40, 0x452840).setInteractive();
+            this.add.text(x, y, 'Load', { font: '24px Arial', fill: '#cbdbfc', resolution: 2 }).setOrigin(0.5, 0.5);
+
+            loadButtonRectangle.on('pointerover', () => loadButtonRectangle.setFillStyle(0x000));
+            loadButtonRectangle.on('pointerout', () => loadButtonRectangle.setFillStyle(0x452840));
+            loadButtonRectangle.on('pointerdown', this[`loadGame${index + 1}`].bind(this));
+        });
+    }
+
+    createDeleteButtons() {
+        const yPos = [150, 350, 550];
+        yPos.forEach((y, index) => {
+            const x = this.game.config.width / 2 + 230;
+            const deleteButtonRectangle = this.add.rectangle(x, y, 100, 40, 0x452840).setInteractive();
+            this.add.text(x, y, 'Delete', { font: '24px Arial', fill: '#cbdbfc', resolution: 2 }).setOrigin(0.5, 0.5);
+    
+            deleteButtonRectangle.on('pointerover', () => deleteButtonRectangle.setFillStyle(0x000));
+            deleteButtonRectangle.on('pointerout', () => deleteButtonRectangle.setFillStyle(0x452840));
+            deleteButtonRectangle.on('pointerdown', this[`deleteGame${index + 1}`].bind(this));
+        });
+    }
+
+    async deleteGame1() {
+        if (this.stats !== null) {
+            await this.gameState.deleteSave();
+            this.scene.restart();
         } else {
-            deleteButtonRectangle.disableInteractive();
-            deleteButtonText.setAlpha(0.5);
+            console.log('No save data found.')
         }
     }
-    
-    async deleteGame1(){
-        //handles the functionality of deleting the game from slot 1.
-    }
-
-    async deleteGame2(){console.log('Delete Slot 2 button pressed. Dummy button for now.')}
-    async deleteGame3(){console.log('Delete Slot 3 button pressed. Dummy button for now.')}
-
-    // Methods for loading the game
 
     async loadGame1(){
         console.log('Load button pressed');
@@ -113,7 +101,8 @@ export default class LoadScene extends Phaser.Scene {
         console.log('Game Loaded');
     }
 
-    async loadGame2(){console.log('Load Slot 2 button pressed. Dummy button for now.')}
-    async loadGame3(){console.log('Load Slot 3 button pressed. Dummy button for now.')}
-
+    async deleteGame2(){console.log('Delete Slot 2 button pressed, does nothing for now.')}
+    async deleteGame3(){console.log('Delete Slot 3 button pressed, does nothing for now.')}
+    async loadGame2(){console.log('Load Slot 2 button pressed, does nothing for now.')}
+    async loadGame3(){console.log('Load Slot 3 button pressed, does nothing for now.')}
 }
