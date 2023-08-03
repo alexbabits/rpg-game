@@ -9,6 +9,7 @@ import PlayerVisualScene from "./PlayerVisualScene.js";
 import Menu from "./Menu.js";
 import LoadScene from "./LoadScene.js";
 import ControlsScene from "./ControlsScene.js"
+import BootScene from "./BootScene.js"
 
 const gameState = new GameState();
 const config = {
@@ -17,7 +18,7 @@ const config = {
   backgroundColor: '#000',
   type: Phaser.AUTO,
   parent: 'configs',
-  scene:[new StartScreen(gameState), new Map1(gameState), new Map2(gameState), LootDisplay, EquipmentDisplay, InventoryDisplay, PlayerVisualScene, DeathScene, Menu, ControlsScene, new LoadScene(gameState)],
+  scene:[BootScene, new StartScreen(gameState), new Map1(gameState), new Map2(gameState), LootDisplay, EquipmentDisplay, InventoryDisplay, PlayerVisualScene, DeathScene, Menu, ControlsScene, new LoadScene(gameState)],
   scale: {zoom:1},
   physics: {default: 'matter', matter: {debug:true, gravity:{y:0}}},
   plugins: {scene:[{plugin: PhaserMatterCollisionPlugin.default, key: 'matterCollision', mapping: 'matterCollision'}]}

@@ -41,12 +41,12 @@
 • Spritesheet for each weapon type, and for armor. And maybe colors for different ones if feeling ambitious.
 • 4 way direction instead of 2 way direction for monsters and player animations.
 • Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
-• Some form of a preloading/bootup scene (Loading Bar, Spinning Icon, etc.). Only when game gets heavy enough. Preload all assets in some central location. 
 
 
 *****Undecided Features*****
+• Hotkey/action bar
 • Combat and movement as turn-based/tick based.
 • Player and/or monster damage is random (from 0 to maxDamage basically)
 • Click to move/Click to attack
-• Potion cooldown timer, and ticker/hourglass icon that displays top of screen (20s cooldown that ticks down).
+• Potion cooldown timer, and ticker/hourglass icon that displays top of screen (20s cooldown that ticks down). (Similar to WOW cooldown graphics)
 • NSIS for the installer, makes it so always creates desktop shortcut. (Otherwise have to uninstall if made the dist build more than once)

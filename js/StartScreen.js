@@ -4,25 +4,6 @@ export default class StartScreen extends Phaser.Scene {
         this.gameState = gameState;
     }
 
-    preload() {
-        this.load.image('StartScreen', 'assets/images/StartScreen.png');
-        this.load.image('purplebackground','assets/images/purplebackground.png');
-        this.load.image('cursor', 'assets/images/cursor.png');
-        this.load.spritesheet('items','assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
-        this.load.image('DeathScene', 'assets/images/DeathScene.png');
-        this.load.image('brownbackground','assets/images/brownbackground.png');
-        this.load.bitmapFont('Font', 'assets/images/Font.png', 'assets/images/Font.fnt');
-        this.load.atlas('levelup', 'assets/images/levelup.png', 'assets/images/levelup_atlas.json');
-        this.load.animation('levelupAnim', 'assets/images/levelup_anim.json');
-        this.load.atlas('hero', 'assets/images/hero.png', 'assets/images/hero_atlas.json');
-        this.load.animation('hero_anims', 'assets/images/hero_anims.json');
-        this.load.atlas('enemies', 'assets/images/enemies.png', 'assets/images/enemies_atlas.json');
-        this.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
-        this.load.image('tiles', 'assets/images/RPG Nature Tileset.png');
-        this.load.tilemapTiledJSON('Map1', 'assets/images/Map1.json');
-        this.load.tilemapTiledJSON('Map2', 'assets/images/Map2.json');
-    }
-
     create() {
         this.add.image(0, 0, 'StartScreen').setOrigin(0).setScale(1);
         this.input.setDefaultCursor(`url(assets/images/cursor.png), pointer`);
