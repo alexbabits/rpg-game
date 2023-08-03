@@ -24,23 +24,10 @@ function createWindow () {
 }
 
 app.whenReady().then(createWindow)
+app.on('window-all-closed', function () {if (process.platform !== 'darwin') app.quit()})
+app.on('activate', function () {if (BrowserWindow.getAllWindows().length === 0) createWindow()})
 
-app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
-})
-
-app.on('activate', function () {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow()
-})
-
-ipcMain.handle('saveGameState', (event, gameState) => {
-  return store.set('gameState', gameState);
-});
-
-ipcMain.handle('loadGameState', (event) => {
-  return store.get('gameState');
-});
-
-ipcMain.on('quit-app', () => {
-  app.quit();
-});
+ipcMain.handle('saveGameState', (event, gameState) => {return store.set('gameState', gameState)});
+ipcMain.handle('loadGameState', (event) => {return store.get('gameState')});
+ipcMain.handle('deleteGameState', () => {return store.delete('gameState')});
+ipcMain.on('quit-app', () => {app.quit()});

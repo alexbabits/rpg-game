@@ -34,6 +34,8 @@ export default class GameState {
     }
     return gameState;
   }
+
+  async deleteSave() {return window.electron.deleteSave()}
   
   async getSaveSlotStatistics() {
     const gameState = await window.electron.invokeLoad();

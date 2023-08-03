@@ -54,6 +54,23 @@ export default class LoadScene extends Phaser.Scene {
     
             buttonRectangle.on('pointerdown', buttonClickedMethod);
         });
+        this.setupDeleteButton(stats);
+    }
+
+    setupDeleteButton(stats) {
+        const deleteButtonRectangle = this.add.rectangle(500, 100, 100, 50, 0xff0000).setInteractive();
+        const deleteButtonText = this.add.text(500, 100, 'Delete', { fontSize: '24px', fontFamily: 'Arial', fill: '#fff', resolution: 4 }).setOrigin(0.5, 0.5);
+        const deleteButtonContainer = this.add.container(0, 0, [deleteButtonRectangle, deleteButtonText]);
+    
+        if (stats !== null) {
+            deleteButtonRectangle.on('pointerdown', async () => {
+                await this.gameState.deleteSave();
+                this.scene.restart();
+            });
+        } else {
+            deleteButtonRectangle.disableInteractive();
+            deleteButtonText.setAlpha(0.5);
+        }
     }
 
     async loadGame1(){
@@ -81,12 +98,7 @@ export default class LoadScene extends Phaser.Scene {
         console.log('Game Loaded');
     }
 
-    loadGame2(){
-        console.log('Load Slot 2 button pressed');
-    }
-    
-    loadGame3(){
-        console.log('Load Slot 3 button pressed');
-    }
+    loadGame2(){console.log('Load Slot 2 button pressed. Dummy button for now.')}
+    loadGame3(){console.log('Load Slot 3 button pressed. Dummy button for now.')}
 
 }
