@@ -3,10 +3,6 @@ export default class DeathScene extends Phaser.Scene {
         super("DeathScene");
     }
 
-    preload() {
-        this.load.image('DeathScene', 'assets/images/DeathScene.png');
-    }
-
     create() {
         this.add.image(0, 0, 'DeathScene').setOrigin(0).setScale(1);
 

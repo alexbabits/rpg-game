@@ -9,6 +9,12 @@ export default class StartScreen extends Phaser.Scene {
         this.load.image('controlsbackground','assets/images/controlsbackground.png');
         this.load.image('cursor', 'assets/images/cursor.png');
         this.load.spritesheet('items','assets/images/items.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.image('DeathScene', 'assets/images/DeathScene.png');
+        this.load.image('equipbackground','assets/images/equipbackground.png');
+        this.load.image('bag','assets/images/bagbackground.png');
+        this.load.bitmapFont('Font', 'assets/images/Font.png', 'assets/images/Font.fnt');
+        this.load.atlas('levelup', 'assets/images/levelup.png', 'assets/images/levelup_atlas.json');
+        this.load.animation('levelupAnim', 'assets/images/levelup_anim.json');
     }
 
     create() {

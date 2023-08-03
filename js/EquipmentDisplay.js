@@ -5,10 +5,6 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.textOffset = 10;
     }
 
-    preload(){
-        this.load.image('equipbackground','assets/images/equipbackground.png');
-    }
-
     init(data) {
         this.equipmentData = data.equipment;
     }

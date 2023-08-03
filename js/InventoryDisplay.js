@@ -13,10 +13,6 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.background = null;
     }
 
-    preload(){
-        this.load.image('bag','assets/images/bagbackground.png');
-    }
-
     init(data) {
         this.inventoryData = data.inventory;
     }

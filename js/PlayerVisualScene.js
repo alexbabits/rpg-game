@@ -3,12 +3,6 @@ export default class PlayerVisualScene extends Phaser.Scene {
         super("PlayerVisualScene");
     }
 
-    preload() {
-        this.load.bitmapFont('Font', 'assets/images/Font.png', 'assets/images/Font.fnt');
-        this.load.atlas('levelup', 'assets/images/levelup.png', 'assets/images/levelup_atlas.json');
-        this.load.animation('levelupAnim', 'assets/images/levelup_anim.json');
-    }
-
     init(data) {
         this.player = data.player;
         this.container = data.container;
