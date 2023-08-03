@@ -13,7 +13,6 @@
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
-• Hide Inventory and Equipment when game is paused, if they are open, rather than just making them inactive.
 • Increased inventory size (16 --> 64). 4 pages of it?
 • Map (M key for Map)
 • Minimap

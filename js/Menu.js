@@ -6,14 +6,11 @@ export default class Menu extends Phaser.Scene{
 
     create(data) {
         this.gameState = data.gameState;
-        this.menuBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(2.0, 4.0);
+        this.inventoryVisible = data.inventoryVisible;
+        this.equipmentVisible = data.equipmentVisible;
+        this.menuBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(1.4, 3.2);
         this.createButtons();
-        this.input.keyboard.on('keydown-ESC', () => {
-            this.scene.stop();
-            this.scene.resume(this.gameState.getCurrentMap());
-            this.scene.resume('InventoryDisplay');
-            this.scene.resume('EquipmentDisplay');
-        });
+        this.input.keyboard.on('keydown-ESC', this.resumeGame, this);
     }
 
     createButtons() {
@@ -29,7 +26,7 @@ export default class Menu extends Phaser.Scene{
             buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f);});
             buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
     
-            if (label === 'Resume') { buttonClickedMethod = this.resumeButtonClicked.bind(this); }
+            if (label === 'Resume') { buttonClickedMethod = this.resumeGame.bind(this); }
             else if (label === 'Controls') { buttonClickedMethod = this.controlsButtonClicked.bind(this); }
             else if (label === 'Save') { buttonClickedMethod = this.saveButtonClicked.bind(this); }
             else if (label === 'Load') { buttonClickedMethod = this.loadButtonClicked.bind(this); }
@@ -42,11 +39,16 @@ export default class Menu extends Phaser.Scene{
         });
     }
     
-    resumeButtonClicked() {
+    resumeGame() {
         this.scene.stop();
+        let inventoryDisplay = this.scene.get('InventoryDisplay');
+        let equipmentDisplay = this.scene.get('EquipmentDisplay');
         this.scene.resume(this.gameState.getCurrentMap());
         this.scene.resume('InventoryDisplay');
         this.scene.resume('EquipmentDisplay');
+    
+        if (this.inventoryVisible) {inventoryDisplay.toggleVisibility()}
+        if (this.equipmentVisible) {equipmentDisplay.toggleVisibility()}
     }
 
     controlsButtonClicked() {

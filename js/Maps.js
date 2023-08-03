@@ -49,12 +49,18 @@ export default class Map extends Phaser.Scene {
         this.gameState.setEquipment(this.equipment);
 
         this.input.keyboard.on('keydown-ESC', () => {
-            this.scene.launch('Menu', { gameState: this.gameState });
-            this.scene.pause();
             let inventoryDisplay = this.scene.get('InventoryDisplay');
             let equipmentDisplay = this.scene.get('EquipmentDisplay');
-            if (this.gameState.getInvVisibility()) {inventoryDisplay.toggleVisibility()}
-            if (this.gameState.getEquipVisibility()) {equipmentDisplay.toggleVisibility()}
+            let inventoryVisible = this.gameState.getInvVisibility();
+            let equipmentVisible = this.gameState.getEquipVisibility();
+        
+            if (inventoryVisible) {inventoryDisplay.toggleVisibility()}
+            if (equipmentVisible) {equipmentDisplay.toggleVisibility()}
+        
+            this.scene.launch('Menu', { gameState: this.gameState, inventoryVisible, equipmentVisible });
+            this.scene.pause();
+            this.scene.pause('InventoryDisplay');
+            this.scene.pause('EquipmentDisplay');
         });
 
         let camera = this.cameras.main;
