@@ -6,7 +6,7 @@ export default class LootDisplay extends Phaser.Scene {
     create(data) {
         this.loot = data.loot;
         this.lootScene = data.scene;
-        this.lootBackground = this.add.sprite(this.loot.x, this.loot.y, 'bag').setScale(2.0, 1.5);
+        this.lootBackground = this.add.sprite(this.loot.x - 2, this.loot.y - 5, 'brownbackground').setScale(2.0, 1.45);
         this.slots = [];
         let startX = this.loot.x - 50;
         let startY = this.loot.y - 30;
@@ -48,7 +48,7 @@ export default class LootDisplay extends Phaser.Scene {
     }
 
     setupExitButton() {
-        let exitButton = this.add.sprite(this.loot.x - 75, this.loot.y - 60, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        let exitButton = this.add.sprite(this.loot.x - 78, this.loot.y - 66, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
         exitButton.on('pointerover', () => {exitButton.setTint(0x969696)});
         exitButton.on('pointerout', () => {exitButton.clearTint()});
         exitButton.on('pointerdown', () => this.closeDisplay());

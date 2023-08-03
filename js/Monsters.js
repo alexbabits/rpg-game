@@ -3,13 +3,7 @@ import { MonsterHPBar } from './MonsterBars.js';
 import things from './Things.js';
 
 
-export class Monster {
-
-    static preload(scene) {
-        scene.load.atlas('enemies', 'assets/images/enemies.png', 'assets/images/enemies_atlas.json');
-        scene.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
-    }
-    
+export class Monster {  
     constructor(name, XP, maxHP, HP, Damage, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop) {
         this.name = name;
         this.XP = XP;

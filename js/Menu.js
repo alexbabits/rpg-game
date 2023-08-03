@@ -6,7 +6,7 @@ export default class Menu extends Phaser.Scene{
 
     create(data) {
         this.gameState = data.gameState;
-        this.menuBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'bag').setScale(2.0, 4.0);
+        this.menuBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(2.0, 4.0);
         this.createButtons();
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();

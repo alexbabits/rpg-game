@@ -2,12 +2,6 @@ import UserInput from './UserInput.js';
 import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
 
 export default class Player {
-
-  static preload(scene) {
-    scene.load.atlas('hero', 'assets/images/hero.png', 'assets/images/hero_atlas.json');
-    scene.load.animation('hero_anims', 'assets/images/hero_anims.json');
-  }
-
   constructor(scene, x, y, gameState) {
     this.scene = scene;
     this.gameState = gameState;

@@ -10,7 +10,7 @@ export default class LoadScene extends Phaser.Scene {
 
     create(data) {
         this.returnScene = data.returnScene;
-        this.loadBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'controlsbackground');
+        this.loadBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'purplebackground');
         this.createButtons();
         this.input.keyboard.on('keydown-ESC', () => {
             this.scene.stop();

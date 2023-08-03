@@ -19,7 +19,7 @@ export default class InventoryDisplay extends Phaser.Scene {
 
     create() {
         this.input.keyboard.on('keydown-I', this.toggleVisibility.bind(this));
-        this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'bag').setScale(2.45);
+        this.background = this.add.sprite(this.backgroundX, this.backgroundY, 'brownbackground').setScale(2.45);
         this.setupExitButton();
         this.setupInventoryIcon();
         let slots = [];

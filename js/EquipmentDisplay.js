@@ -18,7 +18,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.sprite.anims.play('hero_idle');
         this.sprite.anims.msPerFrame = 150;
     
-        this.background = this.add.sprite(500, 240, 'equipbackground').setScale(1.6).setDepth(30);
+        this.background = this.add.sprite(505, 240, 'brownbackground').setScale(3.05, 4).setDepth(30);
         this.setupExitButton();
         this.setupEquipmentIcon();
 
@@ -65,7 +65,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     setupExitButton() {
-        this.exitButton = this.add.sprite(365, 85, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        this.exitButton = this.add.sprite(382, 82, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
         this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
         this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
         this.exitButton.on('pointerdown', this.toggleVisibility.bind(this));

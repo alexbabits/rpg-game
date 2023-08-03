@@ -10,13 +10,6 @@ export default class Map extends Phaser.Scene {
       this.gameState = gameState;
     }
 
-    preload() {
-        this.load.image('tiles', 'assets/images/RPG Nature Tileset.png');
-        this.load.tilemapTiledJSON(this.mapKey, `assets/images/${this.mapKey}.json`);
-        Player.preload(this);
-        Monster.preload(this);
-    }
-
     create() {
         const map = this.make.tilemap({key: this.mapKey});
         const tileset = map.addTilesetImage('RPG Nature Tileset', 'tiles', 32, 32, 0, 2);
