@@ -13,8 +13,8 @@ import BootScene from "./BootScene.js"
 
 const gameState = new GameState();
 const config = {
-  width: 640,
-  height: 640,
+  width: 640, //window.innerWidth in the future?
+  height: 640, //window.innerHeight in the future?
   backgroundColor: '#000',
   type: Phaser.AUTO,
   parent: 'configs',
