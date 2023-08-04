@@ -12,6 +12,7 @@ export default class MessageBox extends Phaser.Scene {
     }
 
     create(data) {
+        this.clearMessages();
         this.gameState = data.gameState;
         this.background = this.add.sprite(130, 480, 'brownbackground').setScale(3, 2);
         this.equipmentData.on('message', this.updateMessage, this);
@@ -62,6 +63,14 @@ export default class MessageBox extends Phaser.Scene {
             this.messages[i].y = 540 - (i - this.scrollIndex) * 20;
             this.messages[i].visible = i >= this.scrollIndex && i < this.scrollIndex + this.maxVisibleMessages;
         }
+    }
+
+    clearMessages() {
+        for (const message of this.messages) {
+            message.destroy();
+        }
+        this.messages = [];
+        this.scrollIndex = 0;
     }
 
 }
