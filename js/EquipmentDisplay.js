@@ -44,9 +44,9 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
 
         let playerDamage = this.equipmentData.gameState.getPlayerDamage();
-        this.damageText = this.add.text(400, 90, `Damage: ${playerDamage}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
+        this.damageText = this.add.text(400, 90, `Damage: ${playerDamage}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 2}).setDepth(100);
         let playerDefense = this.equipmentData.gameState.getPlayerDefense();
-        this.defenseText = this.add.text(400, 105, `Defense: ${playerDefense}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4}).setDepth(100);
+        this.defenseText = this.add.text(400, 105, `Defense: ${playerDefense}`, {fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 2}).setDepth(100);
         this.equipmentData.on('equipmentChanged', this.refreshDisplay, this);
 
         this.sprite.setVisible(this.equipmentData.gameState.getEquipVisibility());
@@ -89,7 +89,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     
             let quantityText = null;
             if(item.quantity > 1){
-                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 4}).setDepth(40);
+                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '16px', fontFamily: 'Arial', fill: '#44ff44', resolution: 2}).setDepth(40);
                 itemSprite.setData('quantityText', quantityText);
             }
     

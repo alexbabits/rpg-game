@@ -34,7 +34,7 @@ export default class Menu extends Phaser.Scene{
     
             buttonSprite.on('pointerdown', buttonClickedMethod);
     
-            const buttonText = this.add.text(xPos, y, label, { fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 4 }).setOrigin(0.5, 0.5);
+            const buttonText = this.add.text(xPos, y, label, { fontSize: '16px', fontFamily: 'Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
             this.add.container(0, 0, [buttonSprite, buttonText]);
         });
     }

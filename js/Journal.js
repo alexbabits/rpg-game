@@ -8,11 +8,88 @@ export default class Journal extends Phaser.Scene{
         this.gameState = data.gameState;
         this.inventoryVisible = data.inventoryVisible;
         this.equipmentVisible = data.equipmentVisible;
-        this.journalBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(4, 3);
-        this.input.keyboard.on('keydown-J', this.resumeGame, this);
+        this.input.keyboard.on('keydown-J', this.closeJournal, this);
+        this.input.keyboard.on('keydown-ESC', this.closeJournal, this);
+        this.createBackground();
+        this.createExitButton();
+        this.createQuestButton();
+        this.createStatsButton();
+        this.createQuestData();
+        this.createStatsData();
+        this.questTexts.forEach(text => text.setVisible(false));
+        this.statsTexts.forEach(text => text.setVisible(false));
     }
 
-    resumeGame() {
+    createQuestData() {
+        this.QuestStatus1 = 'In Progress. Go to the goblin hut.'
+        this.QuestStatus2 = 'Completed.'
+        this.QuestStatus3 = 'Have not started.'
+        this.questTexts = [
+            this.add.text(230, 260, `Quest 1: ${this.QuestStatus1}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 300, `Quest 2: ${this.QuestStatus2}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 340, `Quest 3: ${this.QuestStatus3}`, { font: '16px Arial', fill: '#000', resolution: 2 })
+        ];
+    }
+
+    createStatsData() {
+        this.currentLevel = '4'
+        this.totalXPGained = '552'
+        this.monstersKilled = '369'
+        this.bossesSlain = '13'
+        this.timePlayed = `19 hours`
+        this.statsTexts = [
+            this.add.text(230, 230, `Current Level: ${this.currentLevel}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 270, `Total XP Gained: ${this.totalXPGained}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 310, `Monsters Killed: ${this.monstersKilled}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 350, `Bosses Slain: ${this.bossesSlain}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 390, `Time Played: ${this.timePlayed}`, { font: '16px Arial', fill: '#000', resolution: 2 })
+        ];
+    }
+
+    questData() {
+        this.statsTexts.forEach(text => text.setVisible(false));
+        this.questTexts.forEach(text => text.setVisible(true));
+    }
+
+    statsData() {
+        this.questTexts.forEach(text => text.setVisible(false));
+        this.statsTexts.forEach(text => text.setVisible(true));
+    }
+
+    createBackground(){
+        this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(6, 4);
+        this.add.sprite(378, 320, 'items', 11).setScale(11.5, 10).setOrigin(0.5,0.5);
+        this.add.text(380, 200,'Kingdom of Razion', { font: '24px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
+    }
+
+    createQuestButton() {
+        const buttonSprite = this.add.sprite(140, 220, 'items', 11).setScale(3.0, 1).setInteractive();
+        buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f);});
+        buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
+        buttonSprite.on('pointerdown', () => {this.questData()});
+    
+        const buttonText = this.add.text(140, 220, 'Quests', { font: '16px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
+        this.add.container(0, 0, [buttonSprite, buttonText]);
+    }
+
+    createStatsButton() {
+        const buttonSprite = this.add.sprite(140, 260, 'items', 11).setScale(3.0, 1).setInteractive();
+        buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f);});
+        buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
+        buttonSprite.on('pointerdown', () => {this.statsData()});
+    
+        const buttonText = this.add.text(140, 260, 'Stats', { font: '16px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
+        this.add.container(0, 0, [buttonSprite, buttonText]);
+    }
+
+    createExitButton() {
+        let exitButton = this.add.sprite(80, 160, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        exitButton.on('pointerover', () => {exitButton.setTint(0x969696)}); 
+        exitButton.on('pointerout', () => {exitButton.clearTint()});
+        exitButton.on('pointerdown', () => this.closeJournal());
+    }
+
+    closeJournal() {
         this.scene.stop();
         let inventoryDisplay = this.scene.get('InventoryDisplay');
         let equipmentDisplay = this.scene.get('EquipmentDisplay');
@@ -25,22 +102,3 @@ export default class Journal extends Phaser.Scene{
     }
 
 }
-
-
-/*
-    setupQuestButton() {
-        this.exitButton = this.add.sprite(382, 82, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
-        this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
-        this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
-        this.exitButton.on('pointerdown', this.toggleVisibility.bind(this));
-        this.exitButton.setVisible(this.equipmentData.gameState.getEquipVisibility());
-    }
-
-    setupStatsButton() {
-        this.exitButton = this.add.sprite(382, 82, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
-        this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
-        this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
-        this.exitButton.on('pointerdown', this.toggleVisibility.bind(this));
-        this.exitButton.setVisible(this.equipmentData.gameState.getEquipVisibility());
-    }
-*/

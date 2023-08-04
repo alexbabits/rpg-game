@@ -28,7 +28,7 @@ export default class StartScreen extends Phaser.Scene {
 
             buttonRectangle.on('pointerdown', buttonClickedMethod);
 
-            const buttonText = this.add.text(320, y, label, { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 4 }).setOrigin(0.5, 0.5);
+            const buttonText = this.add.text(320, y, label, { fontSize: '24px', fontFamily: 'Arial', fill: '#452840', resolution: 2 }).setOrigin(0.5, 0.5);
             this.add.container(0, 0, [buttonRectangle, buttonText]);
         });
     }
