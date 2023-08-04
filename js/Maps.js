@@ -62,21 +62,9 @@ export default class Map extends Phaser.Scene {
             this.scene.pause('InventoryDisplay');
             this.scene.pause('EquipmentDisplay');
         });
-
-        this.input.keyboard.on('keydown-J', () => {
-            let inventoryDisplay = this.scene.get('InventoryDisplay');
-            let equipmentDisplay = this.scene.get('EquipmentDisplay');
-            let inventoryVisible = this.gameState.getInvVisibility();
-            let equipmentVisible = this.gameState.getEquipVisibility();
         
-            if (inventoryVisible) {inventoryDisplay.toggleVisibility()}
-            if (equipmentVisible) {equipmentDisplay.toggleVisibility()}
-        
-            this.scene.launch('Journal', { gameState: this.gameState, inventoryVisible, equipmentVisible });
-            this.scene.pause();
-            this.scene.pause('InventoryDisplay');
-            this.scene.pause('EquipmentDisplay');
-        });
+        this.handleKeyPress('Menu', 'keydown-ESC');
+        this.handleKeyPress('Journal', 'keydown-J');
 
         let camera = this.cameras.main;
         camera.zoom = 1.4;
@@ -95,6 +83,23 @@ export default class Map extends Phaser.Scene {
     }
 
     spawnMonster() {}
+
+    handleKeyPress(sceneName, key) {
+        this.input.keyboard.on(key, () => {
+            let inventoryDisplay = this.scene.get('InventoryDisplay');
+            let equipmentDisplay = this.scene.get('EquipmentDisplay');
+            let inventoryVisible = this.gameState.getInvVisibility();
+            let equipmentVisible = this.gameState.getEquipVisibility();
+    
+            if (inventoryVisible) { inventoryDisplay.toggleVisibility() }
+            if (equipmentVisible) { equipmentDisplay.toggleVisibility() }
+    
+            this.scene.launch(sceneName, { gameState: this.gameState, inventoryVisible, equipmentVisible });
+            this.scene.pause();
+            this.scene.pause('InventoryDisplay');
+            this.scene.pause('EquipmentDisplay');
+        });
+    }
 
     shutdown() {
         this.events.off('monsterDeath', this.monsterManager.spawnNewMonster, this.monsterManager);

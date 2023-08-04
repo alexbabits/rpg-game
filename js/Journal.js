@@ -20,6 +20,12 @@ export default class Journal extends Phaser.Scene{
         this.statsTexts.forEach(text => text.setVisible(false));
     }
 
+    createBackground(){
+        this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(6, 4);
+        this.add.sprite(378, 320, 'items', 11).setScale(11.5, 10).setOrigin(0.5,0.5);
+        this.add.text(380, 200,'Kingdom of Razion', { font: '24px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
+    }
+
     createQuestData() {
         this.QuestStatus1 = 'In Progress. Go to the goblin hut.'
         this.QuestStatus2 = 'Completed.'
@@ -46,40 +52,29 @@ export default class Journal extends Phaser.Scene{
         ];
     }
 
-    questData() {
-        this.statsTexts.forEach(text => text.setVisible(false));
-        this.questTexts.forEach(text => text.setVisible(true));
-    }
-
-    statsData() {
-        this.questTexts.forEach(text => text.setVisible(false));
-        this.statsTexts.forEach(text => text.setVisible(true));
-    }
-
-    createBackground(){
-        this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(6, 4);
-        this.add.sprite(378, 320, 'items', 11).setScale(11.5, 10).setOrigin(0.5,0.5);
-        this.add.text(380, 200,'Kingdom of Razion', { font: '24px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
-    }
-
     createQuestButton() {
         const buttonSprite = this.add.sprite(140, 220, 'items', 11).setScale(3.0, 1).setInteractive();
         buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f);});
         buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
-        buttonSprite.on('pointerdown', () => {this.questData()});
-    
+        buttonSprite.on('pointerdown', () => {this.toggleTextsVisibility(true)});
+        
         const buttonText = this.add.text(140, 220, 'Quests', { font: '16px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [buttonSprite, buttonText]);
     }
-
+    
     createStatsButton() {
         const buttonSprite = this.add.sprite(140, 260, 'items', 11).setScale(3.0, 1).setInteractive();
         buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f);});
         buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
-        buttonSprite.on('pointerdown', () => {this.statsData()});
-    
+        buttonSprite.on('pointerdown', () => {this.toggleTextsVisibility(false)});
+        
         const buttonText = this.add.text(140, 260, 'Stats', { font: '16px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [buttonSprite, buttonText]);
+    }
+
+    toggleTextsVisibility(showQuests) {
+        this.questTexts.forEach(text => text.setVisible(showQuests));
+        this.statsTexts.forEach(text => text.setVisible(!showQuests));
     }
 
     createExitButton() {
