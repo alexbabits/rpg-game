@@ -18,6 +18,7 @@ export default class Journal extends Phaser.Scene{
         this.createStatsData();
         this.questTexts.forEach(text => text.setVisible(false));
         this.statsTexts.forEach(text => text.setVisible(false));
+        //this.add.text(320, 320, `${this.gameState.getPlayerMonsterKills()}`, { font: '24px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
     }
 
     createBackground(){
@@ -38,11 +39,11 @@ export default class Journal extends Phaser.Scene{
     }
 
     createStatsData() {
-        this.currentLevel = '4'
-        this.totalXPGained = '552'
-        this.monstersKilled = '369'
-        this.bossesSlain = '13'
-        this.timePlayed = `19 hours`
+        this.currentLevel = this.gameState.getPlayerLevel();
+        this.totalXPGained = this.gameState.getPlayerTotalXP();
+        this.monstersKilled = this.gameState.getPlayerMonsterKills();
+        this.bossesSlain = '0'
+        this.timePlayed = `69 minutes`
         this.statsTexts = [
             this.add.text(230, 230, `Current Level: ${this.currentLevel}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
             this.add.text(230, 270, `Total XP Gained: ${this.totalXPGained}`, { font: '16px Arial', fill: '#000', resolution: 2 }),

@@ -26,6 +26,7 @@ export default class Player {
     this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
     this.gameState.setPlayerDefense(5);
     this.gameState.setPlayerDirection(this.gameState.getPlayerDirection());
+    this.gameState.setPlayerMonsterKills(0);
     
     const {Body,Bodies} = Phaser.Physics.Matter.Matter;
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
@@ -64,13 +65,13 @@ export default class Player {
     const maxXP = this.gameState.getPlayerMaxXP();
     const totalXP = this.gameState.getPlayerTotalXP();
     const monsterXP = monster.XP
-
     if (currentXP + monster.XP > maxXP) {
         this.gameState.setPlayerTotalXP(totalXP + maxXP - currentXP);
     } else {
         this.gameState.setPlayerTotalXP(totalXP + monster.XP);
     }
     this.gameState.setPlayerXP(currentXP + monster.XP);
+    this.gameState.setPlayerMonsterKills(this.gameState.getPlayerMonsterKills() + 1);
 
     console.log(`Player gained ${monster.XP} XP. XP to next level: ${this.xpToNextLevel()}. Total XP: ${this.gameState.getPlayerTotalXP()}.`);
 

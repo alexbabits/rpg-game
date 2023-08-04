@@ -116,7 +116,8 @@ export default class GameState {
       defense: player.gameState.getPlayerDefense(),
       specialDamage: player.gameState.getPlayerSpecialDamage(),
       direction: player.gameState.getPlayerDirection(),
-      position: {x: player.sprite.x, y: player.sprite.y}
+      position: {x: player.sprite.x, y: player.sprite.y},
+      monsterKills: player.gameState.getPlayerMonsterKills()
     }
   }
 
@@ -143,6 +144,7 @@ export default class GameState {
       player.gameState.setPlayerSpecialDamage(this.playerState.specialDamage);
       player.gameState.setPlayerDirection(this.playerState.direction);
       player.gameState.setPlayerPosition(this.playerState.position.x, this.playerState.position.y);
+      player.gameState.setPlayerMonsterKills(this.playerState.monsterKills)
     }
   }
 
@@ -208,4 +210,7 @@ export default class GameState {
 
   setPlayerPosition(x, y) {this.playerPosition = { x, y }}
   getPlayerPosition() {return this.playerPosition}
+
+  setPlayerMonsterKills(monsterKills) {this.playerMonsterKills = monsterKills}
+  getPlayerMonsterKills() {return this.playerMonsterKills}
 }
