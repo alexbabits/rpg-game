@@ -1,6 +1,3 @@
-Journal:
+Chatbox for console messages:
 
-Quests tab/button
-Stats button: Total Monsters Slain (counter ++ when mosnter dies), Total XP gained (Already have this calculated in the player file)
-
-Maps.js refactor J and Esc for simplicity with Menu and Journal.
+Need to transmit the data for our console logs into the MessageBox.js

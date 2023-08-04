@@ -6,33 +6,46 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Level up Scene ( Pick stats to increase, will increase your maxStats.)
-• Chatbox for console messages. Chatbox for NPCs.
+• Chatbox for console messages.
+
+• Level up Scene ( Gives 1 stat point per level. Pick stats to increase, will increase your maxStats. Statpoints. Determine stats to have (Str, Vit, etc.))
+
+• Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
+
+• Teleporter. Allows for movement between scenes. Animated.
+
+• Handle Stackable Scenarios for looting.
+• Handle Multiple Items in loot scene (test, should be ok?) (Need monsters to drop multiple items)
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
 • Increased inventory size (16 --> 64). 4 pages of it?
-• Map (M key for Map)
-• Minimap
-• J for journal/Quests
-• Teleporter. Allows for movement between scenes. Animated.
-• Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
+• Randomized/Weighted Monster drops.
+• Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
+
+• Map (M for map key. Just has the 64 map tiles basically). Minimap.
+
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
-• Crit Chance %/Crit Damge %/Dodge/Accuracy/etc. (MORE STATS) (no special anim change for crits/dodges)
-• Debuffs and buffs.
-• Handle Stackable Scenarios for looting/equipment.
-• Handle Multiple Items in loot scene (test, should be ok?)
-• Randomized/Weighted Monster drops.
+
+• Crit Chance %/Crit Damge %/Dodge/etc. (MORE STATS) (no special anim change for crits/dodges)
+• Debuffs (from monsters). Buffs from potions/items/gear.
+
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
 • Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
+
 • Quests & Interactions with NPCs.
+• Chatbox for NPCs.
+
 • Monster Spawn 'zones' instead of 'random points'. Random Respawn/Spawn be same dimensions as their wander zone.
 • Monster 'wandering' while in idle state? Or new 'wander' state.
+
+• TimePlayed Stat for Journal. (Initialize, start timer, pause timer, update game state set/getTimePlayed, housed in player stats.)
+
 • Stat resets. Drink from the forgetfullness well or fountain. Or a fairy lets you unlearn everything.
-• Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
+
 • Spritesheet for each weapon type, and for armor. And maybe colors for different ones if feeling ambitious.
 • 4 way direction instead of 2 way direction for monsters and player animations.
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.

@@ -30,7 +30,7 @@ export default class Map extends Phaser.Scene {
         this.player = new Player(this, savedPosition.x, savedPosition.y, this.gameState);
         this.gameState.loadPlayerState(this.player);
         this.scene.launch('PlayerVisualScene', { player: this.player, container: this.player.container });
-        
+
         this.equipment = new EquipmentData(this, this.gameState, this.player);
         this.gameState.loadEquipmentState(this.equipment)
         this.scene.launch('EquipmentDisplay', { equipment: this.equipment});
@@ -40,6 +40,8 @@ export default class Map extends Phaser.Scene {
         this.scene.launch('InventoryDisplay', { inventory: this.inventory});
         
         this.equipment.setInventoryData(this.inventory);
+
+        this.scene.launch('MessageBox', { equipment: this.equipment});
 
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();

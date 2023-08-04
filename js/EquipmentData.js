@@ -48,6 +48,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
             equipItems[index] = null;
             this.gameState.setEquipItems(equipItems);
             this.emit('equipmentChanged');
+            this.emit('message', `Unequipped ${item.name}.`);
         }
     }
     
@@ -61,6 +62,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
         console.log(`Equipped ${item.name}. Damage: ${this.player.gameState.getPlayerDamage()}.`);
         this.emit('equipmentChanged');
+        this.emit('message', `Equipped ${item.name}.`);
     }
 
     equipOffhand(item) {
@@ -72,15 +74,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
 
         console.log(`Equipped ${item.name}. Defense: ${this.player.gameState.getPlayerDefense()}.`)
         this.emit('equipmentChanged');
-    }
-
-    equipHelm(item) {
-        let equipItems = this.gameState.getEquipItems();
-        equipItems[0] = item;
-        this.gameState.setEquipItems(equipItems);
-        //increase stats appropriately
-        console.log(`Equipped ${item.name}`)
-        this.emit('equipmentChanged');
+        this.emit('message', `Equipped ${item.name}.`);
     }
 
 }
