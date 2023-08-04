@@ -41,14 +41,14 @@ export default class Map extends Phaser.Scene {
         
         this.equipment.setInventoryData(this.inventory);
 
-        this.scene.launch('MessageBox', { equipment: this.equipment});
-
         this.monsterManager = new MonsterManager(this, this.player);
         this.spawnMonster();
 
         this.gameState.setPlayer(this.player);
         this.gameState.setInventory(this.inventory);
         this.gameState.setEquipment(this.equipment);
+
+        this.scene.launch('MessageBox', { equipment: this.equipment});
 
         this.input.keyboard.on('keydown-ESC', () => {
             let inventoryDisplay = this.scene.get('InventoryDisplay');

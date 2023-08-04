@@ -1,3 +1,5 @@
 Chatbox for console messages:
 
 Need to transmit the data for our console logs into the MessageBox.js
+
+Messages only showing up on the first boot up of the electron window, after the first time, whether loading or new game, messages don't show up anymore.
