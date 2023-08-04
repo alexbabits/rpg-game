@@ -7,7 +7,7 @@
 
 *****New Features/Improvements on Current Features*****
 • Level up Scene ( Pick stats to increase, will increase your maxStats.)
-• Chatbox for console messages. Chatbox for NPCs. (For chatbox, try making the text not blurry with bitmap or whatever)
+• Chatbox for console messages. Chatbox for NPCs.
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)

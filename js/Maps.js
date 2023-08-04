@@ -63,6 +63,21 @@ export default class Map extends Phaser.Scene {
             this.scene.pause('EquipmentDisplay');
         });
 
+        this.input.keyboard.on('keydown-J', () => {
+            let inventoryDisplay = this.scene.get('InventoryDisplay');
+            let equipmentDisplay = this.scene.get('EquipmentDisplay');
+            let inventoryVisible = this.gameState.getInvVisibility();
+            let equipmentVisible = this.gameState.getEquipVisibility();
+        
+            if (inventoryVisible) {inventoryDisplay.toggleVisibility()}
+            if (equipmentVisible) {equipmentDisplay.toggleVisibility()}
+        
+            this.scene.launch('Journal', { gameState: this.gameState, inventoryVisible, equipmentVisible });
+            this.scene.pause();
+            this.scene.pause('InventoryDisplay');
+            this.scene.pause('EquipmentDisplay');
+        });
+
         let camera = this.cameras.main;
         camera.zoom = 1.4;
         camera.startFollow(this.player.sprite);

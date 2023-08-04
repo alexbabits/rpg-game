@@ -1,0 +1,6 @@
+Journal:
+
+Quests tab/button
+Stats button: Total Monsters Slain (counter ++ when mosnter dies), Total XP gained (Already have this calculated in the player file)
+
+Maps.js refactor J and Esc for simplicity with Menu and Journal.
