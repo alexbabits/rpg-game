@@ -29,11 +29,7 @@ export default class MessageBox extends Phaser.Scene {
         this.createScrollBar();
         this.setupMessageBoxIcon();
         this.setupExitButton();
-        this.exitButton.visible = false;
-        this.background.visible = false;
-        this.scrollBarBackground.visible = false;
-        this.scrollBarHandle.visible = false;
-        this.messages.forEach(message => message.visible = false);
+        this.setVisibility(false);
     
         this.input.keyboard.on('keydown-K', () => {this.toggleVisibility()});
     }
@@ -76,14 +72,17 @@ export default class MessageBox extends Phaser.Scene {
         }
     }
 
+    setVisibility(value) {
+        this.background.visible = value;
+        this.scrollBarBackground.visible = value;
+        this.scrollBarHandle.visible = value;
+        this.exitButton.visible = value;
+        this.isVisible = value;
+        this.updateMessageDisplay();
+    }
 
     toggleVisibility() {
-        this.isVisible = !this.isVisible;
-        this.background.visible = this.isVisible;
-        this.scrollBarBackground.visible = this.isVisible;
-        this.scrollBarHandle.visible = this.isVisible;
-        this.exitButton.visible = this.isVisible;
-        this.updateMessageDisplay();
+        this.setVisibility(!this.isVisible);
     }
 
     clearMessages() {
@@ -95,7 +94,7 @@ export default class MessageBox extends Phaser.Scene {
     }
 
     setupExitButton() {
-        this.exitButton = this.add.sprite(10, this.yPos - 80, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        this.exitButton = this.add.sprite(10, this.yPos - 82, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
         this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
         this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
         this.exitButton.on('pointerdown', () => {this.toggleVisibility()});

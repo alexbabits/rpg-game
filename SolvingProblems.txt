@@ -2,4 +2,3 @@ Chatbox for console messages:
 
 1. GameState visibility concerns for the messageBox, because it should toggle visibility on and off when game is paused, or when journal is open, similar to how the inventory display and the equipment display toggle on/off visibility with the menu/journal pausing.
 2. Current messages and visibility should be saved between scene transitions.
-3. Hotkey K for the message box, and message box symbol clickable toggle similar to inventory/equipment.
