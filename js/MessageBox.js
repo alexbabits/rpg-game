@@ -2,12 +2,13 @@ export default class MessageBox extends Phaser.Scene {
     constructor() {
         super("MessageBox");
         this.messages = [];
-        this.maxVisibleMessages = 6; // Number of messages visible at once
-        this.maxTotalMessages = 50; // Total number of messages to keep in memory
-        this.scrollIndex = 0;  // Index to keep track of scroll position
+        this.maxVisibleMessages = 6;
+        this.maxTotalMessages = 50;
+        this.scrollIndex = 0;
         this.yPos = 480;
         this.spacing = 25;
         this.messageHeight = 16;
+        this.scrollBarHeight = 160;
     }
 
     init(data) {
@@ -19,56 +20,41 @@ export default class MessageBox extends Phaser.Scene {
         this.gameState = data.gameState;
         this.background = this.add.sprite(130, this.yPos, 'brownbackground').setScale(3, 2);
         this.equipmentData.on('message', this.updateMessage, this);
-        this.scrollBar();
+        this.createScrollBar();
     }
 
-    scrollBar(){
-        this.scrollBarBackground = this.add.rectangle(15, this.yPos, 10, 160, 0x753939);
-        this.scrollBarHandle = this.add.rectangle(15, this.yPos + 70, 10, 20, 0xd07a58).setInteractive({ draggable: true });
+    createScrollBar(){
+        this.scrollBarBackground = this.add.rectangle(15, this.yPos, 10, this.scrollBarHeight, 0x753939);
+        this.maxHandleY = this.yPos + (this.scrollBarHeight - 20) / 2;
+        this.minHandleY = this.yPos - (this.scrollBarHeight - 20) / 2;
+        this.scrollBarHandle = this.add.rectangle(15, this.maxHandleY, 10, 20, 0xd07a58).setInteractive({ draggable: true });
         this.scrollBarHandle.on('drag', (pointer, dragX, dragY) => this.scroll(dragY));
     }
 
     updateMessage(message) {
-        // Create new message
         const newMessage = this.add.text(this.spacing, this.yPos - this.messageHeight, message, {font: "16px Arial", fill: "#000", resolution: 2});
-        this.messages.unshift(newMessage); // Add to the beginning of the array
+        this.messages.unshift(newMessage);
     
-        // Remove oldest message if exceeding total capacity
         if (this.messages.length > this.maxTotalMessages) {
             this.messages[this.messages.length - 1].destroy();
             this.messages.pop();
         }
-
-        // Reset scroll index
         this.scrollIndex = 0;
-
-        // Reset scroll bar handle
         this.scrollBarHandle.y = this.yPos + 70;
-
-        // Update visibility of messages
         this.updateMessageVisibility();
     }
 
 
     scroll(dragY) {
-        // Calculate the percentage of the scroll bar's position, inverting the calculation
-        let percentage = 1 - ((dragY - this.yPos) / (this.scrollBarBackground.height - this.scrollBarHandle.height));
-
-        // Calculate the new scroll index based on the percentage
+        let clampedY = Phaser.Math.Clamp(dragY, this.minHandleY, this.maxHandleY);
+        let percentage = (this.maxHandleY - clampedY) / (this.maxHandleY - this.minHandleY);
         this.scrollIndex = Math.round(percentage * (this.messages.length - this.maxVisibleMessages));
-
-        // Clamp the scroll index to valid range
         this.scrollIndex = Phaser.Math.Clamp(this.scrollIndex, 0, this.messages.length - this.maxVisibleMessages);
-
-        // Update visibility of messages
         this.updateMessageVisibility();
-
-        // Position scroll bar handle, inverting the calculation
-        this.scrollBarHandle.y = this.yPos + (1 - percentage) * (this.scrollBarBackground.height - this.scrollBarHandle.height);
+        this.scrollBarHandle.y = clampedY;
     }
 
     updateMessageVisibility() {
-        // Loop through all messages and set their visibility and position
         for (let i = 0; i < this.messages.length; i++) {
             this.messages[i].y = this.yPos + 70 - this.messageHeight - (i - this.scrollIndex) * this.spacing;
             this.messages[i].visible = i >= this.scrollIndex && i < this.scrollIndex + this.maxVisibleMessages;
