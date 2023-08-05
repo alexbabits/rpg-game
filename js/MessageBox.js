@@ -14,6 +14,7 @@ export default class MessageBox extends Phaser.Scene {
     init(data) {
         this.equipmentData = data.equipment;
         this.inventoryData = data.inventory;
+        this.player = data.player;
     }
 
     create(data) {
@@ -22,6 +23,8 @@ export default class MessageBox extends Phaser.Scene {
         this.background = this.add.sprite(150, this.yPos, 'brownbackground').setScale(3.4, 2);
         this.equipmentData.on('message', this.updateMessage, this);
         this.inventoryData.on('message', this.updateMessage, this);
+        this.events.on('message', this.updateMessage, this);
+        this.events.once('shutdown', this.shutdown, this);
         this.createScrollBar();
     }
 
@@ -69,6 +72,10 @@ export default class MessageBox extends Phaser.Scene {
         }
         this.messages = [];
         this.scrollIndex = 0;
+    }
+
+    shutdown() {
+        this.events.off('message', this.updateMessage, this);
     }
 
 }

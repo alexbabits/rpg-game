@@ -48,7 +48,7 @@ export default class Map extends Phaser.Scene {
         this.gameState.setInventory(this.inventory);
         this.gameState.setEquipment(this.equipment);
 
-        this.scene.launch('MessageBox', { equipment: this.equipment, inventory: this.inventory});
+        this.scene.launch('MessageBox', { equipment: this.equipment, inventory: this.inventory, player: this.player});
 
         this.input.keyboard.on('keydown-ESC', () => {
             let inventoryDisplay = this.scene.get('InventoryDisplay');
