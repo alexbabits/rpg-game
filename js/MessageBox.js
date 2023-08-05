@@ -45,23 +45,26 @@ export default class MessageBox extends Phaser.Scene {
 
 
     scroll(dragY) {
-        // Calculate the new scroll index
-        this.scrollIndex = Math.round((dragY - this.yPos) / this.spacing);
-    
+        // Calculate the percentage of the scroll bar's position
+        let percentage = (dragY - this.yPos) / (this.scrollBarBackground.height - this.scrollBarHandle.height);
+
+        // Calculate the new scroll index based on the percentage
+        this.scrollIndex = Math.round(percentage * (this.messages.length - this.maxVisibleMessages));
+
         // Clamp the scroll index to valid range
         this.scrollIndex = Phaser.Math.Clamp(this.scrollIndex, 0, this.messages.length - this.maxVisibleMessages);
-    
+
         // Update visibility of messages
         this.updateMessageVisibility();
-    
+
         // Position scroll bar handle
-        this.scrollBarHandle.y = this.yPos + this.scrollIndex * this.spacing;
+        this.scrollBarHandle.y = this.yPos + percentage * (this.scrollBarBackground.height - this.scrollBarHandle.height);
     }
-    
+
     updateMessageVisibility() {
         // Loop through all messages and set their visibility and position
         for (let i = 0; i < this.messages.length; i++) {
-            this.messages[i].y = this.yPos + 70 - this.messageHeight - (i + this.scrollIndex) * this.spacing;
+            this.messages[i].y = this.yPos + 70 - this.messageHeight - (i - this.scrollIndex) * this.spacing;
             this.messages[i].visible = i >= this.scrollIndex && i < this.scrollIndex + this.maxVisibleMessages;
         }
     }
