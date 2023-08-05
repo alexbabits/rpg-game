@@ -1,5 +1,6 @@
 Chatbox for console messages:
 
-Need to transmit the data for our console logs into the MessageBox.js
-
-Messages only showing up on the first boot up of the electron window, after the first time, whether loading or new game, messages don't show up anymore.
+1. Grab data from player, monsters, looting, etc. via event listeners or other methods.
+2. GameState visibility concerns for the messageBox, because it should toggle visibility on and off when game is paused, or when journal is open, similar to how the inventory display and the equipment display toggle on/off visibility with the menu/journal pausing.
+3. Current messages and visibility should be saved between scene transitions.
+4. Hotkey K for the message box, and message box symbol clickable toggle similar to inventory/equipment.

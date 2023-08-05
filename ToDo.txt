@@ -6,7 +6,7 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Chatbox for console messages.
+• GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
 
 • Level up Scene ( Gives 1 stat point per level. Pick stats to increase, will increase your maxStats. Statpoints. Determine stats to have (Str, Vit, etc.))
 
@@ -21,6 +21,7 @@
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
+• Right click drop to removeInvItem, or some way to delete, handle case when inventory is full.
 • Increased inventory size (16 --> 64). 4 pages of it?
 • Randomized/Weighted Monster drops.
 • Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
@@ -60,3 +61,6 @@
 • Click to move/Click to attack
 • Potion cooldown timer, and ticker/hourglass icon that displays top of screen (20s cooldown that ticks down). (Similar to WOW cooldown graphics)
 • NSIS for the installer, makes it so always creates desktop shortcut. (Otherwise have to uninstall if made the dist build more than once)
+
+*****GOAL*****
+Publish demo game on itch.io basically, with all the basics covered above, or to game dev discord.
