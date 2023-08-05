@@ -36,7 +36,7 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
         this.gameState.setInvItems(items);     
     }
 
-    addInvItem(item) {
+    addInvItem(item, context = 'loot') {
         let items = this.gameState.getInvItems();
         let itemAdded = false;
         
@@ -49,6 +49,9 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
         }
         this.gameState.setInvItems(items);
         this.emit('addInvItem');
+        if (context === 'loot') {
+            this.emit('message', `${item.name} looted.`)
+        };
     }
 
     useItem(index) {
