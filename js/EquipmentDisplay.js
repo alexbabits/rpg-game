@@ -58,7 +58,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     }
 
     setupEquipmentIcon() {
-        this.equipmentIcon = this.add.sprite(110, 603, 'items', 55).setScale(2).setDepth(200).setInteractive();
+        this.equipmentIcon = this.add.sprite(90, 603, 'items', 55).setScale(1.5).setDepth(200).setInteractive();
         this.equipmentIcon.on('pointerover', () => {this.equipmentIcon.setTint(0x969696)});
         this.equipmentIcon.on('pointerout', () => {this.equipmentIcon.clearTint()});
         this.equipmentIcon.on('pointerdown', this.toggleVisibility.bind(this));

@@ -18,7 +18,6 @@ export default class Journal extends Phaser.Scene{
         this.createStatsData();
         this.questTexts.forEach(text => text.setVisible(false));
         this.statsTexts.forEach(text => text.setVisible(false));
-        //this.add.text(320, 320, `${this.gameState.getPlayerMonsterKills()}`, { font: '24px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
     }
 
     createBackground(){

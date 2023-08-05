@@ -55,7 +55,7 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     setupInventoryIcon() {
-        this.inventoryIcon = this.add.sprite(35, this.startY+132, 'items', 160).setScale(2).setDepth(200).setInteractive();
+        this.inventoryIcon = this.add.sprite(35, this.startY+132, 'items', 160).setScale(1.5).setDepth(200).setInteractive();
         this.inventoryIcon.on('pointerover', () => {this.inventoryIcon.setTint(0x969696)});
         this.inventoryIcon.on('pointerout', () => {this.inventoryIcon.clearTint()});
         this.inventoryIcon.on('pointerdown', this.toggleVisibility.bind(this));

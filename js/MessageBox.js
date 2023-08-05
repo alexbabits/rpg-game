@@ -2,13 +2,14 @@ export default class MessageBox extends Phaser.Scene {
     constructor() {
         super("MessageBox");
         this.messages = [];
-        this.maxVisibleMessages = 6;
+        this.maxDisplayedMessages = 6;
         this.maxTotalMessages = 50;
         this.scrollIndex = 0;
         this.yPos = 480;
         this.spacing = 25;
         this.messageHeight = 16;
         this.scrollBarHeight = 160;
+        this.isVisible = false;
     }
 
     init(data) {
@@ -26,6 +27,15 @@ export default class MessageBox extends Phaser.Scene {
         this.events.on('message', this.updateMessage, this);
         this.events.once('shutdown', this.shutdown, this);
         this.createScrollBar();
+        this.setupMessageBoxIcon();
+        this.setupExitButton();
+        this.exitButton.visible = false;
+        this.background.visible = false;
+        this.scrollBarBackground.visible = false;
+        this.scrollBarHandle.visible = false;
+        this.messages.forEach(message => message.visible = false);
+    
+        this.input.keyboard.on('keydown-K', () => {this.toggleVisibility()});
     }
 
     createScrollBar(){
@@ -46,24 +56,34 @@ export default class MessageBox extends Phaser.Scene {
         }
         this.scrollIndex = 0;
         this.scrollBarHandle.y = this.yPos + 70;
-        this.updateMessageVisibility();
+        this.updateMessageDisplay();
     }
 
 
     scroll(dragY) {
         let clampedY = Phaser.Math.Clamp(dragY, this.minHandleY, this.maxHandleY);
         let percentage = (this.maxHandleY - clampedY) / (this.maxHandleY - this.minHandleY);
-        this.scrollIndex = Math.round(percentage * (this.messages.length - this.maxVisibleMessages));
-        this.scrollIndex = Phaser.Math.Clamp(this.scrollIndex, 0, this.messages.length - this.maxVisibleMessages);
-        this.updateMessageVisibility();
+        this.scrollIndex = Math.round(percentage * (this.messages.length - this.maxDisplayedMessages));
+        this.scrollIndex = Phaser.Math.Clamp(this.scrollIndex, 0, this.messages.length - this.maxDisplayedMessages);
+        this.updateMessageDisplay();
         this.scrollBarHandle.y = clampedY;
     }
 
-    updateMessageVisibility() {
+    updateMessageDisplay() {
         for (let i = 0; i < this.messages.length; i++) {
             this.messages[i].y = this.yPos + 70 - this.messageHeight - (i - this.scrollIndex) * this.spacing;
-            this.messages[i].visible = i >= this.scrollIndex && i < this.scrollIndex + this.maxVisibleMessages;
+            this.messages[i].visible = this.isVisible && i >= this.scrollIndex && i < this.scrollIndex + this.maxDisplayedMessages;
         }
+    }
+
+
+    toggleVisibility() {
+        this.isVisible = !this.isVisible;
+        this.background.visible = this.isVisible;
+        this.scrollBarBackground.visible = this.isVisible;
+        this.scrollBarHandle.visible = this.isVisible;
+        this.exitButton.visible = this.isVisible;
+        this.updateMessageDisplay();
     }
 
     clearMessages() {
@@ -72,6 +92,20 @@ export default class MessageBox extends Phaser.Scene {
         }
         this.messages = [];
         this.scrollIndex = 0;
+    }
+
+    setupExitButton() {
+        this.exitButton = this.add.sprite(10, this.yPos - 80, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
+        this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
+        this.exitButton.on('pointerout', () => {this.exitButton.clearTint()});
+        this.exitButton.on('pointerdown', () => {this.toggleVisibility()});
+    }
+
+    setupMessageBoxIcon() {
+        this.messageBoxIcon = this.add.sprite(145, 603, 'items', 3).setScale(1.5).setDepth(200).setInteractive();
+        this.messageBoxIcon.on('pointerover', () => {this.messageBoxIcon.setTint(0x969696)});
+        this.messageBoxIcon.on('pointerout', () => {this.messageBoxIcon.clearTint()});
+        this.messageBoxIcon.on('pointerdown', () => {this.toggleVisibility()});
     }
 
     shutdown() {
