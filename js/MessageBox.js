@@ -24,7 +24,7 @@ export default class MessageBox extends Phaser.Scene {
 
     scrollBar(){
         this.scrollBarBackground = this.add.rectangle(15, this.yPos, 10, 160, 0x753939);
-        this.scrollBarHandle = this.add.rectangle(15, this.yPos, 10, 20, 0xd07a58).setInteractive({ draggable: true });
+        this.scrollBarHandle = this.add.rectangle(15, this.yPos + 70, 10, 20, 0xd07a58).setInteractive({ draggable: true });
         this.scrollBarHandle.on('drag', (pointer, dragX, dragY) => this.scroll(dragY));
     }
 
@@ -43,7 +43,7 @@ export default class MessageBox extends Phaser.Scene {
         this.scrollIndex = 0;
 
         // Reset scroll bar handle
-        this.scrollBarHandle.y = this.yPos;
+        this.scrollBarHandle.y = this.yPos + 70;
 
         // Update visibility of messages
         this.updateMessageVisibility();
