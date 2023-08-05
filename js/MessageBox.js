@@ -6,7 +6,8 @@ export default class MessageBox extends Phaser.Scene {
         this.maxTotalMessages = 50; // Total number of messages to keep in memory
         this.scrollIndex = 0;  // Index to keep track of scroll position
         this.yPos = 480;
-        this.spacing = 20;
+        this.spacing = 25;
+        this.messageHeight = 16;
     }
 
     init(data) {
@@ -22,25 +23,26 @@ export default class MessageBox extends Phaser.Scene {
     }
 
     scrollBar(){
-        this.scrollBarBackground = this.add.rectangle(10, this.yPos, 10, this.maxVisibleMessages * this.spacing, 0x753939).setOrigin(0, 0.5);
-        this.scrollBarHandle = this.add.rectangle(10, this.yPos, 10, this.spacing, 0xd07a58).setOrigin(0, 0.5).setInteractive({ draggable: true });
+        this.scrollBarBackground = this.add.rectangle(15, this.yPos, 10, 160, 0x753939);
+        this.scrollBarHandle = this.add.rectangle(15, this.yPos, 10, 20, 0xd07a58).setInteractive({ draggable: true });
         this.scrollBarHandle.on('drag', (pointer, dragX, dragY) => this.scroll(dragY));
     }
 
     updateMessage(message) {
         // Create new message
-        const newMessage = this.add.text(this.spacing, this.yPos - this.scrollIndex * this.spacing, message, {font: "16px Arial", fill: "#000", resolution: 2});
-        this.messages.push(newMessage);
+        const newMessage = this.add.text(this.spacing, this.yPos - this.messageHeight, message, {font: "16px Arial", fill: "#000", resolution: 2});
+        this.messages.unshift(newMessage); // Add to the beginning of the array
     
         // Remove oldest message if exceeding total capacity
         if (this.messages.length > this.maxTotalMessages) {
-            this.messages[0].destroy();
-            this.messages.shift();
+            this.messages[this.messages.length - 1].destroy();
+            this.messages.pop();
         }
 
         // Update visibility of messages
         this.updateMessageVisibility();
     }
+
 
     scroll(dragY) {
         // Calculate the new scroll index
@@ -59,7 +61,7 @@ export default class MessageBox extends Phaser.Scene {
     updateMessageVisibility() {
         // Loop through all messages and set their visibility and position
         for (let i = 0; i < this.messages.length; i++) {
-            this.messages[i].y = this.yPos + 60 - (i - this.scrollIndex) * this.spacing;
+            this.messages[i].y = this.yPos + 70 - this.messageHeight - (i + this.scrollIndex) * this.spacing;
             this.messages[i].visible = i >= this.scrollIndex && i < this.scrollIndex + this.maxVisibleMessages;
         }
     }
