@@ -8,6 +8,7 @@ export default class Journal extends Phaser.Scene{
         this.gameState = data.gameState;
         this.inventoryVisible = data.inventoryVisible;
         this.equipmentVisible = data.equipmentVisible;
+        this.messageBoxVisible = data.messageBoxVisible;
         this.input.keyboard.on('keydown-J', this.closeJournal, this);
         this.input.keyboard.on('keydown-ESC', this.closeJournal, this);
         this.createBackground();
@@ -88,12 +89,15 @@ export default class Journal extends Phaser.Scene{
         this.scene.stop();
         let inventoryDisplay = this.scene.get('InventoryDisplay');
         let equipmentDisplay = this.scene.get('EquipmentDisplay');
+        let messageBox = this.scene.get('MessageBox');
         this.scene.resume(this.gameState.getCurrentMap());
         this.scene.resume('InventoryDisplay');
         this.scene.resume('EquipmentDisplay');
+        this.scene.resume('MessageBox');
     
         if (this.inventoryVisible) {inventoryDisplay.toggleVisibility()}
         if (this.equipmentVisible) {equipmentDisplay.toggleVisibility()}
+        if (this.messageBoxVisible) {messageBox.toggleVisibility()}
     }
 
 }

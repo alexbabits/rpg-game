@@ -1,4 +1,4 @@
-Chatbox for console messages:
 
-1. GameState visibility concerns for the messageBox, because it should toggle visibility on and off when game is paused, or when journal is open, similar to how the inventory display and the equipment display toggle on/off visibility with the menu/journal pausing.
-2. Current messages and visibility should be saved between scene transitions.
+text not persisting accross scenes, but everything else is. Need to store messages in a gamestate:
+
+Store Messages in GameState: Similar to the visibility state, you can store the actual messages (as text strings) in your GameState object. Then, when the MessageBox scene is created, it populates the message box with the existing messages from GameState. This would allow your messages to persist across scenes. You'll need to add a method in your GameState class to store these messages and a method in your MessageBox class to populate the messages from GameState when the scene is created.

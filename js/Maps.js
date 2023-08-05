@@ -48,7 +48,11 @@ export default class Map extends Phaser.Scene {
         this.gameState.setInventory(this.inventory);
         this.gameState.setEquipment(this.equipment);
 
-        this.scene.launch('MessageBox', { equipment: this.equipment, inventory: this.inventory, player: this.player});
+        this.scene.launch('MessageBox', { equipment: this.equipment, inventory: this.inventory, player: this.player, gameState: this.gameState});
+        this.messageBox = this.scene.get('MessageBox');
+        this.gameState.loadMessageBoxState(this.messageBox);
+
+        this.gameState.setMessageBox(this.messageBox);
 
         this.handleKeyPress('Menu', 'keydown-ESC');
         this.handleKeyPress('Journal', 'keydown-J');
@@ -75,16 +79,20 @@ export default class Map extends Phaser.Scene {
         this.input.keyboard.on(key, () => {
             let inventoryDisplay = this.scene.get('InventoryDisplay');
             let equipmentDisplay = this.scene.get('EquipmentDisplay');
+            let messageBox = this.scene.get('MessageBox');
             let inventoryVisible = this.gameState.getInvVisibility();
             let equipmentVisible = this.gameState.getEquipVisibility();
+            let messageBoxVisible = this.gameState.getMessageBoxVisibility();
     
             if (inventoryVisible) { inventoryDisplay.toggleVisibility() }
             if (equipmentVisible) { equipmentDisplay.toggleVisibility() }
+            if (messageBoxVisible) { messageBox.toggleVisibility() }
     
-            this.scene.launch(sceneName, { gameState: this.gameState, inventoryVisible, equipmentVisible });
+            this.scene.launch(sceneName, { gameState: this.gameState, inventoryVisible, equipmentVisible, messageBoxVisible });
             this.scene.pause();
             this.scene.pause('InventoryDisplay');
             this.scene.pause('EquipmentDisplay');
+            this.scene.pause('MessageBox');
         });
     }
 
@@ -124,6 +132,7 @@ export class Map1 extends Map {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
           this.gameState.saveEquipmentState(this.equipment);
+          this.gameState.saveMessageBoxState(this.messageBox);
           this.gameState.setPlayerPosition(10, this.player.sprite.y);
           this.scene.start('Map2');
         }
@@ -153,6 +162,7 @@ export class Map2 extends Map {
           this.gameState.savePlayerState(this.player);
           this.gameState.saveInventoryState(this.inventory);
           this.gameState.saveEquipmentState(this.equipment);
+          this.gameState.saveMessageBoxState(this.messageBox);
           this.gameState.setPlayerPosition(this.sys.game.config.width - 10, this.player.sprite.y);
           this.scene.start('Map1');
         }

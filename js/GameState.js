@@ -3,21 +3,25 @@ export default class GameState {
     this.playerState = null;
     this.inventoryState = null;
     this.equipmentState = null;
+    this.messageBoxState = null;
     this.currentMap = null;
     this.player = null;
     this.inventory = null;
     this.equipment = null;
+    this.messageBox = null;
   }
   
   setPlayer(player) { this.player = player; }
   setInventory(inventory) { this.inventory = inventory; }
   setEquipment(equipment) { this.equipment = equipment; }
+  setMessageBox(messageBox) { this.messageBox = messageBox; }
 
   async saveToFile() {
     const gameState = {
       playerState: this.playerState,
       inventoryState: this.inventoryState,
       equipmentState: this.equipmentState,
+      messageBoxState: this.messageBoxState,
       currentMap: this.currentMap,
       timestamp: new Date().toISOString()
     };
@@ -30,6 +34,7 @@ export default class GameState {
       this.playerState = gameState.playerState;
       this.inventoryState = gameState.inventoryState;
       this.equipmentState = gameState.equipmentState;
+      this.messageBoxState = gameState.messageBoxState;
       this.currentMap = gameState.currentMap;
     }
     return gameState;
@@ -53,6 +58,21 @@ export default class GameState {
 
   setCurrentMap(mapKey) {this.currentMap = mapKey}
   getCurrentMap() {return this.currentMap}
+
+  setMessageBoxVisibility(messageBoxVisible) {this.messageBoxVisible = messageBoxVisible}
+  getMessageBoxVisibility() {return this.messageBoxVisible}
+
+  saveMessageBoxState(messageBox) {
+    this.messageBoxState = {
+      visibility: messageBox.gameState.getMessageBoxVisibility()
+    }
+  }
+
+  loadMessageBoxState(messageBox) {
+    if (this.messageBoxState) {
+        messageBox.setVisibility(this.messageBoxState.visibility);
+    }
+}
 
   setEquipItems(equips) {this.equips = equips}
   getEquipItems() {return this.equips}

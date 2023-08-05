@@ -8,6 +8,7 @@ export default class Menu extends Phaser.Scene{
         this.gameState = data.gameState;
         this.inventoryVisible = data.inventoryVisible;
         this.equipmentVisible = data.equipmentVisible;
+        this.messageBoxVisible = data.messageBoxVisible;
         this.menuBackground = this.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'brownbackground').setScale(1.4, 3.2);
         this.createButtons();
         this.input.keyboard.on('keydown-ESC', this.resumeGame, this);
@@ -43,12 +44,15 @@ export default class Menu extends Phaser.Scene{
         this.scene.stop();
         let inventoryDisplay = this.scene.get('InventoryDisplay');
         let equipmentDisplay = this.scene.get('EquipmentDisplay');
+        let messageBox = this.scene.get('MessageBox');
         this.scene.resume(this.gameState.getCurrentMap());
         this.scene.resume('InventoryDisplay');
         this.scene.resume('EquipmentDisplay');
+        this.scene.resume('MessageBox');
     
         if (this.inventoryVisible) {inventoryDisplay.toggleVisibility()}
         if (this.equipmentVisible) {equipmentDisplay.toggleVisibility()}
+        if (this.messageBoxVisible) {messageBox.toggleVisibility()}
     }
 
     controlsButtonClicked() {

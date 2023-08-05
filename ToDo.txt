@@ -6,8 +6,6 @@
 
 
 *****New Features/Improvements on Current Features*****
-• GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
-
 • Level up Scene ( Gives 1 stat point per level. Pick stats to increase, will increase your maxStats. Statpoints. Determine stats to have (Str, Vit, etc.))
 
 • Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
@@ -51,6 +49,7 @@
 • 4 way direction instead of 2 way direction for monsters and player animations.
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
 • Instead of 640x640, game configs to fullscreen, and on electron startup.
+• GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
 
 
 *****Undecided Features*****

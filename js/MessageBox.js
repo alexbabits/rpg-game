@@ -9,18 +9,20 @@ export default class MessageBox extends Phaser.Scene {
         this.spacing = 25;
         this.messageHeight = 16;
         this.scrollBarHeight = 160;
-        this.isVisible = false;
     }
 
     init(data) {
         this.equipmentData = data.equipment;
         this.inventoryData = data.inventory;
         this.player = data.player;
+        this.gameState = data.gameState;
     }
 
-    create(data) {
+    create() {
         this.clearMessages();
-        this.gameState = data.gameState;
+        if (this.gameState.getMessageBoxVisibility() === undefined) {
+            this.gameState.setMessageBoxVisibility(false);
+        }
         this.background = this.add.sprite(150, this.yPos, 'brownbackground').setScale(3.4, 2);
         this.equipmentData.on('message', this.updateMessage, this);
         this.inventoryData.on('message', this.updateMessage, this);
@@ -29,7 +31,7 @@ export default class MessageBox extends Phaser.Scene {
         this.createScrollBar();
         this.setupMessageBoxIcon();
         this.setupExitButton();
-        this.setVisibility(false);
+        this.setVisibility(this.gameState.getMessageBoxVisibility());
     
         this.input.keyboard.on('keydown-K', () => {this.toggleVisibility()});
     }
@@ -66,29 +68,28 @@ export default class MessageBox extends Phaser.Scene {
     }
 
     updateMessageDisplay() {
+        let visibility = this.gameState.getMessageBoxVisibility();
         for (let i = 0; i < this.messages.length; i++) {
             this.messages[i].y = this.yPos + 70 - this.messageHeight - (i - this.scrollIndex) * this.spacing;
-            this.messages[i].visible = this.isVisible && i >= this.scrollIndex && i < this.scrollIndex + this.maxDisplayedMessages;
+            this.messages[i].visible = visibility && i >= this.scrollIndex && i < this.scrollIndex + this.maxDisplayedMessages;
         }
     }
 
     setVisibility(value) {
+        if (!this.background || !this.scrollBarBackground || !this.scrollBarHandle || !this.exitButton) {return}
         this.background.visible = value;
         this.scrollBarBackground.visible = value;
         this.scrollBarHandle.visible = value;
         this.exitButton.visible = value;
-        this.isVisible = value;
+        this.gameState.setMessageBoxVisibility(value);
+        for (let i = 0; i < this.messages.length; i++) {this.messages[i].visible = value}
         this.updateMessageDisplay();
     }
 
-    toggleVisibility() {
-        this.setVisibility(!this.isVisible);
-    }
+    toggleVisibility() {this.setVisibility(!this.gameState.getMessageBoxVisibility())}
 
     clearMessages() {
-        for (const message of this.messages) {
-            message.destroy();
-        }
+        for (const message of this.messages) {message.destroy()}
         this.messages = [];
         this.scrollIndex = 0;
     }
