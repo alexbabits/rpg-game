@@ -16,7 +16,7 @@ export default class Menu extends Phaser.Scene{
     }
 
     createButtons() {
-        const labels = ['Resume', 'Controls', 'Save', 'Load', 'Quit'];
+        const labels = ['Resume', 'Options', 'Save', 'Load', 'Quit'];
         const height = this.game.config.height
         const yPos = [height / 2 - 100, height / 2 - 50, height / 2, height / 2 + 50, height / 2 + 100];
         const xPos = this.game.config.width / 2;
@@ -29,7 +29,7 @@ export default class Menu extends Phaser.Scene{
             buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
     
             if (label === 'Resume') { buttonClickedMethod = this.resumeGame.bind(this); }
-            else if (label === 'Controls') { buttonClickedMethod = this.controlsButtonClicked.bind(this); }
+            else if (label === 'Options') { buttonClickedMethod = this.optionsButtonClicked.bind(this); }
             else if (label === 'Save') { buttonClickedMethod = this.saveButtonClicked.bind(this); }
             else if (label === 'Load') { buttonClickedMethod = this.loadButtonClicked.bind(this); }
             else if (label === 'Quit') { buttonClickedMethod = this.quitButtonClicked.bind(this); }
@@ -59,8 +59,8 @@ export default class Menu extends Phaser.Scene{
         if (this.talentsVisible) {talents.toggleVisibility()}
     }
 
-    controlsButtonClicked() {
-        this.scene.start('ControlsScene', { returnScene: this.scene.key });
+    optionsButtonClicked() {
+        this.scene.start('OptionsScene', { returnScene: this.scene.key });
     }
 
     async saveButtonClicked() {

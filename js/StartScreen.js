@@ -54,11 +54,11 @@ export default class StartScreen extends Phaser.Scene {
 
     optionsButtonClicked(){
         for (let key in this.scene.manager.scenes) {
-            if (key !== 'ControlsScene') {
+            if (key !== 'OptionsScene') {
                 this.scene.manager.scenes[key].scene.stop();
             }
         }
-        this.scene.start('ControlsScene', { returnScene: this.scene.key });
+        this.scene.start('OptionsScene', { returnScene: this.scene.key });
     }
 
     quitButtonClicked() {

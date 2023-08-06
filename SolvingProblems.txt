@@ -1,1 +1,3 @@
-journal button icon. (could be tricky, needs to always be visible, and toggle the journal, may need to be handled from Maps.js, just like the J key?)
+When click options button from menu or start screen, should default to Keybinds. Audio/Graphics/Keybinds buttons on the right side.
+
+Perhaps you just hide the stuff from one scene and show the stuff from the other when a button is clicked? So it's all still just within the OptionsScene basically.
