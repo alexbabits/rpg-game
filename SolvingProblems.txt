@@ -1,4 +1,3 @@
+journal button icon. (could be tricky, needs to always be visible, and toggle the journal, may need to be handled from Maps.js, just like the J key?)
 
-text not persisting accross scenes, but everything else is. Need to store messages in a gamestate:
-
-Store Messages in GameState: Similar to the visibility state, you can store the actual messages (as text strings) in your GameState object. Then, when the MessageBox scene is created, it populates the message box with the existing messages from GameState. This would allow your messages to persist across scenes. You'll need to add a method in your GameState class to store these messages and a method in your MessageBox class to populate the messages from GameState when the scene is created.
+usable stat points.

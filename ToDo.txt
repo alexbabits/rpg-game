@@ -6,7 +6,7 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Level up Scene ( Gives 1 stat point per level. Pick stats to increase, will increase your maxStats. Statpoints. Determine stats to have (Str, Vit, etc.))
+• Level up Scene ( Gives 1 stat point per level). (Do rest of the buttons).
 
 • Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
 
@@ -19,7 +19,7 @@
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
-• Right click drop to removeInvItem, or some way to delete, handle case when inventory is full.
+• Right click drop to removeInvItem, or some way to delete, handle case when inventory is full. Can't loot if invy is full.
 • Increased inventory size (16 --> 64). 4 pages of it?
 • Randomized/Weighted Monster drops.
 • Weapon Type property for the items object. (Sword, Shield, Chest, helm, Axe, etc.)
@@ -29,7 +29,7 @@
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
 
-• Crit Chance %/Crit Damge %/Dodge/etc. (MORE STATS) (no special anim change for crits/dodges)
+• Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.)
 • Debuffs (from monsters). Buffs from potions/items/gear.
 
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
@@ -50,6 +50,7 @@
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
 • Instead of 640x640, game configs to fullscreen, and on electron startup.
 • GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
+• Messages from MessageBox aren't persisting like the rest of the message box.
 
 
 *****Undecided Features*****

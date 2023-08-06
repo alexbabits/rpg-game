@@ -23,8 +23,17 @@ export default class Player {
     this.gameState.setPlayerSpAttManaCost(5);
     this.gameState.setPlayerCanRun(true);
     this.gameState.setPlayerDamage(10);
-    this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
     this.gameState.setPlayerDefense(5);
+    this.gameState.setPlayerCritChance(5);
+    this.gameState.setPlayerCritDamage(150);
+    this.gameState.setPlayerStrength(12);
+    this.gameState.setPlayerAgility(11);
+    this.gameState.setPlayerIntelligence(8);
+    this.gameState.setPlayerVitality(10);
+    this.gameState.setPlayerEndurance(12);
+    this.gameState.setPlayerWisdom(7);
+    this.gameState.setPlayerStatPoints(2);
+    this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
     this.gameState.setPlayerDirection(this.gameState.getPlayerDirection());
     this.gameState.setPlayerMonsterKills(0);
     
@@ -88,6 +97,7 @@ export default class Player {
   levelUp() {
     const currentLevel = this.gameState.getPlayerLevel();
     this.gameState.setPlayerLevel(currentLevel + 1);
+    this.gameState.setPlayerStatPoints(this.gameState.getPlayerStatPoints() + 1);
     this.gameState.setPlayerXP(0);
     this.gameState.setPlayerMaxXP(Math.ceil(this.gameState.getPlayerMaxXP() * 1.5));
     console.log(`Player leveled up! Current level: ${this.gameState.getPlayerLevel()}. XP to next level: ${this.xpToNextLevel()}`);

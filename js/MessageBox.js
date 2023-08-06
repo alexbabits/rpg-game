@@ -102,7 +102,7 @@ export default class MessageBox extends Phaser.Scene {
     }
 
     setupMessageBoxIcon() {
-        this.messageBoxIcon = this.add.sprite(145, 603, 'items', 3).setScale(1.5).setDepth(200).setInteractive();
+        this.messageBoxIcon = this.add.sprite(205, 603, 'items', 3).setScale(1.5).setDepth(200).setInteractive();
         this.messageBoxIcon.on('pointerover', () => {this.messageBoxIcon.setTint(0x969696)});
         this.messageBoxIcon.on('pointerout', () => {this.messageBoxIcon.clearTint()});
         this.messageBoxIcon.on('pointerdown', () => {this.toggleVisibility()});

@@ -4,17 +4,20 @@ export default class GameState {
     this.inventoryState = null;
     this.equipmentState = null;
     this.messageBoxState = null;
+    this.talentsState = null;
     this.currentMap = null;
     this.player = null;
     this.inventory = null;
     this.equipment = null;
-    this.messageBox = null;
+    this.talents = null;
+    this.talentsVisible = false;
   }
   
   setPlayer(player) { this.player = player; }
   setInventory(inventory) { this.inventory = inventory; }
   setEquipment(equipment) { this.equipment = equipment; }
   setMessageBox(messageBox) { this.messageBox = messageBox; }
+  setTalents(talents) { this.talents = talents; }
 
   async saveToFile() {
     const gameState = {
@@ -22,6 +25,7 @@ export default class GameState {
       inventoryState: this.inventoryState,
       equipmentState: this.equipmentState,
       messageBoxState: this.messageBoxState,
+      talentsState: this.talentsState,
       currentMap: this.currentMap,
       timestamp: new Date().toISOString()
     };
@@ -35,6 +39,7 @@ export default class GameState {
       this.inventoryState = gameState.inventoryState;
       this.equipmentState = gameState.equipmentState;
       this.messageBoxState = gameState.messageBoxState;
+      this.talentsState = gameState.talentsState;
       this.currentMap = gameState.currentMap;
     }
     return gameState;
@@ -73,6 +78,23 @@ export default class GameState {
         messageBox.setVisibility(this.messageBoxState.visibility);
     }
 }
+
+  setTalentsVisibility(talentsVisible) {this.talentsVisible = talentsVisible}
+  getTalentsVisibility() {return this.talentsVisible}
+
+  saveTalentsState(talents) {
+    this.talentsState = {
+      visibility: talents.gameState.getTalentsVisibility()
+    }
+  }
+
+  loadTalentsState(talents) {
+    if (this.talentsState) {
+      talents.setVisibility(this.talentsState.visibility);
+    } else {
+      talents.setVisibility(false);
+    }
+  }
 
   setEquipItems(equips) {this.equips = equips}
   getEquipItems() {return this.equips}
@@ -134,6 +156,15 @@ export default class GameState {
       canRun: player.gameState.getPlayerCanRun(),
       damage: player.gameState.getPlayerDamage(),
       defense: player.gameState.getPlayerDefense(),
+      critChance: player.gameState.getPlayerCritChance(),
+      critDamage: player.gameState.getPlayerCritDamage(),
+      strength: player.gameState.getPlayerStrength(),
+      agility: player.gameState.getPlayerAgility(),
+      intelligence: player.gameState.getPlayerIntelligence(),
+      vitality: player.gameState.getPlayerVitality(),
+      endurance: player.gameState.getPlayerEndurance(),
+      wisdom: player.gameState.getPlayerWisdom(),
+      statPoints: player.gameState.getPlayerStatPoints(),
       specialDamage: player.gameState.getPlayerSpecialDamage(),
       direction: player.gameState.getPlayerDirection(),
       position: {x: player.sprite.x, y: player.sprite.y},
@@ -161,6 +192,15 @@ export default class GameState {
       player.gameState.setPlayerCanRun(this.playerState.canRun);
       player.gameState.setPlayerDamage(this.playerState.damage);
       player.gameState.setPlayerDefense(this.playerState.defense);
+      player.gameState.setPlayerCritChance(this.playerState.critChance);
+      player.gameState.setPlayerCritDamage(this.playerState.critDamage);
+      player.gameState.setPlayerStrength(this.playerState.strength);
+      player.gameState.setPlayerAgility(this.playerState.agility);
+      player.gameState.setPlayerIntelligence(this.playerState.intelligence);
+      player.gameState.setPlayerVitality(this.playerState.vitality);
+      player.gameState.setPlayerEndurance(this.playerState.endurance);
+      player.gameState.setPlayerWisdom(this.playerState.wisdom);
+      player.gameState.setPlayerStatPoints(this.playerState.statPoints);
       player.gameState.setPlayerSpecialDamage(this.playerState.specialDamage);
       player.gameState.setPlayerDirection(this.playerState.direction);
       player.gameState.setPlayerPosition(this.playerState.position.x, this.playerState.position.y);
@@ -219,11 +259,38 @@ export default class GameState {
   setPlayerDamage(damage) {this.playerDamage = damage}
   getPlayerDamage() {return this.playerDamage}
 
-  setPlayerSpecialDamage(specialDamage) {this.playerSpecialDamage = specialDamage}
-  getPlayerSpecialDamage() {return this.playerSpecialDamage}
-
   setPlayerDefense(defense) {this.playerDefense = defense}
   getPlayerDefense() {return this.playerDefense}
+
+  setPlayerCritChance(critChance) {this.playerCritChance = critChance}
+  getPlayerCritChance() {return this.playerCritChance}
+
+  setPlayerCritDamage(critDamage) {this.playerCritDamage = critDamage}
+  getPlayerCritDamage() {return this.playerCritDamage}
+
+  setPlayerStrength(strength) {this.playerStrength = strength}
+  getPlayerStrength() {return this.playerStrength}
+
+  setPlayerAgility(agility) {this.playerAgility = agility}
+  getPlayerAgility() {return this.playerAgility}
+
+  setPlayerIntelligence(intelligence) {this.playerIntelligence = intelligence}
+  getPlayerIntelligence() {return this.playerIntelligence}
+
+  setPlayerVitality(vitality) {this.playerVitality = vitality}
+  getPlayerVitality() {return this.playerVitality}
+
+  setPlayerEndurance(endurance) {this.playerEndurance = endurance}
+  getPlayerEndurance() {return this.playerEndurance}
+
+  setPlayerWisdom(wisdom) {this.playerWisdom = wisdom}
+  getPlayerWisdom() {return this.playerWisdom}
+
+  setPlayerStatPoints(statPoints) {this.playerStatPoints = statPoints}
+  getPlayerStatPoints() {return this.playerStatPoints}
+
+  setPlayerSpecialDamage(specialDamage) {this.playerSpecialDamage = specialDamage}
+  getPlayerSpecialDamage() {return this.playerSpecialDamage}
 
   setPlayerDirection(direction) {this.playerDirection = direction}
   getPlayerDirection() {return this.playerDirection}

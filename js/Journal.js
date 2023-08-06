@@ -9,6 +9,7 @@ export default class Journal extends Phaser.Scene{
         this.inventoryVisible = data.inventoryVisible;
         this.equipmentVisible = data.equipmentVisible;
         this.messageBoxVisible = data.messageBoxVisible;
+        this.talentsVisible = data.talentsVisible;
         this.input.keyboard.on('keydown-J', this.closeJournal, this);
         this.input.keyboard.on('keydown-ESC', this.closeJournal, this);
         this.createBackground();
@@ -45,7 +46,7 @@ export default class Journal extends Phaser.Scene{
         this.bossesSlain = '0'
         this.timePlayed = `69 minutes`
         this.statsTexts = [
-            this.add.text(230, 230, `Current Level: ${this.currentLevel}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
+            this.add.text(230, 230, `Level: ${this.currentLevel}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
             this.add.text(230, 270, `Total XP Gained: ${this.totalXPGained}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
             this.add.text(230, 310, `Monsters Killed: ${this.monstersKilled}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
             this.add.text(230, 350, `Bosses Slain: ${this.bossesSlain}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
@@ -69,7 +70,7 @@ export default class Journal extends Phaser.Scene{
         buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
         buttonSprite.on('pointerdown', () => {this.toggleTextsVisibility(false)});
         
-        const buttonText = this.add.text(140, 260, 'Stats', { font: '16px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
+        const buttonText = this.add.text(140, 260, 'Achievements', { font: '14px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
         this.add.container(0, 0, [buttonSprite, buttonText]);
     }
 
@@ -90,14 +91,17 @@ export default class Journal extends Phaser.Scene{
         let inventoryDisplay = this.scene.get('InventoryDisplay');
         let equipmentDisplay = this.scene.get('EquipmentDisplay');
         let messageBox = this.scene.get('MessageBox');
+        let talents = this.scene.get('Talents');
         this.scene.resume(this.gameState.getCurrentMap());
         this.scene.resume('InventoryDisplay');
         this.scene.resume('EquipmentDisplay');
         this.scene.resume('MessageBox');
+        this.scene.resume('Talents');
     
         if (this.inventoryVisible) {inventoryDisplay.toggleVisibility()}
         if (this.equipmentVisible) {equipmentDisplay.toggleVisibility()}
         if (this.messageBoxVisible) {messageBox.toggleVisibility()}
+        if (this.talentsVisible) {talents.toggleVisibility()}
     }
 
 }

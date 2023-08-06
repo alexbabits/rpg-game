@@ -54,7 +54,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
     
     equipWeapon(item) {
         let equipItems = this.gameState.getEquipItems();
-        equipItems[3] = item;
+        equipItems[5] = item;
         this.gameState.setEquipItems(equipItems);
         let newDamage = this.player.gameState.getPlayerDamage() + item.damage;
         this.player.gameState.setPlayerDamage(newDamage);
@@ -67,7 +67,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
 
     equipOffhand(item) {
         let equipItems = this.gameState.getEquipItems();
-        equipItems[4] = item;
+        equipItems[6] = item;
         this.gameState.setEquipItems(equipItems);
         let newDefense = this.player.gameState.getPlayerDefense() + item.defense;
         this.player.gameState.setPlayerDefense(newDefense);
