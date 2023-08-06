@@ -23,33 +23,24 @@ export default class Talents extends Phaser.Scene {
         this.setVisibility(newVisibility);
     }
 
-    setVisibility(visible){
-        if (this.background) {this.background.setVisible(visible)}
-        if (this.exitButton) {this.exitButton.setVisible(visible)}
-        if (this.strengthPlusButton) {this.strengthPlusButton.setVisible(visible)}
-        if (this.strengthText) {this.strengthText.setVisible(visible)}
-        if (this.agilityText) {this.agilityText.setVisible(visible)}
-        if (this.intelligenceText) {this.intelligenceText.setVisible(visible)}
-        if (this.vitalityText) {this.vitalityText.setVisible(visible)}
-        if (this.enduranceText) {this.enduranceText.setVisible(visible)}
-        if (this.wisdomText) {this.wisdomText.setVisible(visible)}
-        if (this.critChanceText) {this.critChanceText.setVisible(visible)}
-        if (this.critDamageText) {this.critDamageText.setVisible(visible)}
-        if (this.statPointsText) {this.statPointsText.setVisible(visible)}
-        if (this.levelText) {this.levelText.setVisible(visible)}
+    setVisibility(visible) {
+        const elements = ['background', 'exitButton', 'strengthPlusButton', 'agilityPlusButton', 'intelligencePlusButton', 'vitalityPlusButton', 'endurancePlusButton', 'wisdomPlusButton', 'strengthText', 'agilityText', 'intelligenceText', 'vitalityText', 'enduranceText', 'wisdomText', 'critChanceText', 'critDamageText', 'statPointsText', 'levelText'];
+    
+        for (let i = 0; i < elements.length; i++){
+            if (this[elements[i]]){
+                this[elements[i]].setVisible(visible);
+            }
+        }
     }
 
-    createText(){
-        this.levelText = this.add.text(50, 140, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.statPointsText = this.add.text(160, 140, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.strengthText = this.add.text(50, 170, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.agilityText = this.add.text(50, 190, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.intelligenceText = this.add.text(50, 210, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.vitalityText = this.add.text(50, 230, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.enduranceText = this.add.text(50, 250, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.wisdomText = this.add.text(50, 270, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.critChanceText = this.add.text(50, 310, '', { font: '16px Arial', fill: '#000', resolution: 2 });
-        this.critDamageText = this.add.text(50, 330, '', { font: '16px Arial', fill: '#000', resolution: 2 });
+    createText() {
+        const yPositions = [140, 140, 170, 190, 210, 230, 250, 270, 310, 330];
+        const xPositions = [50, 160, 50, 50, 50, 50, 50, 50, 50, 50];
+        const elements = ['level', 'statPoints', 'strength', 'agility', 'intelligence', 'vitality', 'endurance', 'wisdom', 'critChance', 'critDamage'];
+    
+        for (let i = 0; i < elements.length; i++){
+            this[`${elements[i]}Text`] = this.add.text(xPositions[i], yPositions[i], '', { font: '16px Arial', fill: '#000', resolution: 2 });
+        }
     }
 
     setupExitButton() {
@@ -60,15 +51,21 @@ export default class Talents extends Phaser.Scene {
     }
 
     setupPlusButtons() {
-        this.strengthPlusButton = this.add.sprite(40, 180, 'items', 13).setScale(0.5).setDepth(200).setInteractive();
-        this.strengthPlusButton.on('pointerover', () => {this.strengthPlusButton.setTint(0x969696)});
-        this.strengthPlusButton.on('pointerout', () => {this.strengthPlusButton.clearTint()});
-        this.strengthPlusButton.on('pointerdown', () => {this.increaseStrength()});
+        const lowercaseStats = ['strength', 'agility', 'intelligence', 'vitality', 'endurance', 'wisdom'];
+        const uppercaseStats = ['Strength', 'Agility', 'Intelligence', 'Vitality', 'Endurance', 'Wisdom'];
+    
+        for (let i = 0; i < lowercaseStats.length; i++) {
+            const y = 180 + (20 * i);
+            this[`${lowercaseStats[i]}PlusButton`] = this.add.sprite(40, y, 'items', 13).setScale(0.5).setDepth(200).setInteractive();
+            this[`${lowercaseStats[i]}PlusButton`].on('pointerover', () => { this[`${lowercaseStats[i]}PlusButton`].setTint(0x969696) });
+            this[`${lowercaseStats[i]}PlusButton`].on('pointerout', () => { this[`${lowercaseStats[i]}PlusButton`].clearTint() });
+            this[`${lowercaseStats[i]}PlusButton`].on('pointerdown', () => { this.increaseStat(uppercaseStats[i]) });
+        }
     }
-
-    increaseStrength(){
-        this.gameState.setPlayerStatPoints(this.gameState.getPlayerStatPoints() - 1)
-        this.gameState.setPlayerStrength(this.gameState.getPlayerStrength() + 1)
+    
+    increaseStat(stat) {
+        this.gameState.setPlayerStatPoints(this.gameState.getPlayerStatPoints() - 1);
+        this.gameState[`setPlayer${stat}`](this.gameState[`getPlayer${stat}`]() + 1);
     }
 
     setupTalentsIcon() {
@@ -78,7 +75,7 @@ export default class Talents extends Phaser.Scene {
         this.talentsIcon.on('pointerdown', () => {this.toggleVisibility()});
     }
 
-    updateText(){
+    updateText() {
         this.strengthText.setText(`Strength: ${this.gameState.getPlayerStrength()}`);
         this.agilityText.setText(`Agility: ${this.gameState.getPlayerAgility()}`);
         this.intelligenceText.setText(`Intelligence: ${this.gameState.getPlayerIntelligence()}`);
@@ -91,11 +88,19 @@ export default class Talents extends Phaser.Scene {
         this.levelText.setText(`Level: ${this.gameState.getPlayerLevel()}`);
     }
 
-    updateButtons(){
-        if(this.gameState.getPlayerStatPoints() === 0){this.strengthPlusButton.setVisible(false)}
+    updateButtons() {
+        const stats = ['strength', 'agility', 'intelligence', 'vitality', 'endurance', 'wisdom'];
+        
+        for (let i = 0; i < stats.length; i++) {
+            if(this.gameState.getPlayerStatPoints() === 0 || !this.background.visible){
+                this[`${stats[i]}PlusButton`].setVisible(false);
+            } else {
+                this[`${stats[i]}PlusButton`].setVisible(true);
+            }
+        }
     }
 
-    update(){
+    update() {
         this.updateText();
         this.updateButtons();
     }

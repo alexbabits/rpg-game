@@ -1,3 +1,1 @@
 journal button icon. (could be tricky, needs to always be visible, and toggle the journal, may need to be handled from Maps.js, just like the J key?)
-
-usable stat points.

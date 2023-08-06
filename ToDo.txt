@@ -6,8 +6,6 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Level up Scene ( Gives 1 stat point per level). (Do rest of the buttons).
-
 • Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
 
 • Teleporter. Allows for movement between scenes. Animated.
@@ -29,7 +27,7 @@
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
 
-• Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.)
+• Make stats do things. Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.). 
 • Debuffs (from monsters). Buffs from potions/items/gear.
 
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
