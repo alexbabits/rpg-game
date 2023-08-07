@@ -62,6 +62,7 @@ export default class Map extends Phaser.Scene {
 
         this.handleKeyPress('Menu', 'keydown-ESC');
         this.handleKeyPress('Journal', 'keydown-J');
+        this.handleKeyPress('WorldMap', 'keydown-M');
 
         let camera = this.cameras.main;
         camera.zoom = 1.4;

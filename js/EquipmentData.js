@@ -22,9 +22,9 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         let equipItems = this.gameState.getEquipItems();
         switch (itemType) {
             case 'weapon':
-                return equipItems[3] === null;
+                return equipItems[5] === null;
             case 'offhand':
-                return equipItems[4] === null;
+                return equipItems[6] === null;
             case 'helm':
                 return equipItems[0] === null;
             default:

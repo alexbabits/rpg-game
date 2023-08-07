@@ -15,11 +15,11 @@ export default class Journal extends Phaser.Scene{
         this.createBackground();
         this.createExitButton();
         this.createQuestButton();
-        this.createStatsButton();
+        this.createAchievementsButton();
         this.createQuestData();
-        this.createStatsData();
+        this.createAchievementsData();
         this.questTexts.forEach(text => text.setVisible(false));
-        this.statsTexts.forEach(text => text.setVisible(false));
+        this.achievementsTexts.forEach(text => text.setVisible(false));
     }
 
     createBackground(){
@@ -39,13 +39,13 @@ export default class Journal extends Phaser.Scene{
         ];
     }
 
-    createStatsData() {
+    createAchievementsData() {
         this.currentLevel = this.gameState.getPlayerLevel();
         this.totalXPGained = this.gameState.getPlayerTotalXP();
         this.monstersKilled = this.gameState.getPlayerMonsterKills();
         this.bossesSlain = '0'
         this.timePlayed = `69 minutes`
-        this.statsTexts = [
+        this.achievementsTexts = [
             this.add.text(230, 230, `Level: ${this.currentLevel}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
             this.add.text(230, 270, `Total XP Gained: ${this.totalXPGained}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
             this.add.text(230, 310, `Monsters Killed: ${this.monstersKilled}`, { font: '16px Arial', fill: '#000', resolution: 2 }),
@@ -64,10 +64,10 @@ export default class Journal extends Phaser.Scene{
         this.add.container(0, 0, [buttonSprite, buttonText]);
     }
     
-    createStatsButton() {
+    createAchievementsButton() {
         const buttonSprite = this.add.sprite(140, 260, 'items', 11).setScale(3.0, 1).setInteractive();
-        buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f);});
-        buttonSprite.on('pointerout', () => {buttonSprite.clearTint();});
+        buttonSprite.on('pointerover', () => {buttonSprite.setTint(0x9e733f)});
+        buttonSprite.on('pointerout', () => {buttonSprite.clearTint()});
         buttonSprite.on('pointerdown', () => {this.toggleTextsVisibility(false)});
         
         const buttonText = this.add.text(140, 260, 'Achievements', { font: '14px Arial', fill: '#000', resolution: 2 }).setOrigin(0.5, 0.5);
@@ -76,7 +76,7 @@ export default class Journal extends Phaser.Scene{
 
     toggleTextsVisibility(showQuests) {
         this.questTexts.forEach(text => text.setVisible(showQuests));
-        this.statsTexts.forEach(text => text.setVisible(!showQuests));
+        this.achievementsTexts.forEach(text => text.setVisible(!showQuests));
     }
 
     createExitButton() {

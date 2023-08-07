@@ -6,9 +6,6 @@
 
 
 *****New Features/Improvements on Current Features*****
-
-• Map (M for map key. Just has the 64 map tiles basically). Minimap. (For now just bring up a scene like the journal.)
-
 • Teleporter. Allows for movement between scenes. Animated.
 
 • Handle Stackable Scenarios for looting.
@@ -31,17 +28,12 @@
 
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
 • Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
-
-• Quests & Interactions with NPCs.
-• Chatbox for NPCs.
-
-• Monster Spawn 'zones' instead of 'random points'. Random Respawn/Spawn be same dimensions as their wander zone.
-• Monster 'wandering' while in idle state? Or new 'wander' state.
-
-• TimePlayed Stat for Journal. (Initialize, start timer, pause timer, update game state set/getTimePlayed, housed in player stats.)
+• Quests & Interactions with NPCs. Chatbox for NPCs.
 
 • Stat resets. Drink from the forgetfullness well or fountain. Or a fairy lets you unlearn everything.
-
+• Monster Spawn 'zones' instead of 'random points'. Random Respawn/Spawn be same dimensions as their wander zone.
+• Monster 'wandering' while in idle state? Or new 'wander' state.
+• TimePlayed Stat for Journal. (Initialize, start timer, pause timer, update game state set/getTimePlayed, housed in player stats.)
 • Spritesheet for each weapon type, and for armor. And maybe colors for different ones if feeling ambitious.
 • 4 way direction instead of 2 way direction for monsters and player animations.
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
@@ -49,6 +41,7 @@
 • GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
 • Messages from MessageBox aren't persisting like the rest of the message box.
 • Options functionality (Audio, Graphics, Controls)
+• Caves/Special locations/Quest Icons added to the WorldMap.
 
 
 *****Undecided Features*****

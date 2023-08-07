@@ -1,0 +1,4 @@
+Teleporter
+
+Basically when you step at a certain location (Or on the teleporter sprite), then it takes you to a new map (Map2).
+Timer after you step on it, player cannot move. And after animation is complete, or like 1-2 seconds, it takes you to new location.
