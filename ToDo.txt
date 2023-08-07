@@ -6,7 +6,6 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Options scene splits into (Audio, Graphics, Controls/Keybinds, ???, ???, etc.)
 
 • Map (M for map key. Just has the 64 map tiles basically). Minimap. (For now just bring up a scene like the journal.)
 
@@ -49,6 +48,7 @@
 • Instead of 640x640, game configs to fullscreen, and on electron startup.
 • GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
 • Messages from MessageBox aren't persisting like the rest of the message box.
+• Options functionality (Audio, Graphics, Controls)
 
 
 *****Undecided Features*****
