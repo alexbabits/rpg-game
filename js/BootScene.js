@@ -16,6 +16,8 @@ export default class BootScene extends Phaser.Scene {
         this.load.animation('hero_anims', 'assets/images/hero_anims.json');
         this.load.atlas('enemies', 'assets/images/enemies.png', 'assets/images/enemies_atlas.json');
         this.load.animation('enemies_anims', 'assets/images/enemies_anims.json');
+        this.load.atlas('teleporter', 'assets/images/teleporter.png', 'assets/images/teleporter_atlas.json');
+        this.load.animation('teleporter_anim', 'assets/images/teleporter_anim.json');
         this.load.image('tiles', 'assets/images/RPG Nature Tileset.png');
         this.load.tilemapTiledJSON('Map1', 'assets/images/Map1.json');
         this.load.tilemapTiledJSON('Map2', 'assets/images/Map2.json');

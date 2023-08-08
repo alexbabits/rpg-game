@@ -1,5 +1,5 @@
 import UserInput from './UserInput.js';
-import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState} from './PlayerState.js';
+import {PlayerIdleState, PlayerWalkState, PlayerRunState, PlayerAttackState, PlayerSpecialAttackState, PlayerGotHitState, PlayerDeathState, PlayerTeleportingState} from './PlayerState.js';
 
 export default class Player {
   constructor(scene, x, y, gameState) {
@@ -41,7 +41,8 @@ export default class Player {
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
     this.playerSensor1 = Bodies.rectangle(x + 15, y, 20, 8, {isSensor: true, label:'playerAttackSensorRight'})
     this.playerSensor2 = Bodies.rectangle(x - 15, y, 20, 8, {isSensor: true, label:'playerAttackSensorLeft'})
-    const compoundBody = Body.create({parts:[this.playerCollider, this.playerSensor1, this.playerSensor2], frictionAir: .4});
+    this.playerSensor3 = Bodies.circle(x, y, 8, {isSensor: true, label:'playerInnerSensor'})
+    const compoundBody = Body.create({parts:[this.playerCollider, this.playerSensor1, this.playerSensor2, this.playerSensor3], frictionAir: .4});
 
     this.sprite = this.scene.matter.add.sprite(x, y, 'hero');
     this.sprite.setDepth(5);
@@ -59,6 +60,7 @@ export default class Player {
     this.specialAttackingState = new PlayerSpecialAttackState(this);
     this.gotHitState = new PlayerGotHitState(this);
     this.deathState = new PlayerDeathState(this);
+    this.teleportingState = new PlayerTeleportingState(this);
     this.currentState = this.idleState;
 
     this.monstersTouching = [];
@@ -180,7 +182,7 @@ export default class Player {
     } else if (this.gameState.getPlayerDirection() === 'Right') {
         this.sprite.setFlipX(false);
     }
-}
+  }
 
   transitionToNewState(newState) {
     this.currentState.exit();

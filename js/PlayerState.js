@@ -274,3 +274,20 @@ export class PlayerDeathState extends PlayerState {
     });
   }
 }
+
+export class PlayerTeleportingState extends PlayerState {
+  enter() {
+    console.log("Player entered teleporting state");
+    this.player.sprite.anims.play('hero_idle', true);
+    this.player.sprite.setVelocity(0, 0);
+  }
+
+  update() {
+    // In this state, we don't allow any transitions or actions.
+    // The player remains in this state until the teleportation is complete.
+  }
+
+  exit() {
+    // You can place any logic here that should be executed when leaving the teleporting state
+  }
+}

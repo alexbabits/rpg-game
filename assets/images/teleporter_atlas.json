@@ -1,0 +1,528 @@
+{
+    "frames": [
+        {
+            "filename": "teleporter_1",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_2",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 96
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_3",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_4",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 96
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_5",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_6",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_7",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_8",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_9",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_10",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 96
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_11",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_12",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_13",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 384
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_14",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 384
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_15",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 384
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_16",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_17",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 96
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_18",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_19",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_20",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 384
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_21",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 480
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_22",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 480
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_23",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 480
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_24",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 480
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_25",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 576
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_26",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 576
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_27",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 576
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_28",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 576
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_29",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_30",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 96
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_31",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 192
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_32",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 288
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_33",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 384
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_34",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 480
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_35",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 576
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_36",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 0,
+                "y": 672
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_37",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 160,
+                "y": 672
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_38",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 320,
+                "y": 672
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_39",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 480,
+                "y": 672
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        },
+        {
+            "filename": "teleporter_40",
+            "frame": {
+                "w": 160,
+                "h": 96,
+                "x": 640,
+                "y": 672
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.4
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

@@ -1,0 +1,172 @@
+{
+    "anims": [
+        {
+            "key": "teleport",
+            "type": "frames",
+            "repeat": 0,
+            "frameRate": 12,
+            "frames": [
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_1"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_2"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_3"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_4"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_5"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_6"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_7"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_8"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_9"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_10"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_11"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_12"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_13"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_14"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_15"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_16"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_17"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_18"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_19"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_20"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_21"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_22"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_23"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_24"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_25"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_26"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_27"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_28"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_29"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_30"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_31"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_32"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_33"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_34"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_35"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_36"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_37"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_38"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_39"
+                },
+                {
+                    "key": "teleporter",
+                    "frame": "teleporter_40"
+                }
+            ]
+        }
+    ]
+}

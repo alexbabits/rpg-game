@@ -2,6 +2,7 @@ import Player from "./Player.js";
 import InventoryData from "./InventoryData.js";
 import EquipmentData from "./EquipmentData.js";
 import {Monster, MonsterManager} from "./Monsters.js";
+import Teleporter from "./Teleporter.js"
 
 export default class Map extends Phaser.Scene {
     constructor(mapKey, gameState) {
@@ -127,6 +128,7 @@ export class Map1 extends Map {
 
     create(){
         super.create();
+        this.teleporter = new Teleporter(this, this.player, 200, 420);
         this.gameState.setCurrentMap('Map1');
     }
 
