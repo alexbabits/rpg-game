@@ -17,27 +17,35 @@ export default class LootDisplay extends Phaser.Scene {
             slotSprite.itemSprite = null;
             this.slots.push(slotSprite);
         }
-        this.drawItemSprite(0, this.loot.itemDrop.frame);
+        this.loot.dropTable.forEach((item, index) => {this.drawItemSprite(index, item)});
         this.setupExitButton();
     }
 
     handleSingleClick(itemSprite, slotIndex){
-        this.lootScene.events.emit('itemLooted', this.loot.itemDrop)
+        let item = this.loot.dropTable[slotIndex];
+        this.lootScene.events.emit('itemLooted', item);
         itemSprite.destroy();
+    
+        let slot = this.slots[slotIndex];
+        if (slot.quantityText) {
+            slot.quantityText.destroy();
+            slot.quantityText = null;
+        }
+    
         this.slots[slotIndex].itemSprite = null;
         if (this.slots.every(slot => slot.itemSprite === null)) {
             this.closeDisplay();
-            console.log(`Looted ${this.loot.itemDrop.name}`)
+            console.log(`Looted ${item.name}`);
         }
     }
 
-    drawItemSprite(slotIndex, frame){
+    drawItemSprite(slotIndex, item){
         let slot = this.slots[slotIndex];
-        let itemSprite = this.add.sprite(slot.x, slot.y, 'items', frame).setScale(1.2).setInteractive();
+        let itemSprite = this.add.sprite(slot.x, slot.y, 'items', item.frame).setScale(1.2).setInteractive();
         this.input.setTopOnly(false);
         itemSprite.on('pointerdown', () => {this.handleSingleClick(itemSprite, slotIndex)});
         slot.itemSprite = itemSprite;
-        let quantity = this.loot.itemDrop.quantity;
+        let quantity = item.quantity;
         if (quantity && quantity > 1) {
             let quantityText = this.add.text(slot.x + 10, slot.y + 10, `${quantity}`, {font: '14px Arial', fill: '#FFFF00', resolution: 2});
             slot.quantityText = quantityText;

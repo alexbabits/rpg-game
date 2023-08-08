@@ -1,4 +1,0 @@
-Bonus: Tweens for player (Alpha change, moves up, shrinks, trnasitions to idle, none of his states work besides idle.).
-
-1. Create teleporter class, with all the functionality
-2. Make sure it can use the update method from Map1 to transition into Map2.

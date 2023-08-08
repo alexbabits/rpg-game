@@ -1,7 +1,7 @@
 export default class LootData {
-    constructor(x, y, itemDrop) {
+    constructor(x, y, dropTable) {
         this.x = x;
         this.y = y;
-        this.itemDrop = itemDrop;
+        this.dropTable = dropTable;
     }
 }

@@ -4,7 +4,7 @@ import things from './Things.js';
 
 
 export class Monster {  
-    constructor(name, XP, maxHP, HP, Damage, Defense, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop) {
+    constructor(name, XP, maxHP, HP, Damage, Defense, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, dropTable = []) {
         this.name = name;
         this.XP = XP;
         this.maxHP = maxHP;
@@ -21,7 +21,7 @@ export class Monster {
         this.attackingSensorRadius = attackingSensorRadius;
         this.idleAnim = idleAnim;
         this.walkAnim = walkAnim;
-        this.itemDrop = itemDrop;
+        this.dropTable = dropTable;
 
         this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(2).setScale(scale);
         this.sprite.monsterInstance = this;
@@ -71,24 +71,39 @@ export class Monster {
         this.currentState.enter();
     }
 
+    getDroppedItems() {
+        return this.dropTable.filter(item => Math.random() < item.dropChance);
+    }
+
     update(player) {
         this.currentState.update(player);
         this.hpBar.update();
     }
 }
 
-// super(name, XP, maxHP, HP, Damage, Defense, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, itemDrop)
+// super(name, XP, maxHP, HP, Damage, Defense, movementSpeed, attackSpeed, scene, player, x, y, key, frame, colliderWidth, colliderHeight, chamfer, aggressionSensorRadius, attackingSensorRadius, scale, idleAnim, walkAnim, dropTable)
 
 export class Bear extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        let healthpotion = { ...things.healthpotion, quantity: 2 };
-        super('bear', 40, 500, 500, 50, 20, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', healthpotion);
+        let dropTable = [
+            { ...things.healthpotion, quantity: Phaser.Math.Between(1, 2), dropChance: 0.25 },
+            { ...things.gold, quantity: Phaser.Math.Between(1, 10), dropChance: 0.5 },
+            { ...things.metalshield, quantity: 1, dropChance: 0.05 },
+            { ...things.basicshield, quantity: 1, dropChance: 0.125 }
+        ];
+        super('bear', 40, 500, 500, 50, 20, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', dropTable);
     }
 }
 
 export class Ent extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        super('ent', 30, 350, 350, 30, 40, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk', things.basicsword);
+        let dropTable = [
+            { ...things.staminapotion, quantity: 1, dropChance: 0.25 },
+            { ...things.gold, quantity: Phaser.Math.Between(1, 5), dropChance: 0.5 },
+            { ...things.metalsword, quantity: 1, dropChance: 0.05 },
+            { ...things.basicsword, quantity: 1, dropChance: 0.125 }
+        ];
+        super('ent', 30, 350, 350, 30, 40, 0.5, 1.5, scene, player, x, y, 'enemies', undefined, 20, 45, {radius: [7, 7, 7, 7]}, 60, 25, 0.85, 'ent_idle', 'ent_walk', dropTable);
     }
 }
 

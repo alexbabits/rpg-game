@@ -7,20 +7,17 @@
 
 *****New Features/Improvements on Current Features*****
 
-• Handle Multiple Items in loot scene (test, should be ok?) (Need monsters to drop multiple items)
-• Type property for the equippable items: (Sword, Shield, Chest, helm, Axe, etc.)
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 
 • Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
+• Dragging item from loot slot into inventory, as another way to loot besides single click. (Also deal with stackables)
 
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
 
 • Right click drop to removeInvItem, or some way to delete, handle case when inventory is full. Can't loot if invy is full.
 • Increased inventory size (16 --> 64). 4 pages of it?
-• Randomized/Weighted Monster drops.
-
 
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.

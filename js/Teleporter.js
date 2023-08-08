@@ -4,7 +4,6 @@ export default class Teleporter {
         this.player = player;
     
         const { Bodies } = Phaser.Physics.Matter.Matter;
-        //const teleporterSensor = Bodies.circle(x, y, 16, { isSensor: true, label: 'teleporterSensor' });
         const teleporterSensor = Bodies.rectangle(x, y, 40, 26, {chamfer: { radius: [15, 15, 15, 15] }, isSensor: true,label: 'teleporterSensor'});
     
         this.sprite = this.scene.matter.add.sprite(x, y, 'teleporter').setDepth(2).setScale(1);
