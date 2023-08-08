@@ -279,15 +279,20 @@ export class PlayerTeleportingState extends PlayerState {
   enter() {
     console.log("Player entered teleporting state");
     this.player.sprite.anims.play('hero_idle', true);
-    this.player.sprite.setVelocity(0, 0);
+
+    this.teleportTween = this.player.scene.tweens.add({
+      targets: this.player.sprite,
+      y: this.player.sprite.y - 40,
+      alpha: 0,
+      scaleX: 0,
+      scaleY: 0,
+      duration: 2000,
+      ease: 'Cubic.easeInOut',
+      delay: 2000,
+      onComplete: () => {}
+    });
   }
 
-  update() {
-    // In this state, we don't allow any transitions or actions.
-    // The player remains in this state until the teleportation is complete.
-  }
-
-  exit() {
-    // You can place any logic here that should be executed when leaving the teleporting state
-  }
+  update() {}
+  exit() {}
 }

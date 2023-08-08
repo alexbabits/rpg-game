@@ -41,8 +41,9 @@ export default class Player {
     this.playerCollider = Bodies.rectangle(x, y, 22, 32, {chamfer: {radius: 10}, isSensor:false, label:'playerCollider'});
     this.playerSensor1 = Bodies.rectangle(x + 15, y, 20, 8, {isSensor: true, label:'playerAttackSensorRight'})
     this.playerSensor2 = Bodies.rectangle(x - 15, y, 20, 8, {isSensor: true, label:'playerAttackSensorLeft'})
-    this.playerSensor3 = Bodies.circle(x, y, 8, {isSensor: true, label:'playerInnerSensor'})
-    const compoundBody = Body.create({parts:[this.playerCollider, this.playerSensor1, this.playerSensor2, this.playerSensor3], frictionAir: .4});
+    this.playerSensor3 = Bodies.rectangle(x, y - 12, 9, 4, {isSensor: true, label:'playerHeadSensor'})
+    this.playerSensor4 = Bodies.rectangle(x, y + 12, 9, 4, {isSensor: true, label:'playerFeetSensor'})
+    const compoundBody = Body.create({parts:[this.playerCollider,this.playerSensor1,this.playerSensor2,this.playerSensor3,this.playerSensor4], frictionAir: .4});
 
     this.sprite = this.scene.matter.add.sprite(x, y, 'hero');
     this.sprite.setDepth(5);

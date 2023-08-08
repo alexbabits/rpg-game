@@ -6,7 +6,6 @@
 
 
 *****New Features/Improvements on Current Features*****
-• Teleporter. Allows for movement between scenes. Animated.
 
 • Handle Stackable Scenarios for looting.
 • Handle Multiple Items in loot scene (test, should be ok?) (Need monsters to drop multiple items)

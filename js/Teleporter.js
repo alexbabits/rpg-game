@@ -4,7 +4,8 @@ export default class Teleporter {
         this.player = player;
     
         const { Bodies } = Phaser.Physics.Matter.Matter;
-        const teleporterSensor = Bodies.circle(x, y, 8, { isSensor: true, label: 'teleporterSensor' });
+        //const teleporterSensor = Bodies.circle(x, y, 16, { isSensor: true, label: 'teleporterSensor' });
+        const teleporterSensor = Bodies.rectangle(x, y, 40, 26, {chamfer: { radius: [15, 15, 15, 15] }, isSensor: true,label: 'teleporterSensor'});
     
         this.sprite = this.scene.matter.add.sprite(x, y, 'teleporter').setDepth(2).setScale(1);
         this.sprite.setExistingBody(teleporterSensor);
@@ -18,16 +19,10 @@ export default class Teleporter {
           const bodyA = event.pairs[i].bodyA;
           const bodyB = event.pairs[i].bodyB;
 
-          if ((bodyA.label === 'playerInnerSensor' && bodyB.label === 'teleporterSensor') ||
-              (bodyA.label === 'teleporterSensor' && bodyB.label === 'playerInnerSensor')) {
+          if ((bodyA.label === 'playerFeetSensor' && bodyB.label === 'teleporterSensor') ||
+              (bodyA.label === 'teleporterSensor' && bodyB.label === 'playerFeetSensor')) {
             this.teleport();
           }
-        }
-    }
-
-    handleAnimationComplete(animation, frame) {
-        if (animation.key === 'teleport') {
-          this.transitionToMap2();
         }
     }
 
@@ -36,13 +31,14 @@ export default class Teleporter {
         this.player.transitionToNewState(this.player.teleportingState);
     }
 
-    transitionToMap2() {
-        this.scene.gameState.savePlayerState(this.scene.player);
-        this.scene.gameState.saveInventoryState(this.scene.inventory);
-        this.scene.gameState.saveEquipmentState(this.scene.equipment);
-        this.scene.gameState.saveMessageBoxState(this.scene.messageBox);
-        this.scene.gameState.saveTalentsState(this.scene.talents);
-        this.scene.gameState.setPlayerPosition(340, 460);
-        this.scene.scene.start('Map2');
+    teleportToDestination() {
+        this.scene.transitionToScene('Map2', 340, 460);
       }
+
+    handleAnimationComplete(animation, frame) {
+        if (animation.key === 'teleport') {
+          this.teleportToDestination();
+        }
+    }
+
 }

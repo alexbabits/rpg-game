@@ -108,6 +108,16 @@ export default class Map extends Phaser.Scene {
         });
     }
 
+    transitionToScene(sceneKey, x, y) {
+        this.gameState.savePlayerState(this.player);
+        this.gameState.saveInventoryState(this.inventory);
+        this.gameState.saveEquipmentState(this.equipment);
+        this.gameState.saveMessageBoxState(this.messageBox);
+        this.gameState.saveTalentsState(this.talents);
+        this.gameState.setPlayerPosition(x, y);
+        this.scene.start(sceneKey);
+      }
+
     shutdown() {
         this.events.off('monsterDeath', this.monsterManager.spawnNewMonster, this.monsterManager);
         this.events.off('monsterDeath', this.player.gainXP, this.player);
@@ -142,15 +152,9 @@ export class Map1 extends Map {
     update() {
         super.update();
         if (this.player.sprite.x > this.sys.game.config.width) {
-          this.gameState.savePlayerState(this.player);
-          this.gameState.saveInventoryState(this.inventory);
-          this.gameState.saveEquipmentState(this.equipment);
-          this.gameState.saveMessageBoxState(this.messageBox);
-          this.gameState.saveTalentsState(this.talents);
-          this.gameState.setPlayerPosition(10, this.player.sprite.y);
-          this.scene.start('Map2');
+          this.transitionToScene('Map2', 10, this.player.sprite.y);
         }
-    }
+      }
 }
 
 export class Map2 extends Map {
@@ -173,13 +177,7 @@ export class Map2 extends Map {
     update() {
         super.update();
         if (this.player.sprite.x < 0) {
-          this.gameState.savePlayerState(this.player);
-          this.gameState.saveInventoryState(this.inventory);
-          this.gameState.saveEquipmentState(this.equipment);
-          this.gameState.saveMessageBoxState(this.messageBox);
-          this.gameState.saveTalentsState(this.talents);
-          this.gameState.setPlayerPosition(this.sys.game.config.width - 10, this.player.sprite.y);
-          this.scene.start('Map1');
+          this.transitionToScene('Map1', this.sys.game.config.width - 10, this.player.sprite.y);
         }
-    }
+      }
 }
