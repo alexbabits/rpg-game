@@ -44,7 +44,6 @@ export class Monster {
         this.deathState = new MonsterDeathState(this);
         this.currentState = this.idleState;
         this.hpBar = new MonsterHPBar(this.scene, this);
-
     }
 
 
@@ -82,7 +81,8 @@ export class Monster {
 
 export class Bear extends Monster {
     constructor(scene, player, x = Phaser.Math.Between(100, 500), y = Phaser.Math.Between(100, 300)) {
-        super('bear', 40, 500, 500, 50, 20, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', things.basicshield);
+        let healthpotion = { ...things.healthpotion, quantity: 2 };
+        super('bear', 40, 500, 500, 50, 20, 1, 2, scene, player, x, y, 'enemies', undefined, 47, 35, {radius: [18, 21, 20, 12]}, 75, 30, 0.75, 'bear_idle', 'bear_walk', healthpotion);
     }
 }
 

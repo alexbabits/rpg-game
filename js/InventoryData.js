@@ -7,11 +7,21 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
         this.gameState = gameState;
         this.player = player;
         this.equipmentData = equipmentData;
+
+        let staminapotion = { ...things.staminapotion, quantity: 3 };
+        let basicshield = { ...things.basicshield, quantity: 1 };
+        let basicsword = { ...things.basicsword, quantity: 1 };
+        let healthpotion = { ...things.healthpotion, quantity: 2 };
+        let metalshield = { ...things.metalshield, quantity: 1 };
+        let metalsword = { ...things.metalsword, quantity: 1 };
+        let gold = { ...things.gold, quantity: 50 };
+        let manapotion = { ...things.manapotion, quantity: 6 };
+
         this.gameState.setInvItems([
-            things.staminapotion, null, null, things.basicshield, 
-            things.basicsword, null, null, null, 
-            null, things.healthpotion, things.metalshield, null, 
-            null, things.metalsword, things.gold, things.manapotion
+            staminapotion, null, null, basicshield, 
+            basicsword, null, null, null, 
+            null, healthpotion, metalshield, null, 
+            null, metalsword, gold, manapotion
         ]);
         if (this.gameState.getInvVisibility() === undefined) {
             this.gameState.setInvVisibility(false);
@@ -39,19 +49,34 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
     addInvItem(item, context = 'loot') {
         let items = this.gameState.getInvItems();
         let itemAdded = false;
-        
-        for(let i=0; i < items.length; i++){
-            if(items[i] === null){
-                items[i] = item;
-                itemAdded = true;
-                break;
+    
+        if (item.stackable) {
+            for (let i = 0; i < items.length; i++) {
+                if (items[i] !== null && items[i].name === item.name) {
+                    items[i].quantity += item.quantity;
+                    itemAdded = true;
+                    break;
+                }
             }
         }
+
+        if (!itemAdded) {
+            for (let i = 0; i < items.length; i++) {
+                if (items[i] === null) {
+                    items[i] = item;
+                    itemAdded = true;
+                    break;
+                }
+            }
+        }
+    
         this.gameState.setInvItems(items);
         this.emit('addInvItem');
-        if (context === 'loot') {
-            this.emit('message', `${item.name} looted.`)
-        };
+        if (context === 'loot' && item.quantity > 1) {
+            this.emit('message', `Looted ${item.quantity} ${item.name}s.`)
+        } else if (context === 'loot' && item.quantity === 1){
+            this.emit('message', `Looted ${item.name}.`)
+        }
     }
 
     useItem(index) {

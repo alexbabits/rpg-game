@@ -37,6 +37,11 @@ export default class LootDisplay extends Phaser.Scene {
         this.input.setTopOnly(false);
         itemSprite.on('pointerdown', () => {this.handleSingleClick(itemSprite, slotIndex)});
         slot.itemSprite = itemSprite;
+        let quantity = this.loot.itemDrop.quantity;
+        if (quantity && quantity > 1) {
+            let quantityText = this.add.text(slot.x + 10, slot.y + 10, `${quantity}`, {font: '14px Arial', fill: '#FFFF00', resolution: 2});
+            slot.quantityText = quantityText;
+        }
     }
 
     setupSlotSprite(x, y, index) {

@@ -4,5 +4,4 @@ export default class LootData {
         this.y = y;
         this.itemDrop = itemDrop;
     }
-
 }
