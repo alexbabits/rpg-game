@@ -45,11 +45,16 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
         this.emit('itemSwapped', index);
     }
 
-    addInvItem(item, context = 'loot') {
+    addInvItem(item, context = 'loot', swapIndex = null) {
         let items = this.gameState.getInvItems();
         let itemAdded = false;
     
-        if (item.stackable) {
+        if (swapIndex !== null) {
+            items[swapIndex] = item;
+            itemAdded = true;
+        }
+    
+        if (!itemAdded && item.stackable) {
             for (let i = 0; i < items.length; i++) {
                 if (items[i] !== null && items[i].name === item.name) {
                     items[i].quantity += item.quantity;
@@ -157,18 +162,13 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
                     equipMethod = this.equipmentData.equipOffhand;
                     break;
             }
-    
-            if (!this.equipmentData.isSlotAvailable(item.type)) {
-                this.equipmentData.unequipItem(equipIndex);
-            }
-    
-            equipMethod.call(this.equipmentData, item);
             this.removeInvItem(index);
+            if (!this.equipmentData.isSlotAvailable(item.type)) {
+                this.equipmentData.unequipItem(equipIndex, index);
+            }
+
+            equipMethod.call(this.equipmentData, item);
             this.gameState.setInvItems(items);
         }
     }
 }
-
-
-// Put !isSlotAvailable chunk below the removeInvITem and the second switch, so that item gets placed in first open slot instead of second?
-// Have also a check if the item is identical  (name match), in that case just return and do nothing.

@@ -22,10 +22,10 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         }
     }
 
-    unequipItem(index) {
+    unequipItem(index, swapIndex = null) {
         if (this.equipItems[index]) {
             let item = this.equipItems[index];
-            this.inventoryData.addInvItem(item, 'unequip');
+            this.inventoryData.addInvItem(item, 'unequip', swapIndex);
             let newDefense = this.player.gameState.getPlayerDefense() - item.defense;
             let newDamage = this.player.gameState.getPlayerDamage() - item.damage;
             this.player.gameState.setPlayerDefense(newDefense);

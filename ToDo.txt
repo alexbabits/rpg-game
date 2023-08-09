@@ -7,15 +7,13 @@
 
 *****New Features/Improvements on Current Features*****
 
-• Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
 • Swap items in inventory.
 
-• Make stats do things. Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.). 
-
-• Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
-• Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
+• Dragging item from equipment slot into inventory slot, as another way to unequip besides double click. (Also deal with stackables)
+• Dragging item from inventory slot into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Dragging item from loot slot into inventory, as another way to loot besides single click. (Also deal with stackables)
 
+• Make stats do things. Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.). 
 
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
@@ -30,7 +28,7 @@
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
 • Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
 • Quests & Interactions with NPCs. Chatbox for NPCs.
-• Spells Staves (Spell like DS3, pyromancer hand with flames can be equipped in offhand/mainhand.)
+• Spells Staves (Spell like DS3, pyromancer hand with flames can be equipped in offhand/mainhand.) (spell hand = weak, wand = medium, 2H staff = strong)
 
 • Debuffs (from monsters). Buffs from unique potions/items/gear/altars.
 • Stat resets. Drink from the forgetfullness well or fountain. Or a fairy lets you unlearn everything.
@@ -45,6 +43,8 @@
 • Messages from MessageBox aren't persisting like the rest of the message box.
 • Options functionality (Audio, Graphics, Controls)
 • Caves/Special locations/Quest Icons added to the WorldMap.
+• Key 'E' or something to autoloot (Just done from the lootScene). 'Loot' header text and make it look nice as well. (Same for invy and equipment)
+• Different stat requirements for different items, different stamina amounts for different weapons.
 
 
 *****Undecided Features*****
