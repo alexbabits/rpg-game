@@ -41,10 +41,10 @@ export default class InventoryDisplay extends Phaser.Scene {
                 this.inventorySprites.push(itemSprite);
             }
         }
-        this.inventoryData.on('addInvItem', this.drawInventory.bind(this));
+        this.inventoryData.on('addInvItem', this.refreshInventoryDisplay.bind(this));
+        this.inventoryData.on('itemSwapped', this.refreshInventoryDisplay.bind(this));
     }
 
-    // Helper Methods
     setupExitButton() {
         this.exitButton = this.add.sprite(this.startX - 25, this.startY - 25, 'items', 12).setScale(0.65).setDepth(200).setInteractive();
         this.exitButton.on('pointerover', () => {this.exitButton.setTint(0x969696)});
@@ -164,8 +164,7 @@ export default class InventoryDisplay extends Phaser.Scene {
         }.bind(this);
     }
 
-    drawInventory() {
-        // Clear old sprites and texts
+    refreshInventoryDisplay() {
         this.inventorySprites.forEach(sprite => sprite.destroy());
         this.quantityTexts.forEach(text => text.destroy());
         this.inventorySprites = [];

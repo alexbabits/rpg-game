@@ -22,17 +22,11 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.setupEquipmentIcon();
 
         this.slots = [];
-        this.slots[0] = this.setupSlotSprite(510, 115, 0);
-        this.slots[1] = this.setupSlotSprite(415, 145, 1);
-        this.slots[2] = this.setupSlotSprite(415, 200, 2);
-        this.slots[3] = this.setupSlotSprite(415, 260, 3);
-        this.slots[4] = this.setupSlotSprite(415, 315, 4);
-        this.slots[5] = this.setupSlotSprite(480, 345, 5);
-        this.slots[6] = this.setupSlotSprite(540, 345, 6);
-        this.slots[7] = this.setupSlotSprite(605, 315, 7);
-        this.slots[8] = this.setupSlotSprite(605, 260, 8);
-        this.slots[9] = this.setupSlotSprite(605, 200, 9);
-        this.slots[10] = this.setupSlotSprite(605, 145, 10);
+        this.x = [510, 415, 415, 415, 415, 480, 540, 605, 605, 605, 605]
+        this.y = [115, 145, 200, 260, 315, 345, 345, 315, 260, 200, 145]
+        for (let i = 0; i < this.x.length; i++) {
+            this.slots[i] = this.setupSlotSprite(this.x[i], this.y[i], i);
+        }
         let equipItems = this.equipmentData.gameState.getEquipItems();
     
         for (let i = 0; i < equipItems.length; i++) {
@@ -44,17 +38,11 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
 
         let playerDamage = this.equipmentData.gameState.getPlayerDamage();
-        this.damageText = this.add.text(430, 375, `DAM: ${playerDamage}`, {font: '16px Arial', fill: '#000', resolution: 2}).setDepth(100);
         let playerDefense = this.equipmentData.gameState.getPlayerDefense();
+        this.damageText = this.add.text(430, 375, `DAM: ${playerDamage}`, {font: '16px Arial', fill: '#000', resolution: 2}).setDepth(100);
         this.defenseText = this.add.text(530, 375, `DEF: ${playerDefense}`, {font: '16px Arial', fill: '#000', resolution: 2}).setDepth(100);
-        this.equipmentData.on('equipmentChanged', this.refreshDisplay, this);
-
-        this.sprite.setVisible(this.equipmentData.gameState.getEquipVisibility());
-        this.background.setVisible(this.equipmentData.gameState.getEquipVisibility());
-        this.slots.forEach(slot => slot.setVisible(this.equipmentData.gameState.getEquipVisibility()));
-        this.equipmentSprites.forEach(sprite => sprite.setVisible(this.equipmentData.gameState.getEquipVisibility()));
-        this.damageText.setVisible(this.equipmentData.gameState.getEquipVisibility());
-        this.defenseText.setVisible(this.equipmentData.gameState.getEquipVisibility());
+        this.setVisibility();
+        this.equipmentData.on('equipmentChanged', this.refreshEquipmentDisplay, this);
     }
 
     setupEquipmentIcon() {
@@ -95,7 +83,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
     
             itemSprite.on('pointerdown', (pointer) => {
                 if (pointer.downTime - pointer.upTime < 300) {
-                    this.equipmentData.removeEquippedItem(i);
+                    this.equipmentData.unequipItem(i);
                     itemSprite.destroy();
                 }
             });
@@ -104,7 +92,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
         }
     }
 
-    refreshDisplay() {
+    refreshEquipmentDisplay() {
         for (let sprite of this.equipmentSprites) {
             sprite.destroy();
         }
@@ -119,15 +107,15 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 this.equipmentSprites.push(itemSprite);
                 itemSprite.on('pointerdown', (pointer) => {
                     if (pointer.downTime - pointer.upTime < 300) {
-                        this.equipmentData.removeEquippedItem(i);
+                        this.equipmentData.unequipItem(i);
                         itemSprite.destroy();
                     }
                 });
             }
         }
         let playerDamage = this.equipmentData.gameState.getPlayerDamage();
-        this.damageText.setText(`DAM: ${playerDamage}`);
         let playerDefense = this.equipmentData.gameState.getPlayerDefense();
+        this.damageText.setText(`DAM: ${playerDamage}`);
         this.defenseText.setText(`DEF: ${playerDefense}`);
 
         let visible = this.equipmentData.gameState.getEquipVisibility();
@@ -136,10 +124,8 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.damageText.setVisible(visible);
     }
 
-    toggleVisibility() {
-        this.equipmentData.toggleEquipmentVisibility();
+    setVisibility(){
         let visible = this.equipmentData.gameState.getEquipVisibility();
-    
         this.sprite.setVisible(visible);
         this.background.setVisible(visible);
         this.exitButton.setVisible(visible);
@@ -147,6 +133,11 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.equipmentSprites.forEach(sprite => sprite.setVisible(visible));
         this.damageText.setVisible(visible);
         this.defenseText.setVisible(visible);
+    }
+
+    toggleVisibility() {
+        this.equipmentData.toggleEquipmentVisibility();
+        this.setVisibility();
     }
 
 }

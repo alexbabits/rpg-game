@@ -1,0 +1,3 @@
+rename drawInventory to refreshInventoryDisplay
+rename refershDisplay in equipment to refreshEquipmentDisplay
+

@@ -8,10 +8,14 @@
 *****New Features/Improvements on Current Features*****
 
 • Swap items when equipping one of the same type. (Weapon1 --> Weapon2). Should allow for new equipment to be equipped.
+• Swap items in inventory.
+
+• Make stats do things. Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.). 
 
 • Dragging item from equipment slot into inventory, as another way to unequip besides double click. (Also deal with stackables)
 • Dragging item into equipment slot, as another way to equip besides double click. (Also deal with stackables)
 • Dragging item from loot slot into inventory, as another way to loot besides single click. (Also deal with stackables)
+
 
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
@@ -22,14 +26,13 @@
 • Monster Attacking Sensor chamfered rectangle instead of circle. (Issues with aggro/attacking state then based on width rather than radius)
 • Monster Attack Anims. Monster Death Anims. Mechanism for clicking dead body/lootbag/chest on the ground to loot. Or on Click/walkover the loot scene appears.
 
-• Make stats do things. Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.). 
-• Debuffs (from monsters). Buffs from potions/items/gear.
 
 • Bank (Need chest in game to click on and bank stuff). Gold currency.
 • Store (Need NPC or chest in game to click on and view store menu.). Gold currency.
 • Quests & Interactions with NPCs. Chatbox for NPCs.
 • Spells Staves (Spell like DS3, pyromancer hand with flames can be equipped in offhand/mainhand.)
 
+• Debuffs (from monsters). Buffs from unique potions/items/gear/altars.
 • Stat resets. Drink from the forgetfullness well or fountain. Or a fairy lets you unlearn everything.
 • Monster Spawn 'zones' instead of 'random points'. Random Respawn/Spawn be same dimensions as their wander zone.
 • Monster 'wandering' while in idle state? Or new 'wander' state.
