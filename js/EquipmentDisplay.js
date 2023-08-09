@@ -11,10 +11,9 @@ export default class EquipmentDisplay extends Phaser.Scene {
 
     create() {
         this.input.keyboard.on('keydown-C', this.toggleVisibility.bind(this));
+
         this.sprite = this.add.sprite(510, 230, 'hero');
         this.sprite.setDepth(50).setScale(4);
-        let animConfig = {key: 'hero_idle', frames: 6, frameRate: 12, repeat: -1};
-        this.anims.create(animConfig);
         this.sprite.anims.play('hero_idle');
         this.sprite.anims.msPerFrame = 150;
     
