@@ -145,13 +145,16 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
         if (items[index] && items[index].canEquip === true) {
             let item = items[index];
             let equipIndex;
-    
+            let equipMethod;
+
             switch (item.type) {
                 case 'weapon':
                     equipIndex = 5;
+                    equipMethod = this.equipmentData.equipWeapon;
                     break;
                 case 'offhand':
                     equipIndex = 6;
+                    equipMethod = this.equipmentData.equipOffhand;
                     break;
             }
     
@@ -159,16 +162,8 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
                 this.equipmentData.unequipItem(equipIndex);
             }
     
+            equipMethod.call(this.equipmentData, item);
             this.removeInvItem(index);
-
-            switch (item.type) {
-                case 'weapon':
-                    this.equipmentData.equipWeapon(item);
-                    break;
-                case 'offhand':
-                    this.equipmentData.equipOffhand(item);
-                    break;
-            }
             this.gameState.setInvItems(items);
         }
     }
