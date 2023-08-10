@@ -29,6 +29,13 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
 
     toggleInventoryVisibility() {this.gameState.setInvVisibility(!this.gameState.getInvVisibility())}
 
+    swapInvItems(index1, index2) {
+        const items = this.gameState.getInvItems();
+        const tempItem = items[index1];
+        items[index1] = items[index2];
+        items[index2] = tempItem;
+    }
+
     moveInvItem(oldIndex, newIndex) {
         const items = this.gameState.getInvItems();
         const item = items[oldIndex];
@@ -42,7 +49,7 @@ export default class InventoryData extends Phaser.Events.EventEmitter {
             items[index] = null
         } 
         this.gameState.setInvItems(items);     
-        this.emit('itemSwapped', index);
+        this.emit('equipmentSwap', index);
     }
 
     addInvItem(item, context = 'loot', swapIndex = null) {

@@ -11,6 +11,7 @@ export default class InventoryDisplay extends Phaser.Scene {
         this.inventorySprites = [];
         this.quantityTexts = [];
         this.background = null;
+        this.clickTime = null;
     }
 
     init(data) {
@@ -42,7 +43,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             }
         }
         this.inventoryData.on('addInvItem', this.refreshInventoryDisplay.bind(this));
-        this.inventoryData.on('itemSwapped', this.refreshInventoryDisplay.bind(this));
+        this.inventoryData.on('equipmentSwap', this.refreshInventoryDisplay.bind(this));
     }
 
     setupExitButton() {
@@ -92,7 +93,7 @@ export default class InventoryDisplay extends Phaser.Scene {
             itemSprite.on('dragend', (pointer) => {this.handleDragEnd(itemSprite, slots)(pointer)});
             let quantityText = null;
             if(item.quantity > 1){
-                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {fontSize: '14px', fontFamily: 'Arial', fill: '#FFFF00', resolution: 2}).setDepth(30);
+                quantityText = this.add.text(x + this.textOffset, y + this.textOffset, item.quantity, {font: '14px Arial', fill: '#FFFF00', resolution: 2}).setDepth(30);
                 quantityText.setVisible(this.inventoryData.gameState.getInvVisibility());
                 itemSprite.setData('quantityText', quantityText);
                 this.quantityTexts.push(quantityText);
@@ -103,11 +104,9 @@ export default class InventoryDisplay extends Phaser.Scene {
     }
 
     handleDoubleClick(itemSprite) {
-        let clickTime = null;
-    
         itemSprite.on('pointerdown', () => {
-            if (clickTime !== null) {
-                if (this.time.now - clickTime < 300) { 
+            if (this.clickTime !== null) {
+                if (this.time.now - this.clickTime < 300) { 
                     this.inventoryData.useItem(itemSprite.index);
                     this.inventoryData.equipItem(itemSprite.index);
                     const newQuantity = this.inventoryData.gameState.getInvItems()[itemSprite.index]?.quantity;
@@ -126,12 +125,12 @@ export default class InventoryDisplay extends Phaser.Scene {
                         }
                         itemSprite.destroy();
                     }
-                    clickTime = null;
+                    this.clickTime = null;
                 } else {
-                    clickTime = this.time.now;
+                    this.clickTime = this.time.now;
                 }
             } else {
-                clickTime = this.time.now;
+                this.clickTime = this.time.now;
             }
         });
     }
@@ -140,19 +139,17 @@ export default class InventoryDisplay extends Phaser.Scene {
         return function(pointer) {
             itemSprite.clearTint();
             let hoveredSlot = slots.find(slotSprite => slotSprite.getData('hovered'));
-            if (hoveredSlot && !this.inventoryData.gameState.getInvItems()[hoveredSlot.index]) {
-                // If the hovered slot is empty, move the item there
-                let oldIndex = itemSprite.index;
-                itemSprite.index = hoveredSlot.index;
-                this.inventoryData.moveInvItem(oldIndex, itemSprite.index);
-                // Update positions to reflect the new slot
-                itemSprite.setData({ originX: hoveredSlot.x, originY: hoveredSlot.y });
-                itemSprite.x = itemSprite.getData('originX');
-                itemSprite.y = itemSprite.getData('originY');
-                if (itemSprite.getData('quantityText')) {
-                    itemSprite.getData('quantityText').x = itemSprite.getData('originX') + this.textOffset;
-                    itemSprite.getData('quantityText').y = itemSprite.getData('originY') + this.textOffset;
+            let oldIndex = itemSprite.index;
+    
+            if (hoveredSlot) {
+                const destinationIndex = hoveredSlot.index;
+                const destinationItem = this.inventoryData.gameState.getInvItems()[destinationIndex];
+                if (destinationItem) {
+                    this.inventoryData.swapInvItems(oldIndex, destinationIndex);
+                } else {
+                    this.inventoryData.moveInvItem(oldIndex, destinationIndex);
                 }
+                this.refreshInventoryDisplay();
             } else {
                 itemSprite.x = itemSprite.getData('originX');
                 itemSprite.y = itemSprite.getData('originY');
