@@ -34,9 +34,9 @@ export default class OptionsScene extends Phaser.Scene {
     }
 
     createControlsContents(){
-        const y = [50, 110, 170, 230, 290, 350, 410, 470, 530];
-        const actions = ['Movement', 'Sprint', 'Attack', 'Special Attack', 'Inventory', 'Character', 'Journal', 'Message Box', 'Exit/Back'];
-        const keys = ['WASD/UDLR', 'Shift', 'Space', 'Ctrl+Space', 'I', 'C',  'J', 'K', 'Esc'];
+        const y = [50, 110, 170, 230, 290, 350, 410, 470, 530, 590];
+        const actions = ['Movement', 'Sprint', 'Attack', 'Special Attack', 'Inventory', 'Character', 'Journal', 'Message Box', 'World Map', 'Exit/Back'];
+        const keys = ['WASD/UDLR', 'Shift', 'Space', 'Ctrl+Space', 'I', 'C',  'J', 'K', 'M', 'Esc'];
         this.contents['controls'] = this.add.container();
         for (let i = 0; i < actions.length; i++) {
             const actionText = this.add.text(300, y[i], actions[i], { font: '24px Arial', fill: '#cbdbfc', resolution: 2 }).setOrigin(0.5);

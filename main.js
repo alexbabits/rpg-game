@@ -19,7 +19,7 @@ function createWindow () {
   win.setBackgroundColor('#000')
   win.removeMenu();
   //win.setFullScreen(true);
-  win.webContents.openDevTools()
+  //win.webContents.openDevTools()
   store = new ElectronStore()
   win.loadFile('index.html')
 }

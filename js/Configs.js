@@ -24,7 +24,7 @@ const config = {
   parent: 'configs',
   scene:[BootScene, new StartScreen(gameState), new Map1(gameState), new Map2(gameState), LootDisplay, EquipmentDisplay, InventoryDisplay, PlayerVisualScene, DeathScene, Menu, Journal, WorldMap, MessageBox, Talents, OptionsScene, new LoadScene(gameState)],
   scale: {zoom:1},
-  physics: {default: 'matter', matter: {debug:true, gravity:{y:0}}},
+  physics: {default: 'matter', matter: {debug:false, gravity:{y:0}}},
   plugins: {scene:[{plugin: PhaserMatterCollisionPlugin.default, key: 'matterCollision', mapping: 'matterCollision'}]}
 }
 

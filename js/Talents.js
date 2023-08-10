@@ -5,6 +5,8 @@ export default class Talents extends Phaser.Scene {
 
     init(data) {
         this.gameState = data.gameState;
+        this.equipmentData = data.equipment;
+        this.player = data.player;
     }
 
     create() {
@@ -62,11 +64,46 @@ export default class Talents extends Phaser.Scene {
             this[`${lowercaseStats[i]}PlusButton`].on('pointerdown', () => { this.increaseStat(uppercaseStats[i]) });
         }
     }
-    
+
     increaseStat(stat) {
         this.gameState.setPlayerStatPoints(this.gameState.getPlayerStatPoints() - 1);
         this.gameState[`setPlayer${stat}`](this.gameState[`getPlayer${stat}`]() + 1);
+
+        if (stat === 'Strength') {
+            let baseDamage = this.gameState.getPlayerStrength() * 10;
+            let weaponDamage = 0;
+            if (this.equipmentData.equipItems[5] !== null) {
+                weaponDamage = this.equipmentData.equipItems[5].damage;
+            }
+            let totalDamage = baseDamage + weaponDamage;
+            this.gameState.setPlayerDamage(totalDamage);
+            this.gameState.setPlayerSpecialDamage(totalDamage * 2.5);
+            this.gameState.setPlayerCritDamage(this.gameState.getPlayerCritDamage() + 10)
+            this.equipmentData.notifyStatChanged();
+        }
+
+        if (stat === 'Agility'){
+            this.gameState.setPlayerCritChance(this.gameState.getPlayerCritChance() + 1)
+            //Faster attack speed? (Increase framerate on attack anims for now)
+        }
+        if (stat === 'Vitality'){
+            this.gameState.setPlayerMaxHP(this.gameState.getPlayerMaxHP() + 10)
+        }
+        if (stat === 'Endurance'){
+            this.gameState.setPlayerMaxStamina(this.gameState.getPlayerMaxStamina() + 10)
+            //Increase Energy Regen % (likely have to make this a new 'stat' in gamestate.)
+        }
+        if (stat === 'Intelligence'){
+            //+ Magic Power, + Magic DEF
+        }
+        if (stat === 'Wisdom') {
+            this.gameState.setPlayerMaxMana(this.gameState.getPlayerMaxMana() + 2);
+            this.gameState.setPlayerManaRegen(this.gameState.getPlayerManaRegen() - 100);
+            this.player.manaRegeneration();
+          }
+
     }
+
 
     setupTalentsIcon() {
         this.talentsIcon = this.add.sprite(145, 603, 'items', 213).setScale(1.5).setDepth(200).setInteractive();

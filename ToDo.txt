@@ -2,13 +2,11 @@
 • (Bug) Stackable consumables only re-load in as quantity 1 on New Game if used beforehand within the same session.
 • (Bug) Multiple Monsters running at you, pushing you/them around and not respecting the attackSensor as a stopping place sometimes.
 • (Refactor) Combine PlayerAttackState and PlayerSpecialAttackState?
-• (Refactor) Combine player stats/methods into a separate file? Player class is messy with its stats and methods.
+• (Refactor) Make Player stats/methods better. New files maybe.
 • (Refactor) Make Inventory and Equipment Better.
 
 
 *****New Features/Improvements on Current Features*****
-• Make stats do things. Crit Chance/Crit Damge/Dodge/etc. (no special anim change for crits/dodges) (Make them based on str/agil/weapons/armor/etc.). 
-
 • Tooltips for items displaying stats/enchants/description, in inventory/equipment/loot scenes.
 • Tooltips for stats/abilities w/ descriptions.
 • Right click drop to removeInvItem, or some way to delete, handle case when inventory is full. Can't loot if invy is full.
@@ -33,12 +31,15 @@
 • Multiple saves, links to correct slot when player does new/save game. 'save' button automatically save to correct slot. If full, user must overwrite/delete one.
 • Instead of 640x640, game configs to fullscreen, and on electron startup.
 • GameState for the current zoom, saved between scene transitions and loads. Perhaps just linked with the player or some already existing game state 'chunk'.
-• Messages from MessageBox aren't persisting like the rest of the message box.
+• Messages from MessageBox aren't persisting like the rest of the message box sprites (due to them being 'complex' in an array).
 • Options functionality (Audio, Graphics, Controls)
 • Caves/Special locations/Quest Icons added to the WorldMap.
 • Key 'E' or something to autoloot (Just done from the lootScene). 'Loot' header text and make it look nice as well. (Same for invy and equipment)
-• Different stat requirements for different items, different stamina amounts for different weapons.
-• On new map loadup, the text gets reset for messagebox which is fine, but just print out 'Region 1' 'Jakkeen Fields' or whatever region the player is in.
+• Different stamina amounts and special attack mana amounts for different weapons.
+• On new map loadup, the text gets reset for messagebox which is fine, but should print out the region the player is currently in, like 'Jakkeen Fields'.
+• Weapons/Damage/Regens scale dynamically with stats in a better way.
+• Stat Requirements to wield Weapons/Armor/Spells. (INT, AGI, STR).
+• Make Crit Chance and Crit Damage actually proc. no special anim change for crits/dodges
 
 
 *****Undecided Features*****
@@ -51,4 +52,4 @@
 • NSIS for the installer, makes it so always creates desktop shortcut. (Otherwise have to uninstall if made the dist build more than once)
 
 *****GOAL*****
-Publish demo game on itch.io basically, with all the basics covered above, or to game dev discord.
+Publish demo game on itch.io basically, with all the basics covered above, or to game dev discord. Or phaser discord, etc.

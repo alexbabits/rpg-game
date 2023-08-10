@@ -55,7 +55,7 @@ export default class Map extends Phaser.Scene {
 
         this.gameState.setMessageBox(this.messageBox);
 
-        this.scene.launch('Talents', {gameState: this.gameState});
+        this.scene.launch('Talents', {gameState: this.gameState, equipment: this.equipment, player: this.player});
         this.talents = this.scene.get('Talents');
         this.gameState.loadTalentsState(this.talents);
 

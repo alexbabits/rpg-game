@@ -23,7 +23,7 @@ export class Monster {
         this.walkAnim = walkAnim;
         this.dropTable = dropTable;
 
-        this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(2).setScale(scale);
+        this.sprite = this.scene.matter.add.sprite(x, y, key, frame).setDepth(3).setScale(scale);
         this.sprite.monsterInstance = this;
 
         const {Body,Bodies} = Phaser.Physics.Matter.Matter;

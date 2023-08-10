@@ -12,6 +12,8 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
     toggleEquipmentVisibility() {this.gameState.setEquipVisibility(!this.gameState.getEquipVisibility())}
 
     setInventoryData(inventoryData) {this.inventoryData = inventoryData}
+    
+    notifyStatChanged() {this.emit('statChanged')}
 
     isSlotAvailable(itemType) {
         switch (itemType) {
@@ -26,11 +28,16 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
         if (this.equipItems[index]) {
             let item = this.equipItems[index];
             this.inventoryData.addInvItem(item, 'unequip', swapIndex);
-            let newDefense = this.player.gameState.getPlayerDefense() - item.defense;
-            let newDamage = this.player.gameState.getPlayerDamage() - item.damage;
-            this.player.gameState.setPlayerDefense(newDefense);
-            this.player.gameState.setPlayerDamage(newDamage);
-            this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
+    
+            if (index === 5) {
+                let newDamage = this.player.gameState.getPlayerStrength() * 10;
+                this.player.gameState.setPlayerDamage(newDamage);
+                this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
+            } else if (index === 6) {
+                let newDefense = this.player.gameState.getPlayerDefense() - item.defense;
+                this.player.gameState.setPlayerDefense(newDefense);
+            }
+    
             this.equipItems[index] = null;
             this.gameState.setEquipItems(this.equipItems);
             this.emit('equipmentChanged');
@@ -41,7 +48,7 @@ export default class EquipmentData extends Phaser.Events.EventEmitter {
     equipWeapon(item) {
         this.equipItems[5] = item;
         this.gameState.setEquipItems(this.equipItems);
-        let newDamage = this.player.gameState.getPlayerDamage() + item.damage;
+        let newDamage = item.damage + (this.player.gameState.getPlayerStrength() * 10);
         this.player.gameState.setPlayerDamage(newDamage);
         this.player.gameState.setPlayerSpecialDamage(newDamage * 2.5);
         this.emit('equipmentChanged');

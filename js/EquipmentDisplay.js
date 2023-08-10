@@ -43,6 +43,7 @@ export default class EquipmentDisplay extends Phaser.Scene {
         this.defenseText = this.add.text(530, 375, `DEF: ${playerDefense}`, {font: '16px Arial', fill: '#000', resolution: 2}).setDepth(100);
         this.setVisibility();
         this.equipmentData.on('equipmentChanged', this.refreshEquipmentDisplay, this);
+        this.equipmentData.on('statChanged', this.setTexts, this);
     }
 
     setupEquipmentIcon() {
@@ -113,15 +114,19 @@ export default class EquipmentDisplay extends Phaser.Scene {
                 });
             }
         }
-        let playerDamage = this.equipmentData.gameState.getPlayerDamage();
-        let playerDefense = this.equipmentData.gameState.getPlayerDefense();
-        this.damageText.setText(`DAM: ${playerDamage}`);
-        this.defenseText.setText(`DEF: ${playerDefense}`);
+        this.setTexts();
 
         let visible = this.equipmentData.gameState.getEquipVisibility();
         this.slots.forEach(slot => slot.setVisible(visible));
         this.equipmentSprites.forEach(sprite => sprite.setVisible(visible));
         this.damageText.setVisible(visible);
+    }
+
+    setTexts(){
+        let playerDamage = this.equipmentData.gameState.getPlayerDamage();
+        let playerDefense = this.equipmentData.gameState.getPlayerDefense();
+        this.damageText.setText(`DAM: ${playerDamage}`);
+        this.defenseText.setText(`DEF: ${playerDefense}`);
     }
 
     setVisibility(){

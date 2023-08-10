@@ -16,13 +16,13 @@ export default class Player {
     this.gameState.setPlayerHP(150);
     this.gameState.setPlayerMaxMana(20);
     this.gameState.setPlayerMana(20);
+    this.gameState.setPlayerManaRegen(2000);
     this.gameState.setPlayerMaxStamina(100);
     this.gameState.setPlayerStamina(100);
     this.gameState.setPlayerAttStaminaCost(10);
     this.gameState.setPlayerSpAttStaminaCost(25);
     this.gameState.setPlayerSpAttManaCost(5);
     this.gameState.setPlayerCanRun(true);
-    this.gameState.setPlayerDamage(10);
     this.gameState.setPlayerDefense(5);
     this.gameState.setPlayerCritChance(5);
     this.gameState.setPlayerCritDamage(150);
@@ -33,6 +33,7 @@ export default class Player {
     this.gameState.setPlayerEndurance(12);
     this.gameState.setPlayerWisdom(7);
     this.gameState.setPlayerStatPoints(2);
+    this.gameState.setPlayerDamage(this.gameState.getPlayerStrength() * 10);
     this.gameState.setPlayerSpecialDamage(this.gameState.getPlayerDamage() * 2.5);
     this.gameState.setPlayerDirection(this.gameState.getPlayerDirection());
     this.gameState.setPlayerMonsterKills(0);
@@ -114,8 +115,12 @@ export default class Player {
   }
 
   manaRegeneration() {
-    this.scene.time.addEvent({
-      delay: 2000,
+    if (this.manaRegenEvent) {
+      this.manaRegenEvent.remove();
+    }
+  
+    this.manaRegenEvent = this.scene.time.addEvent({
+      delay: this.gameState.getPlayerManaRegen(),
       callback: () => {
         if (this.gameState.getPlayerMana() < this.gameState.getPlayerMaxMana() && this.currentState.name !== PlayerSpecialAttackState.stateName) {
           this.gameState.setPlayerMana(this.gameState.getPlayerMana() + 1);

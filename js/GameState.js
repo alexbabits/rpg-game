@@ -148,6 +148,7 @@ export default class GameState {
       runSpeed: player.gameState.getPlayerRunSpeed(),
       maxMana: player.gameState.getPlayerMaxMana(),
       mana: player.gameState.getPlayerMana(),
+      manaRegen: player.gameState.getPlayerManaRegen(),
       maxStamina: player.gameState.getPlayerMaxStamina(),
       stamina: player.gameState.getPlayerStamina(),
       attStaminaCost: player.gameState.getPlayerAttStaminaCost(),
@@ -184,6 +185,7 @@ export default class GameState {
       player.gameState.setPlayerRunSpeed(this.playerState.runSpeed);
       player.gameState.setPlayerMaxMana(this.playerState.maxMana);
       player.gameState.setPlayerMana(this.playerState.mana);
+      player.gameState.setPlayerManaRegen(this.playerState.manaRegen);
       player.gameState.setPlayerMaxStamina(this.playerState.maxStamina);
       player.gameState.setPlayerStamina(this.playerState.stamina);
       player.gameState.setPlayerAttStaminaCost(this.playerState.attStaminaCost);
@@ -237,6 +239,9 @@ export default class GameState {
 
   setPlayerMana(mana) {this.playerMana = Math.max(0, Math.min(mana, this.playerMaxMana));}
   getPlayerMana() {return this.playerMana}
+
+  setPlayerManaRegen(manaRegen) {this.playerManaRegen = manaRegen}
+  getPlayerManaRegen() {return this.playerManaRegen}
 
   setPlayerMaxStamina(maxStamina) {this.playerMaxStamina = maxStamina}
   getPlayerMaxStamina() {return this.playerMaxStamina}
