@@ -29,8 +29,10 @@ Simple RPG prototype game. Only 640x640 resolution right now. Only Windows downl
 
 ![](3.png)
 
+![](6.png)
+
 ![](4.png)
 
 ![](5.png)
 
-![](6.png)
+
