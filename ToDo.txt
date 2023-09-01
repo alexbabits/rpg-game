@@ -40,7 +40,9 @@
 • Weapons/Damage/Regens scale dynamically with stats in a better way.
 • Stat Requirements to wield Weapons/Armor/Spells. (INT, AGI, STR).
 • Make Crit Chance and Crit Damage actually proc. no special anim change for crits/dodges
-
+• Can Matter.js have custom colliders (Polygons)? That'd be great for the enemies.
+• Get picture of map screenshot when the player saves, and post it under the slot text when loading. 
+• Castles.
 
 *****Undecided Features*****
 • Caps lock toggles run, in addition to the current shift-hold mechanism.
@@ -52,4 +54,7 @@
 • NSIS for the installer, makes it so always creates desktop shortcut. (Otherwise have to uninstall if made the dist build more than once)
 
 *****GOAL*****
-Publish demo game on itch.io basically, with all the basics covered above, or to game dev discord. Or phaser discord, etc.
+Publish demo game on itch.io. (x)
+Publish game to phaser discord ()
+Make game good enough to publish on Kickstarter/Funding Sites (Audio, Bank, Store, etc.) ()
+
